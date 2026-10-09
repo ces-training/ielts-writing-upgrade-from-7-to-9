@@ -178,6 +178,10 @@ textarea{min-height:230px;resize:vertical;font-family:"Source Serif 4",Georgia,s
 .fee{margin:10px 0!important}.fee b{font-size:1.5rem}.fee .small{display:block}.payon{font-weight:600;color:#0b7a5e}
 .payform{display:grid;gap:10px;margin-top:14px;padding-top:14px;border-top:1px dashed #a9e2d0}.tot b{font-size:1.25rem}.btn[disabled]{opacity:.45;cursor:not-allowed}
 @media(max-width:720px){.modes{grid-template-columns:1fr}}
+.modes-h{margin:26px 0 0;font-size:1.05rem}.modes{margin-top:12px;grid-template-columns:1fr 1.25fr}
+.mode .lead{font-weight:600;margin:.3em 0 .6em}.bene{list-style:none;margin:0;padding:0;display:grid;gap:7px}
+.bene li{position:relative;padding-left:26px;font-size:.93em}.bene li::before{content:"✓";position:absolute;left:0;top:0;width:18px;height:18px;border-radius:50%;background:var(--b9);color:#fff;font-size:.72em;font-weight:800;display:grid;place-items:center;margin-top:3px}
+.mode.free .bene li::before{background:var(--ink)}.mode .limit{font-size:.84em!important;color:var(--mut);margin-top:10px!important;padding-top:8px;border-top:1px dashed var(--line)}
 
 </style>
 </head>
@@ -1850,8 +1854,26 @@ B79.phases = [
     else if (AI_ON() && C) st = `<button class="btn primary" id="useai" ${left > 0 ? "" : "disabled"}>Chấm bài này bằng trợ lý AI · dùng 1 bài (còn ${left})</button>${left > 0 ? "" : `<button class="btn" id="askpay">Yêu cầu mua thêm · ${vnd(FEE)} / bài</button>`}<div id="aiwait"></div>`;
     else if (AI_ON()) st = `<p class="payon">✓ Đã bật trả phí · còn ${left} bài. Dán bài rồi chọn chấm bằng trợ lý AI ở bước chẩn đoán.</p>`;
     else st = `<button class="btn primary" id="askpay">Yêu cầu bật chấm trả phí · ${vnd(FEE)} / bài</button><button class="btn" id="havecode">Tôi đã có mã kích hoạt</button>`;
-    return `<div class="modes"><div class="mode free"><span class="tag">Miễn phí</span><h4>Bộ phân tích tự động</h4><p>Đếm các đặc trưng band 7, 8, 9 trong bài và dẫn bạn sửa từng bước. Luôn bật cho mọi bài.</p></div>
-      <div class="mode pay"><span class="tag t9">Trả phí</span><h4>Trợ lý AI chấm riêng bài của bạn</h4><p>Ước lượng band từng tiêu chí, chỉ ra câu cần sửa, viết mẫu một câu của chính bạn và xét lại bản sửa ở từng bước.</p>
+    return `<h3 class="modes-h">Chọn cách nhận phản hồi cho bài viết</h3><div class="modes"><div class="mode free"><span class="tag">Miễn phí</span><h4>Bộ phân tích tự động</h4>
+      <p class="lead">Biết ngay bài đang ở đâu và cần sửa gì trước, không tốn phí.</p>
+      <ul class="bene">
+        <li>Có kết quả tức thì, không giới hạn số bài.</li>
+        <li>Thấy bài đang mang đặc trưng band 7, 8 hay 9 ở từng tiêu chí, kèm số đo cụ thể trên chính bài của bạn.</li>
+        <li>Tô màu đúng chỗ cần sửa và dẫn bạn sửa từng bước, mỗi bước một kỹ thuật.</li>
+        <li>Kiểm tra lại sau mỗi lần sửa, lặp đến khi đạt.</li>
+      </ul>
+      <p class="limit">Giới hạn: máy chỉ đếm được hình thức của bài. Nó không hiểu ý bạn viết và không bắt hết lỗi ngữ pháp.</p></div>
+      <div class="mode pay"><span class="tag t9">Trả phí</span><h4>Trợ lý AI chấm riêng bài của bạn</h4>
+      <p class="lead">Đọc và hiểu nội dung bài, nên chỉ ra được điều bộ tự động không thấy.</p>
+      <ul class="bene">
+        <li>Xét ý của bạn: bài đã trả lời đúng đề chưa, ý nào còn nông, lập luận hở ở đâu.</li>
+        <li>Ước lượng band cho cả bốn tiêu chí và band chung.</li>
+        <li>Chỉ đúng câu cần nâng và giải thích vì sao câu đó mới ở mức band hiện tại.</li>
+        <li>Viết mẫu một câu của chính bạn ở mức band 9, để bạn tự làm tiếp các câu còn lại.</li>
+        <li>Đọc lại bản sửa ở từng bước và nói rõ còn thiếu gì.</li>
+        <li>Có thể chỉ ra lỗi ngữ pháp và kết hợp từ nằm ngoài danh sách của bộ tự động.</li>
+      </ul>
+      <p class="limit">Band là ước lượng của AI theo band descriptor công khai, không phải điểm của giám khảo. Bạn chỉ bị trừ bài khi tự bấm chấm; nếu AI lỗi, bài đó được hoàn lại.</p>
       <p class="fee"><b>${vnd(FEE)}</b> / bài</p>
       <div class="bar-actions">${st}</div><div id="paybox"></div></div></div>`;
   }
