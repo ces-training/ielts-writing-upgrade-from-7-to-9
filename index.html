@@ -1614,6 +1614,41 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
 {"id":"b561","tp":"misc","ty":"adv","q":"Young people are often influenced in their behaviors by others in the same age group. Some argue that peer pressure is important while others feel it has distinct disadvantages. Do the disadvantages of peer pressure outweigh the advantages?","d":[],"ms":["How to do IELTS"]},
 {"id":"b562","tp":"crime","ty":"opin","q":"Young people committing crimes should be treated the same as adults by the authorities. To what extent do you agree or disagree? (","d":[],"ms":["How to do IELTS"]}];
 
+/* Ngân hàng đề Task 1: đề thi năm 2024 trong tài liệu “sample writing 2024” của giáo viên.
+   Chỉ gồm những đề mà số liệu đọc được đầy đủ từ tài liệu; hình được trang vẽ lại từ số liệu đó. Không chép bài mẫu. */
+(function () {
+  var R = " Summarise the information by selecting and reporting the main features, and make comparisons where relevant.";
+  B79.bank1 = [
+    { id: "a1", tp: "process", d: ["2024-01"], q: "The diagram below shows how one type of coal is used to produce electricity." + R,
+      ds: { kind: "process", title: "Producing electricity from coal", steps: ["Mine: coal is extracted", "Crusher: coal is crushed", "Gasifier: crushed coal is heated and turned into gas", "Cooling: the gas is cooled (waste heat given off)", "Cleaning: the gas is cleaned (waste removed)", "Gas power plant: the clean gas is burned (waste heat given off)", "Electricity is produced and sent out through power lines"] } },
+    { id: "a2", tp: "table", d: ["2024-02"], q: "The table gives information about the water use in three sectors in six countries." + R,
+      ds: { kind: "table", title: "Water use in three sectors in six countries (m³)", head: ["Country", "Domestic", "Agricultural", "Industrial"],
+        rows: [["Australia", "341", "741", "276"], ["Canada", "279", "1,238", "832"], ["China", "26", "806", "71"], ["Russia", "98", "1,863", "56"], ["Turkey", "80", "1,482", "731"], ["UK", "38", "810", "398"]] } },
+    { id: "a3", tp: "pie", d: ["2024"], q: "The pie charts show the reasons for immigrants to a European country in 2009 and reasons for immigrants from a European country in 2009." + R,
+      ds: { kind: "pie", title: "Reasons for migration to and from a European country, 2009 (% of migrants)", x: ["Definite job", "Looking for a job", "Study", "Accompany / join family", "Other reasons", "No reason given"],
+        series: [{ n: "Immigrants to the country", v: [15, 15, 25, 23, 15, 7] }, { n: "Emigrants from the country", v: [7, 13, 38, 15, 23, 4] }] } },
+    { id: "a4", tp: "pie", d: ["2024"], q: "The pie charts below show the percentage of students at one adult education centre taking various courses offered in 1985 and this year." + R,
+      ds: { kind: "pie", title: "Courses taken at an adult education centre (% of students)", x: ["Fitness and dance", "Cookery", "Music appreciation", "Art", "Modern languages (French / German / Spanish)", "Local history", "IT"],
+        series: [{ n: "1985", v: [22, 14, 8, 17, 24, 15, 0] }, { n: "This year", v: [22, 19, 0, 15, 17, 0, 27] }] } },
+    { id: "a5", tp: "table", d: ["2024"], q: "The table shows the distance covered by various modes of transport in 1985 and 2000." + R,
+      ds: { kind: "table", title: "Distance travelled by mode of transport, 1985 and 2000", head: ["Mode of transport", "1985", "2000"],
+        rows: [["Walking", "255", "237"], ["Bicycle", "51", "41"], ["Car", "3,199", "4,806"], ["Local bus", "429", "274"], ["Long distance bus", "54", "124"], ["Train", "289", "366"], ["Taxi", "13", "42"], ["Other", "450", "585"], ["All modes", "4,740", "6,475"]] } },
+    { id: "a6", tp: "table", d: ["2024"], q: "The table below shows the results of surveys of first-year students taking courses at a particular university." + R,
+      ds: { kind: "table", title: "Percentage of students giving good ratings for different aspects of a university", head: ["Aspect", "2000", "2005", "2010"],
+        rows: [["Teaching quality", "65", "63", "69"], ["Print resources", "84", "89", "88"], ["Electronic resources", "45", "72", "88"], ["Range of modules offered", "32", "30", "27"], ["Buildings / teaching facilities", "77", "77", "77"]] } },
+    { id: "a7", tp: "table", d: ["2024"], q: "The table shows the percentage of government spending on education and training and the participation of 18–24 year olds in five countries in 2012." + R,
+      ds: { kind: "table", title: "Education and training in five countries, 2012", head: ["Country", "Expenditure rate", "Participation rate"],
+        rows: [["Poland", "5%", "44%"], ["Czech Republic", "9%", "27%"], ["Romania", "10%", "23%"], ["Hungary", "13%", "34%"], ["Slovenia", "25%", "40%"]] } },
+    { id: "a8", tp: "table", d: ["2024"], q: "The tables below provide information about the consumption and production of potatoes in five parts of the world in 2006." + R,
+      ds: { kind: "table", title: "Consumption and production of potatoes, 2006", head: ["Region", "Consumption (kg per person)", "Production (million tonnes)"],
+        rows: [["South and Central America", "23.6", "15.6"], ["Africa", "14.1", "16.4"], ["North America", "57.9", "24.7"], ["Europe", "96.1", "126.3"], ["Asia", "25.8", "131.2"]] } },
+    { id: "a9", tp: "table", d: ["2024"], q: "The table below gives information about the percentage of the workforce employed in six industries in Australia between 1989 and 2009." + R,
+      ds: { kind: "table", title: "Percentage of the Australian workforce employed in six industries", head: ["Industry", "1989", "2009"],
+        rows: [["Manufacturing", "15%", "9.8%"], ["Retail", "11.8%", "10.1%"], ["Health care", "9.6%", "11.3%"], ["Construction", "7.6%", "8.3%"], ["Education", "6.8%", "7.5%"], ["Tourism", "5.5%", "7.3%"]] } }
+  ];
+  B79.bank1.forEach(function (b) { b.m = "t1"; b.ms = []; });
+})();
+
 /* Bộ phân tích bài viết: đo các đặc trưng band 7 / 8 / 9 mà máy đếm được, rồi xếp thành các bước nâng cấp.
    Ngưỡng lấy từ báo cáo phân tích bài mẫu của dự án. Máy KHÔNG chấm được chất lượng lập luận và mọi lỗi ngữ pháp. */
 (function () {
@@ -1908,11 +1943,12 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
   const ITEM = {}; D.items.forEach(it => { it.id = it.k + "/" + it.t; ITEM[it.id] = it; });
   const TOPIC = {}; ["t1", "t2"].forEach(m => D.topics[m].forEach(t => { TOPIC[t.k] = t; }));
   const XTOPIC = {}; (D.xtopics || []).forEach(t => { XTOPIC[t.k] = t; });
-  const BANK = {}, BANKBY = {}; (D.bank || []).forEach(b => { BANK[b.id] = b; (BANKBY[b.tp] = BANKBY[b.tp] || []).push(b); });
+  const BANK = {}, BANKBY = {}; (D.bank || []).concat(D.bank1 || []).forEach(b => { BANK[b.id] = b; (BANKBY[b.tp] = BANKBY[b.tp] || []).push(b); });
   const QTY = { opin: "Agree / disagree · opinion", disc: "Discuss both views", adv: "Advantages / disadvantages", posneg: "Positive or negative", ps: "Causes / problems & solutions", two: "Two-part question" };
-  const mmYY = d => d.slice(5, 7) ? d.slice(5, 7) + "/" + d.slice(0, 4) : d;
-  const bankWr = tk => (BANKBY[tk] || []).reduce((a, b) => a + ((S.wr["F2/" + b.id] || []).length), 0);
-  const bankTags = b => (b.d.length ? `<span class="tag ex">Đề thi ${b.d.slice(0, 3).map(mmYY).join(", ")}${b.d.length > 3 ? " +" + (b.d.length - 3) : ""}</span>` : "") + (b.ms.length ? `<span class="tag ms">Có bài mẫu: ${esc(b.ms.join(", "))}</span>` : "") + `<span class="tag ty">${QTY[b.ty]}</span>`;
+  const mmYY = d => d.slice(5, 7) ? d.slice(5, 7) + "/" + d.slice(0, 4) : "năm " + d;
+  const bkey = b => (b.m === "t1" ? "F1/" : "F2/") + b.id;
+  const bankWr = tk => (BANKBY[tk] || []).reduce((a, b) => a + ((S.wr[bkey(b)] || []).length), 0);
+  const bankTags = b => (b.d.length ? `<span class="tag ex">Đề thi ${b.d.slice(0, 3).map(mmYY).join(", ")}${b.d.length > 3 ? " +" + (b.d.length - 3) : ""}</span>` : "") + (b.ms.length ? `<span class="tag ms">Có bài mẫu: ${esc(b.ms.join(", "))}</span>` : "") + (b.ty ? `<span class="tag ty">${QTY[b.ty]}</span>` : "");
   const techsOf = m => D.techs.filter(t => t.m === m);
   const hasGame = t => t.y !== "studio";
   const color = t => D.groups[t.g].c;
@@ -1932,7 +1968,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
   const wrCount = id => (S.wr[id] || []).length;
   const techStat = t => {
     const tps = D.topics[t.m];
-    return { total: hasGame(t) ? tps.length : 0, done: tps.filter(tp => isDone(t.k + "/" + tp.k)).length, wr: tps.reduce((a, tp) => a + wrCount(t.k + "/" + tp.k), 0) + (t.k === "F2" ? Object.keys(S.wr).filter(x => x.indexOf("F2/b") === 0 && BANK[x.slice(3)]).reduce((a, x) => a + S.wr[x].length, 0) : 0), sec: S.sec[t.k] || 0 };
+    return { total: hasGame(t) ? tps.length : 0, done: tps.filter(tp => isDone(t.k + "/" + tp.k)).length, wr: tps.reduce((a, tp) => a + wrCount(t.k + "/" + tp.k), 0) + (t.g === "FULL" ? Object.keys(S.wr).filter(x => x.indexOf(t.k + "/") === 0 && BANK[x.slice(3)]).reduce((a, x) => a + S.wr[x].length, 0) : 0), sec: S.sec[t.k] || 0 };
   };
 
   /* ---------- gửi dữ liệu về bảng theo dõi của giáo viên ---------- */
@@ -2134,7 +2170,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
   G.hunt = G.spot;
 
   /* =================== HÌNH DỮ LIỆU TASK 1 =================== */
-  const PAL = ["#2f6fde", "#e2553d", "#0f9a8a", "#c7801a", "#7b4fd6"];
+  const PAL = ["#2f6fde", "#e2553d", "#0f9a8a", "#c7801a", "#7b4fd6", "#d6418a", "#6b7280"];
   function chart(ds) {
     if (!ds) return "";
     let h = "";
@@ -2173,9 +2209,9 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
         });
         return `<figure><svg viewBox="0 0 180 180" class="pie" role="img" aria-label="${esc(s.n)}">${g}</svg><figcaption>${esc(s.n)}</figcaption></figure>`;
       }).join("") + "</div>";
-      h += '<table class="dt"><tr><th></th>' + ds.series.map(s => `<th>${esc(s.n)}</th>`).join("") + "</tr>" + ds.x.map((x, i) => `<tr><th><i class="sw" style="background:${PAL[i]}"></i>${esc(x)}</th>${ds.series.map(s => `<td>${s.v[i]}%</td>`).join("")}</tr>`).join("") + "</table>";
+      h += '<table class="dt"><tr><th></th>' + ds.series.map(s => `<th>${esc(s.n)}</th>`).join("") + "</tr>" + ds.x.map((x, i) => `<tr><th><i class="sw" style="background:${PAL[i]}"></i>${esc(x)}</th>${ds.series.map(s => `<td>${s.v[i] ? s.v[i] + "%" : "–"}</td>`).join("")}</tr>`).join("") + "</table>";
     } else if (ds.kind === "table") {
-      h += '<table class="dt big"><tr>' + ds.head.map(x => `<th>${esc(x)}</th>`).join("") + "</tr>" + ds.rows.map(r => `<tr${r[0] === "Total" ? ' class="tot"' : ""}><th>${esc(r[0])}</th><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("") + "</table>";
+      h += '<table class="dt big"><tr>' + ds.head.map(x => `<th>${esc(x)}</th>`).join("") + "</tr>" + ds.rows.map(r => `<tr${r[0] === "Total" || r[0] === "All modes" ? ' class="tot"' : ""}><th>${esc(r[0])}</th>${r.slice(1).map(c => `<td>${esc(c)}</td>`).join("")}</tr>`).join("") + "</table>";
     } else if (ds.kind === "map") {
       h += '<div class="maps">' + ds.maps.map(m => `<figure><figcaption>${esc(m.n)}</figcaption><div class="mapbox"><div class="mN"><b>N ↑</b>${esc(m.N)}</div><div class="mC">${esc(m.C)}</div><div class="mR">${esc(m.R)}</div><div class="mS"><b>S ↓</b>${esc(m.S)}</div><div class="mE"><b>E →</b>${esc(m.E)}</div></div></figure>`).join("") + "</div>";
     } else if (ds.kind === "process") {
@@ -2238,7 +2274,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
   const FULLK = m => m === "t1" ? "F1" : "F2";
   function modCard(m) { const ts = techsOf(m); let d = 0, n = 0, w = 0; ts.forEach(t => { const s = techStat(t); d += s.done; n += s.total; w += s.wr; }); const M = D.modules[m];
     return `<a class="modcard ${m}" href="#/m/${m}"><div class="me">${M.e}</div><h2>${M.n}</h2><p>${M.sub}</p><p class="cnt">${ts.filter(t => t.g !== "FULL").length} kỹ thuật · ${D.topics[m].length} ${m === "t2" ? "chủ đề" : "dạng đề"}</p>${bar(n ? d / n : 0)}<p class="small">${d}/${n} bài luyện đã đúng · ${w} bài viết đã nộp</p></a>`; }
-  function topicStat(m, tk) { let done = 0, total = 0, wr = 0; techsOf(m).forEach(t => { const id = t.k + "/" + tk; if (hasGame(t)) { total++; if (isDone(id)) done++; } wr += wrCount(id); }); const bw = m === "t2" ? bankWr(tk) : 0; return { done, total, wr: wr + bw, full: wrCount(FULLK(m) + "/" + tk) + bw, bank: m === "t2" ? (BANKBY[tk] || []).length : 0 }; }
+  function topicStat(m, tk) { let done = 0, total = 0, wr = 0; techsOf(m).forEach(t => { const id = t.k + "/" + tk; if (hasGame(t)) { total++; if (isDone(id)) done++; } wr += wrCount(id); }); const bw = bankWr(tk); return { done, total, wr: wr + bw, full: wrCount(FULLK(m) + "/" + tk) + bw, bank: (BANKBY[tk] || []).length }; }
   function vBy(kind) {
     if (kind === "topic") {
       let h = `<h1 class="pt">🗂️ Luyện theo chủ đề <small>Chọn một chủ đề, luyện mọi kỹ thuật trên chủ đề đó</small></h1><p class="banknote">Ngân hàng đề Task 2 hiện có <b>${(D.bank || []).length} đề</b>: ${(D.bank || []).filter(b => b.d.some(d => d.slice(0, 4) === "2026")).length} đề thi năm 2026 và ${(D.bank || []).filter(b => b.d.some(d => d.slice(0, 4) === "2025")).length} đề thi năm 2025 do thí sinh nhớ lại, cùng các đề trong bộ bài mẫu theo chủ đề của giáo viên.</p>`;
@@ -2261,16 +2297,16 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
   function vTopic(tk) {
     const xt = XTOPIC[tk], tp = TOPIC[tk] || xt; if (!tp) return vBy("topic");
     const m = D.topics.t1.indexOf(tp) >= 0 ? "t1" : "t2", M = D.modules[m], fk = FULLK(m), nf = wrCount(fk + "/" + tk), col = m === "t2" ? "#3b3fd8" : "#0f9a8a";
-    const ts = xt ? [] : techsOf(m).filter(t => t.g !== "FULL"), groups = [], bank = m === "t2" ? (BANKBY[tk] || []) : []; ts.forEach(t => { if (groups.indexOf(t.g) < 0) groups.push(t.g); });
+    const ts = xt ? [] : techsOf(m).filter(t => t.g !== "FULL"), groups = [], bank = BANKBY[tk] || []; ts.forEach(t => { if (groups.indexOf(t.g) < 0) groups.push(t.g); });
     let h = `<div class="thead" style="--c:${col}"><span class="code">${tp.e}</span><div><h1>${esc(tp.n)}</h1><p class="grp">${M.n} · ${m === "t2" ? "chủ đề" : "dạng đề"}</p></div></div>
       ${xt ? "" : `<div class="prompt"><span class="tag">Đề bài của ${m === "t2" ? "chủ đề" : "dạng đề"} này</span><p class="en">${esc(tp.q)}</p></div>
       <div class="fullcta"`}${xt ? "<!--" : ""} style="--c:${col}"><div><h3>📝 Viết bài hoàn chỉnh về ${m === "t2" ? "chủ đề" : "dạng đề"} này</h3><p>${m === "t2" ? "Bài luận khoảng 250 từ trong 40 phút." : "Bài mô tả khoảng 150 từ trong 20 phút."} Nộp xong, trang chỉ ra bài đang mang đặc trưng band nào và dẫn bạn sửa từng bước.${nf ? " Bạn đã nộp " + nf + " bài." : ""}</p></div><a class="btn primary" href="#/w/${fk}/${tk}/t">Viết cả bài →</a></div>${xt ? "-->" : ""}`;
     if (bank.length) {
       const y26 = bank.filter(b => b.d.some(d => d.slice(0, 4) === "2026")).length, y25 = bank.filter(b => b.d.some(d => d.slice(0, 4) === "2025")).length, nm = bank.filter(b => b.ms.length).length;
       h += `<h2 class="ways-h">📚 Ngân hàng đề viết cả bài · ${bank.length} đề</h2>
-        <p class="small">Đề thi 2025 và 2026 là đề do thí sinh nhớ lại sau buổi thi, lấy từ các trang tổng hợp; câu chữ có thể khác đề gốc và tháng thi chỉ mang tính tham khảo. Đề có nhãn “Có bài mẫu” là đề trong bộ bài mẫu theo chủ đề của giáo viên.</p>
+        ${m === "t2" ? `<p class="small">Đề thi 2025 và 2026 là đề do thí sinh nhớ lại sau buổi thi, lấy từ các trang tổng hợp; câu chữ có thể khác đề gốc và tháng thi chỉ mang tính tham khảo. Đề có nhãn “Có bài mẫu” là đề trong bộ bài mẫu theo chủ đề của giáo viên.</p>
         <div class="bfilter" id="bf"><button class="btn sm primary" data-f="all">Tất cả (${bank.length})</button><button class="btn sm" data-f="y26">Đề thi 2026 (${y26})</button><button class="btn sm" data-f="y25">Đề thi 2025 (${y25})</button><button class="btn sm" data-f="ms">Có bài mẫu (${nm})</button>
-        <select id="bty"><option value="">Mọi dạng đề</option>${Object.keys(QTY).map(k => `<option value="${k}">${QTY[k]}</option>`).join("")}</select></div><div class="blist" id="bl"></div>`;
+        <select id="bty"><option value="">Mọi dạng đề</option>${Object.keys(QTY).map(k => `<option value="${k}">${QTY[k]}</option>`).join("")}</select></div>` : `<p class="small">Đề thi năm 2024 lấy từ bộ đề của giáo viên. Hình và bảng dưới mỗi đề do trang vẽ lại từ số liệu của đề, không phải hình gốc.</p>`}<div class="blist" id="bl"></div>`;
     }
     if (!xt) h += `<h2 class="ways-h">${bank.length ? "Luyện" : "Hoặc luyện"} từng kỹ thuật trên ${m === "t2" ? "chủ đề" : "dạng đề"} này</h2>`;
     groups.forEach(g => {
@@ -2281,11 +2317,11 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
     shell(h, `<a href="#/">Trang chính</a> › <a href="#/by/topic">Theo chủ đề</a> › ${esc(tp.n)}`);
     if (bank.length) {
       let f = "all", shown = 12;
-      const draw = () => { const ty = $("#bty").value; const xs = bank.filter(b => (f === "all" || (f === "ms" ? b.ms.length : b.d.some(d => d.slice(0, 4) === (f === "y26" ? "2026" : "2025")))) && (!ty || b.ty === ty));
-        $("#bl").innerHTML = (xs.length ? xs.slice(0, shown).map(b => { const w = (S.wr["F2/" + b.id] || []).length; return `<div class="bitem"><div><div class="btags">${bankTags(b)}</div><p class="en">${esc(b.q)}</p></div><a class="btn sm ${w ? "done" : "primary"}" href="#/wb/${b.id}">${w ? "✓ Viết lại (" + w + ")" : "Viết cả bài →"}</a></div>`; }).join("") : '<p class="small">Không có đề nào khớp bộ lọc này.</p>') + (xs.length > shown ? `<div class="bar-actions"><button class="btn" id="bmore">Xem thêm ${Math.min(12, xs.length - shown)} đề (còn ${xs.length - shown})</button></div>` : "");
+      const draw = () => { const ty = $("#bty") ? $("#bty").value : ""; const xs = bank.filter(b => (f === "all" || (f === "ms" ? b.ms.length : b.d.some(d => d.slice(0, 4) === (f === "y26" ? "2026" : "2025")))) && (!ty || b.ty === ty));
+        $("#bl").innerHTML = (xs.length ? xs.slice(0, shown).map(b => { const w = (S.wr[bkey(b)] || []).length; return `<div class="bitem"><div><div class="btags">${bankTags(b)}</div><p class="en">${esc(b.q)}</p></div><a class="btn sm ${w ? "done" : "primary"}" href="#/wb/${b.id}">${w ? "✓ Viết lại (" + w + ")" : "Viết cả bài →"}</a></div>`; }).join("") : '<p class="small">Không có đề nào khớp bộ lọc này.</p>') + (xs.length > shown ? `<div class="bar-actions"><button class="btn" id="bmore">Xem thêm ${Math.min(12, xs.length - shown)} đề (còn ${xs.length - shown})</button></div>` : "");
         if ($("#bmore")) $("#bmore").onclick = () => { shown += 12; draw(); }; };
       $$("#bf button").forEach(bt => { bt.onclick = () => { f = bt.dataset.f; shown = 12; $$("#bf button").forEach(x => x.classList.toggle("primary", x === bt)); draw(); }; });
-      $("#bty").onchange = () => { shown = 12; draw(); }; draw();
+      if ($("#bty")) $("#bty").onchange = () => { shown = 12; draw(); }; draw();
     }
   }
 
@@ -2364,8 +2400,8 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
     shell(`<div class="play studio" style="--c:${color(t)}"><div class="phead"><span class="code">${t.k}</span><div><h1>Viết: ${esc(t.n)}</h1><p class="grp">${tp.e} ${esc(tp.n)} · gợi ý ${t.min} phút</p></div><span class="clock">⏱ <b id="clock">0:00</b></span></div>
       <p class="instr">${esc(t.st)}</p>
       ${fo ? `<div class="focus" style="--c:${color(fo)}"><span class="code sm" style="--c:${color(fo)}">${fo.k}</span><div><b>Trọng tâm của bài này: ${esc(fo.n)}</b><p>${esc(fo.goal)}</p><p class="small">${esc(fo.tip)}</p></div></div>` : ""}
-      <div class="prompt"><span class="tag">Đề bài</span>${bk ? ` <span class="btags">${bankTags(bk)}</span>` : ""}<p class="en">${esc(tp.q)}</p>${bk && bk.d.length ? '<p class="small">Đề do thí sinh nhớ lại sau buổi thi; câu chữ có thể khác đề gốc.</p>' : ""}</div>
-      ${t.m === "t1" ? chart(D.ds[tk]) : ""}
+      <div class="prompt"><span class="tag">Đề bài</span>${bk ? ` <span class="btags">${bankTags(bk)}</span>` : ""}<p class="en">${esc(tp.q)}</p>${bk && bk.d.length && t.m === "t2" ? '<p class="small">Đề do thí sinh nhớ lại sau buổi thi; câu chữ có thể khác đề gốc.</p>' : bk && t.m === "t1" ? '<p class="small">Hình và bảng bên dưới do trang vẽ lại từ số liệu của đề, không phải hình gốc.</p>' : ""}</div>
+      ${t.m === "t1" ? chart(bk ? bk.ds : D.ds[tk]) : ""}
       <textarea id="ta" spellcheck="false" placeholder="Viết bằng tiếng Anh tại đây…">${esc(draft)}</textarea>
       <div class="wmeta"><span id="wc">0 từ</span><span id="pace"></span></div>
       <div class="ck"><h5>Tự soát trước khi nộp</h5>${cks.map((c, i) => `<label><input type="checkbox" data-ck="${i}"> ${esc(c)}</label>`).join("")}</div>
@@ -2435,7 +2471,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
       <h3>Trang này dạy gì</h3><p>${D.techs.filter(t => t.g !== "FULL").length} kỹ thuật, chia hai module Task 1 và Task 2. Mỗi kỹ thuật nhắm vào một rào cản mà nghiên cứu và phân tích bài mẫu chỉ ra ở chặng band 7 lên band 9. Trong mỗi kỹ thuật, bài luyện được chia theo chủ đề lớn của IELTS (Task 2) hoặc theo dạng đề (Task 1).</p>
       <h3>Khối lượng hiện có</h3><p>${nGame} bài luyện dạng game và ${nWrite} đề viết. Một lượt làm hết các bài game mất khoảng 4 đến 6 giờ; phần còn lại của khung giờ đến từ các đề viết và việc luyện lại.</p>
       <h3>Về nhãn “Band 7” và “Band 9”</h3><p>Các câu và bài mẫu band 9 trên trang do nhóm soạn viết, dựa trên những đặc điểm đo được khi phân tích bài mẫu của các tác giả có tên. Các câu band 7 cũng do nhóm soạn viết để minh họa lỗi điển hình. Nhãn band là ước lượng theo band descriptor công khai, không phải điểm do giám khảo IELTS chấm.</p>
-      <h3>Phần “Nâng cấp bài viết” đo cái gì</h3><p>Trang đếm các đặc trưng có thể đếm được trên bài của bạn (từ nối đầu câu, từ tuyệt đối, cụm danh từ, số liệu trong overview…) và so với ngưỡng rút từ bài mẫu. Kết quả là “bài đang mang đặc trưng của band nào”, không phải điểm thi. Máy không chấm được chất lượng lập luận và không bắt hết lỗi ngữ pháp.</p>${PAID.enabled ? `<h3>Chế độ trả phí</h3><p>Chế độ miễn phí luôn bật. Nếu muốn trợ lý AI chấm riêng bài của mình, bạn gửi yêu cầu tới ${esc(PAID.email)}; phí là ${vnd(FEE)} mỗi bài. Khi dùng chế độ này, bài bạn dán được gửi tới dịch vụ AI (Claude của Anthropic) để đọc.</p>` : ""}<h3>Ngân hàng đề Task 2</h3><p>${(D.bank || []).length} đề viết cả bài, xếp theo chủ đề bằng từ khóa nên một số đề có thể nằm chưa đúng chủ đề. Đề thi 2025 và 2026 là đề do thí sinh nhớ lại, lấy từ các trang tổng hợp Onthiielts, TalkFirst, Langmaster và IELTS Fighter; IELTS không công bố đề thi, nên câu chữ và tháng thi chỉ mang tính tham khảo. Các đề còn lại lấy từ bộ bài mẫu theo chủ đề của giáo viên; trang chỉ đăng đề bài và tên nơi có bài mẫu (How to do IELTS, IELTS Vietop, IELTS Advantage, Thanh Nguyễn), không đăng lại bài mẫu.</p><h3>Dữ liệu Task 1</h3><p>Sáu bộ dữ liệu (Newport, Ashby và các bảng số) được dựng riêng cho trang này, không phải số liệu thật.</p>
+      <h3>Phần “Nâng cấp bài viết” đo cái gì</h3><p>Trang đếm các đặc trưng có thể đếm được trên bài của bạn (từ nối đầu câu, từ tuyệt đối, cụm danh từ, số liệu trong overview…) và so với ngưỡng rút từ bài mẫu. Kết quả là “bài đang mang đặc trưng của band nào”, không phải điểm thi. Máy không chấm được chất lượng lập luận và không bắt hết lỗi ngữ pháp.</p>${PAID.enabled ? `<h3>Chế độ trả phí</h3><p>Chế độ miễn phí luôn bật. Nếu muốn trợ lý AI chấm riêng bài của mình, bạn gửi yêu cầu tới ${esc(PAID.email)}; phí là ${vnd(FEE)} mỗi bài. Khi dùng chế độ này, bài bạn dán được gửi tới dịch vụ AI (Claude của Anthropic) để đọc.</p>` : ""}<h3>Ngân hàng đề Task 2</h3><p>${(D.bank || []).length} đề viết cả bài, xếp theo chủ đề bằng từ khóa nên một số đề có thể nằm chưa đúng chủ đề. Đề thi 2025 và 2026 là đề do thí sinh nhớ lại, lấy từ các trang tổng hợp Onthiielts, TalkFirst, Langmaster và IELTS Fighter; IELTS không công bố đề thi, nên câu chữ và tháng thi chỉ mang tính tham khảo. Các đề còn lại lấy từ bộ bài mẫu theo chủ đề của giáo viên; trang chỉ đăng đề bài và tên nơi có bài mẫu (How to do IELTS, IELTS Vietop, IELTS Advantage, Thanh Nguyễn), không đăng lại bài mẫu.</p><h3>Đề thi Task 1 năm 2024</h3><p>${(D.bank1 || []).length} đề lấy từ bộ đề năm 2024 của giáo viên, chỉ gồm những đề đọc được đầy đủ số liệu. Hình và bảng do trang vẽ lại từ số liệu của đề, không phải hình gốc; trang không đăng bài mẫu của bộ đề đó.</p><h3>Dữ liệu Task 1</h3><p>Sáu bộ dữ liệu (Newport, Ashby và các bảng số) được dựng riêng cho trang này, không phải số liệu thật.</p>
       <h3>Dữ liệu của bạn</h3><p>${CFG.endpoint ? "Tên, lớp, kết quả từng bài, thời gian làm và bài viết bạn nộp được gửi về bảng theo dõi của giáo viên." : "Trang chưa nối với bảng theo dõi của giáo viên. Tiến độ chỉ lưu trên thiết bị này; bạn có thể tải báo cáo ở mục Tiến độ của tôi."}</p></div>`, `<a href="#/">Trang chính</a> › Về trang này`);
   }
 
@@ -2664,7 +2700,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
       case "k": return vTech(p[1]);
       case "by": return vBy(p[1]);
       case "t": return vTopic(p[1]);
-      case "wb": return BANK[p[1]] ? vWrite("F2", null, "t", BANK[p[1]]) : vBy("topic");
+      case "wb": return BANK[p[1]] ? vWrite(BANK[p[1]].m === "t1" ? "F1" : "F2", null, "t", BANK[p[1]]) : vBy("topic");
       case "p": return vPlay(p[1], p[2], p[3]);
       case "w": return vWrite(p[1], p[2], p[3]);
       case "coach": return vCoach();
