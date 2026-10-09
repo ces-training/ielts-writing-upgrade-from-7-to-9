@@ -2,7 +2,7 @@
 window.B79_CONFIG = {
   /* Dán địa chỉ Web App của Google Apps Script vào đây để nhận kết quả của học sinh.
      Để trống thì trang vẫn chạy, nhưng tiến độ chỉ lưu trên máy của từng học sinh. */
-  endpoint: "",
+  endpoint: "https://script.google.com/macros/s/AKfycbzYNas5OqXRvvtXe68u9OV0Ia4SAaxOT-eLxDcpSQv2e0ATImyri0v_cz1Sdx7NyBSr4A/exec",
 
   /* HAI CHẾ ĐỘ CHẤM BÀI
      Miễn phí: bộ phân tích tự động, luôn bật cho mọi học sinh.
