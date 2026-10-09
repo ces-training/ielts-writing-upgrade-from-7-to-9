@@ -183,6 +183,20 @@ textarea{min-height:230px;resize:vertical;font-family:"Source Serif 4",Georgia,s
 .bene li{position:relative;padding-left:26px;font-size:.93em}.bene li::before{content:"✓";position:absolute;left:0;top:0;width:18px;height:18px;border-radius:50%;background:var(--b9);color:#fff;font-size:.72em;font-weight:800;display:grid;place-items:center;margin-top:3px}
 .mode.free .bene li::before{background:var(--ink)}.mode .limit{font-size:.84em!important;color:var(--mut);margin-top:10px!important;padding-top:8px;border-top:1px dashed var(--line)}
 
+/* chọn cách luyện · chủ đề · viết cả bài */
+.ways-h{font-size:1.25rem;margin:30px 0 4px}.ways-n{margin-top:12px}
+.waycard{display:block;padding:24px;border-radius:22px;background:#fff;border:2px solid var(--line);color:var(--ink)!important;text-decoration:none!important;transition:transform .1s,box-shadow .1s,border-color .1s}
+.waycard:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(27,30,60,.12)}
+.waycard.tech{border-top:8px solid #7b4fd6}.waycard.topic{border-top:8px solid #0f9a8a}
+.waycard .me{font-size:2.2rem}.waycard h2{font-size:1.4rem;margin:6px 0}.waycard p{margin:.3em 0}.waycard .cnt{font-weight:600;font-size:.92em;color:#555a7a;margin-top:10px}
+.waycard .go{display:inline-block;margin-top:12px;font-weight:700}.waycard.tech .go{color:#7b4fd6}.waycard.topic .go{color:#0f9a8a}
+a.topcard.link{display:block;color:var(--ink)!important;text-decoration:none!important;transition:transform .1s,box-shadow .1s}a.topcard.link:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(27,30,60,.1)}
+a.topcard.link h4{margin:4px 0 8px}.topgrid.wide{grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}.topgrid.wide .topcard h4{margin:8px 0 10px}
+.fullcta{display:flex;gap:16px;align-items:center;justify-content:space-between;background:#fff;border:2px solid var(--c);border-radius:var(--r);padding:16px 18px;margin:16px 0}
+.fullcta h3{margin:0 0 4px}.fullcta p{margin:0;font-size:.94em}.fullcta .btn{white-space:nowrap;flex:none}
+.focus{display:flex;gap:12px;align-items:flex-start;border-left:5px solid var(--c);background:#fff;border-radius:var(--r);padding:12px 14px;margin:12px 0;box-shadow:0 0 0 1px var(--line)}.focus p{margin:4px 0 0}
+@media(max-width:720px){.fullcta{flex-direction:column;align-items:stretch}.fullcta .btn{text-align:center}}
+
 </style>
 </head>
 <body>
@@ -1628,27 +1642,66 @@ B79.phases = [
   /* ---------- trang chính ---------- */
   function vHome() {
     const total = totalSec(), perWeek = Math.round(CFG.targetHours / CFG.weeks), nx = nextUp();
-    const mod = m => { const ts = techsOf(m); let d = 0, n = 0, w = 0; ts.forEach(t => { const s = techStat(t); d += s.done; n += s.total; w += s.wr; }); const M = D.modules[m];
-      return `<a class="modcard ${m}" href="#/m/${m}"><div class="me">${M.e}</div><h2>${M.n}</h2><p>${M.sub}</p><p class="cnt">${ts.filter(t => t.g !== "FULL").length} kỹ thuật · ${D.topics[m].length} ${m === "t2" ? "chủ đề" : "dạng đề"}</p>${bar(n ? d / n : 0)}<p class="small">${d}/${n} bài luyện đã đúng · ${w} bài viết đã nộp</p></a>`; };
     shell(`<section class="hero"><div><p class="hi">Chào ${esc(U.name.split(" ").pop())},</p><h1>Từ band 7 lên band 9 không cần từ hiếm hơn. Cần ý sâu hơn, liên kết kín hơn và ít lỗi hơn.</h1>
       <p>Lộ trình ${CFG.targetHours} giờ trong ${CFG.weeks} tuần, khoảng ${perWeek} giờ mỗi tuần. Đồng hồ chỉ chạy khi bạn đang làm bài.</p>
       ${nx ? `<a class="btn primary" href="#/p/${nx.t.k}/${nx.tp.k}">Học tiếp: ${esc(nx.t.n)} · ${esc(nx.tp.n)} →</a>` : '<a class="btn primary" href="#/m/t2">Bạn đã đúng hết bài luyện. Vào phần viết →</a>'} <a class="btn" href="#/coach">Dán bài của bạn để nâng cấp</a></div>
       <div class="ringbox">${ring(total / (CFG.targetHours * 3600), fmtH(total), "/ " + CFG.targetHours + " giờ")}</div></section>
-      <section class="mods">${mod("t2")}${mod("t1")}</section>`);
+      <h2 class="ways-h">Bạn muốn luyện theo cách nào?</h2>
+      <section class="mods ways">
+        <a class="waycard tech" href="#/by/tech"><div class="me">🧗</div><h2>Theo kỹ thuật nâng band</h2><p>Chọn một kỹ thuật (ví dụ: xóa từ nối, danh hóa), rồi luyện kỹ thuật đó qua lần lượt các chủ đề.</p><p class="cnt">${D.techs.filter(t => t.g !== "FULL").length} kỹ thuật · hợp khi bạn biết mình yếu ở tiêu chí nào</p><span class="go">Chọn kỹ thuật →</span></a>
+        <a class="waycard topic" href="#/by/topic"><div class="me">🗂️</div><h2>Theo chủ đề</h2><p>Chọn một chủ đề (ví dụ: Giáo dục, Môi trường) hoặc một dạng đề Task 1, rồi luyện mọi kỹ thuật trên đúng chủ đề đó.</p><p class="cnt">${D.topics.t2.length} chủ đề Task 2 · ${D.topics.t1.length} dạng đề Task 1</p><span class="go">Chọn chủ đề →</span></a>
+      </section>
+      <p class="small ways-n">Ở cả hai cách, bạn đều có thể chọn viết bài hoàn chỉnh và được dẫn sửa từng bước.</p>`);
+  }
+
+  /* ---------- chọn cách luyện ---------- */
+  const FULLK = m => m === "t1" ? "F1" : "F2";
+  function modCard(m) { const ts = techsOf(m); let d = 0, n = 0, w = 0; ts.forEach(t => { const s = techStat(t); d += s.done; n += s.total; w += s.wr; }); const M = D.modules[m];
+    return `<a class="modcard ${m}" href="#/m/${m}"><div class="me">${M.e}</div><h2>${M.n}</h2><p>${M.sub}</p><p class="cnt">${ts.filter(t => t.g !== "FULL").length} kỹ thuật · ${D.topics[m].length} ${m === "t2" ? "chủ đề" : "dạng đề"}</p>${bar(n ? d / n : 0)}<p class="small">${d}/${n} bài luyện đã đúng · ${w} bài viết đã nộp</p></a>`; }
+  function topicStat(m, tk) { let done = 0, total = 0, wr = 0; techsOf(m).forEach(t => { const id = t.k + "/" + tk; if (hasGame(t)) { total++; if (isDone(id)) done++; } wr += wrCount(id); }); return { done, total, wr, full: wrCount(FULLK(m) + "/" + tk) }; }
+  function vBy(kind) {
+    if (kind === "topic") {
+      let h = `<h1 class="pt">🗂️ Luyện theo chủ đề <small>Chọn một chủ đề, luyện mọi kỹ thuật trên chủ đề đó</small></h1>`;
+      ["t2", "t1"].forEach(m => { const M = D.modules[m];
+        h += `<h3 class="gh" style="--c:${m === "t2" ? "#3b3fd8" : "#0f9a8a"}">${M.n} · ${m === "t2" ? "chủ đề" : "dạng đề"}</h3><div class="topgrid">`;
+        D.topics[m].forEach(tp => { const s = topicStat(m, tp.k);
+          h += `<a class="topcard link" href="#/t/${tp.k}"><div class="te">${tp.e}</div><h4>${esc(tp.n)}</h4>${bar(s.total ? s.done / s.total : 0, m === "t2" ? "#3b3fd8" : "#0f9a8a")}<p class="small">${s.done}/${s.total} bài luyện · ${s.wr} bài viết${s.full ? " · " + s.full + " bài hoàn chỉnh" : ""}</p></a>`; });
+        h += "</div>"; });
+      return shell(h, `<a href="#/">Trang chính</a> › Theo chủ đề`);
+    }
+    shell(`<h1 class="pt">🧗 Luyện theo kỹ thuật nâng band <small>Chọn module, rồi chọn kỹ thuật</small></h1><section class="mods">${modCard("t2")}${modCard("t1")}</section>`, `<a href="#/">Trang chính</a> › Theo kỹ thuật`);
+  }
+
+  /* ---------- trang chủ đề ---------- */
+  function vTopic(tk) {
+    const tp = TOPIC[tk]; if (!tp) return vBy("topic");
+    const m = D.topics.t1.indexOf(tp) >= 0 ? "t1" : "t2", M = D.modules[m], fk = FULLK(m), nf = wrCount(fk + "/" + tk), col = m === "t2" ? "#3b3fd8" : "#0f9a8a";
+    const ts = techsOf(m).filter(t => t.g !== "FULL"), groups = []; ts.forEach(t => { if (groups.indexOf(t.g) < 0) groups.push(t.g); });
+    let h = `<div class="thead" style="--c:${col}"><span class="code">${tp.e}</span><div><h1>${esc(tp.n)}</h1><p class="grp">${M.n} · ${m === "t2" ? "chủ đề" : "dạng đề"}</p></div></div>
+      <div class="prompt"><span class="tag">Đề bài của ${m === "t2" ? "chủ đề" : "dạng đề"} này</span><p class="en">${esc(tp.q)}</p></div>
+      <div class="fullcta" style="--c:${col}"><div><h3>📝 Viết bài hoàn chỉnh về ${m === "t2" ? "chủ đề" : "dạng đề"} này</h3><p>${m === "t2" ? "Bài luận khoảng 250 từ trong 40 phút." : "Bài mô tả khoảng 150 từ trong 20 phút."} Nộp xong, trang chỉ ra bài đang mang đặc trưng band nào và dẫn bạn sửa từng bước.${nf ? " Bạn đã nộp " + nf + " bài." : ""}</p></div><a class="btn primary" href="#/w/${fk}/${tk}/t">Viết cả bài →</a></div>
+      <h2 class="ways-h">Hoặc luyện từng kỹ thuật trên ${m === "t2" ? "chủ đề" : "dạng đề"} này</h2>`;
+    groups.forEach(g => {
+      h += `<h3 class="gh" style="--c:${D.groups[g].c}">${esc(D.groups[g].n)}</h3><div class="topgrid wide">`;
+      ts.filter(t => t.g === g).forEach(t => { const id = t.k + "/" + tk, d = S.done[id], w = wrCount(id);
+        h += `<div class="topcard" style="border-top:4px solid ${color(t)}"><span class="code sm" style="--c:${color(t)}">${t.k}</span><h4>${esc(t.n)}</h4><div class="acts">${hasGame(t) ? `<a class="btn sm ${d && d.c ? "done" : "primary"}" href="#/p/${id}/t">${d && d.c ? "✓ Luyện lại" : d ? "↻ Thử lại" : "▶ Luyện"}</a>` : ""}<a class="btn sm ${w ? "done" : hasGame(t) ? "" : "primary"}" href="#/w/${id}/t">✎ Viết${w ? " (" + w + ")" : ""}</a></div></div>`; });
+      h += "</div>"; });
+    shell(h, `<a href="#/">Trang chính</a> › <a href="#/by/topic">Theo chủ đề</a> › ${esc(tp.n)}`);
   }
 
   /* ---------- trang module ---------- */
   function vModule(m) {
     const M = D.modules[m]; if (!M) return vHome();
     const ts = techsOf(m); const groups = []; ts.forEach(t => { if (groups.indexOf(t.g) < 0) groups.push(t.g); });
-    let h = `<h1 class="pt">${M.e} ${M.n} <small>${M.sub}</small></h1>`;
+    let h = `<h1 class="pt">${M.e} ${M.n} <small>${M.sub}</small></h1>
+      <div class="fullcta" style="--c:${m === "t2" ? "#3b3fd8" : "#0f9a8a"}"><div><h3>📝 Viết bài hoàn chỉnh</h3><p>Muốn viết cả bài ngay? Chọn ${m === "t2" ? "chủ đề" : "dạng đề"} rồi viết; trang sẽ phân tích và dẫn bạn sửa từng bước. Bạn cũng có thể vào một kỹ thuật bên dưới và chọn “Cả bài” để viết cả bài với trọng tâm là kỹ thuật đó.</p></div><a class="btn primary" href="#/k/${FULLK(m)}">Viết cả bài →</a></div>`;
     groups.forEach(g => {
       h += `<h3 class="gh" style="--c:${D.groups[g].c}">${esc(D.groups[g].n)}</h3><div class="tgrid">`;
       ts.filter(t => t.g === g).forEach(t => { const s = techStat(t);
         h += `<a class="tcard" href="#/k/${t.k}" style="--c:${color(t)}"><span class="code">${t.k}</span><h4>${esc(t.n)}</h4><p>${esc(t.goal)}</p>${hasGame(t) ? bar(s.done / s.total, color(t)) : ""}<p class="small">${hasGame(t) ? s.done + "/" + s.total + " bài luyện · " : ""}${s.wr} bài viết · ${fmtH(s.sec)} giờ</p></a>`; });
       h += "</div>";
     });
-    shell(h, `<a href="#/">Trang chính</a> › ${M.n}`);
+    shell(h, `<a href="#/">Trang chính</a> › <a href="#/by/tech">Theo kỹ thuật</a> › ${M.n}`);
   }
 
   /* ---------- trang kỹ thuật ---------- */
@@ -1658,22 +1711,23 @@ B79.phases = [
       <div class="why3"><div><h5>Rào cản</h5><p>${esc(t.r)}</p></div><div><h5>Mục tiêu</h5><p>${esc(t.goal)}</p></div><div><h5>Cách luyện</h5><p>${esc(t.how)}</p></div></div>
       <h3 class="gh" style="--c:${color(t)}">${t.m === "t2" ? "Chọn chủ đề" : "Chọn dạng đề"}</h3><div class="topgrid">`;
     D.topics[t.m].forEach(tp => { const id = t.k + "/" + tp.k, d = S.done[id], w = wrCount(id);
-      h += `<div class="topcard"><div class="te">${tp.e}</div><h4>${esc(tp.n)}</h4><div class="acts">${hasGame(t) ? `<a class="btn sm ${d && d.c ? "done" : "primary"}" href="#/p/${id}">${d && d.c ? "✓ Luyện lại" : d ? "↻ Thử lại" : "▶ Luyện"}</a>` : ""}<a class="btn sm ${w ? "done" : hasGame(t) ? "" : "primary"}" href="#/w/${id}">✎ Viết${w ? " (" + w + ")" : ""}</a></div></div>`; });
-    shell(h + "</div>", `<a href="#/">Trang chính</a> › <a href="#/m/${t.m}">${M.n}</a> › ${t.k}`);
+      h += `<div class="topcard"><div class="te">${tp.e}</div><h4>${esc(tp.n)}</h4><div class="acts">${hasGame(t) ? `<a class="btn sm ${d && d.c ? "done" : "primary"}" href="#/p/${id}">${d && d.c ? "✓ Luyện lại" : d ? "↻ Thử lại" : "▶ Luyện"}</a>` : ""}<a class="btn sm ${w ? "done" : hasGame(t) ? "" : "primary"}" href="#/w/${id}">✎ Viết${w ? " (" + w + ")" : ""}</a>${t.g !== "FULL" ? `<a class="btn sm" href="#/w/${FULLK(t.m)}/${tp.k}/${t.k}">📝 Cả bài</a>` : ""}</div></div>`; });
+    shell(h + "</div>" + (t.g !== "FULL" ? `<p class="small ways-n"><b>▶ Luyện</b>: bài tập dạng game. <b>✎ Viết</b>: viết một câu hoặc một đoạn với kỹ thuật này. <b>📝 Cả bài</b>: viết bài hoàn chỉnh, trang sẽ soát kỹ thuật ${t.k} trước tiên.</p>` : ""), `<a href="#/">Trang chính</a> › <a href="#/by/tech">Theo kỹ thuật</a> › <a href="#/m/${t.m}">${M.n}</a> › ${t.k}`);
   }
 
   /* ---------- trang luyện (game) ---------- */
   let game = null;
-  function vPlay(k, tk) {
+  function vPlay(k, tk, via) {
     const t = TECH[k], it = ITEM[k + "/" + tk], tp = TOPIC[tk]; if (!t || !it) return vTech(k);
-    const M = D.modules[t.m], tps = D.topics[t.m], ix = tps.findIndex(x => x.k === tk), nxt = tps[ix + 1];
+    const byT = via === "t", M = D.modules[t.m], tps = D.topics[t.m], ix = tps.findIndex(x => x.k === tk), nxt = tps[ix + 1];
+    const gts = techsOf(t.m).filter(hasGame), gx = gts.indexOf(t), nxtT = gts[gx + 1];
     const instr = it.q || t.how;
-    shell(`<div class="play" style="--c:${color(t)}"><div class="phead"><span class="code">${t.k}</span><div><h1>${esc(t.n)}</h1><p class="grp">${tp.e} ${esc(tp.n)} · bài ${ix + 1}/${tps.length}</p></div><span class="clock">⏱ <b id="clock">0:00</b></span></div>
+    shell(`<div class="play" style="--c:${color(t)}"><div class="phead"><span class="code">${t.k}</span><div><h1>${esc(t.n)}</h1><p class="grp">${tp.e} ${esc(tp.n)} · ${byT ? "kỹ thuật " + (gx + 1) + "/" + gts.length + " của chủ đề" : "bài " + (ix + 1) + "/" + tps.length}</p></div><span class="clock">⏱ <b id="clock">0:00</b></span></div>
       ${t.m === "t1" ? chart(D.ds[tk]) : ""}
       ${typeof it.b === "string" ? `<div class="b7"><span class="tag t7">Band 7</span><p class="en">${esc(it.b)}</p></div>` : ""}
       <p class="instr">${nl(instr)}</p><div id="game" class="game"></div>
       <div class="bar-actions"><button class="btn primary" id="check">Kiểm tra</button></div><div id="fb"></div></div>`,
-      `<a href="#/">Trang chính</a> › <a href="#/m/${t.m}">${M.n}</a> › <a href="#/k/${t.k}">${t.k}</a> › ${esc(tp.n)}`);
+      byT ? `<a href="#/">Trang chính</a> › <a href="#/by/topic">Theo chủ đề</a> › <a href="#/t/${tk}">${esc(tp.n)}</a> › ${t.k}` : `<a href="#/">Trang chính</a> › <a href="#/m/${t.m}">${M.n}</a> › <a href="#/k/${t.k}">${t.k}</a> › ${esc(tp.n)}`);
     act = { k: t.k, sec: 0 };
     const submit = () => {
       if (!game || game.locked) return; game.locked = true;
@@ -1685,8 +1739,8 @@ B79.phases = [
       $("#fb").innerHTML = `<div class="fb ${ok ? "ok" : "bad"}"><div class="fbh">${ok ? "✓ Chính xác" : "✗ Chưa đúng"}</div>
         ${mdl ? `<div class="b9"><span class="tag t9">Band 9</span><p class="en">${esc(mdl)}</p></div>` : ""}
         ${it.w ? `<p class="whyp">${esc(it.w)}</p>` : ""}<p class="tip"><b>Ghi nhớ:</b> ${esc(t.tip)}</p>
-        <div class="bar-actions"><button class="btn" id="again">↻ Làm lại</button><a class="btn" href="#/w/${id}">✎ Viết với kỹ thuật này</a>${nxt ? `<a class="btn primary" href="#/p/${t.k}/${nxt.k}">Bài tiếp: ${esc(nxt.n)} →</a>` : `<a class="btn primary" href="#/k/${t.k}">Xong ${t.k} →</a>`}</div></div>`;
-      $("#again").onclick = () => vPlay(k, tk);
+        <div class="bar-actions"><button class="btn" id="again">↻ Làm lại</button><a class="btn" href="#/w/${id}${byT ? "/t" : ""}">✎ Viết với kỹ thuật này</a>${byT ? (nxtT ? `<a class="btn primary" href="#/p/${nxtT.k}/${tk}/t">Kỹ thuật tiếp: ${esc(nxtT.n)} →</a>` : `<a class="btn primary" href="#/w/${FULLK(t.m)}/${tk}/t">Xong chủ đề. Viết cả bài →</a>`) : nxt ? `<a class="btn primary" href="#/p/${t.k}/${nxt.k}">Bài tiếp: ${esc(nxt.n)} →</a>` : `<a class="btn primary" href="#/k/${t.k}">Xong ${t.k} →</a>`}</div></div>`;
+      $("#again").onclick = () => vPlay(k, tk, via);
       $("#fb").scrollIntoView({ behavior: "smooth", block: "nearest" });
     };
     game = G[it.y](it, $("#game"), { submit });
@@ -1700,19 +1754,22 @@ B79.phases = [
     const own = ITEM[t.k + "/" + tk]; if (own && model(own)) return { label: "Câu band 9 cùng kỹ thuật", text: model(own) };
     return D.models[tk] ? { label: "Bài mẫu để đối chiếu", text: D.models[tk] } : null;
   }
-  function vWrite(k, tk) {
+  function vWrite(k, tk, via) {
     const t = TECH[k], tp = TOPIC[tk]; if (!t || !tp || D.topics[t.m].indexOf(tp) < 0) return vHome();
+    const byT = via === "t", fo = t.g === "FULL" && via && TECH[via] && TECH[via].m === t.m && TECH[via].g !== "FULL" ? TECH[via] : null;
+    const cks = fo ? t.ck.concat(fo.ck) : t.ck, back = byT ? "#/t/" + tk : fo ? "#/k/" + fo.k : "#/k/" + t.k;
     const M = D.modules[t.m], id = k + "/" + tk, prev = S.wr[id] || [], draft = S.draft[id] != null ? S.draft[id] : (t.tpl || "");
     shell(`<div class="play studio" style="--c:${color(t)}"><div class="phead"><span class="code">${t.k}</span><div><h1>Viết: ${esc(t.n)}</h1><p class="grp">${tp.e} ${esc(tp.n)} · gợi ý ${t.min} phút</p></div><span class="clock">⏱ <b id="clock">0:00</b></span></div>
       <p class="instr">${esc(t.st)}</p>
+      ${fo ? `<div class="focus" style="--c:${color(fo)}"><span class="code sm" style="--c:${color(fo)}">${fo.k}</span><div><b>Trọng tâm của bài này: ${esc(fo.n)}</b><p>${esc(fo.goal)}</p><p class="small">${esc(fo.tip)}</p></div></div>` : ""}
       <div class="prompt"><span class="tag">Đề bài</span><p class="en">${esc(tp.q)}</p></div>
       ${t.m === "t1" ? chart(D.ds[tk]) : ""}
       <textarea id="ta" spellcheck="false" placeholder="Viết bằng tiếng Anh tại đây…">${esc(draft)}</textarea>
       <div class="wmeta"><span id="wc">0 từ</span><span id="pace"></span></div>
-      <div class="ck"><h5>Tự soát trước khi nộp</h5>${t.ck.map((c, i) => `<label><input type="checkbox" data-ck="${i}"> ${esc(c)}</label>`).join("")}</div>
+      <div class="ck"><h5>Tự soát trước khi nộp</h5>${cks.map((c, i) => `<label><input type="checkbox" data-ck="${i}"> ${esc(c)}</label>`).join("")}</div>
       <div class="bar-actions"><button class="btn primary" id="sub">${PROSE.indexOf(t.k) >= 0 ? "Nộp và xem bài đang ở band nào →" : "Nộp bài viết"}</button></div><div id="fb"></div>
       ${prev.length ? `<details class="hist"><summary>Bài đã nộp (${prev.length})</summary>${prev.slice().reverse().map(p => `<div class="past"><p class="small">${new Date(p.ts).toLocaleString("vi-VN")} · ${p.words} từ · ${fmtMS(p.sec)}</p><p class="en pre">${esc(p.text)}</p></div>`).join("")}</details>` : ""}</div>`,
-      `<a href="#/">Trang chính</a> › <a href="#/m/${t.m}">${M.n}</a> › <a href="#/k/${t.k}">${t.k}</a> › Viết · ${esc(tp.n)}`);
+      byT ? `<a href="#/">Trang chính</a> › <a href="#/by/topic">Theo chủ đề</a> › <a href="#/t/${tk}">${esc(tp.n)}</a> › Viết · ${t.k}` : `<a href="#/">Trang chính</a> › <a href="#/m/${t.m}">${M.n}</a> › <a href="#/k/${(fo || t).k}">${(fo || t).k}</a> › ${fo ? "Cả bài" : "Viết"} · ${esc(tp.n)}`);
     const ta = $("#ta"), wc = $("#wc"), base = t.tpl ? words(t.tpl) : 0;
     const upd = () => { wc.textContent = Math.max(0, words(ta.value) - (ta.value.indexOf("LẬP TRƯỜNG") === 0 ? base : 0)) + " từ"; S.draft[id] = ta.value; };
     ta.oninput = upd; upd();
@@ -1723,15 +1780,15 @@ B79.phases = [
       const ticked = $$("[data-ck]").filter(c => c.checked).length;
       const rec = { ts: Date.now(), sec: act ? act.sec : 0, words: n, text: text, ck: ticked };
       (S.wr[id] = S.wr[id] || []).push(rec); if (S.wr[id].length > 5) S.wr[id].shift(); delete S.draft[id]; save();
-      send({ kind: "write", tech: t.k, topic: tk, type: "write", ok: ticked, try: S.wr[id].length, sec: rec.sec, words: n, text: text });
+      send({ kind: "write", tech: t.k, topic: tk, type: fo ? "write:" + fo.k : "write", ok: ticked, try: S.wr[id].length, sec: rec.sec, words: n, text: text });
       if (act) act.sec = 0;
-      if (PROSE.indexOf(t.k) >= 0) { startCoach({ m: t.m, kind: t.m === "t1" ? tk : "", scope: t.g === "FULL" ? "full" : "", q: tp.q, k0: t.k, tk: tk, text: text }); return; }
+      if (PROSE.indexOf(t.k) >= 0) { startCoach({ m: t.m, kind: t.m === "t1" ? tk : "", scope: t.g === "FULL" ? "full" : "", q: tp.q, k0: fo ? fo.k : t.k, tk: tk, text: text }); return; }
       const ref = refModel(t, tk);
       $("#sub").remove(); ta.readOnly = true;
-      $("#fb").innerHTML = `<div class="fb ok"><div class="fbh">✓ Đã nộp · ${n} từ · tự soát ${ticked}/${t.ck.length}</div>
+      $("#fb").innerHTML = `<div class="fb ok"><div class="fbh">✓ Đã nộp · ${n} từ · tự soát ${ticked}/${cks.length}</div>
         ${ref ? `<div class="b9"><span class="tag t9">${esc(ref.label)}</span><p class="en pre">${esc(ref.text)}</p></div><p class="whyp">Đặt bài của bạn cạnh bản mẫu và tìm một điểm khác nhau về ${t.g === "LR" ? "cách kết hợp từ" : t.g === "GR" ? "cấu trúc câu" : t.g === "CC" ? "cách nối câu" : "cách khai triển"}.</p>` : ""}
-        <div class="bar-actions"><button class="btn" id="again">✎ Viết bài khác</button>${t.tpl ? "" : `<button class="btn" id="toc">Phân tích và nâng cấp bài này →</button>`}<a class="btn primary" href="#/k/${t.k}">Về ${t.k} →</a></div></div>`;
-      $("#again").onclick = () => vWrite(k, tk);
+        <div class="bar-actions"><button class="btn" id="again">✎ Viết bài khác</button>${t.tpl ? "" : `<button class="btn" id="toc">Phân tích và nâng cấp bài này →</button>`}<a class="btn primary" href="${back}">${byT ? "Về chủ đề " + esc(tp.n) : "Về " + t.k} →</a></div></div>`;
+      $("#again").onclick = () => vWrite(k, tk, via);
       if ($("#toc")) $("#toc").onclick = () => startCoach({ m: t.m, kind: t.m === "t1" ? tk : "", q: tp.q, k0: t.k, tk: tk, text: text });
       $("#fb").scrollIntoView({ behavior: "smooth", block: "nearest" });
     };
@@ -2003,8 +2060,10 @@ B79.phases = [
     switch (p[0]) {
       case "m": return vModule(p[1]);
       case "k": return vTech(p[1]);
-      case "p": return vPlay(p[1], p[2]);
-      case "w": return vWrite(p[1], p[2]);
+      case "by": return vBy(p[1]);
+      case "t": return vTopic(p[1]);
+      case "p": return vPlay(p[1], p[2], p[3]);
+      case "w": return vWrite(p[1], p[2], p[3]);
       case "coach": return vCoach();
       case "plan": return vPlan();
       case "me": return vMe();
