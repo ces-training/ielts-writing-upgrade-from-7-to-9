@@ -1641,10 +1641,9 @@ B79.phases = [
 
   /* ---------- trang chính ---------- */
   function vHome() {
-    const total = totalSec(), perWeek = Math.round(CFG.targetHours / CFG.weeks), nx = nextUp();
+    const total = totalSec(), perWeek = Math.round(CFG.targetHours / CFG.weeks);
     shell(`<section class="hero"><div><p class="hi">Chào ${esc(U.name.split(" ").pop())},</p><h1>Từ band 7 lên band 9 không cần từ hiếm hơn. Cần ý sâu hơn, liên kết kín hơn và ít lỗi hơn.</h1>
-      <p>Lộ trình ${CFG.targetHours} giờ trong ${CFG.weeks} tuần, khoảng ${perWeek} giờ mỗi tuần. Đồng hồ chỉ chạy khi bạn đang làm bài.</p>
-      ${nx ? `<a class="btn primary" href="#/p/${nx.t.k}/${nx.tp.k}">Học tiếp: ${esc(nx.t.n)} · ${esc(nx.tp.n)} →</a>` : '<a class="btn primary" href="#/m/t2">Bạn đã đúng hết bài luyện. Vào phần viết →</a>'} <a class="btn" href="#/coach">Dán bài của bạn để nâng cấp</a></div>
+      <p>Lộ trình ${CFG.targetHours} giờ trong ${CFG.weeks} tuần, khoảng ${perWeek} giờ mỗi tuần. Đồng hồ chỉ chạy khi bạn đang làm bài.</p></div>
       <div class="ringbox">${ring(total / (CFG.targetHours * 3600), fmtH(total), "/ " + CFG.targetHours + " giờ")}</div></section>
       <h2 class="ways-h">Bạn muốn luyện theo cách nào?</h2>
       <section class="mods ways">
