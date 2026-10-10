@@ -25,7 +25,7 @@ button{font:inherit;color:inherit;cursor:pointer}
 .top a{color:#fff}.brand{display:flex;align-items:center;gap:10px;font-weight:700}
 .b79{display:inline-flex;align-items:center;gap:3px;padding:3px 9px;border-radius:99px;background:linear-gradient(90deg,var(--b7),var(--b9));color:#fff;font-weight:800}
 .b79 i{font-style:normal;opacity:.85}.b79.big{font-size:2.2rem;padding:6px 20px}
-.top nav{display:flex;gap:4px;font-size:.92em;flex:1;flex-wrap:wrap}.top nav a{opacity:.85;padding:5px 12px;border-radius:99px;font-weight:600}.top nav a:hover{opacity:1;text-decoration:none;background:rgba(255,255,255,.12)}.top nav a.on{background:#fff;color:var(--ink);opacity:1}
+.top nav{display:flex;gap:4px;font-size:.92em;flex:1;flex-wrap:wrap}.top nav a{opacity:.85;padding:5px 12px;border-radius:99px;font-weight:600}.top nav a:hover{opacity:1;text-decoration:none;background:rgba(255,255,255,.12)}.top nav a.on{background:#fff;color:var(--ink);opacity:1}.top .guestin{background:#fff;color:var(--ink);border-color:#fff}
 .subnav{background:#fff;border-bottom:1px solid var(--line)}.subnav div{max-width:1000px;margin:0 auto;padding:0 16px;display:flex;gap:4px;overflow-x:auto}
 .subnav a{padding:10px 12px 8px;font-size:.9em;font-weight:600;color:var(--mut);border-bottom:3px solid transparent;white-space:nowrap}.subnav a:hover{color:var(--ink);text-decoration:none}.subnav a.on{color:var(--ink);border-bottom-color:var(--acc)}
 .who{display:flex;align-items:center;gap:10px;font-size:.9em}.hrs{background:rgba(255,255,255,.14);padding:3px 10px;border-radius:99px;font-variant-numeric:tabular-nums}
@@ -2444,19 +2444,20 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
   /* Lời mời trao đổi: chỉ hiện sau khi người học đã làm vài bài, ngoài lúc đang làm bài; bấm “Để sau” thì ẩn 7 ngày. */
   const actsN = () => Object.keys(S.done).length + Object.keys(S.wr).reduce((a, k) => a + S.wr[k].length, 0);
   function nudgeHtml(ns) {
+    if (!U || !S) return "";
     if (ns.g === "contact" || ns.g === "coach" || ["p", "w", "xb", "wb"].indexOf(ns.r) >= 0) return "";
     const c = S.cta || {}, n = actsN(); if (n < 3 || c.sent || (c.skip && Date.now() - c.skip < 7 * 864e5)) return "";
     return `<aside class="nudge" id="nudge"><p><b>Bạn đã làm ${n} bài trên trang.</b> Trang đếm được các đặc trưng của bài viết, nhưng không chấm được chất lượng lập luận. Nếu bạn muốn có giáo viên đọc bài và chỉ ra chỗ cần sửa trước, hoặc muốn trao đổi về lộ trình học, hãy để lại thông tin.</p><div class="acts"><a class="btn primary" href="#/contact">Trao đổi với giáo viên →</a><button type="button" class="btn" id="nudge-x">Để sau</button></div></aside>`;
   }
   function shell(inner, crumbs) {
-    const total = totalSec(), ns = navState(), grp = NAV.filter(x => x.k === ns.g)[0];
+    const total = S ? totalSec() : 0, ns = navState(), grp = NAV.filter(x => x.k === ns.g)[0];
     app.innerHTML = `<header class="top"><a class="brand" href="#/"><span class="b79"><b>7</b><i>→</i><b>9</b></span><span>Writing Lab</span></a>
       <nav aria-label="Mục chính">${NAV.map(x => `<a href="${x.h}"${x.k === ns.g ? ' class="on" aria-current="true"' : ""}>${x.n}</a>`).join("")}</nav>
-      <div class="who"><span class="hrs" id="tophours">${fmtH(total)} / ${CFG.targetHours} giờ</span><button class="link" id="switch" title="Đổi người học">${esc(U.name)} ⇄</button></div></header>
+      <div class="who">${U ? `<span class="hrs" id="tophours">${fmtH(total)} / ${CFG.targetHours} giờ</span><button class="link" id="switch" title="Đổi người học">${esc(U.name)} ⇄</button>` : `<a class="btn sm guestin" href="#/login">Nhập tên để bắt đầu</a>`}</div></header>
       ${grp.subs.length ? `<div class="subnav"><div role="navigation" aria-label="${grp.n}">${grp.subs.map(x => `<a href="${x[0]}"${x[0] === ns.sub ? ' class="on" aria-current="page"' : ""}>${x[1]}</a>`).join("")}</div></div>` : ""}
       <main>${crumbs ? `<div class="crumbs">${crumbs}</div>` : ""}${inner}${nudgeHtml(ns)}</main>
-      <footer>${CFG.endpoint ? "Kết quả được gửi về bảng theo dõi của giáo viên." : "Tiến độ đang lưu trên thiết bị này."} · <a href="#/feedback">Góp ý cho trang</a> · <a href="#/contact">Liên hệ, đăng ký học</a> · Câu band 9 trên trang do nhóm soạn viết theo các đặc điểm đã phân tích từ bài mẫu, không phải điểm của giám khảo.</footer>`;
-    $("#switch").onclick = () => { if (confirm("Đổi người học? Tiến độ của " + U.name + " vẫn được giữ trên máy này.")) { save(); store.del("b79:user"); U = null; S = null; location.hash = "#/"; route(); } };
+      <footer>${!U ? "Bạn đang xem trước; trang chỉ hỏi tên khi bạn bắt đầu làm bài." : CFG.endpoint ? "Kết quả được gửi về bảng theo dõi của giáo viên." : "Tiến độ đang lưu trên thiết bị này."} · <a href="#/feedback">Góp ý cho trang</a> · <a href="#/contact">Liên hệ, đăng ký học</a> · Câu band 9 trên trang do nhóm soạn viết theo các đặc điểm đã phân tích từ bài mẫu, không phải điểm của giám khảo.</footer>`;
+    if ($("#switch")) $("#switch").onclick = () => { if (confirm("Đổi người học? Tiến độ của " + U.name + " vẫn được giữ trên máy này.")) { save(); store.del("b79:user"); U = null; S = null; location.hash = "#/"; route(); } };
     if ($("#nudge-x")) $("#nudge-x").onclick = () => { S.cta = Object.assign(S.cta || {}, { skip: Date.now() }); save(); $("#nudge").remove(); };
     window.scrollTo(0, 0);
   }
@@ -2471,16 +2472,16 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
   /* ---------- đăng nhập bằng tên ---------- */
   function vLogin() {
     const known = store.get("b79:names") || [];
-    app.innerHTML = `<div class="login"><div class="card"><div class="b79 big"><b>7</b><i>→</i><b>9</b></div><h1>IELTS Writing Lab</h1><p>Luyện 26 kỹ thuật đưa bài viết từ band 7 lên band 9, cho Task 1 và Task 2.</p>
+    app.innerHTML = `<div class="login"><div class="card"><div class="b79 big"><b>7</b><i>→</i><b>9</b></div><h1>IELTS Writing Lab</h1><p>Luyện 26 kỹ thuật đưa bài viết từ band 7 lên band 9, cho Task 1 và Task 2.</p><p class="small">Trang cần tên của bạn để lưu tiến độ và kết quả bài làm.</p>
       <form id="lf"><label>Họ và tên của bạn<input id="ln" required minlength="2" maxlength="60" autocomplete="name" placeholder="Ví dụ: Nguyễn Minh Anh" list="names"></label><datalist id="names">${known.map(n => `<option value="${esc(n)}">`).join("")}</datalist>
       <label>Lớp <span class="opt-l">(không bắt buộc)</span>${CFG.classes && CFG.classes.length ? `<select id="lc"><option value="">Chọn lớp</option>${CFG.classes.map(c => `<option>${esc(c)}</option>`).join("")}</select>` : '<input id="lc" maxlength="30" placeholder="Ví dụ: IVY-W79">'}</label>
       <button class="btn primary" type="submit">Bắt đầu học</button></form>
-      <p class="small">Hãy nhập đúng một tên trong mọi lần học để tiến độ được cộng dồn.</p></div></div>`;
+      <p class="small">Hãy nhập đúng một tên trong mọi lần học để tiến độ được cộng dồn.</p><p class="small"><a href="#/">← Chưa muốn nhập tên? Đọc bài “Band 7 khác band 9 ở đâu?”</a> · <a href="#/stats">Thống kê đề thi 2025–2026</a></p></div></div>`;
     $("#lf").onsubmit = e => {
       e.preventDefault(); const name = $("#ln").value.trim().replace(/\s+/g, " "); if (name.length < 2) return;
       U = { name: name, cls: ($("#lc").value || "").trim() }; store.set("b79:user", U);
       if (known.indexOf(name) < 0) { known.push(name); store.set("b79:names", known); }
-      loadS(); send({ kind: "login" }); location.hash = "#/"; route();
+      loadS(); send({ kind: "login" }); if (/^#\/?login/.test(location.hash)) location.hash = "#/"; else route();
     };
   }
 
@@ -2718,10 +2719,10 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
   </section>
 </article>`;
   function vHome(toArt) {
-    const total = totalSec(), nT = D.techs.filter(t => t.g !== "FULL").length, nBank = (D.bank || []).length + (D.bank1 || []).length;
-    shell(`<section class="hero"><div><p class="hi">Chào ${esc(U.name.split(" ").pop())},</p><h1>Từ band 7 lên band 9: từ vựng chính xác và tự nhiên hơn, ý sâu hơn, liên kết kín hơn và ít lỗi hơn.</h1>
+    const total = S ? totalSec() : 0, nT = D.techs.filter(t => t.g !== "FULL").length, nBank = (D.bank || []).length + (D.bank1 || []).length;
+    shell(`<section class="hero"><div><p class="hi">${U ? "Chào " + esc(U.name.split(" ").pop()) + "," : "IELTS Writing Lab"}</p><h1>Từ band 7 lên band 9: từ vựng chính xác và tự nhiên hơn, ý sâu hơn, liên kết kín hơn và ít lỗi hơn.</h1>
       <p>Trang này chỉ ra bảy khác biệt có thể đếm được giữa hai band, cho bạn thử ngay trên bài của mình, rồi luyện từng khác biệt một.</p></div>
-      <div class="ringbox">${ring(total / (CFG.targetHours * 3600), fmtH(total), "/ " + CFG.targetHours + " giờ")}</div></section>
+      ${U ? `<div class="ringbox">${ring(total / (CFG.targetHours * 3600), fmtH(total), "/ " + CFG.targetHours + " giờ")}</div>` : `<div class="ringbox"><a class="btn primary" href="#/coach">Thử với bài của bạn →</a></div>`}</section>
       <ol class="steps4">
         <li style="--c:#e2553d"><button type="button" data-go="why79"><b><span class="sn">1</span>Hiểu</b><span class="small">Band 7 và band 9 khác nhau ở bảy chỗ nào: ví dụ đối chiếu và số đếm trên bài mẫu.</span></button></li>
         <li style="--c:#3b3fd8"><a href="#/coach"><b><span class="sn">2</span>Thử</b><span class="small">Dán một đoạn bạn đã viết. Trang chỉ ra nó đang mang đặc trưng của band nào và dẫn bạn sửa.</span></a></li>
@@ -3392,8 +3393,9 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
   /* ---------- điều hướng ---------- */
   function route() {
     if (game && game.stop) game.stop(); game = null; act = null; if (S) save();
-    if (!U) return vLogin();
     const p = location.hash.replace(/^#\/?/, "").split("/");
+    /* Khách chưa nhập tên đọc được bài trang chính và trang thống kê; mọi trang khác hỏi tên trước rồi mở đúng trang đó. */
+    if (!U && ["", "why", "stats"].indexOf(p[0] || "") < 0) return vLogin();
     switch (p[0]) {
       case "m": return vModule(p[1]);
       case "k": return vTech(p[1]);
