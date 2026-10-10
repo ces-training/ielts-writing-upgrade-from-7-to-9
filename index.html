@@ -2053,7 +2053,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
     body.forEach(function (p) {
       if (p.sents.length < 3 && !thin) thin = p;
       var segs = [[]]; p.sents.forEach(function (s, i) { if (i > 0 && NEXT.test(s.t)) segs.push([]); segs[segs.length - 1].push(s); });
-      var tn = segs.length > 1 ? segs.filter(function (g) { var w = wc(g[0] ? g[0].t : ""); return g !== segs[0] && g.length < 2 && w < 22 && !WHYX.test(g[0].t); }).length : 0;
+      var tn = segs.length > 1 ? segs.filter(function (g) { var w = wc(g[0] ? g[0].t : ""); return g !== segs[0] && g.length < 2 && (w < 16 || (w < 22 && !WHYX.test(g[0].t))); }).length : 0;
       var l = tn ? (segs.length >= 3 ? 7 : 8) : 9;
       if (segs.length > maxIdeas) maxIdeas = segs.length; thinIdeas += tn; if (l < worstLv) worstLv = l;
     });
