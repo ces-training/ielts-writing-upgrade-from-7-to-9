@@ -2259,7 +2259,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
   /* ---------- trang chính ---------- */
   function vHome() {
     const total = totalSec(), perWeek = Math.round(CFG.targetHours / CFG.weeks);
-    shell(`<section class="hero"><div><p class="hi">Chào ${esc(U.name.split(" ").pop())},</p><h1>Từ band 7 lên band 9 không cần từ hiếm hơn. Cần ý sâu hơn, liên kết kín hơn và ít lỗi hơn.</h1>
+    shell(`<section class="hero"><div><p class="hi">Chào ${esc(U.name.split(" ").pop())},</p><h1>Từ band 7 lên band 9: từ vựng chính xác và tự nhiên hơn, ý sâu hơn, liên kết kín hơn và ít lỗi hơn.</h1>
       <p>Lộ trình ${CFG.targetHours} giờ trong ${CFG.weeks} tuần, khoảng ${perWeek} giờ mỗi tuần. Đồng hồ chỉ chạy khi bạn đang làm bài.</p></div>
       <div class="ringbox">${ring(total / (CFG.targetHours * 3600), fmtH(total), "/ " + CFG.targetHours + " giờ")}</div></section>
       <h2 class="ways-h">Bạn muốn luyện theo cách nào?</h2>
