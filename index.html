@@ -207,6 +207,8 @@ a.topcard.link h4{margin:4px 0 8px}.topgrid.wide{grid-template-columns:repeat(au
 .tychips{display:flex;gap:8px;flex-wrap:wrap}.tychip{display:inline-flex;flex-direction:column;gap:1px;padding:7px 12px;border:1.5px solid var(--line);border-radius:12px;background:var(--bg);color:var(--ink)!important;text-decoration:none!important;font-size:.9em;font-weight:700;line-height:1.3;transition:transform .1s,border-color .1s}
 .tychip:hover{transform:translateY(-1px);border-color:var(--c,var(--ink))}.tychip small{font-weight:500;color:var(--mut);font-size:.84em}.tychip.on{background:var(--ink);border-color:var(--ink);color:#fff!important}.tychip.on small{color:#d6d8ea}.tychip.all{border-color:var(--b9);background:#e9f8f3}
 .tytip{background:#fff;border:1px solid var(--line);border-left:5px solid var(--c);border-radius:var(--r);padding:12px 16px;margin:14px 0}.tytip h5{margin:0 0 4px;font-size:.78em;text-transform:uppercase;letter-spacing:.08em;color:var(--mut)}.tytip p{margin:0}
+.tylv{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0}.tylv .tytip{margin:0}@media(max-width:720px){.tylv{grid-template-columns:1fr}}
+.b7box{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:10px 16px;margin:12px 0}.b7box summary{cursor:pointer;font-weight:700}.b7box ul{margin:10px 0;padding-left:1.3em}.b7box li{margin:5px 0}.b7box p{margin:8px 0 0}
 .bsub{margin:6px 0 0;color:var(--mut)}#tyf select{width:auto}
 @media(max-width:720px){.tydim{grid-template-columns:1fr}.tydim>span{padding-top:0}}
 .banknote{background:#fff;border:1px solid var(--line);border-left:5px solid #c7801a;border-radius:var(--r);padding:10px 14px;margin:10px 0 0}
@@ -2838,13 +2840,14 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
   const wrN = bs => bs.filter(b => (S.wr[bkey(b)] || []).length).length;
   let fromTy = null;
   const tyCrumb = () => fromTy ? `<a href="#/by/type">Theo dạng bài</a> › <a href="${fromTy.h}">${esc(fromTy.n)}</a>` : "";
+  /* Dạng câu hỏi Task 2: [mốc band 7, việc cần làm để lên band 9]. */
   const QTYTIP = {
-    opin: "Nêu lập trường ngay ở mở bài và giữ nguyên đến kết bài. Có thể đồng ý một phần, nhưng phải nói rõ đồng ý phần nào và vì sao. Mỗi đoạn thân bài phát triển một lý do qua nhiều bậc, không liệt kê nhiều lý do.",
-    disc: "Trình bày cả hai quan điểm với độ dài tương đương, rồi nêu rõ quan điểm của mình vì đề luôn hỏi “give your own opinion”. Dùng ngôi thứ ba cho quan điểm của người khác: proponents of this view argue that…",
-    adv: "Nếu đề hỏi “do the advantages outweigh the disadvantages” thì phải kết luận bên nào nặng hơn và giải thích vì sao. Chỉ liệt kê hai phía là chưa trả lời đủ câu hỏi.",
-    posneg: "Đây là câu hỏi quan điểm: chọn tích cực, tiêu cực, hoặc cả hai với một bên trội hơn, và nói rõ ngay trong mở bài. Cần đánh giá hệ quả của xu hướng, không chỉ mô tả xu hướng.",
-    ps: "Mỗi giải pháp phải khớp với một nguyên nhân hoặc một vấn đề đã nêu ở đoạn trước. Nói rõ ai thực hiện giải pháp và nó tác động ra sao; tránh câu chung chung như “the government should raise awareness”.",
-    two: "Trả lời đủ cả hai câu hỏi, mỗi câu một đoạn thân bài có độ dài tương đương. Mở bài nên báo trước câu trả lời cho cả hai câu."
+    opin: ["Mở bài nêu rõ lập trường, lập trường không đổi đến kết bài, và mỗi đoạn thân bài có một ý chính được giải thích.", "Phát triển mỗi lý do qua nhiều bậc (vì sao, dẫn đến điều gì, ví dụ cụ thể) thay vì thêm lý do mới. Nếu chỉ đồng ý một phần, nói rõ đồng ý ở điểm nào, không đồng ý ở điểm nào và vì sao; không đứng giữa hai phía."],
+    disc: ["Bạn trình bày cả hai quan điểm, và nêu quan điểm của mình khi đề yêu cầu.", "Hai quan điểm được phát triển sâu tương đương, bằng ngôi thứ ba (proponents of this view argue that…). Khi đề có “give your own opinion”, quan điểm của bạn xuất hiện từ mở bài và nhất quán đến kết bài, không chỉ nằm ở câu cuối. Đề chỉ ghi “discuss both views” thì không bắt buộc nêu quan điểm riêng."],
+    adv: ["Bạn nêu được cả ưu điểm lẫn nhược điểm, mỗi ý có giải thích; với đề “outweigh”, bạn nói rõ bên nào nặng hơn.", "Với đề “do the advantages outweigh the disadvantages”, kết luận bên nào nặng hơn phải được chứng minh trong thân bài: cân hai phía với nhau chứ không chỉ liệt kê. Đề chỉ hỏi “what are the advantages and disadvantages” thì không bắt buộc nêu quan điểm."],
+    posneg: ["Bạn trả lời rõ đây là xu hướng tích cực hay tiêu cực ngay từ mở bài.", "Đánh giá hệ quả của xu hướng chứ không chỉ mô tả xu hướng. Nếu thấy cả hai mặt, nói rõ mặt nào trội hơn và trong điều kiện nào."],
+    ps: ["Bạn nêu được nguyên nhân hoặc vấn đề và giải pháp, mỗi ý có giải thích.", "Mỗi giải pháp khớp với một nguyên nhân hoặc vấn đề đã nêu ở đoạn trước; nói rõ ai thực hiện và nó tác động ra sao. Tránh giải pháp chung chung như “the government should raise awareness”."],
+    two: ["Bạn trả lời cả hai câu hỏi của đề.", "Hai câu trả lời được phát triển sâu tương đương, mỗi câu một đoạn thân bài, và mở bài báo trước câu trả lời cho cả hai."]
   };
   /* Một dòng đề trong ngân hàng đề, dùng chung cho trang chủ đề và trang dạng bài. */
   function bitem(b, skip) {
@@ -2858,17 +2861,22 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
     const ds = SUB.dims[tp]; if (!ds) return "";
     return `<select id="bsub"><option value="">Mọi nhóm nhỏ</option>${ds.map(d => `<optgroup label="${esc(d.n)}">${d.g.map(g => { const n = subList(tp, g[0]).length; return n ? `<option value="${g[0]}">${esc(g[1])} (${n})</option>` : ""; }).join("")}</optgroup>`).join("")}</select>`;
   }
+  /* Bảng tự đối chiếu: mốc band 7 chung của cả bài, theo bảng mô tả band điểm công khai. */
+  function bandBox(m, open) {
+    const B = (SUB.bands || {})[m]; if (!B) return "";
+    return `<details class="b7box"${open ? " open" : ""}><summary>Tự đối chiếu: bài ${m === "t1" ? "Task 1" : "Task 2"} của bạn đã đạt band 7 chưa?</summary><ul>${B.b7.map(x => `<li>${esc(x)}</li>`).join("")}</ul><p><b>Khoảng cách lên band 9:</b> ${esc(B.b9)}</p><p class="small">Các mốc này diễn đạt lại từ bảng mô tả band điểm Writing công khai của IELTS. Nếu còn thiếu mốc nào, hãy luyện mốc đó trước ở mục <a href="#/by/tech">Theo kỹ thuật</a>; lời khuyên band 9 trên trang giả định bạn đã đạt các mốc này. Mốc band 7 của từng nhóm đề là cách trang áp dụng bảng mô tả vào nhóm đề đó, không phải tiêu chí chấm chính thức.</p></details>`;
+  }
   function vByType() {
     const b2 = D.bank || [];
     let h = `<h1 class="pt">🧩 Luyện theo dạng bài <small>Chọn một nhóm đề cùng kiểu, viết liền vài đề để quen cách xử lý</small></h1>
-      <p class="banknote">Mỗi dạng đề Task 1 được chia thành các <b>nhóm nhỏ</b> theo từng cách nhìn: chẳng hạn đề Map chia theo không gian (trong nhà, ngoài trời), theo mốc thời gian và theo đặc điểm thay đổi. Một đề có thể nằm trong nhiều nhóm. Mỗi nhóm có lời khuyên riêng về thì, từ vựng và cách chia thân bài; vào nhóm rồi bạn làm bài tập hoặc viết cả bài như ở mục Theo chủ đề.</p>
-      <h3 class="gh" style="--c:#0f9a8a">Task 1 · nhóm nhỏ trong từng dạng đề</h3>`;
+      <p class="banknote">Mỗi dạng đề Task 1 được chia thành các <b>nhóm nhỏ</b> theo từng cách nhìn: chẳng hạn đề Map chia theo không gian (trong nhà, ngoài trời), theo mốc thời gian và theo đặc điểm thay đổi. Một đề có thể nằm trong nhiều nhóm. Mỗi nhóm có hai phần: <b>mốc band 7</b> để bạn tự đối chiếu xem mình đã làm được chưa, và <b>việc cần luyện để lên band 9</b>. Vào nhóm rồi bạn làm bài tập hoặc viết cả bài như ở mục Theo chủ đề.</p>
+      <h3 class="gh" style="--c:#0f9a8a">Task 1 · nhóm nhỏ trong từng dạng đề</h3>${bandBox("t1")}`;
     D.topics.t1.forEach(tp => { const ds = SUB.dims[tp.k], all = (BANKBY[tp.k] || []).filter(b => b.m === "t1"); if (!ds || !all.length) return;
       h += `<section class="tybox" style="--c:#0f9a8a"><header><span class="te">${tp.e}</span><h4>${esc(tp.n)}</h4><span class="small">${all.length} đề · ${wrN(all)} đã viết</span><a href="#/t/${tp.k}">Xem cả dạng ${esc(tp.n)} →</a></header>`;
       ds.forEach(d => { const chips = d.g.map(g => { const bs = subList(tp.k, g[0]), w = wrN(bs); return bs.length ? `<a class="tychip${w === bs.length ? " all" : ""}" href="#/ty/${tp.k}/${g[0]}">${esc(g[1])}<small>${bs.length} đề${w ? " · " + w + " đã viết" : ""}</small></a>` : ""; }).join("");
         if (chips) h += `<div class="tydim"><span>${esc(d.n)}</span><div class="tychips">${chips}</div></div>`; });
       h += "</section>"; });
-    h += `<h3 class="gh" style="--c:#3b3fd8">Task 2 · dạng câu hỏi</h3><p class="small">Cùng một dạng câu hỏi thì cùng một cách trả lời và cùng một bố cục, dù chủ đề khác nhau. Chọn một dạng để luyện trên nhiều chủ đề.</p><div class="topgrid wide">`;
+    h += `<h3 class="gh" style="--c:#3b3fd8">Task 2 · dạng câu hỏi</h3><p class="small">Cùng một dạng câu hỏi thì cùng một cách trả lời và cùng một bố cục, dù chủ đề khác nhau. Chọn một dạng để luyện trên nhiều chủ đề.</p>${bandBox("t2")}<div class="topgrid wide">`;
     Object.keys(QTY).forEach(k => { const bs = b2.filter(b => b.ty === k), w = wrN(bs); if (!bs.length) return;
       h += `<a class="topcard link" href="#/ty/t2/${k}" style="border-top:4px solid #3b3fd8"><h4>${QTY[k]}</h4>${bar(w / bs.length, "#3b3fd8")}<p class="small bk">📚 ${bs.length} đề viết cả bài</p><p class="small">${w} đề đã viết · ${bs.filter(b => b.d.some(d => d.slice(0, 4) >= "2025")).length} đề thi 2025–2026</p></a>`; });
     shell(h + "</div>", `<a href="#/">Trang chính</a> › Theo dạng bài`);
@@ -2878,12 +2886,14 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
     if (t2 ? !QTY[key] : !grp || !base) return vBy("type");
     const list = t2 ? (D.bank || []).filter(b => b.ty === key) : subList(tp, key); if (!list.length) return vBy("type");
     const name = t2 ? QTY[key] : grp.g[1], col = t2 ? "#3b3fd8" : "#0f9a8a", done = wrN(list);
+    const tip = t2 ? QTYTIP[key] : [grp.g[2], grp.g[3]];
     fromTy = { h: "#/ty/" + tp + "/" + key, n: (t2 ? "Task 2" : base.n) + " · " + name };
     const others = t2 ? [] : SUB.dims[tp].filter(d => d !== grp.d).map(d => ({ d: d, g: d.g.filter(g => list.some(b => subOf(b).indexOf(g[0]) >= 0)) })).filter(x => x.g.length > 1);
     const sib = t2 ? Object.keys(QTY).filter(k => (D.bank || []).some(b => b.ty === k)).map(k => [k, QTY[k]]) : grp.d.g.filter(g => subList(tp, g[0]).length);
     const tops = t2 ? D.topics.t2.concat(D.xtopics || []).filter(x => list.some(b => b.tp === x.k)) : [];
     let h = `<div class="thead" style="--c:${col}"><span class="code">${t2 ? "T2" : base.e}</span><div><h1>${esc(name)}</h1><p class="grp">${t2 ? "Task 2 · dạng câu hỏi" : "Task 1 · " + esc(base.n) + " · " + esc(grp.d.n.toLowerCase())}</p></div></div>
-      <div class="tytip" style="--c:${col}"><h5>Điểm cần chú ý khi viết nhóm đề này</h5><p>${esc(t2 ? QTYTIP[key] : grp.g[2])}</p></div>
+      <div class="tylv"><div class="tytip" style="--c:var(--b7)"><h5>Mốc band 7 · bạn đã làm được chưa?</h5><p>${esc(tip[0])}</p></div><div class="tytip" style="--c:var(--b9)"><h5>Để lên band 9 · việc cần luyện ở nhóm đề này</h5><p>${esc(tip[1])}</p></div></div>
+      ${bandBox(t2 ? "t2" : "t1")}
       ${bar(done / list.length, col)}<p class="small">Bạn đã viết ${done}/${list.length} đề của nhóm này.${t2 ? "" : ` Muốn luyện từng kỹ thuật trên dạng ${esc(base.n)}? <a href="#/t/${tp}">Mở trang dạng ${esc(base.n)}</a>.`}</p>
       <div class="tydim"><span>${t2 ? "Dạng câu hỏi khác" : esc(grp.d.n)}</span><div class="tychips">${sib.map(g => `<a class="tychip${g[0] === key ? " on" : ""}" href="#/ty/${tp}/${g[0]}"${g[0] === key ? ' aria-current="page"' : ""}>${esc(g[1])}</a>`).join("")}</div></div>
       <h2 class="ways-h">📚 ${list.length} đề trong nhóm</h2>

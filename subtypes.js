@@ -1,116 +1,135 @@
 /* Luyện theo dạng bài: gom các đề Task 1 thành nhóm nhỏ trong từng dạng đề.
    - Map và Process: xếp tay theo mã đề (bảng MAPTAG, PROCTAG bên dưới). Đề mới thêm vào ngân hàng mà chưa có trong bảng sẽ chỉ hiện ở trang dạng đề, không hiện trong nhóm nhỏ.
    - Line, Bar, Table, Pie, Mixed: trang tự xếp theo số liệu của đề (trục thời gian, số đường, đơn vị, đối tượng so sánh), nên đề mới được xếp tự động.
-   Muốn đổi tên nhóm hoặc lời khuyên: sửa ở DIMS. Mỗi nhóm: [mã, tên, lời khuyên khi viết]. */
+   Muốn đổi tên nhóm hoặc lời khuyên: sửa ở DIMS. Mỗi nhóm: [mã, tên, mốc band 7, việc cần làm để lên band 9].
+   Lời khuyên đã được đối chiếu (10/2026) với bảng mô tả band điểm công khai của IELTS và các trang IDP IELTS, IELTS Liz, IELTS Advantage, IELTS Podcast. */
 (function () {
+  /* Mỗi nhóm: [mã, tên, mốc band 7 (điều người viết band 7 đã làm được với nhóm đề này), việc cần làm để lên band 9]. */
   var DIMS = {
     map: [
       { n: "Theo không gian", g: [
-        ["in", "Trong nhà · sơ đồ mặt bằng", "Tả theo lối đi: từ cửa vào, bên trái, bên phải, cuối hành lang. Từ cần có: to the left of the entrance, at the far end, adjacent to, opposite. Tránh dùng north / south nếu sơ đồ không có la bàn."],
-        ["site", "Ngoài trời · khuôn viên một cơ sở", "Một trường học, bệnh viện, công viên với vài hạng mục. Chia khuôn viên thành hai nửa hoặc bốn góc rồi tả từng phần; dùng in the north-west corner, to the south of, along the eastern edge."],
-        ["town", "Ngoài trời · thị trấn, vùng rộng", "Nhiều đối tượng trên diện rộng. Lấy một mốc cố định (sông, đường chính, bờ biển) làm trục, rồi tả hai phía của trục đó. Overview nên nói vùng này trở nên đô thị hơn, nhiều nhà ở hơn hay nhiều dịch vụ du lịch hơn."]
+        ["in", "Trong nhà · sơ đồ mặt bằng", "Bạn xác định đúng vị trí từng phòng so với cửa vào và các phòng bên cạnh. Overview nói được phần nào của mặt bằng thay đổi và phần nào giữ nguyên.", "Tả theo lối đi của người bước vào, bằng cụm vị trí chính xác và đa dạng: to the left of the entrance, at the far end, adjacent to, opposite, in the corner nearest the stairs. Sơ đồ trong nhà thường không có la bàn nên ưu tiên các mốc bên trong tòa nhà; chỉ dùng north / south khi hình có ghi hướng."],
+        ["site", "Ngoài trời · khuôn viên một cơ sở", "Bạn nêu đủ các hạng mục và vị trí của chúng bằng hướng la bàn, và chia thân bài hợp lý (theo mốc thời gian, hoặc theo phần thay đổi và phần giữ nguyên).", "Chia khuôn viên thành hai nửa hoặc bốn góc và tả trọn từng phần, để người đọc dựng lại được mặt bằng mà không cần nhìn hình: in the north-west corner, immediately to the south of, along the eastern edge. Nếu hình không ghi hướng, có thể coi phía trên là hướng bắc."],
+        ["town", "Ngoài trời · thị trấn, vùng rộng", "Bạn nêu được các thay đổi chính và những gì giữ nguyên, có overview cho biết hướng thay đổi chung của cả vùng.", "Lấy một mốc cố định (sông, đường chính, bờ biển) làm trục và tả hai phía của trục đó, thay vì liệt kê từng công trình. Overview gọi đúng tên hướng thay đổi mà hình cho thấy (more residential, more built-up, more facilities for visitors). Không suy đoán nguyên nhân hay hệ quả mà hình không thể hiện."]
       ] },
       { n: "Theo mốc thời gian", g: [
-        ["pp", "Hai mốc đều ở quá khứ", "Cả hai mốc đã qua nên dùng quá khứ đơn bị động (was demolished, were replaced by). Dùng quá khứ hoàn thành khi có “by + năm”: By 2012, the café had been converted into a ticket office."],
-        ["pn", "Quá khứ so với hiện tại", "Mốc cũ dùng quá khứ đơn; thay đổi kéo đến nay dùng hiện tại hoàn thành bị động: has been replaced by, have been added. Phần không đổi: has remained unchanged, is still in the same position."],
-        ["fut", "Hiện tại so với kế hoạch tương lai", "Kế hoạch chưa xảy ra: will be converted into, is to be built, is planned to, is set to be replaced by, the proposed car park. Không dùng thì quá khứ cho sơ đồ thứ hai."],
-        ["three", "Ba mốc thời gian", "Chia thân bài theo hai giai đoạn (mốc 1 đến mốc 2, mốc 2 đến mốc 3), không tả lần lượt ba hình. Overview nêu hướng thay đổi xuyên suốt cả ba mốc."],
-        ["cmp", "So sánh hai sơ đồ, không có thời gian", "Không có thay đổi theo thời gian nên dùng hiện tại đơn và ngôn ngữ so sánh: whereas, while, both rooms, the larger room also has. Không dùng các động từ chỉ thay đổi."]
+        ["pp", "Hai mốc đều ở quá khứ", "Bạn dùng đúng quá khứ đơn cho cả hai mốc và dùng được bị động cho các thay đổi (was built, were removed).", "Phối hợp nhiều cấu trúc thay vì lặp một mẫu câu bị động: quá khứ hoàn thành với “by + năm” (By 2012, the café had been converted into a ticket office), danh hóa (the demolition of…, the construction of…), mệnh đề rút gọn."],
+        ["pn", "Quá khứ so với hiện tại", "Bạn tách được hai thì: quá khứ đơn cho mốc cũ, hiện tại hoàn thành hoặc hiện tại đơn cho hiện trạng.", "Dùng hiện tại hoàn thành bị động chính xác cho thay đổi kéo đến nay (has been replaced by, have been added), và nói về phần không đổi bằng nhiều cách: has remained unchanged, still occupies the same position, is the only feature to have survived."],
+        ["fut", "Hiện tại so với kế hoạch tương lai", "Bạn không dùng thì quá khứ cho sơ đồ kế hoạch, và dùng được will + bị động (will be built).", "Đa dạng cách nói về kế hoạch: is to be built, is planned to, is set to be replaced by, the proposed car park, under the plans. Giữ hiện tại đơn cho hiện trạng và tương lai cho kế hoạch ngay trong cùng một câu so sánh."],
+        ["three", "Ba mốc thời gian", "Bạn tả đủ cả ba mốc theo trình tự thời gian và có overview nêu hướng thay đổi chung.", "Chia thân bài theo giai đoạn (mốc 1 đến mốc 2, mốc 2 đến mốc 3) thay vì tả lần lượt ba hình, và chỉ ra điều xuyên suốt cả ba mốc: cái gì liên tục lớn lên, cái gì thu hẹp dần, cái gì không đổi."],
+        ["cmp", "So sánh hai sơ đồ, không có thời gian", "Bạn nhận ra đề không có thay đổi theo thời gian, dùng hiện tại đơn và nêu được điểm giống, điểm khác chính.", "So sánh từng cặp đặc điểm trong cùng một câu (whereas, while, both rooms, the larger room also has) và sắp theo mức độ quan trọng. Không dùng động từ chỉ thay đổi."]
       ] },
       { n: "Theo đặc điểm thay đổi", g: [
-        ["conv", "Đổi công năng, thay thế tại chỗ", "Vị trí giữ nguyên, công năng đổi: was converted into, was turned into, made way for, in place of, on the site of the former. Nhóm các phòng đổi công năng theo hướng chung (ví dụ: thêm khu dịch vụ, bớt khu trưng bày)."],
-        ["ext", "Mở rộng, xây thêm", "Công trình lớn lên: was extended northwards, was enlarged, a new wing was added, doubled in size. Overview nên nói rõ quy mô tăng và phần nào giữ nguyên."],
-        ["urb", "Đô thị hóa, phát triển khu dân cư và du lịch", "Đất nông nghiệp, cây xanh hoặc khu công nghiệp nhường chỗ cho nhà ở, dịch vụ: gave way to housing, residential development, became more built-up, at the expense of farmland."],
-        ["road", "Giao thông và lối vào", "Trọng tâm là đường, vòng xuyến, bến xe, lối đi bộ: a roundabout was constructed at the junction, the road was pedestrianised, access to the hospital was improved. Nêu mục đích của thay đổi nếu đề có cho (giảm tai nạn, dễ tiếp cận hơn)."],
-        ["zone", "Quy hoạch lại theo khu chức năng", "Mặt bằng chia thành các khu rõ ràng và các khu đổi chỗ hoặc đổi chức năng cho nhau. Tả theo từng khu: the north-western section, the area formerly occupied by; nêu khu nào thu hẹp, khu nào chuyển vị trí (was relocated to)."]
+        ["conv", "Đổi công năng, thay thế tại chỗ", "Bạn nói được cái gì thay cho cái gì bằng các từ cơ bản (was replaced by, was changed into).", "Dùng đúng động từ cho từng kiểu thay đổi: was converted into, was turned into, made way for, in place of, on the site of the former. Nếu hình cho thấy một hướng chung (ví dụ: bớt khu trưng bày, thêm khu dịch vụ) thì gom các thay đổi theo hướng đó thay vì kể từng phòng."],
+        ["ext", "Mở rộng, xây thêm", "Bạn nêu được phần xây thêm, phần mở rộng và vị trí của chúng.", "Nói rõ hướng và mức độ mở rộng: was extended northwards, a new wing was added to the east, roughly doubled in size. Overview nêu quy mô tăng và phần lõi giữ nguyên."],
+        ["urb", "Đô thị hóa, phát triển khu dân cư và du lịch", "Bạn nêu được những gì mất đi, những gì xuất hiện, và overview nói vùng này phát triển hơn.", "Gọi tên quá trình bằng danh hóa và collocation tự nhiên: residential development, gave way to housing, became more built-up, at the expense of farmland. Nhóm thay đổi theo loại (nhà ở, dịch vụ, hạ tầng) thay vì theo thứ tự nhìn thấy trên hình."],
+        ["road", "Giao thông và lối vào", "Bạn tả được các thay đổi về đường và lối vào bằng từ cơ bản (a new road was built, was added).", "Dùng từ vựng giao thông chính xác: a roundabout was constructed at the junction, the road was pedestrianised, access to the hospital. Chỉ nêu mục đích của thay đổi khi đề bài ghi rõ (ví dụ: để giảm tai nạn)."],
+        ["zone", "Quy hoạch lại theo khu chức năng", "Bạn tả được từng khu ở từng mốc và nêu khu nào đổi chức năng.", "Tả theo khu thay vì theo công trình: the north-western section, the area formerly occupied by. Chỉ ra khu nào thu hẹp, khu nào chuyển vị trí (was relocated to) và bố cục chung của khu đất thay đổi ra sao."]
       ] }
     ],
     process: [
       { n: "Theo loại quy trình", g: [
-        ["man", "Sản xuất, chế biến", "Quy trình nhân tạo: dùng hiện tại đơn bị động xuyên suốt (are harvested, is then heated). Overview nêu số công đoạn, điểm bắt đầu (nguyên liệu) và điểm kết thúc (thành phẩm)."],
-        ["rec", "Tái chế, xử lý nước và rác", "Thường có vòng lặp hoặc nhánh quay lại: is fed back into, is reused, the cycle then begins again. Nêu rõ cái gì đi vào và cái gì đi ra ở mỗi bể, mỗi máy."],
-        ["ene", "Sản xuất điện, năng lượng", "Tả đường đi của năng lượng: nhiên liệu, hơi nước, tua-bin, máy phát, lưới điện. Động từ: is pumped, drives the turbine, is converted into electricity, is transmitted via power lines."],
-        ["mech", "Cấu tạo, vận hành và xây lắp", "Đề vừa có cấu tạo vừa có cách hoạt động hoặc cách dựng. Một đoạn tả các bộ phận (consists of, is fitted with), một đoạn tả trình tự vận hành hoặc lắp dựng."],
-        ["evo", "Tiến hóa, phát triển qua các thời kỳ", "Không phải quy trình lặp lại mà là thay đổi qua thời gian: dùng quá khứ đơn và ngôn ngữ so sánh (became longer, more refined, far more sophisticated than). Không dùng first, next, then như quy trình sản xuất."],
-        ["proc", "Thủ tục, lưu đồ", "Flow chart có điều kiện và nhánh: if the applicant fails, they must retake; once the outline has been approved. Chủ ngữ thường là người thực hiện nên dùng được cả chủ động lẫn bị động."]
+        ["man", "Sản xuất, chế biến", "Bạn tả đủ mọi công đoạn theo đúng thứ tự, dùng hiện tại đơn bị động và từ nối trình tự (first, then, next, finally). Overview nêu số công đoạn, điểm bắt đầu và điểm kết thúc.", "Giảm từ nối đứng đầu câu: nối các bước bằng mệnh đề (once the beans have been dried, they…; …, after which…; before being packaged). Dùng động từ đúng cho từng thao tác (ground, fermented, sieved) thay cho put / make lặp lại."],
+        ["rec", "Tái chế, xử lý nước và rác", "Bạn theo được đường đi chính và nói được trong overview quy trình là một chiều hay vòng lặp.", "Xử lý gọn các nhánh và vòng lặp: is fed back into, is diverted to, the remainder is…, at which point the cycle begins again. Ở mỗi bể, mỗi máy nói rõ cái gì đi vào và cái gì đi ra."],
+        ["ene", "Sản xuất điện, năng lượng", "Bạn tả đủ các bước từ nguồn năng lượng đến điện năng theo đúng thứ tự.", "Thể hiện quan hệ nhân quả giữa các bước chứ không chỉ trình tự: which drives the turbine, thereby generating…, is converted into electricity, is transmitted via power lines. Gọi tên bộ phận đúng như trên hình."],
+        ["mech", "Cấu tạo, vận hành và xây lắp", "Bạn tả được cả các bộ phận lẫn trình tự vận hành hoặc lắp dựng, không bỏ sót phần nào của hình.", "Tách rõ hai phần: một đoạn về cấu tạo (consists of, is fitted with, is lined with), một đoạn về trình tự. Dùng cụm vị trí chính xác (beneath, at the base of, on either side of) để người đọc hình dung được vật thể."],
+        ["evo", "Tiến hóa, phát triển qua các thời kỳ", "Bạn nhận ra đây là thay đổi qua thời gian nên dùng quá khứ đơn, và tả được từng giai đoạn.", "So sánh giữa các giai đoạn thay vì tả riêng từng giai đoạn: became progressively longer, far more refined than its predecessor. Đánh dấu trình tự bằng mốc thời kỳ (initially, over the following millennia, by the final stage) bên cạnh các từ nối trình tự thông thường."],
+        ["proc", "Thủ tục, lưu đồ", "Bạn tả đủ các bước và các nhánh điều kiện của lưu đồ theo đúng thứ tự.", "Diễn đạt điều kiện và nhánh rẽ tự nhiên: should the applicant fail, they must…; once the outline has been approved; provided that. Phối hợp chủ động (khi có người thực hiện) với bị động, không ép mọi câu vào bị động."]
       ] },
       { n: "Theo độ dài quy trình", g: [
-        ["s1", "Ngắn · đến 7 bước", "Ít bước nên mỗi bước cần được tả đủ chi tiết: thiết bị, nguyên liệu, kết quả của bước. Vẫn cần đủ 150 từ."],
-        ["s2", "Vừa · 8 đến 10 bước", "Chia thân bài thành hai giai đoạn hợp lý (ví dụ: chuẩn bị nguyên liệu, rồi chế biến và đóng gói) và nói rõ điểm chia trong overview."],
-        ["s3", "Dài · từ 11 bước", "Phải gộp các bước liên tiếp vào một câu bằng mệnh đề rút gọn và after / before + V-ing: after being washed and sorted, the fruit is… Không viết mỗi bước một câu."]
+        ["s1", "Ngắn · đến 7 bước", "Bài đạt đủ 150 từ mà không thêm thông tin ngoài hình.", "Ít bước nên mỗi bước cần đủ chi tiết có trên hình: thiết bị, nguyên liệu, kết quả của bước. Làm đầy câu bằng mệnh đề quan hệ và cụm chỉ mục đích, không lặp lại ý."],
+        ["s2", "Vừa · 8 đến 10 bước", "Bạn tả hết các bước và chia thân bài thành hai đoạn.", "Chia hai đoạn theo hai giai đoạn có nghĩa (ví dụ: chuẩn bị nguyên liệu, rồi chế biến và đóng gói) và nói rõ điểm chia đó trong overview."],
+        ["s3", "Dài · từ 11 bước", "Bạn tả hết các bước, không bỏ sót bước nào, dù bài còn dài và mỗi bước một câu.", "Gộp các bước liên tiếp vào một câu bằng mệnh đề rút gọn và after / before + V-ing (after being washed and sorted, the fruit is…), để bài vẫn gọn mà không mất bước nào."]
       ] }
     ],
     line: [
       { n: "Theo số đường", g: [
-        ["l2", "Hai đường", "So sánh trực tiếp hai đường ở mọi mốc quan trọng: điểm giao nhau, khoảng cách rộng nhất, đường nào dẫn đầu. Có đủ chỗ để dẫn số liệu ở mốc đầu, đỉnh, đáy và mốc cuối."],
-        ["l3", "Ba đường", "Tìm đường khác biệt (đi ngược chiều hoặc đứng yên) và tả riêng; hai đường còn lại tả cùng nhau nếu cùng hướng."],
-        ["l4", "Bốn đường", "Nhóm theo hướng (tăng, giảm) hoặc theo mức (cao, thấp), mỗi nhóm một đoạn thân bài. Không tả lần lượt từng đường."],
-        ["l5", "Năm đường trở lên", "Không thể tả hết. Chọn đường cao nhất, đường thay đổi mạnh nhất và đường đi ngược xu hướng; các đường còn lại gộp trong một câu với khoảng giá trị (between 5% and 10%)."]
+        ["l2", "Hai đường", "Bạn tả xu hướng của cả hai đường với số liệu ở mốc đầu và mốc cuối, và overview nói đường nào cao hơn.", "So sánh trực tiếp hai đường trong cùng một câu ở các mốc quan trọng: điểm giao nhau, khoảng cách rộng nhất, đỉnh và đáy. Dùng cấu trúc so sánh thay cho hai câu tả riêng."],
+        ["l3", "Ba đường", "Bạn tả đủ ba đường, có số liệu minh họa, và overview nêu xu hướng chính.", "Tìm đường khác biệt (đi ngược chiều hoặc gần như đứng yên) để tả riêng; hai đường cùng hướng tả chung trong một đoạn."],
+        ["l4", "Bốn đường", "Bạn nhắc đến cả bốn đường và chia thân bài thành hai đoạn.", "Chia đoạn theo một tiêu chí nói được thành lời (nhóm tăng và nhóm giảm, hoặc nhóm cao và nhóm thấp) và nêu tiêu chí đó trong overview, thay vì tả lần lượt từng đường."],
+        ["l5", "Năm đường trở lên", "Mọi đường đều được nhắc đến ít nhất một lần và overview nêu được xu hướng chung.", "Chọn lọc độ sâu: tả kỹ đường cao nhất, đường thay đổi mạnh nhất và đường đi ngược xu hướng; các đường còn lại gộp trong một câu với khoảng giá trị (remained between 5% and 10%). Không bỏ hẳn đường nào."]
       ] },
       { n: "Theo khung thời gian", g: [
-        ["past", "Qua nhiều năm, đã kết thúc", "Dùng quá khứ đơn; quá khứ hoàn thành với “by + năm”. Chia thân bài theo giai đoạn nếu các đường cùng đổi hướng ở một mốc."],
-        ["proj", "Có dự báo tương lai", "Phần quá khứ dùng quá khứ đơn; phần dự báo dùng is projected to, is expected to, is forecast to, will have risen by. Nói rõ mốc chuyển từ số liệu thật sang dự báo."],
-        ["month", "Theo tháng trong một năm", "Khung thời gian ngắn nên biến động (fluctuated, dipped, recovered) quan trọng hơn xu hướng dài. Dùng in the first quarter, over the following three months, by the end of the year."]
+        ["past", "Qua nhiều năm, đã kết thúc", "Bạn dùng quá khứ đơn nhất quán và đúng giới từ (rose from … to …, by, at).", "Chia thân bài theo giai đoạn khi các đường cùng đổi hướng ở một mốc. Thêm quá khứ hoàn thành với “by + năm” và cụm danh từ (a threefold rise, a period of stability) để đổi nhịp câu."],
+        ["proj", "Có dự báo tương lai", "Bạn tách được phần đã xảy ra (quá khứ đơn) và phần dự báo (will).", "Dùng ngôn ngữ dự báo với nhiều dạng: is projected to, is expected to, is forecast to reach, will have risen by 2040. Nói rõ mốc chuyển từ số liệu thật sang dự báo."],
+        ["month", "Theo tháng trong một năm", "Bạn tả được biến động qua các tháng, có số liệu ở đỉnh và đáy.", "Khung thời gian ngắn nên biến động quan trọng hơn xu hướng dài: dipped, recovered, peaked in. Dùng mốc thời gian đa dạng: in the first quarter, over the following three months, by the end of the year."]
       ] },
       { n: "Theo đơn vị đo", g: [
-        ["pct", "Tỉ lệ phần trăm", "Phân biệt percentage (con số) và proportion / share (phần). Thay đổi tính bằng percentage points: rose by 5 percentage points, không phải “rose 5%”."],
-        ["abs", "Số lượng tuyệt đối", "Có thể dùng bội số và phân số: doubled, a threefold increase, fell by half. Ghi đúng đơn vị (million, tonnes) ở lần nhắc đầu."]
+        ["pct", "Tỉ lệ phần trăm", "Bạn dùng được the percentage of / the proportion of và dẫn đúng số liệu.", "Chính xác về đơn vị: percentage là con số, proportion / share là phần. Khi nói mức thay đổi, viết rose from 20% to 25% hoặc rose by 5 percentage points; “rose by 5%” có thể bị hiểu là tăng tương đối."],
+        ["abs", "Số lượng tuyệt đối", "Bạn ghi đúng đơn vị (million, tonnes) và đúng thang đo của trục.", "Thay một phần con số bằng bội số và phân số: doubled, a threefold increase, fell by half. Chỉ dùng khi số liệu thật sự khớp; nếu chỉ gần đúng thì thêm roughly / almost."]
       ] },
       { n: "Theo đối tượng so sánh", g: "CMP" }
     ],
     bar: [
       { n: "Theo yếu tố thời gian", g: [
-        ["tr", "Xu hướng qua nhiều mốc · trục ngang là thời gian", "Viết như line graph: tả xu hướng của từng nhóm cột qua các mốc, không đọc từng cột. Dùng động từ chỉ thay đổi và thì quá khứ."],
-        ["yr", "So sánh hai, ba mốc năm theo hạng mục", "Mỗi hạng mục có hai, ba cột ứng với các năm. Nhóm các hạng mục tăng với nhau, các hạng mục giảm với nhau; nêu hạng mục thay đổi nhiều nhất và hạng mục gần như không đổi."],
-        ["st", "Không có thời gian · so sánh tĩnh", "Không có xu hướng nên không dùng rise / fall. Dùng ngôn ngữ so sánh và xếp hạng: the highest figure, twice as many as, by contrast, respectively. Nếu đề không ghi năm thì dùng hiện tại đơn."]
+        ["tr", "Xu hướng qua nhiều mốc · trục ngang là thời gian", "Bạn tả được xu hướng qua các mốc bằng động từ chỉ thay đổi và thì quá khứ, không đọc từng cột.", "Viết như line graph: nhóm các hạng mục cùng hướng, nêu mốc đổi hướng, và so sánh thứ hạng ở mốc đầu với mốc cuối."],
+        ["yr", "So sánh hai, ba mốc năm theo hạng mục", "Bạn so sánh được từng hạng mục giữa các năm và có số liệu.", "Nhóm các hạng mục tăng với nhau, các hạng mục giảm với nhau; nêu hạng mục thay đổi nhiều nhất và hạng mục gần như không đổi, thay vì đi lần lượt từng hạng mục."],
+        ["st", "Không có thời gian · so sánh tĩnh", "Bạn không dùng rise / fall cho biểu đồ không có thời gian, và dùng được so sánh hơn, so sánh nhất.", "Ngôn ngữ so sánh đa dạng và chính xác: twice as many as, marginally higher than, by contrast, respectively. Thì theo năm của đề: có năm trong quá khứ thì dùng quá khứ đơn, đề không ghi năm thì dùng hiện tại đơn."]
       ] },
       { n: "Theo đơn vị đo", g: [
-        ["pct", "Tỉ lệ phần trăm", "Luân phiên the percentage of, the proportion of, the share of. Kiểm tra xem các cột có cộng lại thành 100% không: nếu có thì có thể nói về phần còn lại (the remaining 20%)."],
-        ["abs", "Số lượng tuyệt đối", "So sánh bằng bội số và hiệu số: three times as many, 50 more than. Ghi đúng đơn vị ở lần nhắc đầu."]
+        ["pct", "Tỉ lệ phần trăm", "Bạn dẫn đúng tỉ lệ và không nhầm tỉ lệ với số lượng.", "Luân phiên the percentage of, the proportion of, the share of; dùng phân số gần đúng (just under a third, roughly one in five). Chỉ báo cáo số liệu có trên biểu đồ, không tự tính thêm tổng hay trung bình."],
+        ["abs", "Số lượng tuyệt đối", "Bạn ghi đúng đơn vị và thang đo.", "So sánh bằng bội số và hiệu số: three times as many, 50 more than. Khi số đọc từ cột không chính xác thì làm tròn có đánh dấu (approximately, just over)."]
       ] },
       { n: "Theo đối tượng so sánh", g: "CMP" }
     ],
     table: [
       { n: "Theo yếu tố thời gian", g: [
-        ["tr", "Có thay đổi qua các năm", "Đọc theo hàng để thấy xu hướng, đọc theo cột để thấy thứ hạng ở từng năm. Overview cần cả hai: xu hướng chung và đối tượng luôn đứng đầu hoặc đứng cuối."],
-        ["st", "Không có thời gian · so sánh tĩnh", "Tìm giá trị lớn nhất và nhỏ nhất của mỗi cột, rồi tìm đối tượng nổi bật ở nhiều cột. Thân bài chia theo cột hoặc theo nhóm đối tượng giống nhau, không đọc từng hàng từ trên xuống."]
+        ["tr", "Có thay đổi qua các năm", "Bạn tả được thay đổi của các đối tượng qua các năm và có overview nêu xu hướng chung.", "Đọc bảng theo cả hai chiều: theo hàng để thấy xu hướng, theo cột để thấy thứ hạng ở từng năm. Overview nêu cả xu hướng chung lẫn đối tượng luôn đứng đầu hoặc đứng cuối."],
+        ["st", "Không có thời gian · so sánh tĩnh", "Bạn nêu được giá trị lớn nhất, nhỏ nhất và không đọc lần lượt mọi ô của bảng.", "Chia thân bài theo cột hoặc theo nhóm đối tượng giống nhau; tìm đối tượng nổi bật ở nhiều cột cùng lúc để làm trục cho bài."]
       ] },
       { n: "Theo đơn vị đo", g: [
-        ["pct", "Tỉ lệ phần trăm", "Luân phiên the percentage of, the proportion of, the share of; dùng phân số gần đúng (just under a third, roughly one in five) để tránh lặp con số."],
-        ["abs", "Số lượng tuyệt đối", "Bảng có số lớn và lẻ: làm tròn hợp lý (approximately 11.3 million, just over 200,000) thay vì chép nguyên con số."],
-        ["mix", "Nhiều đơn vị khác nhau", "Mỗi cột một đơn vị (số lượng, phần trăm, tiền). Tả từng chỉ số riêng, rồi nêu mối liên hệ giữa các chỉ số nếu có (nơi có A cao nhất không phải là nơi có B cao nhất)."]
+        ["pct", "Tỉ lệ phần trăm", "Bạn dẫn đúng tỉ lệ và nêu được tỉ lệ cao nhất, thấp nhất.", "Luân phiên the percentage of, the proportion of, the share of; dùng phân số gần đúng (just under a third, roughly one in five) để tránh lặp con số."],
+        ["abs", "Số lượng tuyệt đối", "Bạn chép đúng số liệu và đơn vị.", "Bảng có số lớn và lẻ: làm tròn có đánh dấu (approximately 11.3 million, just over 200,000) và so sánh bằng bội số, thay vì chép nguyên từng con số."],
+        ["mix", "Nhiều đơn vị khác nhau", "Bạn không nhầm đơn vị giữa các cột và tả được từng chỉ số.", "Tả mỗi chỉ số trong một phần riêng, rồi nêu mối liên hệ nếu số liệu cho thấy (nơi có A cao nhất không phải là nơi có B cao nhất). Không suy diễn nguyên nhân."]
       ] },
       { n: "Theo đối tượng so sánh", g: "CMP" }
     ],
     pie: [
       { n: "Theo yếu tố thời gian", g: [
-        ["yr", "Các pie ứng với các mốc năm", "Mỗi pie là một năm nên vẫn có thay đổi: phần nào lớn lên, phần nào thu hẹp. Dùng the share of X rose from … to …, X overtook Y as the largest category."],
-        ["st", "Cùng một thời điểm · so sánh hai nhóm", "Hai pie là hai nơi, hai nhóm người hoặc hai chỉ số. Không có xu hướng: so sánh cùng một hạng mục ở hai pie (whereas, compared with, the corresponding figure for)."]
+        ["yr", "Các pie ứng với các mốc năm", "Bạn nêu được phần nào lớn lên, phần nào thu hẹp giữa các năm, có số liệu.", "Dùng ngôn ngữ thay đổi cho tỉ trọng: the share of X rose from … to …, X overtook Y as the largest category, accounted for a shrinking proportion."],
+        ["st", "Cùng một thời điểm · so sánh hai nhóm", "Bạn so sánh được cùng một hạng mục ở các pie và không dùng động từ chỉ thay đổi.", "So sánh trong cùng một câu với cấu trúc đa dạng: whereas, compared with, the corresponding figure for. Nêu hạng mục có chênh lệch lớn nhất trước."]
       ] },
       { n: "Theo số biểu đồ", g: [
-        ["p2", "Hai pie", "Đi theo từng hạng mục và so sánh hai pie trong cùng một câu, bắt đầu từ hạng mục lớn nhất. Gộp các hạng mục nhỏ vào một câu."],
-        ["p3", "Từ ba pie trở lên", "Nhiều pie thì phải chọn: tả hạng mục lớn nhất và hạng mục thay đổi rõ nhất qua tất cả các pie; nhóm các pie giống nhau lại với nhau."]
+        ["p2", "Hai pie", "Bạn nhắc đến mọi hạng mục và có số liệu cho các hạng mục chính.", "Đi theo hạng mục, bắt đầu từ hạng mục lớn nhất, và so sánh hai pie trong cùng một câu. Các hạng mục nhỏ gộp vào một câu (each accounted for under 5%)."],
+        ["p3", "Từ ba pie trở lên", "Bạn tả được từng pie và có overview.", "Chọn hạng mục lớn nhất và hạng mục khác biệt rõ nhất để theo qua tất cả các pie; nhóm các pie giống nhau với nhau thay vì tả lần lượt từng pie."]
       ] }
     ],
     mixed: [
       { n: "Theo cách kết hợp", g: [
-        ["same", "Hai biểu đồ cùng loại", "Hai biểu đồ cùng dạng nhưng đo hai thứ khác nhau. Mỗi biểu đồ một đoạn thân bài; overview có một câu cho mỗi biểu đồ và, nếu có, một câu nối hai biểu đồ."],
-        ["wpie", "Biểu đồ hoặc bảng đi kèm pie chart", "Pie cho biết cơ cấu, biểu đồ còn lại cho biết số lượng hoặc xu hướng. Tả phần xu hướng trước, phần cơ cấu sau; không ép hai phần phải liên hệ với nhau nếu số liệu không cho thấy điều đó."],
-        ["wtab", "Biểu đồ đi kèm bảng", "Bảng thường bổ sung chi tiết cho biểu đồ (mức thay đổi, phân nhóm). Dùng bảng để giải thích hoặc bổ sung cho điều biểu đồ cho thấy, tránh chép lại toàn bộ bảng."]
+        ["same", "Hai biểu đồ cùng loại", "Bạn giới thiệu và tả cả hai biểu đồ; overview có ý cho từng biểu đồ.", "Mỗi biểu đồ một đoạn thân bài, overview có một câu cho mỗi biểu đồ. Chỉ nối hai biểu đồ với nhau khi số liệu cho thấy mối liên hệ rõ ràng."],
+        ["wpie", "Biểu đồ hoặc bảng đi kèm pie chart", "Bạn tả được cả phần cơ cấu (pie) lẫn phần còn lại, không bỏ sót biểu đồ nào.", "Dùng đúng ngôn ngữ cho từng phần: ngôn ngữ thay đổi cho phần có thời gian, ngôn ngữ tỉ trọng cho pie (accounted for, made up). Không ép hai phần phải liên hệ với nhau nếu số liệu không cho thấy điều đó."],
+        ["wtab", "Biểu đồ đi kèm bảng", "Bạn dẫn số liệu từ cả biểu đồ lẫn bảng.", "Chọn lọc số liệu của bảng: dùng bảng để bổ sung cho điều biểu đồ cho thấy (mức thay đổi, phân nhóm), không chép lại toàn bộ bảng."]
       ] },
       { n: "Theo yếu tố thời gian", g: [
-        ["tr", "Có xu hướng qua các năm", "Ít nhất một biểu đồ có trục thời gian: phần đó viết như line graph với động từ chỉ thay đổi."],
-        ["st", "Không có thời gian · so sánh tĩnh", "Cả hai biểu đồ đều là so sánh ở một thời điểm: dùng ngôn ngữ so sánh và xếp hạng, không dùng động từ chỉ thay đổi."]
+        ["tr", "Có xu hướng qua các năm", "Phần có trục thời gian được tả bằng động từ chỉ thay đổi và đúng thì.", "Viết phần đó như line graph (giai đoạn, mốc đổi hướng) và chuyển hẳn sang ngôn ngữ so sánh ở biểu đồ còn lại; hai kiểu ngôn ngữ không lẫn vào nhau."],
+        ["st", "Không có thời gian · so sánh tĩnh", "Bạn dùng ngôn ngữ so sánh, không dùng động từ chỉ thay đổi.", "Xếp hạng và so sánh với cấu trúc đa dạng ở cả hai biểu đồ; overview nêu điểm nổi bật nhất của mỗi biểu đồ."]
       ] }
     ]
   };
   /* Nhóm “đối tượng so sánh” dùng chung cho line, bar, table. */
   var CMP = [
-    ["place", "Giữa các quốc gia, thành phố", "Tên nước lặp lại nhiều lần: thay bằng the former, the latter, the two European countries, its neighbour; nhóm các nước có số liệu gần nhau."],
-    ["age", "Giữa các nhóm tuổi", "Cách gọi nhóm tuổi: those aged 18–25, people in their thirties, the oldest age group, the under-30s. Tìm quy luật theo tuổi (càng lớn tuổi càng…)."],
-    ["sex", "Giữa nam và nữ", "Luân phiên men / women, males / females, the figure for women, their male counterparts. Chỉ ra chỗ khoảng cách giữa hai giới lớn nhất và nhỏ nhất."],
-    ["cat", "Giữa các hạng mục, loại hình", "Hạng mục là sản phẩm, hoạt động, ngành nghề. Xếp hạng trước (the most popular, the least common), rồi mới dẫn số liệu."]
+    ["place", "Giữa các quốc gia, thành phố", "Bạn so sánh được các nước với nhau và nêu nước cao nhất, thấp nhất.", "Tránh lặp tên nước: the former, the latter, the two European countries, its neighbour. Nhóm các nước có số liệu gần nhau vào một câu."],
+    ["age", "Giữa các nhóm tuổi", "Bạn gọi đúng các nhóm tuổi và so sánh được giữa các nhóm.", "Đa dạng cách gọi: those aged 18–25, people in their thirties, the oldest age group, the under-30s. Nêu quy luật theo tuổi nếu số liệu cho thấy (the older the group, the lower the figure)."],
+    ["sex", "Giữa nam và nữ", "Bạn so sánh được số liệu của nam và nữ ở từng hạng mục, không nhầm hai giới.", "Luân phiên men / women, males / females, the figure for women, their male counterparts. Chỉ ra hạng mục có khoảng cách giữa hai giới lớn nhất và nhỏ nhất."],
+    ["cat", "Giữa các hạng mục, loại hình", "Bạn nêu được hạng mục cao nhất, thấp nhất và có số liệu minh họa.", "Xếp hạng trước rồi mới dẫn số liệu (by far the most popular, the least common), và gọi hạng mục bằng cụm danh từ chính xác thay vì chép nguyên nhãn trên biểu đồ."]
   ];
+  /* Mốc band 7 và band 9 chung cho cả bài, diễn đạt lại từ bảng mô tả band điểm Writing công khai của IELTS. */
+  var BANDS = {
+    t1: { b7: [
+      "Có một overview rõ, nêu xu hướng, khác biệt hoặc giai đoạn chính. (Các trang luyện thi lớn đều khuyên không đưa số liệu cụ thể vào overview.)",
+      "Các đặc điểm chính đều được nêu và làm nổi bật, có số liệu đúng đơn vị minh họa; một vài chỗ còn có thể phát triển kỹ hơn.",
+      "Thông tin sắp xếp logic, bài tiến triển rõ; dùng nhiều phương tiện liên kết, đôi chỗ còn lạm dụng hoặc thiếu.",
+      "Từ vựng đủ để diễn đạt linh hoạt và khá chính xác, có vài từ ít gặp và collocation; còn đôi chỗ chọn từ chưa hợp.",
+      "Dùng nhiều kiểu câu phức; câu không lỗi xuất hiện thường xuyên; còn vài lỗi ngữ pháp nhưng không gây khó hiểu."
+    ], b9: "Band 9 đáp ứng trọn vẹn mọi yêu cầu của đề, liên kết kín đến mức người đọc không để ý, chia đoạn khéo, dùng từ tự nhiên và chính xác, và lỗi cực kỳ hiếm." },
+    t2: { b7: [
+      "Trả lời các phần chính của đề và giữ một lập trường rõ ràng từ đầu đến cuối bài.",
+      "Ý chính được mở rộng và có dẫn chứng, dù đôi chỗ còn khái quát quá mức hoặc dẫn chứng chưa sát.",
+      "Bố cục logic, tiến triển rõ, chia đoạn hợp lý; dùng nhiều phương tiện liên kết, đôi chỗ còn lạm dụng hoặc thiếu.",
+      "Từ vựng đủ để diễn đạt linh hoạt và khá chính xác, có vài từ ít gặp và collocation; còn đôi chỗ chọn từ chưa hợp.",
+      "Dùng nhiều kiểu câu phức; câu không lỗi xuất hiện thường xuyên; còn vài lỗi ngữ pháp nhưng không gây khó hiểu."
+    ], b9: "Band 9 đào sâu vấn đề với lập trường được phát triển trọn vẹn, ý được mở rộng và chứng minh đầy đủ, liên kết kín đến mức người đọc không để ý, dùng từ tự nhiên và chính xác, và lỗi cực kỳ hiếm." }
+  };
 
   var MAPTAG = {
     d1jb2VI: "in pn conv", d1WhtxZ: "in pn ext", d1xyc9W: "site three zone", d1cshqC: "in pp conv", d1qGrNA: "site three zone", d1OqYH: "town pn urb",
@@ -188,5 +207,5 @@
     return out.filter(function (k, i) { return k && out.indexOf(k) === i; });
   }
   Object.keys(DIMS).forEach(function (tp) { DIMS[tp].forEach(function (d) { if (d.g === "CMP") d.g = CMP; }); });
-  window.B79_SUB = { dims: DIMS, classify: classify };
+  window.B79_SUB = { dims: DIMS, bands: BANDS, classify: classify };
 })();
