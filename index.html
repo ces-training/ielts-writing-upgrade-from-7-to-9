@@ -2746,7 +2746,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
     /* 3 · điền số liệu (đọc hình) hoặc sắp xếp */
     let ex3 = null; const txt3 = body.join("\n\n");
     if (!flow) {
-      let h3 = xcollect(txt3, [XNUM]).filter(hh => !/^(1[5-9]|20)\d\d$/.test(hh[2]) && !/(aged?|ages) $/i.test(txt3.slice(Math.max(0, hh[0] - 5), hh[0])) && !/^-?(year|month|week|day|hour)/.test(txt3.slice(hh[1], hh[1] + 6)));
+      let h3 = xcollect(txt3, [XNUM]).filter(hh => !/^(1[5-9]|20)\d\d$/.test(hh[2]) && !/\b(aged?|ages)\b[^.,;]{0,12}$/i.test(txt3.slice(Math.max(0, hh[0] - 16), hh[0])) && !/^(–|-to-|-year)/.test(txt3.slice(hh[1], hh[1] + 5)) && !/(–|-to-)$/.test(txt3.slice(Math.max(0, hh[0] - 4), hh[0])) && !/^-?(year|month|week|day|hour)/.test(txt3.slice(hh[1], hh[1] + 6)));
       h3 = xpick(h3, 7).sort((a, c) => a[0] - c[0]);
       if (h3.length >= 3) {
         const used = h3.map(hh => hh[2]), pool = []; const walk = o => { if (o == null) return; if (typeof o === "number") pool.push(fmtN(o)); else if (typeof o === "string") (o.match(/\d[\d,.]*/g) || []).forEach(x => pool.push(x.replace(/[.,]$/, ""))); else if (Array.isArray(o)) o.forEach(walk); else if (typeof o === "object") Object.keys(o).forEach(k => { if (k !== "x" && k !== "title" && k !== "head" && k !== "n") walk(o[k]); }); };
