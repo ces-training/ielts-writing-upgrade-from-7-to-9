@@ -320,6 +320,34 @@ textarea.fbt{min-height:92px;margin-top:0;font-family:inherit;font-size:1em;line
 .cerr{color:var(--bad);font-weight:600;margin:0}
 .fbthanks{font-weight:700;color:#0b7a5e;margin:0}
 @media(max-width:720px){.asprow{flex-wrap:wrap}.asprow span{flex-basis:100%}}
+/* khu Phân tích đề và lên ý */
+.labsteps{list-style:none;display:grid;grid-template-columns:repeat(7,1fr);gap:8px;padding:0;margin:16px 0;counter-reset:ls}
+.labsteps li{background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px;counter-increment:ls;display:grid;gap:3px;align-content:start}
+.labsteps li b{font-size:.9em}.labsteps li b::before{content:counter(ls) ". ";color:var(--acc)}
+.labqs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+.labq{display:flex;flex-direction:column;gap:10px;justify-content:space-between;border:1.5px solid var(--line);border-radius:12px;padding:12px;background:var(--bg);color:var(--ink)!important;text-decoration:none!important;font-size:.9em;transition:transform .1s,border-color .1s}
+.labq:hover{border-color:var(--c,var(--ink));transform:translateY(-1px)}.labq small{font-weight:700;color:var(--acc);font-family:"Be Vietnam Pro",system-ui,sans-serif}.labq.done{background:#e9f8f3;border-color:#a9e2d0}.labq.done small{color:#0b7a5e}
+.labown{display:flex;gap:16px;align-items:center;justify-content:space-between;background:#fff;border:1px solid var(--line);border-left:5px solid #c7801a;border-radius:var(--r);padding:14px 16px}.labown h4{margin:0 0 4px}.labown p{margin:0}.labown .btn{flex:none}
+.lab h1{font-size:1.4rem}.lab .dot{border:0;font:inherit;font-size:.8em;font-weight:700;display:inline-flex;align-items:center;gap:4px}.lab .dot.go{cursor:pointer}.lab .dot .dn{display:none}.lab .dot.cur .dn{display:inline}
+.labprompt{background:#eef0ff;border:1px solid #cfd3fb;border-radius:var(--r);padding:14px 16px;margin:0 0 16px}.labprompt p.en{margin:8px 0 0}.labprompt .ds{margin-top:12px}
+.lablead{margin:0 0 12px}.labta{min-height:120px;resize:vertical}.labta.s{min-height:84px;font-family:"Source Serif 4",Georgia,serif;font-size:1.04em}
+.labquiz{border:0;padding:0;margin:0 0 14px}.labquiz legend{font-weight:700;padding:0;margin-bottom:2px}
+.labopt{display:flex;grid-template-columns:none;gap:10px;align-items:flex-start;border:1.5px solid var(--line);border-radius:12px;padding:10px 12px;margin:8px 0;cursor:pointer;font-weight:400;font-size:1em;background:#fff}
+.labopt input{width:18px!important;height:18px;padding:0;margin-top:3px;flex:none;accent-color:var(--ink)}.labopt>span{display:block;min-width:0}.labopt.on{border-color:var(--ink);background:#f7f7fd}
+.labopt .vd{display:block;margin-top:5px;font-size:.92em}.labopt .vi,.labopt .ien{display:block;color:var(--mut);font-size:.9em}.ien{color:var(--mut);margin:.2em 0}
+.labopt.f2,.labopt.fbest{border-left:6px solid var(--b9)}.labopt.f1,.labopt.fok{border-left:6px solid var(--b7)}.labopt.f0,.labopt.fover,.labopt.fwrong{border-left:6px solid var(--bad)}
+.vtag{display:inline-block;padding:1px 8px;border-radius:99px;font-size:.78em;font-weight:800;white-space:nowrap}.vtag.g{background:#d6f3ea;color:#0b7a5e}.vtag.y{background:#ffe9c2;color:#8a5a00}.vtag.r{background:#fde0dd;color:#a3271d}.vtag.n{background:#e8e8f2;color:var(--mut)}
+.labchips{display:grid;grid-template-columns:1fr 1fr;gap:0 10px}.labgrid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}.labres{margin-top:16px}
+.labkw{margin:0}.labkw dt{font-weight:600;background:#ffd76e;display:inline-block;border-radius:4px;padding:0 4px;margin-top:8px}.labkw dd{margin:3px 0 0}
+.labthink{background:var(--bg);border-radius:var(--r);padding:4px 14px 10px;margin-top:16px}.labasks{display:grid;gap:12px}
+.labideas{background:var(--bg);border-radius:var(--r);padding:8px 14px;margin-bottom:10px}.labideas p{margin:.25em 0;font-size:.94em}
+.labcard{border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;margin:14px 0;background:#fff;display:block}.labcard h4{margin:0 0 6px}form.labcard{display:grid;gap:12px}
+.usechips{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}.usechips span{border:1px solid var(--line);border-radius:99px;padding:2px 10px;font-size:.84em;background:var(--bg)}.usechips span.g{border-style:dashed}.usechips span.u{background:#d6f3ea;border-color:#a9e2d0;color:#0b5d49}
+.upl{margin:10px 0 0;padding-left:1.3em}.upl li{margin:12px 0}.lab .fb{margin-top:12px}.labb{border-radius:var(--r);padding:10px 14px;margin-top:10px}.labb p{margin:6px 0 0}
+.xcheck{border:2px dashed var(--acc);border-radius:var(--r);padding:14px 16px;margin:20px 0 0;background:#f7f7ff}.xcheck h4{margin:0 0 6px}.selfchk{list-style:none;padding:0;margin:6px 0 0}.selfchk label{display:flex;grid-template-columns:none;gap:9px;align-items:flex-start;font-weight:400;margin:6px 0;cursor:pointer}.selfchk input{width:18px;height:18px;margin-top:3px;flex:none}
+.labnav{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-top:22px;padding-top:14px;border-top:1px solid var(--line)}
+.labimg{max-width:100%;border-radius:10px;margin-top:10px;display:block}.labpdf{width:100%;height:420px;margin-top:10px;border:1px solid var(--line);border-radius:10px}
+@media(max-width:720px){.labsteps{grid-template-columns:1fr 1fr}.labqs,.labchips,.labgrid2{grid-template-columns:1fr}.labown{flex-direction:column;align-items:stretch}.labown .btn{justify-content:center}}
 </style>
 </head>
 <body>
@@ -2445,7 +2473,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
   const NAV = [
     { k: "why", n: "Band 7 → 9", h: "#/", subs: [["#/", "Bảy khác biệt"], ["#/stats", "Thống kê đề thi 2025–2026"]] },
     { k: "coach", n: "Thử với bài của bạn", h: "#/coach", subs: [] },
-    { k: "prac", n: "Luyện tập", h: "#/by/tech", subs: [["#/by/tech", "Theo kỹ thuật"], ["#/by/topic", "Theo chủ đề và đề thi"], ["#/by/type", "Theo dạng bài"]] },
+    { k: "prac", n: "Luyện tập", h: "#/by/tech", subs: [["#/by/tech", "Theo kỹ thuật"], ["#/by/topic", "Theo chủ đề và đề thi"], ["#/by/type", "Theo dạng bài"], ["#/lab", "Phân tích đề và lên ý"]] },
     { k: "me", n: "Tiến độ", h: "#/me", subs: [["#/me", "Tiến độ của tôi"], ["#/plan", "Lộ trình giờ học"]] },
     { k: "contact", n: "Liên hệ", h: "#/contact", subs: [["#/contact", "Trao đổi, đăng ký học"], ["#/feedback", "Góp ý cho trang"], ["#/about", "Về trang này"]] }
   ];
@@ -2453,6 +2481,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
     const p = location.hash.replace(/^#\/?/, "").split("/"), r = p[0] || ""; let g = "why", sub = "#/";
     if (r === "stats") sub = "#/stats";
     else if (r === "coach") { g = "coach"; sub = ""; }
+    else if (r === "lab") { g = "prac"; sub = "#/lab"; }
     else if (["by", "m", "k", "t", "p", "w", "xb", "wb", "ty"].indexOf(r) >= 0) { g = "prac"; sub = (r === "by" && p[1] === "type") || r === "ty" || ((r === "xb" || r === "wb") && fromTy) ? "#/by/type" : (r === "by" && p[1] === "topic") || r === "t" || r === "xb" || r === "wb" || ((r === "p" || r === "w") && p[3] === "t") ? "#/by/topic" : "#/by/tech"; }
     else if (r === "me" || r === "plan") { g = "me"; sub = "#/" + r; }
     else if (["contact", "feedback", "about"].indexOf(r) >= 0) { g = "contact"; sub = "#/" + r; }
@@ -2462,7 +2491,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
   const actsN = () => Object.keys(S.done).length + Object.keys(S.wr).reduce((a, k) => a + S.wr[k].length, 0);
   function nudgeHtml(ns) {
     if (!U || !S) return "";
-    if (ns.g === "contact" || ns.g === "coach" || ["p", "w", "xb", "wb"].indexOf(ns.r) >= 0) return "";
+    if (ns.g === "contact" || ns.g === "coach" || ["p", "w", "xb", "wb", "lab"].indexOf(ns.r) >= 0) return "";
     const c = S.cta || {}, n = actsN(); if (n < 3 || c.sent || (c.skip && Date.now() - c.skip < 7 * 864e5)) return "";
     return `<aside class="nudge" id="nudge"><p><b>Bạn đã làm ${n} bài trên trang.</b> Trang đếm được các đặc trưng của bài viết, nhưng không chấm được chất lượng lập luận. Nếu bạn muốn có giáo viên đọc bài và chỉ ra chỗ cần sửa trước, hoặc muốn trao đổi về lộ trình học, hãy để lại thông tin.</p><div class="acts"><a class="btn primary" href="#/contact">Trao đổi với giáo viên →</a><button type="button" class="btn" id="nudge-x">Để sau</button></div></aside>`;
   }
@@ -2874,6 +2903,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
     const b2 = D.bank || [];
     let h = `<h1 class="pt">🧩 Luyện theo dạng bài <small>Chọn một nhóm đề cùng kiểu, viết liền vài đề để quen cách xử lý</small></h1>
       <p class="banknote">Mỗi dạng đề Task 1 được chia thành các <b>nhóm nhỏ</b> theo từng cách nhìn: chẳng hạn đề Map chia theo không gian (trong nhà, ngoài trời), theo mốc thời gian và theo đặc điểm thay đổi. Một đề có thể nằm trong nhiều nhóm. Mỗi nhóm có hai phần: <b>mốc band 7</b> để bạn tự đối chiếu xem mình đã làm được chưa, và <b>việc cần luyện để lên band 9</b>. Vào nhóm rồi bạn làm bài tập hoặc viết cả bài như ở mục Theo chủ đề.</p>
+      <p class="banknote">Chưa quen cách đọc đề và lên ý cho một dạng bài? Mục <a href="#/lab">Phân tích đề và lên ý</a> có 3 đề mẫu cho mỗi dạng, dẫn bạn từ lúc đọc đề đến một câu band 9.</p>
       <h3 class="gh" style="--c:#0f9a8a">Task 1 · nhóm nhỏ trong từng dạng đề</h3>${bandBox("t1")}`;
     D.topics.t1.forEach(tp => { const ds = SUB.dims[tp.k], all = (BANKBY[tp.k] || []).filter(b => b.m === "t1"); if (!ds || !all.length) return;
       h += `<section class="tybox" style="--c:#0f9a8a"><header><span class="te">${tp.e}</span><h4>${esc(tp.n)}</h4><span class="small">${all.length} đề · ${wrN(all)} đã viết</span><a href="#/t/${tp.k}">Xem cả dạng ${esc(tp.n)} →</a></header>`;
@@ -3166,6 +3196,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
       rows += `<tr><td><a href="#/k/${t.k}"><span class="code sm" style="--c:${color(t)}">${t.k}</span> ${esc(t.n)}</a></td><td>${D.modules[t.m].n}</td><td>${hasGame(t) ? s.done + "/" + s.total : "–"}</td><td>${att || "–"}</td><td>${fn ? Math.round(f / fn * 100) + "%" : "–"}</td><td>${s.wr || "–"}</td><td>${fmtMS(s.sec)}</td></tr>`; });
     shell(`<h1 class="pt">Tiến độ của ${esc(U.name)}</h1><div class="kpis"><div><b>${fmtH(totalSec())}</b><span>giờ đã học</span></div><div><b>${tD}/${tN}</b><span>bài luyện đã đúng</span></div><div><b>${tFn ? Math.round(tF / tFn * 100) : 0}%</b><span>đúng ngay lần đầu</span></div><div><b>${tW}</b><span>bài viết đã nộp</span></div></div>
       <div class="tablewrap"><table class="dt wide"><tr><th>Kỹ thuật</th><th>Module</th><th>Đã đúng</th><th>Lượt làm</th><th>Đúng lần đầu</th><th>Bài viết</th><th>Thời gian</th></tr>${rows}</table></div>
+      <p class="small">Phân tích đề và lên ý: ${Object.keys((S.lab || {}).runs || {}).filter(k => S.lab.runs[k].fin).length} đề đã hoàn thành · ${fmtMS(S.sec.LAB || 0)}. <a href="#/lab">Mở mục này →</a></p>
       <div class="bar-actions"><button class="btn" id="exp">⬇ Tải báo cáo (.csv) để gửi giáo viên</button></div>`, `<a href="#/">Trang chính</a> › Tiến độ của tôi`);
     $("#exp").onclick = () => {
       const q = v => '"' + String(v == null ? "" : v).replace(/"/g, '""') + '"';
@@ -3521,6 +3552,292 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
     tabify(app);
   }
 
+  /* =================== PHÂN TÍCH ĐỀ VÀ LÊN Ý ===================
+     Bảy bước cho một đề: suy nghĩ đầu tiên → phân tích đề → lên ý → từ vựng → ngữ pháp → viết câu → nâng cấp.
+     Mỗi dạng bài có 3 đề mẫu miễn phí (nội dung soạn riêng trong lab.js). Đề của người học và đề lấy thêm từ ngân hàng đề là phần trả phí:
+     mở khi người học có mã kích hoạt của gói chấm trả phí. Nội dung và phần kiểm tra câu nằm trong lab.js, chỉ tải khi mở mục này. */
+  let LAB = null, labWait = null, labFile = null;
+  const LABSTEPS = ["Suy nghĩ đầu tiên", "Phân tích đề", "Lên ý", "Từ vựng", "Ngữ pháp", "Viết câu", "Nâng cấp"];
+  const labCrumb = x => `<a href="#/">Trang chính</a> › <a href="#/lab">Phân tích đề và lên ý</a>${x ? " › " + x : ""}`;
+  const labS = () => (S.lab = S.lab || { runs: {} });
+  const labOpen = () => AI_ON();   /* phần trả phí: mở cùng mã kích hoạt của gói chấm bài */
+  const labTy = (m, ty) => m === "t1" ? (TOPIC[ty] ? TOPIC[ty].n : ty) : (QTY[ty] || ty);
+  const labHash = s => { let h = 7; for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) % 100003; return h; };
+  const labMix = (xs, seed, key) => xs.slice().sort((a, b) => labHash(seed + key(a)) - labHash(seed + key(b)));
+  const shortQ = q => q.replace(/\s*Summarise the information.*$/, "");
+  function withLab(fn) {
+    if (LAB) return fn();
+    shell(`<p class="small">⏳ Đang tải nội dung luyện tập…</p>`, labCrumb());
+    if (!labWait) labWait = new Promise((ok, no) => { const s = document.createElement("script"); s.src = "lab.js?v=1"; s.onload = ok; s.onerror = no; document.head.appendChild(s); });
+    labWait.then(() => { LAB = window.B79_LAB; if (/^#\/lab/.test(location.hash)) route(); },
+      () => { labWait = null; if (/^#\/lab/.test(location.hash)) shell(`<p>Chưa tải được nội dung. Hãy kiểm tra kết nối mạng rồi tải lại trang.</p><div class="bar-actions"><button class="btn primary" onclick="location.reload()">Tải lại trang</button></div>`, labCrumb()); });
+  }
+
+  /* ---------- trang mở đầu: 3 đề mẫu cho mỗi dạng bài ---------- */
+  function vLab() { withLab(() => {
+    const st = labS(), nDone = LAB.samples.filter(s => (st.runs[s.id] || {}).fin).length;
+    const card = s => { const b = BANK[s.bank], r = st.runs[s.id]; if (!b) return "";
+      return `<a class="labq${r && r.fin ? " done" : ""}" href="#/lab/s/${s.id}"><span class="en">${esc(shortQ(b.q))}</span><small>${r && r.fin ? "✓ Đã hoàn thành · xem lại" : r && (r.step || r.think) ? "Đang làm · bước " + (Math.min(r.step, 6) + 1) + "/7 →" : "Bắt đầu →"}</small></a>`; };
+    const sect = (m, ks, col) => ks.map(k => { const ss = LAB.samples.filter(s => s.m === m && s.ty === k); if (!ss.length) return "";
+      return `<section class="tybox" style="--c:${col}"><header>${m === "t1" && TOPIC[k] ? `<span class="te">${TOPIC[k].e}</span>` : ""}<h4>${esc(LAB.gen[m][k].name)}</h4><span class="small">${ss.filter(s => (st.runs[s.id] || {}).fin).length}/${ss.length} đề đã hoàn thành</span></header><div class="labqs">${ss.map(card).join("")}</div></section>`; }).join("");
+    shell(`<h1 class="pt">🧭 Phân tích đề và lên ý <small>Từ lúc đọc đề đến một câu band 9</small></h1>
+      <p>Người viết band 7 thường bắt tay vào viết ngay. Người viết band 9 dành vài phút đầu để hiểu đề hỏi gì, chọn ý, rồi chọn từ và cấu trúc cho ý đó. Khu này luyện riêng mấy phút ấy: bạn viết ra suy nghĩ của mình trước, bằng tiếng Việt hoặc tiếng Anh, rồi trang dẫn từng bước và đưa ra các lựa chọn để bạn cân nhắc.</p>
+      <ol class="labsteps">${[["Suy nghĩ đầu tiên", "Bạn viết tự do điều mình nghĩ khi đọc đề."], ["Phân tích đề", "Từ khóa, yêu cầu và bẫy lạc đề."], ["Lên ý", "Bạn nêu ý trước, rồi chọn trong các ý trang gợi ý."], ["Từ vựng", "Chọn cụm bạn cho là chính xác và tự nhiên nhất."], ["Ngữ pháp", "Chọn cấu trúc hợp với ý của bạn."], ["Viết câu", "Viết thành câu hoàn chỉnh từ ý, từ và cấu trúc đã chọn."], ["Nâng cấp", "Trang chỉ ra chỗ có thể nâng. Câu đã đạt thì không đề xuất thêm."]].map(x => `<li><b>${x[0]}</b><span class="small">${x[1]}</span></li>`).join("")}</ol>
+      <p class="banknote">Mỗi dạng bài có <b>3 đề mẫu</b> để bạn tự luyện theo đúng trình tự này; bạn đã hoàn thành ${nDone}/${LAB.samples.length} đề. Mọi gợi ý của đề mẫu được soạn riêng cho từng đề. Muốn luyện với đề của bạn hoặc lấy thêm đề, xem <a href="#/lab/own">phần trả phí</a> ở cuối trang.</p>
+      <h3 class="gh" style="--c:#3b3fd8">Task 2 · theo dạng câu hỏi</h3>${sect("t2", Object.keys(QTY), "#3b3fd8")}
+      <h3 class="gh" style="--c:#0f9a8a">Task 1 · theo dạng đề</h3>${sect("t1", D.topics.t1.map(t => t.k), "#0f9a8a")}
+      <h3 class="gh" style="--c:#c7801a">Đề của bạn và đề lấy thêm</h3>
+      <div class="labown"><div><h4>Luyện với đề bạn có sẵn, đề bạn tải lên, hoặc tìm thêm đề</h4><p class="small">Dán đề, tải file đề lên, hoặc chọn trong ${(D.bank || []).length + (D.bank1 || []).length} đề của ngân hàng đề, rồi đi qua đúng bảy bước trên. ${labOpen() ? "Bạn đã mở khóa phần này." : "Đây là phần trả phí."}</p></div><a class="btn ${labOpen() ? "primary" : ""}" href="#/lab/own">${labOpen() ? "Mở →" : "🔒 Xem cách mở khóa"}</a></div>`, `<a href="#/">Trang chính</a> › Phân tích đề và lên ý`);
+  }); }
+
+  /* ---------- phần trả phí: đề của người học, đề tải lên, đề lấy thêm ---------- */
+  function vLabOwn() { withLab(() => {
+    if (!labOpen()) {
+      shell(`<h1 class="pt">🔒 Luyện với đề của bạn <small>Phần trả phí</small></h1>
+        <p>Ba đề mẫu của mỗi dạng bài là miễn phí. Khi bạn muốn luyện cùng trình tự đó với <b>đề bạn có sẵn</b>, <b>đề bạn tải lên</b>, hoặc muốn <b>tìm thêm đề</b> trong ngân hàng đề của trang, bạn cần mở khóa phần này.</p>
+        ${PAID.enabled ? `<div class="modes" style="grid-template-columns:1fr"><div class="mode pay"><span class="tag t9">Trả phí</span><h4>Bạn nhận được gì</h4>
+          <ul class="bene">
+            <li>Dán đề bất kỳ, hoặc tải lên ảnh, file PDF hay file văn bản của đề.</li>
+            <li>Chọn thêm đề trong ngân hàng ${(D.bank || []).length} đề Task 2 và ${(D.bank1 || []).length} đề Task 1, lọc theo dạng bài, có đề thi 2025–2026.</li>
+            <li>Đi qua đủ bảy bước: câu hỏi phân tích theo dạng bài, các góc nhìn để lên ý, gói từ vựng theo chủ đề, các cấu trúc hợp với dạng bài, và bộ kiểm tra câu kèm gợi ý nâng cấp.</li>
+            <li>Dùng chung mã kích hoạt với chế độ chấm bài trả phí: câu bạn viết có thể chuyển sang cho trợ lý AI đọc và nhận xét.</li>
+          </ul>
+          <p class="limit">Khác với đề mẫu: với đề riêng, gợi ý của trang đi theo dạng bài và chủ đề, không soạn riêng cho từng đề, và không có câu band 9 soạn sẵn để đối chiếu.</p>
+          <p class="fee">Mở cùng gói chấm bài: <b>${vnd(FEE)}</b> / bài · gói nhỏ nhất ${PAID.packs[0]} bài = ${vnd(PAID.packs[0] * FEE)}</p>
+          <div class="bar-actions"><button class="btn primary" id="askpay">Yêu cầu mở khóa · từ ${vnd(PAID.packs[0] * FEE)}</button><button class="btn" id="havecode">Tôi đã có mã kích hoạt</button></div><div id="paybox"></div></div></div>` : `<p class="banknote">Phần này hiện chưa mở. Bạn có thể để lại thông tin ở <a href="#/contact">form Liên hệ</a> để được báo khi mở.</p>`}
+        <div class="bar-actions"><a class="btn" href="#/lab">← Về 3 đề mẫu của mỗi dạng bài</a></div>`, labCrumb("Đề của bạn"));
+      return bindPay(null, vLabOwn);
+    }
+    const st = labS(), o = st.own || {}, used = {}; LAB.samples.forEach(s => { used[s.bank] = 1; });
+    const tyOpts = m => (m === "t1" ? D.topics.t1.map(t => t.k) : Object.keys(QTY)).filter(k => LAB.gen[m][k]).map(k => `<option value="${k}">${esc(LAB.gen[m][k].name)}</option>`).join("");
+    const tps = D.topics.t2.concat(D.xtopics || []).filter(t => !t.m && LAB.topics[t.k]);
+    shell(`<h1 class="pt">Đề của bạn và đề lấy thêm <small>Đã mở khóa${S.paid ? " · còn " + S.paid.left + " lượt chấm AI" : ""}</small></h1>
+      <p class="banknote">Với đề riêng, trang dẫn bạn bằng gợi ý theo <b>dạng bài</b> và <b>chủ đề</b>. Hãy chọn đúng dạng bài để nhận đúng gợi ý. Trang không có câu band 9 soạn sẵn cho đề riêng; ở bước cuối bạn có thể chuyển câu của mình sang công cụ kiểm tra của trang.</p>
+      <div class="labgrid2">
+        <form class="labcard" id="of"><h4>1. Dán đề hoặc tải đề lên</h4>
+          <div class="seg"><label><input type="radio" name="om" value="t2" ${o.m === "t1" ? "" : "checked"}> Task 2</label><label><input type="radio" name="om" value="t1" ${o.m === "t1" ? "checked" : ""}> Task 1</label></div>
+          <label>Dạng bài<select id="oty"></select></label>
+          <label id="otpw">Chủ đề <span class="opt-l">(để trang chọn gói từ vựng)</span><select id="otp">${tps.map(t => `<option value="${t.k}">${esc(t.n)}</option>`).join("")}<option value="misc">Chủ đề khác</option></select></label>
+          <label>Đề bài<textarea id="oq" maxlength="1200" placeholder="Dán nguyên văn đề bài tiếng Anh tại đây.">${esc(o.q && !o.fonly ? o.q : "")}</textarea></label>
+          <label>Hoặc tải file đề lên <span class="opt-l">(ảnh, PDF hoặc file .txt; dùng cho đề Task 1 có hình)</span><input id="ofile" type="file" accept="image/*,.pdf,.txt,text/plain,application/pdf"></label>
+          <p class="ferr" id="oerr" role="alert" hidden></p>
+          <div class="bar-actions"><button class="btn primary" type="submit">Bắt đầu với đề này →</button>${st.own && st.runs.own ? `<a class="btn" href="#/lab/o">Tiếp tục đề đang làm</a>` : ""}</div>
+          <p class="small">File đề chỉ nằm trên máy của bạn trong lần mở trang này, không được gửi đi.</p></form>
+        <div class="labcard"><h4>2. Hoặc tìm thêm đề trong ngân hàng đề</h4>
+          <div class="bfilter" id="bf"><select id="bm" aria-label="Task"><option value="t2">Task 2</option><option value="t1">Task 1</option></select><select id="bty" aria-label="Dạng bài"></select><select id="byr" aria-label="Lọc"><option value="">Mọi đề</option><option value="2026">Đề thi 2026</option><option value="2025">Đề thi 2025</option><option value="todo">Đề chưa làm</option></select></div>
+          <input id="bq" type="search" placeholder="Tìm theo từ khóa trong đề, ví dụ: housing, museum, recycling" aria-label="Tìm đề">
+          <div class="blist" id="bl"></div></div>
+      </div><div class="bar-actions"><a class="btn" href="#/lab">← Về 3 đề mẫu của mỗi dạng bài</a></div>`, labCrumb("Đề của bạn"));
+    const fillTy = () => { const m = $("[name=om]:checked").value; $("#oty").innerHTML = tyOpts(m); if (o.m === m && o.ty) $("#oty").value = o.ty; $("#otpw").hidden = m !== "t2"; };
+    $$("[name=om]").forEach(r => { r.onchange = fillTy; }); fillTy(); if (o.tp && $("#otp").querySelector(`[value="${o.tp}"]`)) $("#otp").value = o.tp;
+    let picked = null;
+    $("#ofile").onchange = e => { const f = e.target.files[0], er = $("#oerr"); er.hidden = true; picked = null; if (!f) return;
+      if (f.size > 8e6) { er.textContent = "File lớn hơn 8 MB. Hãy chọn file nhỏ hơn hoặc dán đề vào ô trên."; er.hidden = false; e.target.value = ""; return; }
+      if (/^text\/|\.txt$/i.test(f.type + f.name)) { const rd = new FileReader(); rd.onload = () => { $("#oq").value = String(rd.result).trim().slice(0, 1200); }; rd.readAsText(f); return; }
+      picked = { url: URL.createObjectURL(f), kind: /pdf/i.test(f.type + f.name) ? "pdf" : "img", name: f.name }; };
+    $("#of").onsubmit = e => { e.preventDefault(); const q = $("#oq").value.trim().replace(/\s+/g, " "), er = $("#oerr"), m = $("[name=om]:checked").value;
+      if (q.length < 20 && !picked) { er.textContent = "Hãy dán đề bài (ít nhất một câu) hoặc tải file đề lên."; er.hidden = false; return; }
+      if (st.runs.own && (st.runs.own.think || st.runs.own.step) && !st.runs.own.fin && !confirm("Bạn đang làm dở một đề riêng khác. Bắt đầu đề mới sẽ xóa phần đang làm đó. Tiếp tục?")) return;
+      labFile = picked; st.own = { m: m, ty: $("#oty").value, tp: m === "t2" ? $("#otp").value : "", q: q.length >= 20 ? q : "Đề trong file: " + picked.name, fonly: q.length < 20, fname: picked ? picked.name : "" }; delete st.runs.own; save(); location.hash = "#/lab/o"; };
+    let shown = 8;
+    const fillB = () => { $("#bty").innerHTML = '<option value="">Mọi dạng bài</option>' + tyOpts($("#bm").value); };
+    const draw = () => { const m = $("#bm").value, ty = $("#bty").value, yr = $("#byr").value, kw = low($("#bq").value.trim());
+      const xs = (m === "t1" ? D.bank1 || [] : D.bank || []).filter(b => { const t = m === "t1" ? b.tp : b.ty; return !used[b.id] && LAB.gen[m][t] && (!ty || t === ty) && (!kw || low(b.q).indexOf(kw) >= 0) && (!yr || (yr === "todo" ? !(st.runs["b:" + b.id] || {}).fin : b.d.some(d => d.slice(0, 4) === yr))); });
+      $("#bl").innerHTML = (xs.length ? `<p class="small">${xs.length} đề khớp bộ lọc.</p>` + xs.slice(0, shown).map(b => { const r = st.runs["b:" + b.id]; return `<div class="bitem"><div><div class="btags">${bankTags(b)}</div><p class="en">${esc(shortQ(b.q))}</p></div><div class="bacts"><a class="btn sm ${r && r.fin ? "done" : "primary"}" href="#/lab/b/${b.id}">${r && r.fin ? "✓ Xem lại" : r ? "Làm tiếp →" : "Luyện đề này →"}</a></div></div>`; }).join("") : '<p class="small">Không có đề nào khớp bộ lọc này.</p>') + (xs.length > shown ? `<div class="bar-actions"><button class="btn" id="bmore" type="button">Xem thêm (còn ${xs.length - shown})</button></div>` : "");
+      if ($("#bmore")) $("#bmore").onclick = () => { shown += 8; draw(); }; };
+    $("#bm").onchange = () => { fillB(); shown = 8; draw(); }; ["#bty", "#byr"].forEach(x => { $(x).onchange = () => { shown = 8; draw(); }; }); $("#bq").oninput = () => { shown = 8; draw(); };
+    fillB(); draw();
+  }); }
+
+  /* ---------- một lượt luyện ---------- */
+  function labCtx(kind, id) {
+    if (kind === "s") { const s = LAB.samples.filter(x => x.id === id)[0], b = s && BANK[s.bank]; return b ? { rid: s.id, au: true, m: s.m, ty: s.ty, tp: s.tp, q: b.q, ds: b.ds, bank: b, s: s, gen: LAB.gen[s.m][s.ty], back: "#/lab" } : null; }
+    if (kind === "b") { const b = BANK[id]; if (!b) return null; const m = b.m === "t1" ? "t1" : "t2", ty = m === "t1" ? b.tp : b.ty; return LAB.gen[m][ty] ? { rid: "b:" + id, au: false, m: m, ty: ty, tp: m === "t2" ? b.tp : "", q: b.q, ds: b.ds, bank: b, gen: LAB.gen[m][ty], back: "#/lab/own" } : null; }
+    const o = labS().own; return o && LAB.gen[o.m] && LAB.gen[o.m][o.ty] ? { rid: "own", au: false, m: o.m, ty: o.ty, tp: o.tp, q: o.q, file: labFile, fname: o.fname, gen: LAB.gen[o.m][o.ty], back: "#/lab/own" } : null;
+  }
+  function vLabRun(kind, id) { withLab(() => {
+    const C = labCtx(kind, id); if (!C) return kind === "s" ? vLab() : vLabOwn();
+    if (!C.au && !labOpen()) return vLabOwn();
+    const st = labS(), R = st.runs[C.rid] = st.runs[C.rid] || { step: 0, max: 0, think: "", quiz: {}, ask: {}, own: "", pick: [], voc: [], myv: "", gr: [], sent: {}, sec: 0 };
+    act = { k: "LAB", sec: 0, onTick: () => { R.sec = (R.sec || 0) + 1; } };
+    labDraw(C, R);
+  }); }
+
+  const labOwnIdeas = R => String(R.own || "").split(/\n+/).map(x => x.trim()).filter(x => x.length > 2).slice(0, 6).map((t, i) => ({ id: "o" + i, vi: t, mine: true }));
+  const labIdeas = (C, R) => labOwnIdeas(R).concat(C.au ? labMix(C.s.ideas, C.rid, x => x.id) : []);
+  const labWrite = (C, R) => labIdeas(C, R).filter(x => R.pick.indexOf(x.id) >= 0 && (x.mine || x.v >= 1)).slice(0, 3);
+  const labVocab = C => labMix(C.au ? C.s.vocab : (C.m === "t2" ? (LAB.topics[C.tp] || LAB.topics.misc) : []).concat(C.gen.vocab), C.rid, x => x.w);
+  const labGram = C => labMix(C.au ? C.s.grammar : C.gen.grammar, C.rid, x => x.k);
+  const VF = { best: ["Nên dùng", "g"], ok: ["Đúng nhưng còn chung", "y"], over: ["Phô từ hoặc sai văn phong", "r"], wrong: ["Sai", "r"] };
+  const GF = { best: ["Hợp với đề này", "g"], ok: ["Dùng được, ít giá trị", "y"], over: ["Dễ gượng ở đề này", "r"] };
+  const IV1 = { 2: ["Đáng chọn", "g"], 1: ["Chi tiết phụ", "y"], 0: ["Suy diễn, không đưa vào bài", "r"] }, IV2 = { 2: ["Ý mạnh", "g"], 1: ["Đúng đề nhưng mỏng", "y"], 0: ["Lạc đề", "r"] };
+  const vtag = x => `<span class="vtag ${x[1]}">${x[0]}</span>`;
+  const SELF = {
+    t2: ["Câu có trả lời thẳng câu hỏi của đề không, hay mới nói về chủ đề chung?", "Đọc riêng câu này, người đọc có biết vì sao và dẫn đến điều gì không?", "Có cụm từ nào bạn chưa chắc về cách kết hợp? Tra lại trong từ điển collocation trước khi dùng.", "Chủ ngữ và động từ đã hòa hợp, mạo từ và số ít, số nhiều đã đúng chưa?", "Đọc thành tiếng: có chỗ nào nghe như học thuộc hoặc cố tỏ ra học thuật không?"],
+    t1: ["Mọi con số và tên gọi trong câu có khớp với hình không?", "Thì của động từ có khớp với mốc thời gian của đề không?", "Câu có so sánh, hay chỉ liệt kê số liệu?", "Có chỗ nào bạn giải thích nguyên nhân hoặc nêu ý kiến riêng không? Nếu có, bỏ đi.", "Đơn vị (%, million, per 1,000 people) đã ghi đúng chưa?"]
+  };
+
+  function labDraw(C, R) {
+    const A = C.au ? C.s.an : null, step = R.step, t1 = C.m === "t1", col = t1 ? "#0f9a8a" : "#3b3fd8";
+    const go = n => { R.step = n; R.max = Math.max(R.max || 0, n); save(); labDraw(C, R); };
+    const redraw = keepY => { const y = window.scrollY; save(); labDraw(C, R); if (keepY) window.scrollTo(0, y); };
+    const dots = `<div class="dots">${LABSTEPS.map((n, i) => `<button type="button" class="dot ${i === step ? "cur" : i <= (R.max || 0) ? "ok go" : ""}" ${i <= (R.max || 0) && i !== step ? `data-go="${i}"` : "disabled"} title="${n}">${i + 1}<span class="dn"> ${n}</span></button>`).join("")}${R.fin ? `<button type="button" class="dot ${step === 7 ? "cur" : "ok go"}" data-go="7">Tổng kết</button>` : ""}</div>`;
+    let qh = esc(C.q); if (A && step >= 1 && R.qdone) A.kw.map(k => k[0]).sort((a, b) => b.length - a.length).forEach(k => { const e = esc(k); if (qh.indexOf(e) >= 0 && qh.indexOf("<mark>" + e) < 0) qh = qh.split(e).join("<mark>" + e + "</mark>"); });
+    const fileH = C.file ? (C.file.kind === "pdf" ? `<object class="labpdf" data="${C.file.url}" type="application/pdf"><a href="${C.file.url}" target="_blank" rel="noopener">Mở file đề: ${esc(C.file.name)}</a></object>` : `<img class="labimg" src="${C.file.url}" alt="Đề bài bạn tải lên">`) : C.fname ? `<p class="small">File đề (${esc(C.fname)}) không được lưu qua lần tải trang. Hãy mở file trên máy của bạn để xem lại, hoặc <a href="#/lab/own">tải lại file</a>.</p>` : "";
+    const prompt = `<div class="labprompt"><span class="tag">Đề bài · ${esc(C.gen.name)}</span><p class="en">${qh}</p>${fileH}${C.ds ? chart(C.ds) : ""}</div>`;
+    const nav = (ok, label, why) => `<div class="labnav">${step > 0 ? `<button type="button" class="btn" id="lprev">← Quay lại</button>` : `<a class="btn" href="${C.back}">← Chọn đề khác</a>`}<span class="small" id="lwhy">${ok ? "" : esc(why || "")}</span><button type="button" class="btn primary" id="lnext" ${ok ? "" : "disabled"}>${label || "Tiếp tục →"}</button></div>`;
+    const wrap = (title, lead, body, navH) => { shell(`<div class="play lab" style="--c:${col}">${dots}<div class="phead"><span class="code">${step < 7 ? step + 1 + "/7" : "✓"}</span><div><h1>${title}</h1><p class="grp">${esc(labTy(C.m, C.ty))}${C.au ? " · đề mẫu" : " · đề riêng"}</p></div><span class="clock">⏱ <b id="clock">${fmtMS(act ? act.sec : 0)}</b></span></div>${prompt}${lead ? `<p class="lablead">${lead}</p>` : ""}${body}${navH}</div>`, labCrumb(esc(labTy(C.m, C.ty))));
+      $$("[data-go]").forEach(b => { b.onclick = () => go(+b.dataset.go); }); if ($("#lprev")) $("#lprev").onclick = () => go(step - 1); };
+    const ideas = labIdeas(C, R), IV = t1 ? IV1 : IV2;
+
+    /* ----- bước 1: suy nghĩ đầu tiên ----- */
+    if (step === 0) {
+      wrap("Bạn nghĩ gì khi đọc đề này?", "Viết tự do, bằng tiếng Việt hoặc tiếng Anh, không cần đúng và không cần thành câu. Trang chưa gợi ý gì ở bước này: mục đích là để bạn nhìn thấy cách mình đọc đề, rồi so với phần phân tích ở bước sau.",
+        `<textarea id="lt" class="labta" spellcheck="false" placeholder="${t1 ? "Ví dụ: hình cho biết gì, đơn vị gì, giai đoạn nào; điều gì nổi bật nhất; mình sẽ chia thân bài thế nào; từ nào sẽ cần…" : "Ví dụ: đề hỏi gì; mình nghiêng về phía nào; ý nào bật ra đầu tiên; từ nào mình nghĩ sẽ cần; chỗ nào trong đề mình chưa chắc…"}">${esc(R.think)}</textarea>
+        <p class="small">Chưa biết bắt đầu từ đâu? Trả lời ba câu: Đề yêu cầu mình làm gì? ${t1 ? "Điều gì nổi bật nhất trong hình?" : "Mình sẽ trả lời thế nào?"} Mình lo nhất điều gì khi viết đề này?</p>`, nav(words(R.think) >= 5, "Sang phân tích đề →", "Hãy viết ít nhất vài từ trước khi xem gợi ý."));
+      $("#lt").oninput = e => { R.think = e.target.value; const ok = words(R.think) >= 5; $("#lnext").disabled = !ok; $("#lwhy").textContent = ok ? "" : "Hãy viết ít nhất vài từ trước khi xem gợi ý."; };
+      $("#lnext").onclick = () => go(1); return;
+    }
+    /* ----- bước 2: phân tích đề ----- */
+    if (step === 1) {
+      let body;
+      if (A) {
+        body = A.quiz.map((z, i) => `<fieldset class="labquiz"><legend>${i + 1}. ${esc(z.q)}</legend>${labMix(z.o.map((o, j) => ({ o: o, j: j })), C.rid + i, x => "" + x.j).map(x => { const ch = R.quiz[i] === x.j, show = R.qdone && (ch || x.o.ok);
+          return `<label class="labopt${ch ? " on" : ""}${show ? (x.o.ok ? " fbest" : " fover") : ""}"><input type="radio" name="lq${i}" value="${x.j}" ${ch ? "checked" : ""}><span>${esc(x.o.t)}${show ? `<span class="vd">${vtag(x.o.ok ? ["Đúng", "g"] : ["Chưa đúng", "r"])} ${esc(x.o.why)}</span>` : ""}</span></label>`; }).join("")}</fieldset>`).join("")
+          + (R.qdone ? `<div class="labgrid2 labres"><div><h5 class="sh">Từ khóa quyết định cách trả lời</h5><dl class="labkw">${A.kw.map(k => `<dt class="en">${esc(k[0])}</dt><dd>${esc(k[1])}</dd>`).join("")}</dl></div>
+            <div><h5 class="sh">Đề này bắt buộc bạn làm</h5><ol class="fix">${A.task.map(x => `<li>${esc(x)}</li>`).join("")}</ol><h5 class="sh">Bẫy thường gặp với đề này</h5><ul class="fix">${A.traps.map(x => `<li>${esc(x)}</li>`).join("")}</ul></div></div>
+            <div class="labthink"><h5 class="sh">Đối chiếu với suy nghĩ ban đầu của bạn</h5><p class="pre">${esc(R.think)}</p><p class="small">Bạn đã nhận ra đủ các yêu cầu ở trên chưa? Nếu bỏ sót điều nào, đó là chỗ lần sau bạn cần đọc đề chậm lại.</p></div>` : `<div class="bar-actions"><button type="button" class="btn primary" id="lchk">Kiểm tra và xem phân tích</button></div><div id="lmsg"></div>`);
+      } else {
+        body = `<div class="labasks">${C.gen.ask.map((q, i) => `<label>${i + 1}. ${esc(q)}<input data-ask="${i}" value="${esc(R.ask[i] || "")}" maxlength="300" placeholder="Trả lời ngắn, tiếng Việt hoặc tiếng Anh"></label>`).join("")}</div>`
+          + (R.qdone ? `<div class="labgrid2 labres"><div><h5 class="sh">Dạng bài này luôn bắt buộc bạn làm</h5><ol class="fix">${C.gen.task.map(x => `<li>${esc(x)}</li>`).join("")}</ol></div><div><h5 class="sh">Bẫy thường gặp của dạng này</h5><ul class="fix">${C.gen.traps.map(x => `<li>${esc(x)}</li>`).join("")}</ul></div></div>
+            <div class="labthink"><h5 class="sh">Đối chiếu với suy nghĩ ban đầu của bạn</h5><p class="pre">${esc(R.think)}</p><p class="small">Đối chiếu các câu trả lời của bạn với yêu cầu của dạng bài. Với đề riêng, trang không biết nội dung đề nên không chấm được phần này: bạn tự đối chiếu.</p></div>` : `<div class="bar-actions"><button type="button" class="btn primary" id="lchk">Đối chiếu với yêu cầu của dạng bài</button></div><div id="lmsg"></div>`);
+      }
+      wrap("Phân tích đề", A ? "Trả lời hai câu hỏi dưới đây rồi kiểm tra. Sau đó trang chỉ ra các từ khóa, yêu cầu và bẫy của đề." : "Tự trả lời các câu hỏi dưới đây, rồi đối chiếu với yêu cầu chung của dạng bài.", body, nav(!!R.qdone, "Sang bước lên ý →", "Hãy kiểm tra phần phân tích trước."));
+      $$(".labquiz input").forEach(x => { x.onchange = () => { R.quiz[+x.name.slice(2)] = +x.value; if (R.qdone) redraw(true); else save(); }; });
+      $$("[data-ask]").forEach(x => { x.oninput = () => { R.ask[x.dataset.ask] = x.value; }; });
+      if ($("#lchk")) $("#lchk").onclick = () => { const n = A ? A.quiz.filter((z, i) => R.quiz[i] != null).length : Object.keys(R.ask).filter(k => String(R.ask[k]).trim().length > 1).length;
+        if (A ? n < A.quiz.length : n < 2) { $("#lmsg").innerHTML = `<p class="ferr">${A ? "Hãy chọn câu trả lời cho cả hai câu hỏi." : "Hãy trả lời ít nhất hai câu hỏi."}</p>`; return; } R.qdone = 1; redraw(true); };
+      $("#lnext").onclick = () => go(2); return;
+    }
+    /* ----- bước 3: lên ý ----- */
+    if (step === 2) {
+      const mine = labOwnIdeas(R), nPick = R.pick.filter(id => ideas.some(x => x.id === id)).length, wr = labWrite(C, R);
+      const opt = x => { const on = R.pick.indexOf(x.id) >= 0, show = R.pdone && !x.mine;
+        return `<label class="labopt${on ? " on" : ""}${show ? " f" + x.v : ""}"><input type="checkbox" data-idea="${x.id}" ${on ? "checked" : ""}><span>${x.mine ? vtag(["Ý của bạn", "n"]) + " " : ""}<b>${esc(x.vi)}</b>${x.en ? `<span class="en ien">${esc(x.en)}</span>` : ""}${show ? `<span class="vd">${vtag(IV[x.v])} ${esc(x.why)}</span>${x.dev && on ? `<span class="vd"><b>Hướng phát triển:</b> ${esc(x.dev)}</span>` : ""}` : ""}</span></label>`; };
+      const body = `<label>${t1 ? "Những đặc điểm bạn thấy đáng đưa vào bài" : "Các ý của bạn"} <span class="opt-l">(mỗi dòng một ý, tiếng Việt hoặc tiếng Anh)</span><textarea id="lown" class="labta" spellcheck="false" ${R.seen2 ? "readonly" : ""} placeholder="${t1 ? "Ví dụ:\nxu hướng chung là…\nnhóm cao nhất là…" : "Ví dụ:\nnhà nước nên hỗ trợ vì…\nnhưng miễn phí hoàn toàn thì…"}">${esc(R.own)}</textarea></label>`
+        + (!R.seen2 ? `<div class="bar-actions"><button type="button" class="btn primary" id="lsee">${C.au ? "Xem các ý trang gợi ý" : "Xem gợi ý góc nhìn"}</button></div><div id="lmsg"></div>`
+          : `<div class="bar-actions" style="margin-top:8px"><button type="button" class="btn sm" id="ledit">Sửa lại các ý của tôi</button></div>`
+          + (C.au ? "" : `<div class="labres"><h5 class="sh">Các góc nhìn để nghĩ thêm ý</h5><ul class="fix">${C.gen.lenses.map(x => `<li><b>${esc(x[0])}:</b> ${esc(x[1])}</li>`).join("")}</ul><p class="small">Nghĩ ra ý mới từ các góc nhìn này? Bấm “Sửa lại các ý của tôi” để thêm vào danh sách.</p></div>`)
+          + `<h5 class="sh">Chọn 2 hoặc 3 ý bạn sẽ dùng để viết</h5><p class="small">${C.au ? (t1 ? "Danh sách gồm ý của bạn và các đặc điểm trang gợi ý. Không phải đặc điểm nào cũng đáng đưa vào bài." : "Danh sách gồm ý của bạn và các ý trang gợi ý. Không phải ý nào cũng tốt: có ý mỏng và có ý lạc đề.") + " Chọn xong, trang mới cho biết nhận xét." : "Chọn các ý trả lời thẳng câu hỏi của đề và bạn giải thích được đến hệ quả."}</p>
+            <div id="lideas">${ideas.map(opt).join("")}</div>`
+          + (!R.pdone ? `<div class="bar-actions"><button type="button" class="btn primary" id="lfix">Chốt lựa chọn${C.au ? " và xem nhận xét" : ""}</button></div><div id="lmsg"></div>`
+            : `<div class="labres">${R.pick.some(id => { const x = ideas.filter(y => y.id === id)[0]; return x && !x.mine && x.v === 0; }) ? `<p class="ferr">Bạn đang chọn một ý ${t1 ? "thuộc loại suy diễn" : "lạc đề"}. Ý này sẽ không được dùng ở bước viết; hãy bỏ chọn và thay bằng ý khác.</p>` : ""}
+              ${mine.length ? `<p class="small"><b>Với ý bạn tự viết</b>, trang không đánh giá được nội dung. Hãy tự thử bằng các câu hỏi sau:</p><ul class="fix small">${C.gen.tests.map(x => `<li>${esc(x)}</li>`).join("")}</ul>` : ""}
+              <p class="small">Bạn vẫn có thể đổi lựa chọn. Các ý sẽ dùng để viết: <b>${wr.length}</b>${wr.length > 3 ? " (tối đa 3)" : ""}.</p></div>`));
+      wrap(t1 ? "Chọn đặc điểm để báo cáo" : "Lên ý", R.seen2 ? "" : (t1 ? "Trước khi xem gợi ý, hãy tự ghi ra những đặc điểm bạn thấy trong hình." : "Trước khi xem gợi ý, hãy tự ghi ra các ý của bạn. Ý chưa hay cũng ghi: ở bước này số lượng quan trọng hơn chất lượng."), body, nav(!!R.pdone && wr.length >= 1, "Sang bước từ vựng →", R.pdone ? "Hãy chọn ít nhất một ý dùng được." : "Hãy chốt lựa chọn ý trước."));
+      if ($("#lown")) $("#lown").oninput = e => { R.own = e.target.value; };
+      if ($("#lsee")) $("#lsee").onclick = () => { if (!labOwnIdeas(R).length) { $("#lmsg").innerHTML = '<p class="ferr">Hãy tự ghi ít nhất một ý trước khi xem gợi ý.</p>'; return; } R.seen2 = 1; redraw(true); };
+      if ($("#ledit")) $("#ledit").onclick = () => { R.seen2 = 0; R.pdone = 0; R.pick = R.pick.filter(id => id[0] !== "o"); redraw(true); $("#lown").focus(); };
+      $$("[data-idea]").forEach(x => { x.onchange = () => { const id = x.dataset.idea; R.pick = R.pick.filter(y => y !== id); if (x.checked) R.pick.push(id); redraw(true); }; });
+      if ($("#lfix")) $("#lfix").onclick = () => { if (nPick < 2 || nPick > 3) { $("#lmsg").innerHTML = '<p class="ferr">Hãy chọn 2 hoặc 3 ý.</p>'; return; } R.pdone = 1; redraw(true); };
+      $("#lnext").onclick = () => go(3); return;
+    }
+    const wr = labWrite(C, R), ilabel = id => { const i = wr.map(x => x.id).indexOf(id); return i >= 0 ? "ý " + (i + 1) : ""; };
+    /* ----- bước 4: từ vựng ----- */
+    if (step === 3) {
+      const vs = labVocab(C), nb = vs.filter(v => v.f === "best" && R.voc.indexOf(v.w) >= 0).length, nr = vs.filter(v => (v.f === "over" || v.f === "wrong") && R.voc.indexOf(v.w) >= 0).length;
+      const body = `<div class="labideas">${wr.map((x, i) => `<p><b>Ý ${i + 1}:</b> ${esc(x.vi)}</p>`).join("")}</div>
+        <div class="labchips">${vs.map((v, i) => { const on = R.voc.indexOf(v.w) >= 0, fo = (v.for || []).map(ilabel).filter(Boolean);
+          return `<label class="labopt${on ? " on" : ""}${R.vdone ? " f" + v.f : ""}"><input type="checkbox" data-voc="${i}" ${on ? "checked" : ""}><span><b class="en">${esc(v.w)}</b><span class="vi">${esc(v.vi)}</span>${R.vdone ? `<span class="vd">${vtag(VF[v.f])} ${esc(v.note)}${fo.length ? ` <i>Hợp với ${fo.join(", ")}.</i>` : ""}</span>` : ""}</span></label>`; }).join("")}</div>
+        <label style="margin-top:12px">Từ hoặc cụm của riêng bạn <span class="opt-l">(không bắt buộc, cách nhau bằng dấu phẩy)</span><input id="lmyv" maxlength="300" value="${esc(R.myv || "")}" placeholder="Ví dụ: affordable housing, a safety net"></label>`
+        + (R.vdone ? `<div class="fb ${nr ? "bad" : "ok"}"><div class="fbh">Bạn đã chọn ${nb} cụm nên dùng${nr ? " và " + nr + " cụm nên bỏ" : ""}.</div><p>${nr ? "Hãy bỏ chọn các cụm viền đỏ trước khi viết: " : ""}Cụm viền xanh chính xác và tự nhiên trong đề này. Cụm viền vàng không sai, nhưng là mức band 7. Bạn vẫn có thể đổi lựa chọn.</p><p class="small">Từ bạn tự thêm, trang không đánh giá được. Hãy tra cách kết hợp từ trong từ điển trước khi dùng.</p></div>` : `<div class="bar-actions"><button type="button" class="btn primary" id="lvchk">Xem nhận xét về lựa chọn của tôi</button></div><div id="lmsg"></div>`);
+      wrap("Chọn từ vựng", "Dưới đây là các cụm có thể dùng cho đề này. Không phải cụm nào cũng nên dùng: có cụm chính xác, có cụm đúng nhưng chung, có cụm phô từ hoặc sai. Hãy chọn những cụm bạn cho là tối ưu cho các ý của mình, rồi xem nhận xét.", body, nav(!!R.vdone, "Sang bước ngữ pháp →", "Hãy xem nhận xét về lựa chọn từ vựng trước."));
+      $$("[data-voc]").forEach(x => { x.onchange = () => { const w = vs[+x.dataset.voc].w; R.voc = R.voc.filter(y => y !== w); if (x.checked) R.voc.push(w); redraw(true); }; });
+      $("#lmyv").oninput = e => { R.myv = e.target.value; };
+      if ($("#lvchk")) $("#lvchk").onclick = () => { if (R.voc.length < 3) { $("#lmsg").innerHTML = '<p class="ferr">Hãy chọn ít nhất 3 cụm.</p>'; return; } R.vdone = 1; redraw(true); };
+      $("#lnext").onclick = () => go(4); return;
+    }
+    /* ----- bước 5: ngữ pháp ----- */
+    if (step === 4) {
+      const gs = labGram(C);
+      const body = `<div class="labideas">${wr.map((x, i) => `<p><b>Ý ${i + 1}:</b> ${esc(x.vi)}</p>`).join("")}</div>
+        ${gs.map(g => { const on = R.gr.indexOf(g.k) >= 0, G = LAB.gram[g.k] || [g.k, ""];
+          return `<label class="labopt${on ? " on" : ""}${R.gdone ? " f" + g.f : ""}"><input type="checkbox" data-gr="${g.k}" ${on ? "checked" : ""}><span><b>${esc(G[0])}</b><span class="vi">${esc(G[1])}</span>${R.gdone ? `<span class="vd">${vtag(GF[g.f])} ${esc(g.note)}</span><span class="vd en">${g.f === "over" ? "Ví dụ gượng: " : "Ví dụ: "}${esc(g.ex)}</span>` : ""}</span></label>`; }).join("")}`
+        + (R.gdone ? `<div class="fb ok"><div class="fbh">Cấu trúc phục vụ ý, không phải để trang trí</div><p>Band 9 dùng nhiều kiểu cấu trúc một cách tự nhiên. Một cấu trúc chỉ đáng dùng khi nó nói được quan hệ giữa hai ý (nhượng bộ, điều kiện, hệ quả, so sánh) gọn hơn hai câu rời. Bạn vẫn có thể đổi lựa chọn.</p></div>` : `<div class="bar-actions"><button type="button" class="btn primary" id="lgchk">Xem nhận xét và ví dụ</button></div><div id="lmsg"></div>`);
+      wrap("Chọn cấu trúc ngữ pháp", "Chọn từ 1 đến 3 cấu trúc bạn cho là hợp nhất để diễn đạt các ý đã chọn. Có cấu trúc hợp, có cấu trúc dùng được nhưng ít giá trị, và có cấu trúc dễ thành gượng.", body, nav(!!R.gdone, "Sang bước viết câu →", "Hãy xem nhận xét về lựa chọn cấu trúc trước."));
+      $$("[data-gr]").forEach(x => { x.onchange = () => { const k = x.dataset.gr; R.gr = R.gr.filter(y => y !== k); if (x.checked) R.gr.push(k); redraw(true); }; });
+      if ($("#lgchk")) $("#lgchk").onclick = () => { if (R.gr.length < 1 || R.gr.length > 3) { $("#lmsg").innerHTML = '<p class="ferr">Hãy chọn từ 1 đến 3 cấu trúc.</p>'; return; } R.gdone = 1; redraw(true); };
+      $("#lnext").onclick = () => go(5); return;
+    }
+    const allV = labVocab(C), myV = String(R.myv || "").split(/[,;\n]+/).map(x => x.trim()).filter(x => x.length > 1).map(w => ({ w: w, f: "mine" }));
+    const vFor = x => allV.filter(v => R.voc.indexOf(v.w) >= 0 && v.f !== "over" && v.f !== "wrong" && (!v.for || !v.for.length || v.for.indexOf(x.id) >= 0)).concat(myV);
+    const roleTip = x => !t1 ? "" : x.role === "ov" ? "Đây là ý cho đoạn overview: nêu quy luật chung, không kèm số liệu." : x.role === "num" ? "Đây là ý chi tiết: cần số liệu đọc từ hình và ít nhất một phép so sánh." : "";
+    const useLine = (x, text) => { const vs = vFor(x); return `<div class="usechips">${vs.map(v => `<span class="${LAB.usesVocab(text, v.w) ? "u" : ""}">${LAB.usesVocab(text, v.w) ? "✓ " : ""}${esc(v.w)}</span>`).join("")}${R.gr.map(k => `<span class="g ${LAB.usesGram(text, k) ? "u" : ""}">${LAB.usesGram(text, k) ? "✓ " : ""}${esc((LAB.gram[k] || [k])[0])}</span>`).join("")}</div>`; };
+    /* ----- bước 6: viết câu ----- */
+    if (step === 5) {
+      const okAll = () => wr.every(x => LAB.wc(R.sent[x.id] || "") >= 8);
+      const body = wr.map((x, i) => `<div class="labcard"><h4>Ý ${i + 1}: ${esc(x.vi)}</h4>${x.en ? `<p class="en ien">${esc(x.en)}</p>` : ""}${roleTip(x) ? `<p class="small">${roleTip(x)}</p>` : ""}${x.dev ? `<details class="exd"><summary>Gợi ý phát triển ý này</summary><p>${esc(x.dev)}</p></details>` : ""}
+          <h5 class="sh">Từ và cấu trúc bạn đã chọn <span class="opt-l">(dấu ✓ hiện khi trang nhận ra trong câu)</span></h5><div data-use="${x.id}">${useLine(x, R.sent[x.id] || "")}</div>
+          <textarea class="labta s" data-sent="${x.id}" spellcheck="false" placeholder="Viết một hoặc hai câu tiếng Anh hoàn chỉnh cho ý này.">${esc(R.sent[x.id] || "")}</textarea><p class="small" data-wn="${x.id}">${LAB.wc(R.sent[x.id] || "")} từ</p></div>`).join("");
+      wrap("Viết thành câu hoàn chỉnh", "Viết một hoặc hai câu tiếng Anh cho mỗi ý, dùng các cụm từ và cấu trúc bạn vừa chọn. Không cần dùng hết: dùng cái nào giúp câu rõ hơn. Ở bước sau trang sẽ gợi ý cách nâng cấp từng câu.", body, nav(okAll(), "Sang bước nâng cấp →", "Mỗi ý cần một câu hoàn chỉnh, ít nhất 8 từ."));
+      $$("[data-sent]").forEach(ta => { ta.oninput = () => { const id = ta.dataset.sent, x = wr.filter(y => y.id === id)[0]; R.sent[id] = ta.value; $(`[data-use="${id}"]`).innerHTML = useLine(x, ta.value); $(`[data-wn="${id}"]`).textContent = LAB.wc(ta.value) + " từ"; const ok = okAll(); $("#lnext").disabled = !ok; $("#lwhy").textContent = ok ? "" : "Mỗi ý cần một câu hoàn chỉnh, ít nhất 8 từ."; }; });
+      $("#lnext").onclick = () => { R.tries = R.tries || {}; go(6); }; return;
+    }
+    const allText = () => wr.map(x => String(R.sent[x.id] || "").trim()).filter(Boolean).map(s => /[.!?]$/.test(s) ? s : s + ".").join(" ");
+    const xcheck = () => { const n = words(allText()); return `<div class="xcheck"><h4>Luôn kiểm tra chéo trước khi tin một kết quả</h4><p>Phần kiểm tra ở trên là máy đếm các đặc trưng hình thức. Máy không hiểu ý bạn viết, không biết câu có trả lời đúng đề không, và không bắt hết lỗi ngữ pháp. Hãy kiểm tra thêm bằng ít nhất một trong hai cách:</p>
+        <p><b>Cách 1 · Dùng công cụ của trang.</b> Chuyển các câu này sang mục “Thử với bài của bạn” để bộ phân tích xét chúng như một đoạn văn${AI_ON() ? ", hoặc dùng một lượt chấm của trợ lý AI ở đó để có nhận xét về nội dung" : ""}.</p>
+        <div class="bar-actions" style="margin-top:6px"><button type="button" class="btn" id="lcoach" ${n >= 30 ? "" : "disabled"}>Chuyển sang “Thử với bài của bạn” →</button>${n >= 30 ? "" : `<span class="small">Cần ít nhất 30 từ (hiện có ${n}).</span>`}</div>
+        <p style="margin-top:12px"><b>Cách 2 · Tự kiểm tra.</b> Đọc lại từng câu và trả lời:</p><ul class="selfchk">${SELF[C.m].map(x => `<li><label><input type="checkbox"> <span>${esc(x)}</span></label></li>`).join("")}</ul></div>`; };
+    const bindCoach = () => { if ($("#lcoach")) $("#lcoach").onclick = () => { if (S.coach && !confirm("Bạn đang có một bài làm dở ở mục “Thử với bài của bạn”. Chuyển các câu này sang sẽ thay bài đó. Tiếp tục?")) return; save(); startCoach({ m: C.m, kind: t1 && TOPIC[C.ty] ? C.ty : "", q: C.q, text: allText() }); }; };
+    /* ----- bước 7: nâng cấp ----- */
+    if (step === 6) {
+      const dg = x => LAB.diag(R.sent[x.id] || "", { m: C.m, role: x.role || "", kind: C.ty });
+      const panel = x => { const d = dg(x), n = (R.tries || {})[x.id] || 0;
+        return (d.issues.length ? `<div class="fb bad"><div class="fbh">${d.issues.length} chỗ có thể nâng cấp</div><ol class="upl">${d.issues.map(it => `<li><b>${esc(it.t)}</b>${TECH[it.k] ? ` <a class="small" href="#/k/${it.k}" target="_blank" rel="noopener">Luyện kỹ thuật ${it.k} ↗</a>` : ""}<br>${esc(it.d)}<br><i>Cách làm:</i> ${esc(it.how)}${it.hits.length ? `<div class="sugg">${it.hits.map(h => `<span>${esc(h)}</span>`).join("")}</div>` : ""}</li>`).join("")}</ol>${d.good.length ? `<p class="small">Đã đạt: ${d.good.map(esc).join("; ")}.</p>` : ""}</div>`
+          : `<div class="fb ok"><div class="fbh">✓ Câu này đã mang các đặc trưng band 9 mà trang đo được</div><p>Trang không đề xuất nâng cấp thêm cho câu này. Sửa tiếp một câu đã tốt dễ làm nó nặng và gượng hơn.${n > 0 ? " Bạn đã sửa " + n + " lượt." : ""}</p>${d.good.length ? `<p class="small">Đã đạt: ${d.good.map(esc).join("; ")}.</p>` : ""}</div>`); };
+      const ref = x => x.b9 ? `<details class="exd"><summary>Xem một cách viết band 9 cho ý này (xem sau khi bạn đã tự sửa)</summary><div class="b7 labb"><span class="tag t7">Band 7</span><p class="en">${esc(x.b7)}</p></div><div class="b9 labb"><span class="tag t9">Band 9</span><p class="en">${esc(x.b9)}</p></div><h5 class="sh">Điều gì đã thay đổi</h5><ul class="fix">${x.up.map(u => `<li>${esc(u)}</li>`).join("")}</ul><p class="small">Đây là một cách viết, không phải đáp án duy nhất. Câu của bạn không cần giống câu này.</p></details>` : `<p class="small">${x.mine ? "Ý bạn tự viết" : "Ý này"} không có câu mẫu soạn sẵn. Hãy dùng phần kiểm tra chéo ở cuối trang.</p>`;
+      const body = wr.map((x, i) => `<div class="labcard"><h4>Ý ${i + 1}: ${esc(x.vi)}</h4>${roleTip(x) ? `<p class="small">${roleTip(x)}</p>` : ""}
+          <textarea class="labta s" data-sent="${x.id}" spellcheck="false">${esc(R.sent[x.id] || "")}</textarea>
+          <div data-use="${x.id}">${useLine(x, R.sent[x.id] || "")}</div>
+          <div class="bar-actions" style="margin-top:8px"><button type="button" class="btn sm primary" data-re="${x.id}">Kiểm tra lại câu này</button></div>
+          <div data-dg="${x.id}">${panel(x)}</div>${ref(x)}</div>`).join("") + xcheck();
+      wrap("Nâng cấp câu của bạn", "Với mỗi câu, trang chỉ ra những chỗ có thể nâng và cách làm. Sửa ngay trong ô rồi bấm kiểm tra lại. Khi một câu đã đạt, trang không đề xuất thêm.", body, nav(true, R.fin ? "Xem tổng kết →" : "Hoàn thành đề này →"));
+      $$("[data-sent]").forEach(ta => { ta.oninput = () => { R.sent[ta.dataset.sent] = ta.value; ta.dataset.dirty = "1"; }; });
+      $$("[data-re]").forEach(b => { b.onclick = () => { const id = b.dataset.re, x = wr.filter(y => y.id === id)[0], ta = $(`[data-sent="${id}"]`);
+        if (LAB.wc(R.sent[id] || "") < 8) { $(`[data-dg="${id}"]`).innerHTML = '<div class="fb bad"><div class="fbh">Câu quá ngắn để kiểm tra.</div></div>'; return; }
+        if (ta.dataset.dirty) { R.tries = R.tries || {}; R.tries[id] = (R.tries[id] || 0) + 1; ta.dataset.dirty = ""; } save();
+        $(`[data-dg="${id}"]`).innerHTML = panel(x); $(`[data-use="${id}"]`).innerHTML = useLine(x, R.sent[id]); const c = $("#lcoach"); if (c) { const y = $(".xcheck"); y.outerHTML = xcheck(); bindCoach(); } }; });
+      bindCoach();
+      $("#lnext").onclick = () => {
+        if (!wr.every(x => LAB.wc(R.sent[x.id] || "") >= 8)) { $("#lwhy").textContent = "Mỗi ý cần một câu hoàn chỉnh, ít nhất 8 từ."; return; }
+        const clean = wr.filter(x => !dg(x).issues.length).length, text = allText(), first = !R.fin;
+        R.fin = Date.now(); R.clean = clean; R.nsent = wr.length;
+        if (first || R.sentText !== text) { R.sentText = text; const id = "LAB/" + C.rid;
+          (S.wr[id] = S.wr[id] || []).push({ ts: Date.now(), sec: R.sec || 0, words: words(text), text: text }); if (S.wr[id].length > 5) S.wr[id].shift();
+          send({ kind: "write", tech: "LAB", topic: C.rid + (C.au ? "" : " · " + C.q.slice(0, 80)), type: C.m + "/" + C.ty, ok: clean, try: wr.length, sec: R.sec || 0, words: words(text), text: "[Suy nghĩ ban đầu] " + R.think + "\n[Ý đã chọn] " + wr.map(x => x.vi).join(" | ") + "\n[Câu] " + text }); R.sec = 0; }
+        go(7); };
+      return;
+    }
+    /* ----- tổng kết ----- */
+    const st7 = labS(), nxt = C.au ? LAB.samples.filter(s => s.m === C.m && s.ty === C.ty && s.id !== C.rid && !(st7.runs[s.id] || {}).fin)[0] : null;
+    wrap("Tổng kết", "", `<div class="est e${R.clean === R.nsent ? "9" : "8"}"><div class="big">${R.clean}/${R.nsent}<small>câu không còn đề xuất nâng cấp</small></div><div><b>Bạn đã đi hết bảy bước với đề này.</b><br><span class="small">Con số bên cạnh là kết quả của bộ kiểm tra tự động, không phải điểm thi. Hãy kiểm tra chéo các câu của bạn trước khi dùng chúng làm mẫu cho mình.</span></div></div>
+      <div class="labgrid2"><div class="labcard"><h5 class="sh">Suy nghĩ ban đầu của bạn</h5><p class="pre">${esc(R.think)}</p></div><div class="labcard"><h5 class="sh">Các câu bạn viết sau bảy bước</h5>${wr.map((x, i) => `<p class="small" style="margin-bottom:0"><b>Ý ${i + 1}:</b> ${esc(x.vi)}</p><p class="en">${esc(R.sent[x.id] || "")}</p>`).join("")}</div></div>
+      <p>So hai cột: từ lúc đọc đề đến lúc có câu, bạn đã quyết định những gì? Lần sau, hãy làm đúng các bước đó trong đầu trước khi viết: đọc từ khóa, chọn ý trả lời thẳng câu hỏi, chọn cụm từ và cấu trúc cho ý, rồi mới viết.</p>
+      ${xcheck()}
+      <div class="bar-actions">${nxt ? `<a class="btn primary" href="#/lab/s/${nxt.id}">Làm đề mẫu tiếp theo của dạng này →</a>` : ""}${C.bank ? `<a class="btn ${nxt ? "" : "primary"}" href="#/wb/${C.bank.id}">Viết cả bài với đề này →</a>` : ""}<a class="btn" href="${C.back}">Chọn đề khác</a><button type="button" class="btn" id="lredo">Làm lại đề này từ đầu</button></div>
+      ${C.au && !nxt && !labOpen() ? `<p class="banknote">Bạn đã làm hết đề mẫu của dạng bài này. Muốn luyện tiếp với đề của bạn hoặc lấy thêm đề, xem <a href="#/lab/own">phần trả phí</a>.</p>` : ""}`, "");
+    bindCoach();
+    $("#lredo").onclick = () => { if (!confirm("Xóa phần đã làm của đề này và làm lại từ đầu?")) return; delete labS().runs[C.rid]; save(); route(); };
+    fbMount($(".lab"), { tech: "LAB", topic: C.rid, src: "lab" });
+  }
+  function vLabRoute(p) {
+    if (p[1] === "own") return vLabOwn();
+    if (p[1] === "s" && p[2]) return vLabRun("s", p[2]);
+    if (p[1] === "b" && p[2]) return vLabRun("b", p[2]);
+    if (p[1] === "o") return vLabRun("o");
+    return vLab();
+  }
+
   /* ---------- điều hướng ---------- */
   function route() {
     if (game && game.stop) game.stop(); game = null; act = null; if (S) save();
@@ -3539,6 +3856,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
       case "p": return vPlay(p[1], p[2], p[3]);
       case "w": return vWrite(p[1], p[2], p[3]);
       case "coach": return vCoach();
+      case "lab": return vLabRoute(p);
       case "plan": return vPlan();
       case "me": return vMe();
       case "about": return vAbout();
