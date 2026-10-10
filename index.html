@@ -3050,12 +3050,13 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
         <p class="small" style="margin:0">Điền ít nhất một trong ba cách liên hệ dưới đây.</p>
         <label>Số điện thoại có Zalo<input id="cp" type="tel" inputmode="tel" maxlength="16" autocomplete="tel" placeholder="Ví dụ: 0912 345 678"></label>
         <label>Email<input id="ce" type="email" maxlength="120" autocomplete="email" placeholder="ten@example.com"></label>
-        <label>Facebook <span class="opt-l" style="display:inline">(tên tài khoản hoặc đường dẫn trang cá nhân)</span><input id="cb" maxlength="160" placeholder="facebook.com/…"></label>
+        <label><span>Facebook <span class="opt-l">(tên tài khoản hoặc đường dẫn trang cá nhân)</span></span><input id="cb" maxlength="160" placeholder="facebook.com/…"></label>
         <label><span>Nội dung <span class="opt-l">(không bắt buộc)</span></span><textarea id="cm" maxlength="1500" placeholder="Ví dụ: band hiện tại và mục tiêu của bạn, thời gian bạn có thể học, hoặc chủ đề bạn muốn trao đổi…"></textarea></label>
         <p class="cerr" id="cerr" role="alert" hidden></p>
         <div class="bar-actions" style="margin-top:0"><button class="btn primary" type="submit">Gửi thông tin</button></div>
         <p class="small" style="margin:0">Thông tin của bạn chỉ được dùng để liên hệ lại với bạn, không hiển thị công khai trên trang.</p>
       </form>`, `<a href="#/">Trang chính</a> › Liên hệ`);
+    $("#cf").oninput = () => { $("#cerr").hidden = true; };
     $("#cf").onsubmit = e => {
       e.preventDefault();
       const name = $("#cn").value.trim().replace(/\s+/g, " "), phone = $("#cp").value.trim(), email = $("#ce").value.trim(), fb = $("#cb").value.trim(), msg = $("#cm").value.trim(), why = $('input[name="why"]:checked').value;
@@ -3069,7 +3070,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
       const whyL = why === "enrol" ? "Đăng ký học" : "Trao đổi chuyên môn";
       if (CFG.endpoint) {
         send({ kind: "contact", name: name, tech: "", topic: "", type: why, ok: 0, try: 0, sec: 0, words: words(msg), text: JSON.stringify({ phone: phone, email: email, fb: fb, msg: msg, user: U.name }) });
-        $("#cf").outerHTML = `<div class="cform"><p class="fbthanks">✓ Cảm ơn ${esc(name)}. Thông tin đã được gửi.</p><p style="margin:0">Nhóm phát triển sẽ liên hệ lại với bạn qua ${[phone && "Zalo", email && "email", fb && "Facebook"].filter(Boolean).join(" hoặc ")} trong thời gian sớm nhất.</p><div class="bar-actions" style="margin-top:0"><a class="btn primary" href="#/">Về trang chính</a></div></div>`;
+        $("#cf").outerHTML = `<div class="cform"><p class="fbthanks">✓ Cảm ơn ${esc(name)}. Thông tin đã được gửi.</p><p style="margin:0">Nhóm phát triển sẽ liên hệ lại với bạn qua ${[phone && "Zalo", email && "email", fb && "Facebook"].filter(Boolean).join(", ").replace(/, ([^,]*)$/, " hoặc $1")} trong thời gian sớm nhất.</p><div class="bar-actions" style="margin-top:0"><a class="btn primary" href="#/">Về trang chính</a></div></div>`;
       } else {
         const body = "Mục đích: " + whyL + "\nHọ tên: " + name + "\nSố điện thoại (Zalo): " + (phone || "-") + "\nEmail: " + (email || "-") + "\nFacebook: " + (fb || "-") + "\n\nNội dung:\n" + (msg || "-");
         $("#cf").outerHTML = `<div class="cform"><p class="fbthanks">Còn một bước nữa.</p><p style="margin:0">Trang chưa nối với hộp thư của nhóm, nên hãy bấm nút dưới để gửi thông tin qua email.</p><div class="bar-actions" style="margin-top:0"><a class="btn primary" href="mailto:${esc(PAID.email)}?subject=${encodeURIComponent("[Band 7→9] " + whyL + ": " + name)}&body=${encodeURIComponent(body)}">Gửi qua email</a></div></div>`;
