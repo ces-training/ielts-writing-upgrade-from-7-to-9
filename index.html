@@ -206,6 +206,64 @@ a.topcard.link h4{margin:4px 0 8px}.topgrid.wide{grid-template-columns:repeat(au
 .btags{display:inline-flex;gap:6px;flex-wrap:wrap}.tag.ex{background:#c7801a}.tag.ms{background:#0f9a8a}.tag.ty{background:#e9e6f7;color:#3b2f7a}
 @media(max-width:720px){.bitem{flex-direction:column;align-items:stretch}.bitem .btn{text-align:center}}
 
+/* bài giải thích band 7 khác band 9 (trang chính) */
+.readme{display:flex;gap:14px;align-items:center;justify-content:space-between;width:100%;text-align:left;margin-top:14px;padding:14px 18px;border-radius:var(--r);border:2px solid var(--ink);background:#fff}
+.readme:hover{background:#faf8f3}.readme b{display:block}.readme .small{display:block}.readme .go{font-weight:700;white-space:nowrap}
+.g79{margin-top:34px;background:#fff;border:1px solid var(--line);border-radius:22px;padding:28px;scroll-margin-top:70px}
+.g79 section{margin-top:34px;padding-top:26px;border-top:1px solid var(--line);scroll-margin-top:70px}
+.g79 p{max-width:46em}.g79 .g-pair p,.g79 .g-three p,.g79 .g-fig p,.g79 .g-box p{max-width:none}
+.g-kick{text-transform:uppercase;letter-spacing:.08em;font-size:.74em;font-weight:700;color:var(--mut);margin:0 0 6px}
+.g-head h2{font-size:1.9rem}.g-lead{font-size:1.08em;margin-top:10px}
+.g-toc{display:flex;flex-wrap:wrap;gap:6px;margin-top:16px}
+.g-toc button{border:1.5px solid var(--line);background:var(--bg);border-radius:99px;padding:5px 12px;font-size:.84em;font-weight:600}.g-toc button:hover{border-color:var(--ink)}
+.g79 h3{font-size:1.22rem;margin-bottom:10px;display:flex;gap:10px;align-items:flex-start}
+.g-n{flex:none;width:30px;height:30px;border-radius:50%;background:var(--c,var(--ink));color:#fff;display:grid;place-items:center;font-size:.8em}
+.g-pair{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0}.g-pair>div{margin:0}
+.g-three{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:12px 0}.g-three>div{margin:0}
+.g-bad{border-radius:var(--r);padding:12px 14px;background:#fdecea;border:1px solid #f1b9b3}.g-bad p{margin:6px 0 0}.g-bad .tag{background:var(--bad)}
+.g-note{font-size:.86em;color:#555a7a;margin-top:8px!important;padding-top:8px;border-top:1px dashed rgba(27,30,60,.18)}
+.hc{background:#ffd98a;border-radius:4px;padding:0 3px}
+.ha{text-decoration:underline wavy var(--bad);text-decoration-thickness:1.5px;text-underline-offset:4px}
+.hk{border-bottom:2.5px solid #7b4fd6;padding-bottom:1px}
+.hr{background:#bfeede;border-radius:4px;padding:0 3px}
+.hh{border-bottom:2.5px dotted #2f6fde;padding-bottom:1px}
+.g-legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:.84em;color:#555a7a;margin:4px 0 14px}.g-legend i{font-style:normal;font-family:"Source Serif 4",Georgia,serif;margin-right:6px;color:var(--ink)}
+.g-fig{margin:16px 0;padding:16px;border-radius:var(--r);background:var(--bg)}
+.g-fig figcaption{font-weight:700;font-size:.9em;margin-bottom:12px}
+.g-row{display:grid;grid-template-columns:minmax(150px,15em) 1fr;gap:12px;align-items:center;padding:7px 0;border-top:1px solid var(--line)}.g-row:first-child{border-top:0}
+.g-lab{font-size:.9em}.g-bars{display:grid;gap:4px}
+.g-bars i{display:block;font-style:normal;font-weight:800;font-size:.82em;line-height:20px;height:20px;border-radius:5px;padding:0 7px;width:max(var(--w),26px);box-sizing:border-box;text-align:right}
+.g-bars .x7{background:var(--b7);color:#3a2500}.g-bars .x9{background:var(--b9);color:#fff}
+.g-bars .z{background:none!important;color:var(--mut)!important;text-align:left;padding-left:0;box-shadow:inset 3px 0 0 var(--line);padding-left:9px}
+.g-key{display:flex;gap:16px;font-size:.84em;margin:10px 0 0!important}
+.g-ladder{list-style:none;margin:0;padding:0;display:grid;gap:8px;counter-reset:l}
+.g-ladder li:not(.g-stop){counter-increment:l;background:#fff;border:1px solid var(--line);border-left:6px solid var(--c);border-radius:10px;padding:10px 12px;display:grid;gap:2px}
+.g-ladder li:not(.g-stop) b::before{content:"Bậc " counter(l) " · ";color:var(--mut);font-weight:600}
+.g-ladder li:nth-child(2){margin-left:4%}.g-ladder li:nth-child(4){margin-left:8%}.g-ladder li:nth-child(5){margin-left:12%}
+.g-stop{margin-left:4%;display:flex;align-items:center;gap:10px;color:#8a5a00;font-weight:700;font-size:.84em}
+.g-stop::before,.g-stop::after{content:"";flex:1;border-top:2px dashed var(--b7)}
+.g-box{border:1px solid var(--line);border-left:5px solid var(--c,var(--ink));border-radius:var(--r);padding:12px 16px;margin:14px 0;background:#fff}
+.g-honest{background:#faf8f3}
+.g-go{font-size:.92em;font-weight:600;margin-top:14px!important}.g-go a{font-weight:600}
+.g-tw{margin:12px 0}.g-tw td,.g-tw th{vertical-align:top;white-space:normal}
+.g-clauses{display:grid;gap:14px}.g-clauses p{margin:8px 0 0;line-height:2.1}
+.g-cl{border:2px solid var(--b7);background:#fff6e3;border-radius:8px;padding:2px 7px;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.g-cl.g-np{border-color:var(--b9);background:#e9f8f3}
+.g-scale{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.g-scale li{display:grid;grid-template-columns:6.5em 1fr;gap:12px;align-items:center;background:#fff;border-radius:10px;padding:9px 12px;border:1px solid var(--line);border-left:6px solid var(--mut)}
+.g-scale b{font-size:.84em}.g-scale .s1{border-left-color:var(--bad)}.g-scale .s2{border-left-color:var(--b7)}.g-scale .s3{border-left-color:var(--b9);box-shadow:0 0 0 2px var(--b9)}.g-scale .s4{border-left-color:#b9bdd6;color:#555a7a}
+.g-time{display:grid;grid-template-columns:8em 1fr;gap:12px;align-items:center;margin:8px 0}.g-tl{font-size:.88em;font-weight:600}
+.g-tb{display:flex;gap:2px;height:30px;border-radius:8px;overflow:hidden}.g-tb i{font-style:normal;color:#fff;font-size:.8em;font-weight:700;display:grid;place-items:center;white-space:nowrap;overflow:hidden;min-width:0}
+.g-chart{width:100%;max-width:560px;display:block;margin:0 auto;background:#fff;border-radius:10px}
+.g79 s{color:var(--bad);text-decoration-thickness:2px}
+.g-src{margin-top:14px;max-width:none!important}
+@media(max-width:720px){
+  .g79{padding:18px 16px;border-radius:16px}.g-head h2{font-size:1.5rem}.g-pair,.g-three{grid-template-columns:1fr}
+  .g-row,.g-time{grid-template-columns:1fr;gap:4px}.g-scale li{grid-template-columns:1fr;gap:2px}
+  .g-ladder li:nth-child(2),.g-stop{margin-left:3%}.g-ladder li:nth-child(4){margin-left:6%}.g-ladder li:nth-child(5){margin-left:9%}
+  .readme{flex-direction:column;align-items:flex-start;gap:6px}
+}
+
 </style>
 </head>
 <body>
@@ -2225,7 +2283,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
   function shell(inner, crumbs) {
     const total = totalSec();
     app.innerHTML = `<header class="top"><a class="brand" href="#/"><span class="b79"><b>7</b><i>→</i><b>9</b></span><span>Writing Lab</span></a>
-      <nav><a href="#/">Trang chính</a><a href="#/coach">Nâng cấp bài viết</a><a href="#/plan">Lộ trình giờ học</a><a href="#/me">Tiến độ của tôi</a><a href="#/about">Về trang này</a></nav>
+      <nav><a href="#/">Trang chính</a><a href="#/why">Band 7 khác band 9</a><a href="#/coach">Nâng cấp bài viết</a><a href="#/plan">Lộ trình giờ học</a><a href="#/me">Tiến độ của tôi</a><a href="#/about">Về trang này</a></nav>
       <div class="who"><span class="hrs" id="tophours">${fmtH(total)} / ${CFG.targetHours} giờ</span><button class="link" id="switch" title="Đổi người học">${esc(U.name)} ⇄</button></div></header>
       <main>${crumbs ? `<div class="crumbs">${crumbs}</div>` : ""}${inner}</main>
       <footer>${CFG.endpoint ? "Kết quả được gửi về bảng theo dõi của giáo viên." : "Tiến độ đang lưu trên thiết bị này."} · Câu band 9 trên trang do nhóm soạn viết theo các đặc điểm đã phân tích từ bài mẫu, không phải điểm của giám khảo.</footer>`;
@@ -2257,17 +2315,240 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
   }
 
   /* ---------- trang chính ---------- */
-  function vHome() {
+  const ART79 = `<article class="g79" id="why79">
+  <header class="g-head">
+    <p class="g-kick">Đọc trước khi luyện · khoảng 7 phút</p>
+    <h2>Band 7 khác band 9 ở đâu?</h2>
+    <p class="g-lead">Bài band 7 đã trả lời đúng đề, có bố cục rõ và dùng được từ vựng tốt. Khoảng cách tới band 9 <b>không nằm ở từ hiếm hơn hay câu dài hơn</b>. Nó nằm ở bảy chỗ dưới đây, và chỗ nào cũng luyện được.</p>
+    <div class="g-toc">
+      <button type="button" data-go="g-0">Hai đoạn mẫu</button>
+      <button type="button" data-go="g-1">1 · Ý</button>
+      <button type="button" data-go="g-2">2 · Liên kết</button>
+      <button type="button" data-go="g-3">3 · Từ vựng</button>
+      <button type="button" data-go="g-4">4 · Ngữ pháp</button>
+      <button type="button" data-go="g-5">5 · Giọng văn</button>
+      <button type="button" data-go="g-6">6 · Quy trình</button>
+      <button type="button" data-go="g-7">7 · Task 1</button>
+      <button type="button" data-go="g-8">Tóm tắt</button>
+    </div>
+  </header>
+
+  <section id="g-0">
+    <h3>Cùng một đề, cùng một quan điểm, hai đoạn thân bài</h3>
+    <p>Đề: <span class="en">Some people think governments should spend money on public transport rather than on building new roads.</span> Cả hai đoạn đều ủng hộ giao thông công cộng. Hãy đọc cả hai trước khi xem phần phân tích.</p>
+    <div class="g-pair">
+      <div class="b7"><span class="tag t7">Đặc trưng band 7</span>
+        <p class="en"><span class="hc">Firstly,</span> investing in public transport is a good way to <span class="hk">solve traffic jams</span>. <span class="ha">Everyone knows</span> that buses and trains can carry a lot of people, so there will be fewer cars on the roads. <span class="hc">Moreover,</span> public transport is cheaper than driving, which helps poor people to save money. <span class="hc">Furthermore,</span> it is good for the environment because it <span class="hk">makes less pollution</span>. <span class="hc">For example,</span> <span class="ha">a recent study showed that 80% of people</span> in big cities prefer trains. <span class="hc">Therefore,</span> the government should <span class="ha">always</span> spend money on public transport instead of roads.</p>
+      </div>
+      <div class="b9"><span class="tag t9">Đặc trưng band 9</span>
+        <p class="en">Investing in public transport <span class="hk">eases congestion</span> more durably than building roads. New roads <span class="hk">attract additional car journeys</span>, so the extra capacity <span class="hh">tends to</span> fill within a few years, whereas a single rail line can carry the equivalent of several lanes of traffic without taking up more land. <span class="hr">This difference</span> matters most at peak hours, when commuters who have a reliable alternative leave their cars at home and <span class="hk">free up road space</span> for those who cannot. <span class="hr">Such gains</span> depend on density, however: in sparsely populated areas, where services would run almost empty, roads remain the only practical option.</p>
+      </div>
+    </div>
+    <div class="g-legend">
+      <span><i class="hc">Abc</i> từ nối đầu câu</span>
+      <span><i class="ha">Abc</i> nhận định tuyệt đối, số liệu không nguồn</span>
+      <span><i class="hk">Abc</i> kết hợp từ (collocation)</span>
+      <span><i class="hr">Abc</i> quy chiếu: this/such + danh từ</span>
+      <span><i class="hh">Abc</i> giảm mức khẳng định</span>
+    </div>
+    <figure class="g-fig">
+      <figcaption>Đếm trên hai đoạn trên (band 7: 6 câu, 88 từ · band 9: 4 câu, 97 từ)</figcaption>
+      <div class="g-tally">
+        <div class="g-row"><span class="g-lab">Số ý chính trong đoạn</span><span class="g-bars"><i class="x7" style="--w:60%">3</i><i class="x9" style="--w:20%">1</i></span></div>
+        <div class="g-row"><span class="g-lab">Số bậc phát triển của ý sâu nhất</span><span class="g-bars"><i class="x7" style="--w:40%">2</i><i class="x9" style="--w:80%">4</i></span></div>
+        <div class="g-row"><span class="g-lab">Từ nối đứng đầu câu</span><span class="g-bars"><i class="x7" style="--w:100%">5</i><i class="x9 z" style="--w:0%">0</i></span></div>
+        <div class="g-row"><span class="g-lab">Quy chiếu this/such + danh từ</span><span class="g-bars"><i class="x7 z" style="--w:0%">0</i><i class="x9" style="--w:40%">2</i></span></div>
+        <div class="g-row"><span class="g-lab">Nhận định tuyệt đối, số liệu không nguồn</span><span class="g-bars"><i class="x7" style="--w:60%">3</i><i class="x9 z" style="--w:0%">0</i></span></div>
+      </div>
+      <p class="g-key"><span><i class="sw" style="background:var(--b7)"></i>Band 7</span><span><i class="sw" style="background:var(--b9)"></i>Band 9</span></p>
+    </figure>
+    <p>Hai đoạn dài gần bằng nhau, và đoạn band 7 gần như không có lỗi ngữ pháp. Khác biệt nằm ở cách dùng chừng ấy từ: đoạn bên trái <b>trải mỏng ba ý</b>, đoạn bên phải <b>kéo một ý đi hết bốn bậc</b>. Bảy mục dưới đây tách riêng từng khác biệt.</p>
+  </section>
+
+  <section id="g-1" style="--c:#e2553d">
+    <h3><span class="g-n">1</span>Ý: band 7 liệt kê, band 9 kéo một ý đến cùng</h3>
+    <p>Band descriptor công khai của band 7 ghi rõ điểm yếu: ý chính có được mở rộng nhưng người viết có <span class="en">“a tendency to over-generalise”</span> và ý hỗ trợ có thể thiếu trọng tâm. Đoạn band 7 ở trên là ví dụ: ba lý do (ùn tắc, chi phí, môi trường), mỗi lý do một câu, không lý do nào được giải thích cơ chế.</p>
+    <figure class="g-fig">
+      <figcaption>Thang bốn bậc của một ý. Band 7 thường dừng ở bậc 2 rồi chuyển sang ý khác.</figcaption>
+      <ol class="g-ladder">
+        <li><b>Luận điểm</b><span class="en">Investing in public transport eases congestion more durably than building roads.</span></li>
+        <li><b>Vì sao</b><span class="en">New roads attract additional car journeys, so the extra capacity tends to fill within a few years.</span></li>
+        <li class="g-stop"><span>Band 7 thường dừng ở đây</span></li>
+        <li><b>Thì sao</b><span class="en">At peak hours, commuters with a reliable alternative leave their cars at home and free up road space.</span></li>
+        <li><b>Giới hạn</b><span class="en">Such gains depend on density: in sparsely populated areas, roads remain the only practical option.</span></li>
+      </ol>
+    </figure>
+    <p>Bậc 4 (giới hạn) là chỗ chặn lỗi khái quát hóa quá mức: người viết tự nói ra khi nào luận điểm của mình không còn đúng.</p>
+    <p>Chỗ thứ hai band 7 hay hụt là <b>phản bác không trả lời đúng phản đề</b>. Nghiên cứu về bài nghị luận của người học cho thấy phản đề và phản bác là phần được viết ít nhất, trong khi chúng đi cùng chất lượng bài cao hơn.</p>
+    <div class="g-box">
+      <p><b>Luận điểm:</b> <span class="en">University tuition should be free.</span><br><b>Phản đề:</b> <span class="en">Free tuition shifts the cost onto taxpayers who never attend university.</span></p>
+      <div class="g-pair">
+        <div class="b7"><span class="tag t7">Phản bác lạc</span><p class="en">Education is a basic human right.</p><p class="g-note">Không nói gì về chi phí và người nộp thuế.</p></div>
+        <div class="b9"><span class="tag t9">Phản bác khớp</span><p class="en">Graduates repay the investment through higher income tax over their careers.</p><p class="g-note">Nhặt lại đúng từ khóa của phản đề: ai trả tiền.</p></div>
+      </div>
+    </div>
+    <p class="g-go">Luyện: <a href="#/k/TR1">TR1 Thang “Vì sao – Thì sao”</a> · <a href="#/k/TR2">TR2 Phản đề – phản bác khớp</a> · <a href="#/k/TR3">TR3 Chẩn đoán lỗ hổng lập luận</a> · <a href="#/k/TR4">TR4 Ví dụ có địa chỉ</a></p>
+  </section>
+
+  <section id="g-2" style="--c:#2f6fde">
+    <h3><span class="g-n">2</span>Liên kết: band 7 dán nhãn đầu câu, band 9 nối bằng nội dung</h3>
+    <p>Band 9 yêu cầu liên kết <span class="en">“attracts no attention”</span>: người đọc đi từ câu này sang câu kia mà không để ý mình được dẫn đi. Các nghiên cứu về phương tiện liên kết cũng chỉ ra cùng hướng: có nhiều từ nối không làm bài mạch lạc hơn, còn quy chiếu ngược về câu trước và đoạn trước thì đi cùng bài chất lượng cao.</p>
+    <div class="g-pair">
+      <div class="b7"><span class="tag t7">Đặc trưng band 7</span>
+        <p class="en"><span class="hc">Firstly,</span> remote work saves time. <span class="hc">Moreover,</span> it reduces costs. <span class="hc">Furthermore,</span> employees are happier.</p>
+        <p class="g-note">Ba câu rời nhau. Đổi chỗ câu 1 và câu 3, đoạn vẫn đọc được: các câu chưa nối với nhau.</p>
+      </div>
+      <div class="b9"><span class="tag t9">Đặc trưng band 9</span>
+        <p class="en">Remote work removes the daily commute. <span class="hr">The hours this frees up</span> can be reinvested in work or rest, and the savings on transport and office space benefit employees and employers alike. <span class="hr">Such gains</span> help explain why remote staff often report higher satisfaction.</p>
+        <p class="g-note">Mỗi câu mở đầu bằng thứ câu trước vừa nói. Đổi chỗ hai câu bất kỳ thì đoạn hỏng.</p>
+      </div>
+    </div>
+    <div class="g-box">
+      <p><b>Phép thử đảo câu.</b> Lấy một đoạn bạn đã viết, đổi chỗ hai câu bất kỳ. Nếu đoạn vẫn ổn, từ nối của bạn đang làm thay việc của nội dung.</p>
+      <p><b>Giữa các đoạn cũng vậy.</b> Thay vì mở đoạn 2 bằng <span class="en">On the other hand,</span> hãy nhặt lại ý đoạn 1 rồi mới rẽ: <span class="en">While <span class="hr">these economic gains</span> are real, they are rarely shared evenly among local residents.</span></p>
+    </div>
+    <p class="g-go">Luyện: <a href="#/k/CC1">CC1 Xóa từ nối</a> · <a href="#/k/CC2">CC2 Chuỗi quy chiếu</a> · <a href="#/k/CC3">CC3 Cầu nối giữa đoạn</a></p>
+  </section>
+
+  <section id="g-3" style="--c:#7b4fd6">
+    <h3><span class="g-n">3</span>Từ vựng: band 7 tìm từ hiếm, band 9 kết hợp từ chính xác</h3>
+    <p>Đây là chỗ nhiều người học đi sai hướng nhất. Nghiên cứu trên bài viết từ B2 đến C2 cho thấy độ hiếm của từ không phân biệt được các trình độ cao; thứ phân biệt được là <b>collocation</b>, rõ nhất ở cặp động từ + danh từ.</p>
+    <div class="g-three">
+      <div class="b7"><span class="tag t7">Band 7: chung chung</span><p class="en">Public transport is a good way to solve traffic jams.</p></div>
+      <div class="g-bad"><span class="tag">Cố dùng từ hiếm</span><p class="en">Public transport is a panacea to ameliorate the plethora of traffic conundrums.</p><p class="g-note">Từ hiếm nhưng không đi với nhau; đọc lên thấy gượng và điểm còn thấp hơn câu bên trái.</p></div>
+      <div class="b9"><span class="tag t9">Band 9: chính xác</span><p class="en">Public transport eases congestion.</p><p class="g-note">Ngắn hơn câu gốc. Không có từ nào hiếm.</p></div>
+    </div>
+    <div class="tablewrap g-tw"><table class="dt wide">
+      <tr><th>Band 7 hay viết</th><th>Kết hợp chính xác</th></tr>
+      <tr><td class="en">make a problem worse</td><td class="en">exacerbate a problem</td></tr>
+      <tr><td class="en">give a solution</td><td class="en">propose a solution</td></tr>
+      <tr><td class="en">make the gap smaller</td><td class="en">narrow the gap</td></tr>
+      <tr><td class="en">learn knowledge</td><td class="en">acquire knowledge</td></tr>
+      <tr><td class="en">cause a bad effect to</td><td class="en">have a detrimental effect on</td></tr>
+    </table></div>
+    <p>Dấu hiệu bạn đang đi đúng: câu sau khi sửa <b>ngắn hơn hoặc bằng</b> câu gốc. Nếu nó dài ra, bạn đang trang trí chứ chưa chính xác hơn.</p>
+    <p class="g-go">Luyện: <a href="#/k/LR1">LR1 Lưới collocation</a> · <a href="#/k/LR2">LR2 Nâng cấp động từ + danh từ</a> · <a href="#/k/LR3">LR3 Sửa collocation sai</a></p>
+  </section>
+
+  <section id="g-4" style="--c:#0f9a8a">
+    <h3><span class="g-n">4</span>Ngữ pháp: band 7 nối thêm mệnh đề, band 9 nén vào cụm danh từ và không sai</h3>
+    <p>Có hai khác biệt, và chúng kéo về hai hướng ngược nhau nên phải luyện cùng lúc.</p>
+    <p><b>Thứ nhất, độ phức tạp chuyển từ mệnh đề sang cụm từ.</b> Người học thường hiểu “câu phức” là thêm <span class="en">because, which, although</span>. Viết học thuật ở trình độ cao lại dựa nhiều vào danh hóa và bổ nghĩa danh từ: cùng lượng thông tin, ít mệnh đề hơn.</p>
+    <figure class="g-fig">
+      <figcaption>Cùng một thông tin: hai mệnh đề nén thành một mệnh đề</figcaption>
+      <div class="g-clauses">
+        <div><span class="tag t7">Band 7 · 2 mệnh đề</span><p class="en"><span class="g-cl">Because the population is ageing rapidly,</span> <span class="g-cl">the government spends more on healthcare.</span></p></div>
+        <div><span class="tag t9">Band 9 · 1 mệnh đề</span><p class="en"><span class="g-cl g-np">The rapid ageing of the population</span> has driven up <span class="g-cl g-np">public healthcare spending</span>.</p><p class="g-note">Hai ô xanh là hai cụm danh từ; cả câu chỉ còn một động từ chính.</p></div>
+      </div>
+    </figure>
+    <p><b>Thứ hai, độ chính xác.</b> Band 7 được mô tả là có <span class="en">“frequent error-free sentences”</span>, tức vẫn còn câu có lỗi. Ở band 9, lỗi chỉ còn là sơ suất hiếm gặp (<span class="en">“slips”</span>). Vì vậy thử một cấu trúc khó mà viết sai thì mất điểm chứ không được điểm.</p>
+    <div class="g-pair">
+      <div class="b7"><span class="tag t7">Cấu trúc khó, viết sai</span><p class="en">Not only public transport <s>reduce</s> <s>the</s> pollution, but also it <s>help</s> <s>the</s> poor people.</p><p class="g-note">Thiếu đảo ngữ sau <span class="en">Not only</span>, hai lỗi hòa hợp chủ–vị, hai mạo từ thừa.</p></div>
+      <div class="b9"><span class="tag t9">Cấu trúc vừa sức, không lỗi</span><p class="en">Public transport reduces pollution and is affordable for people on low incomes.</p></div>
+    </div>
+    <p>Mỗi đoạn thân bài chỉ cần một, hai câu nén. Nén mọi câu làm bài khó đọc.</p>
+    <p class="g-go">Luyện: <a href="#/k/GR1">GR1 Nén thành cụm danh từ</a> · <a href="#/k/GR2">GR2 Một ý, ba cấu trúc</a> · <a href="#/k/GR3">GR3 Câu không lỗi</a></p>
+  </section>
+
+  <section id="g-5" style="--c:#d6418a">
+    <h3><span class="g-n">5</span>Giọng văn: band 7 khẳng định và kêu gọi, band 9 cân nhắc và phân tích</h3>
+    <p>Phân tích bài thi điểm cao cho thấy chúng ít dấu hiệu thân mật, nhiều bị động, danh hóa và cách nói giảm mức khẳng định hơn. Giọng hô hào (câu hỏi tu từ, <span class="en">we must</span>) thường mang sang từ thói quen viết tiếng mẹ đẻ.</p>
+    <figure class="g-fig">
+      <figcaption>Thang mức khẳng định. Chọn mức khớp với bằng chứng bạn có trong bài.</figcaption>
+      <ol class="g-scale">
+        <li class="s1"><b>Tuyệt đối</b><span class="en">Social media always causes depression in teenagers.</span></li>
+        <li class="s2"><b>Mạnh</b><span class="en">Social media causes depression in teenagers.</span></li>
+        <li class="s3"><b>Vừa đủ</b><span class="en">Heavy social media use is associated with higher rates of depression among teenagers.</span></li>
+        <li class="s4"><b>Quá yếu</b><span class="en">Social media might possibly have some effect on some teenagers.</span></li>
+      </ol>
+      <p class="g-note">Mục tiêu là mức 3, không phải mức 4. Câu nêu lập trường của bạn vẫn phải rõ; rào đón mọi câu thì bài mất quan điểm.</p>
+    </figure>
+    <div class="g-pair">
+      <div class="b7"><span class="tag t7">Hô hào</span><p class="en">How can we let our children suffer like this? We must act now!</p></div>
+      <div class="b9"><span class="tag t9">Phân tích</span><p class="en">The risks to children are serious enough to justify immediate regulation.</p></div>
+    </div>
+    <p class="g-go">Luyện: <a href="#/k/ST1">ST1 Thang hedging</a> · <a href="#/k/ST2">ST2 Từ hô hào sang phân tích</a></p>
+  </section>
+
+  <section id="g-6" style="--c:#c7801a">
+    <h3><span class="g-n">6</span>Quy trình: band 7 viết theo cảm tính, band 9 có kế hoạch và có lượt soát</h3>
+    <p>Năm khác biệt trên không tự xuất hiện trong 40 phút nếu bạn bắt đầu viết ngay. Nghiên cứu về lập kế hoạch cho thấy dàn ý trước khi viết làm ý và độ phức tạp tốt lên, nhưng <b>ít tác động đến độ chính xác</b>. Độ chính xác cần một bước riêng: soát bài.</p>
+    <figure class="g-fig">
+      <figcaption>40 phút của Task 2</figcaption>
+      <div class="g-time"><span class="g-tl">Viết cảm tính</span><span class="g-tb"><i style="flex:38;background:var(--b7);color:#3a2500">Viết ngay · 38 phút</i><i style="flex:2;background:#e4e0d6" title="Đọc lại một lượt, 2 phút"></i></span></div>
+      <div class="g-time"><span class="g-tl">Có kiểm soát</span><span class="g-tb"><i style="flex:5;background:#3b3fd8">5</i><i style="flex:31;background:var(--b9)">Viết · 31 phút</i><i style="flex:4;background:#1b1e3c">4</i></span></div>
+      <p class="g-note">5 phút dàn ý có cả ô ngôn ngữ (collocation và cấu trúc định dùng) · 31 phút viết · 4 phút soát ba lượt, mỗi lượt chỉ tìm một thứ: lỗi cá nhân hay gặp → từ nối thừa và đại từ mơ hồ → nhận định tuyệt đối.</p>
+    </figure>
+    <p class="g-go">Luyện: <a href="#/k/PR1">PR1 Dàn ý 5 phút có ô ngôn ngữ</a> · <a href="#/k/PR2">PR2 Soát bài có giới hạn thời gian</a> · <a href="#/k/F2">F2 Bài Task 2 hoàn chỉnh</a></p>
+  </section>
+
+  <section id="g-7" style="--c:#0f9a8a">
+    <h3><span class="g-n">7</span>Task 1: band 7 kể hết số liệu theo khuôn, band 9 chọn lọc và nêu quy luật</h3>
+    <p>Nghiên cứu về Task 1 cho thấy điểm phụ thuộc vào năng lực viết nhiều hơn là độ quen với biểu đồ, và dạng bài này rất dễ luyện theo khuôn. Khuôn đủ để đạt band 7, và cũng là trần của band 7. Ba phản xạ cần đổi: overview nêu quy luật thay vì nhắc lại con số, thân bài chọn và so sánh thay vì kể lần lượt, và <b>không giải thích nguyên nhân</b> (thói quen tốt ở Task 2 nhưng bị trừ điểm ở Task 1).</p>
+    <figure class="g-fig">
+      <figcaption>Dữ liệu luyện tập của trang: số lượt đi lại ở Newport, 2000–2020 (triệu lượt mỗi năm)</figcaption>
+      <svg class="g-chart" viewBox="0 0 470 230" role="img" aria-label="Biểu đồ đường: xe buýt giảm từ 60 xuống 35, metro tăng từ 20 lên 70, tram dao động quanh 14 đến 18 triệu lượt">
+        <g stroke="#e4e0d6" stroke-width="1"><line x1="40" y1="190" x2="390" y2="190"/><line x1="40" y1="150" x2="390" y2="150"/><line x1="40" y1="110" x2="390" y2="110"/><line x1="40" y1="70" x2="390" y2="70"/><line x1="40" y1="30" x2="390" y2="30"/></g>
+        <g class="ax" text-anchor="end"><text x="34" y="194">0</text><text x="34" y="154">20</text><text x="34" y="114">40</text><text x="34" y="74">60</text><text x="34" y="34">80</text></g>
+        <g class="ax" text-anchor="middle"><text x="50" y="208">2000</text><text x="135" y="208">2005</text><text x="220" y="208">2010</text><text x="305" y="208">2015</text><text x="390" y="208">2020</text></g>
+        <polyline fill="none" stroke="#3b3fd8" stroke-width="3" points="50,150 135,130 220,100 305,74 390,50"/>
+        <polyline fill="none" stroke="#c7801a" stroke-width="3" stroke-dasharray="8 5" points="50,70 135,80 220,94 305,110 390,120"/>
+        <polyline fill="none" stroke="#666a85" stroke-width="3" stroke-dasharray="2 5" stroke-linecap="round" points="50,160 135,154 220,162 305,156 390,158"/>
+        <g class="lb"><text x="398" y="54" fill="#3b3fd8">Metro 70</text><text x="398" y="124" fill="#8a5a10">Bus 35</text><text x="398" y="162" fill="#555a7a">Tram 16</text></g>
+        <g class="ax"><text x="50" y="62" text-anchor="middle">60</text><text x="50" y="142" text-anchor="middle">20</text><text x="50" y="176" text-anchor="middle">15</text></g>
+      </svg>
+    </figure>
+    <div class="g-pair">
+      <div class="b7"><span class="tag t7">Đặc trưng band 7</span>
+        <p class="en">Overall, the number of bus journeys <span class="ha">decreased from 60 million to 35 million</span>, while metro journeys <span class="ha">increased from 20 million to 70 million</span>. The number of tram journeys was 15 million in 2000, 18 million in 2005, 14 million in 2010, 17 million in 2015 and 16 million in 2020. <span class="ha">The metro became more popular because it is faster and more modern than the bus.</span></p>
+        <p class="g-note">Overview nhắc lại con số · kể đủ năm mốc của tram theo khuôn <span class="en">“the number of … was …”</span> · câu cuối suy diễn nguyên nhân không có trong biểu đồ.</p>
+      </div>
+      <div class="b9"><span class="tag t9">Đặc trưng band 9</span>
+        <p class="en">Overall, the metro grew steadily to become the city's most heavily used form of transport, whereas bus travel declined throughout the period. Tram use, by contrast, changed very little.</p>
+        <p class="en">Having started at 20 million, metro journeys <span class="hk">more than doubled</span> to 45 million by 2010, overtook the bus shortly afterwards and reached 70 million in 2020, <span class="hk">exactly twice the bus figure</span>.</p>
+        <p class="g-note">Overview không có con số, chỉ có quy luật · số liệu được chọn và đặt vào phép so sánh · mỗi phép so sánh khớp đúng số (45 &gt; 2 × 20; 70 = 2 × 35).</p>
+      </div>
+    </div>
+    <p class="g-go">Luyện: <a href="#/k/TA1">TA1 Chọn và nhóm dữ liệu</a> · <a href="#/k/TA2">TA2 Overview không có con số</a> · <a href="#/k/TA3">TA3 So sánh và định lượng chính xác</a> · <a href="#/k/TA4">TA4 Một dữ liệu, nhiều cách viết</a> · <a href="#/k/TA5">TA5 Mô tả, không suy diễn</a></p>
+  </section>
+
+  <section id="g-8">
+    <h3>Tóm tắt: bảy khác biệt và chỗ luyện</h3>
+    <div class="tablewrap g-tw"><table class="dt wide feat">
+      <tr><th></th><th>Band 7</th><th>Band 9</th><th>Luyện ở</th></tr>
+      <tr><td><b>Ý</b></td><td>Hai, ba ý mỗi đoạn, mỗi ý một câu; hay khái quát hóa</td><td>Một ý mỗi đoạn, đi đủ bốn bậc; phản bác khớp phản đề</td><td><a href="#/k/TR1">TR1</a>–<a href="#/k/TR4">TR4</a></td></tr>
+      <tr><td><b>Liên kết</b></td><td>Từ nối đứng đầu gần như mọi câu</td><td>Quy chiếu về câu trước, đoạn trước; rất ít từ nối đầu câu</td><td><a href="#/k/CC1">CC1</a>–<a href="#/k/CC3">CC3</a></td></tr>
+      <tr><td><b>Từ vựng</b></td><td>Động từ chung chung, hoặc từ hiếm dùng gượng</td><td>Collocation chính xác, nhất là động từ + danh từ</td><td><a href="#/k/LR1">LR1</a>–<a href="#/k/LR3">LR3</a></td></tr>
+      <tr><td><b>Ngữ pháp</b></td><td>Nối thêm mệnh đề; còn câu có lỗi</td><td>Nén vào cụm danh từ; lỗi chỉ là sơ suất hiếm gặp</td><td><a href="#/k/GR1">GR1</a>–<a href="#/k/GR3">GR3</a></td></tr>
+      <tr><td><b>Giọng văn</b></td><td>Khẳng định tuyệt đối, kêu gọi</td><td>Mức khẳng định vừa đủ, giọng phân tích</td><td><a href="#/k/ST1">ST1</a>–<a href="#/k/ST2">ST2</a></td></tr>
+      <tr><td><b>Quy trình</b></td><td>Viết ngay, đọc lại một lượt</td><td>Dàn ý có ô ngôn ngữ, soát ba lượt</td><td><a href="#/k/PR1">PR1</a>–<a href="#/k/PR2">PR2</a></td></tr>
+      <tr><td><b>Task 1</b></td><td>Kể số liệu theo khuôn, suy diễn nguyên nhân</td><td>Chọn lọc, overview nêu quy luật, so sánh khớp số</td><td><a href="#/k/TA1">TA1</a>–<a href="#/k/TA5">TA5</a></td></tr>
+    </table></div>
+    <div class="g-box g-honest">
+      <p><b>Ba điều cần nói rõ.</b></p>
+      <p>Gần như không có nghiên cứu nào đo trực tiếp chặng band 7 lên band 9: các nghiên cứu dùng bài thi IELTS thật thường dừng ở band 7 hoặc 8. Bài này ghép hai nguồn, nghiên cứu IELTS ở band cao nhất có dữ liệu và nghiên cứu về viết ngoại ngữ từ B2 đến C2; phần áp vào chặng 7 lên 9 là suy luận của nhóm soạn.</p>
+      <p>Các câu và đoạn mẫu ở trên do nhóm soạn viết để minh họa. Nhãn “band 7” và “band 9” là ước lượng theo band descriptor công khai, không phải điểm do giám khảo chấm.</p>
+      <p>Không có một đặc điểm đơn lẻ nào làm nên band 9. Bài tốt là tổng hòa của cả bảy điểm, nên sau khi luyện từng kỹ thuật, bạn cần viết cả bài.</p>
+    </div>
+    <p class="small g-src">Nguồn: IELTS Writing band descriptors (bản công khai) · <a href="https://ielts.org/researchers/our-research/research-reports/an-investigation-of-the-relations-between-test-takers-first-language-and-the-discourse-of-written-performance-on-the-ielts-academic-writing-test-task-2" target="_blank" rel="noopener">Riazi &amp; Knox (2013)</a> · <a href="https://ielts.org/researchers/our-research/research-reports/what-changes-and-what-doesnt-an-examination-of-changes-in-the-linguistic-characteristics-of-ielts-repeaters-writing-task-2-scripts" target="_blank" rel="noopener">Barkaoui (2016)</a> · <a href="https://ielts.org/researchers/our-research/research-reports/an-investigation-of-examiner-rating-of-coherence-and-cohesion-in-the-ielts-academic-writing-task-2" target="_blank" rel="noopener">Cotton &amp; Wilson (2011)</a> · <a href="https://oro.open.ac.uk/6568" target="_blank" rel="noopener">Mayor (2006)</a> · Crossley, Kyle &amp; McNamara (2016) về phương tiện liên kết · Paquot (2019) về collocation ở B2–C2 · Biber, Gray &amp; Poonpon (2011) về độ phức tạp cấp cụm từ · Qin &amp; Karabacak (2010) về phản đề và phản bác · Ellis &amp; Yuan (2004) về lập kế hoạch · Yu, Rea-Dickins &amp; Kiely (2011) về Task 1.</p>
+    <div class="bar-actions"><a class="btn primary" href="#/coach">Dán bài của bạn để xem nó đang ở band nào →</a><a class="btn" href="#/by/tech">Chọn kỹ thuật để luyện</a></div>
+  </section>
+</article>`;
+  function vHome(toArt) {
     const total = totalSec(), perWeek = Math.round(CFG.targetHours / CFG.weeks);
     shell(`<section class="hero"><div><p class="hi">Chào ${esc(U.name.split(" ").pop())},</p><h1>Từ band 7 lên band 9: từ vựng chính xác và tự nhiên hơn, ý sâu hơn, liên kết kín hơn và ít lỗi hơn.</h1>
       <p>Lộ trình ${CFG.targetHours} giờ trong ${CFG.weeks} tuần, khoảng ${perWeek} giờ mỗi tuần. Đồng hồ chỉ chạy khi bạn đang làm bài.</p></div>
       <div class="ringbox">${ring(total / (CFG.targetHours * 3600), fmtH(total), "/ " + CFG.targetHours + " giờ")}</div></section>
+      <button type="button" class="readme" data-go="why79"><span><b>📖 Band 7 khác band 9 ở đâu?</b><span class="small">Bài giải thích có ví dụ đối chiếu cho từng khác biệt. Nên đọc trước khi luyện.</span></span><span class="go">Đọc bài ↓</span></button>
       <h2 class="ways-h">Bạn muốn luyện theo cách nào?</h2>
       <section class="mods ways">
         <a class="waycard tech" href="#/by/tech"><div class="me">🧗</div><h2>Theo kỹ thuật nâng band</h2><p>Chọn một kỹ thuật (ví dụ: xóa từ nối, danh hóa), rồi luyện kỹ thuật đó qua lần lượt các chủ đề.</p><p class="cnt">${D.techs.filter(t => t.g !== "FULL").length} kỹ thuật · hợp khi bạn biết mình yếu ở tiêu chí nào</p><span class="go">Chọn kỹ thuật →</span></a>
         <a class="waycard topic" href="#/by/topic"><div class="me">🗂️</div><h2>Theo chủ đề</h2><p>Chọn một chủ đề (ví dụ: Giáo dục, Môi trường) hoặc một dạng đề Task 1, rồi luyện mọi kỹ thuật trên đúng chủ đề đó.</p><p class="cnt">${D.topics.t2.length + (D.xtopics || []).length} chủ đề Task 2 · ${D.topics.t1.length} dạng đề Task 1 · ${(D.bank || []).length} đề viết cả bài, có đề thi 2025–2026</p><span class="go">Chọn chủ đề →</span></a>
       </section>
-      <p class="small ways-n">Ở cả hai cách, bạn đều có thể chọn viết bài hoàn chỉnh và được dẫn sửa từng bước.</p>`);
+      <p class="small ways-n">Ở cả hai cách, bạn đều có thể chọn viết bài hoàn chỉnh và được dẫn sửa từng bước.</p>${ART79}`);
+    const go = id => { const el = document.getElementById(id); if (el) el.scrollIntoView({ behavior: "smooth", block: "start" }); };
+    app.querySelectorAll("[data-go]").forEach(b => b.onclick = () => go(b.dataset.go));
+    if (toArt) { const el = document.getElementById("why79"); if (el) el.scrollIntoView(); }
   }
 
   /* ---------- chọn cách luyện ---------- */
@@ -2707,6 +2988,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
       case "plan": return vPlan();
       case "me": return vMe();
       case "about": return vAbout();
+      case "why": return vHome(true);
       default: return vHome();
     }
   }
