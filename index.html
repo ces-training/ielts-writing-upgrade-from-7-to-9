@@ -25,7 +25,9 @@ button{font:inherit;color:inherit;cursor:pointer}
 .top a{color:#fff}.brand{display:flex;align-items:center;gap:10px;font-weight:700}
 .b79{display:inline-flex;align-items:center;gap:3px;padding:3px 9px;border-radius:99px;background:linear-gradient(90deg,var(--b7),var(--b9));color:#fff;font-weight:800}
 .b79 i{font-style:normal;opacity:.85}.b79.big{font-size:2.2rem;padding:6px 20px}
-.top nav{display:flex;gap:16px;font-size:.92em;flex:1;flex-wrap:wrap}.top nav a{opacity:.85}.top nav a:hover{opacity:1}
+.top nav{display:flex;gap:4px;font-size:.92em;flex:1;flex-wrap:wrap}.top nav a{opacity:.85;padding:5px 12px;border-radius:99px;font-weight:600}.top nav a:hover{opacity:1;text-decoration:none;background:rgba(255,255,255,.12)}.top nav a.on{background:#fff;color:var(--ink);opacity:1}
+.subnav{background:#fff;border-bottom:1px solid var(--line)}.subnav div{max-width:1000px;margin:0 auto;padding:0 16px;display:flex;gap:4px;overflow-x:auto}
+.subnav a{padding:10px 12px 8px;font-size:.9em;font-weight:600;color:var(--mut);border-bottom:3px solid transparent;white-space:nowrap}.subnav a:hover{color:var(--ink);text-decoration:none}.subnav a.on{color:var(--ink);border-bottom-color:var(--acc)}
 .who{display:flex;align-items:center;gap:10px;font-size:.9em}.hrs{background:rgba(255,255,255,.14);padding:3px 10px;border-radius:99px;font-variant-numeric:tabular-nums}
 .link{background:none;border:0;color:#fff;text-decoration:underline;padding:0}
 main{max-width:1000px;margin:0 auto;padding:22px 16px 60px}
@@ -146,7 +148,7 @@ textarea{min-height:230px;resize:vertical;font-family:"Source Serif 4",Georgia,s
 
 @media(max-width:720px){
   .hero,.planhead{grid-template-columns:1fr}.ringbox{justify-self:center}.mods,.why3,.maps{grid-template-columns:1fr}.kpis{grid-template-columns:1fr 1fr}
-  .match{grid-template-columns:1fr}.buckets.n3,.buckets.n4,.buckets.n2{grid-template-columns:1fr}.top{position:static;gap:8px 14px;padding:8px 14px}.top nav{order:3;flex-basis:100%;gap:12px;font-size:.86em}.play{padding:16px}.clock{font-size:.82em}
+  .match{grid-template-columns:1fr}.buckets.n3,.buckets.n4,.buckets.n2{grid-template-columns:1fr}.top{position:static;gap:8px 14px;padding:8px 14px}.top nav{order:3;flex-basis:100%;gap:2px;font-size:.84em}.top nav a{padding:4px 9px}.play{padding:16px}.clock{font-size:.82em}
 }
 @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
 
@@ -257,6 +259,30 @@ a.topcard.link h4{margin:4px 0 8px}.topgrid.wide{grid-template-columns:repeat(au
 .g-chart{width:100%;max-width:560px;display:block;margin:0 auto;background:#fff;border-radius:10px}
 .g79 s{color:var(--bad);text-decoration-thickness:2px}
 .g-src{margin-top:14px;max-width:none!important}
+/* bài trang chính: mỗi khác biệt là một thẻ; số đếm làm dẫn chứng */
+.g-toc button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.g79.tabbed section{display:none;border-top:0;margin-top:22px;padding-top:0}.g79.tabbed section.on{display:block}
+.g-nextrow{display:flex;justify-content:space-between;gap:10px;margin-top:22px;padding-top:16px;border-top:1px solid var(--line);flex-wrap:wrap}
+.g-ev{margin:16px 0;padding:14px 16px;border-radius:var(--r);background:#f3f5ff;border:1px solid #cfd5f7}
+.g-ev h4{font-size:.92em;margin:0 0 8px}.g-ev ul{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:8px}
+.g-ev li{background:#fff;border-radius:10px;padding:8px 10px;font-size:.88em;border:1px solid var(--line)}.g-ev li b{display:block;font-size:1.25em;font-variant-numeric:tabular-nums;color:#3b3fd8}
+.g-ev li.zero b{color:var(--bad)}.g-ev .small{margin:10px 0 0;max-width:none!important}.g-ev .small button{background:none;border:0;padding:0;text-decoration:underline;color:inherit;font-size:inherit}
+.steps4{list-style:none;margin:18px 0 0;padding:0;display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.steps4 li{display:flex}.steps4 a,.steps4 button{display:flex;flex-direction:column;justify-content:flex-start;height:100%;width:100%;text-align:left;background:#fff;border:1px solid var(--line);border-top:4px solid var(--c);border-radius:var(--r);padding:12px 14px;color:inherit}
+.steps4 a:hover,.steps4 button:hover{border-color:var(--c);text-decoration:none}.steps4 b{display:block;font-size:1.02em;margin-bottom:4px}.steps4 .sn{color:var(--c);font-weight:800;margin-right:6px}.steps4 span.small{display:block}
+.nudge{margin-top:30px;padding:16px 18px;border-radius:var(--r);background:#fff;border:2px solid var(--ink);display:flex;gap:14px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.nudge p{margin:0;flex:1 1 320px}.nudge .acts{display:flex;gap:8px;flex-wrap:wrap}
+/* thống kê đề thi */
+.tabrow{display:flex;flex-wrap:wrap;gap:6px;margin:18px 0 14px}
+.tabrow button{border:1.5px solid var(--line);background:#fff;border-radius:99px;padding:6px 14px;font-size:.88em;font-weight:600}.tabrow button:hover{border-color:var(--ink)}.tabrow button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.sbars{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:8px 16px}
+.sbar{display:grid;grid-template-columns:minmax(140px,17em) 1fr 6.5em;gap:12px;align-items:center;padding:8px 0;border-top:1px solid var(--line);font-size:.92em}.sbar:first-child{border-top:0}
+.sbar .trk{background:var(--bg);border-radius:6px;height:20px;overflow:hidden}.sbar .trk i{display:block;height:100%;border-radius:6px;background:var(--c,#3b3fd8)}
+.sbar .sv{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.prio{background:#fff;border:1px solid var(--line);border-left:5px solid var(--b9);border-radius:var(--r);padding:14px 18px;margin:14px 0}.prio ol{margin:8px 0 0;padding-left:1.3em}.prio li{margin:6px 0}
+.rep{display:grid;grid-template-columns:1fr 1fr;gap:12px}.rep>div{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:14px 16px}.rep ul{margin:8px 0 0;padding-left:1.2em}.rep li{margin:5px 0}
+.gap12 td,.gap12 th{vertical-align:top;white-space:normal}.gap12 td:first-child{font-weight:600}.gap12 .btn{white-space:nowrap}
+@media(max-width:720px){.steps4{grid-template-columns:1fr 1fr}.sbar{grid-template-columns:1fr 5.5em}.sbar .trk{grid-column:1/-1;order:3}.rep{grid-template-columns:1fr}}
 @media(max-width:720px){
   .g79{padding:18px 16px;border-radius:16px}.g-head h2{font-size:1.5rem}.g-pair,.g-three{grid-template-columns:1fr}
   .g-row,.g-time{grid-template-columns:1fr;gap:4px}.g-scale li{grid-template-columns:1fr;gap:2px}
@@ -318,7 +344,8 @@ B79.topics = {
     { k: "work", n: "Việc làm", e: "💼", q: "In many countries, more and more people are working from home. Do the advantages of this development outweigh the disadvantages?" },
     { k: "city", n: "Đô thị & giao thông", e: "🏙️", q: "Some people think governments should spend money on public transport rather than on building new roads. To what extent do you agree or disagree?" },
     { k: "crime", n: "Tội phạm", e: "⚖️", q: "Many offenders commit further crimes after being released from prison. What are the causes of this? What can be done to solve the problem?" },
-    { k: "media", n: "Truyền thông & quảng cáo", e: "📣", q: "Advertising encourages people to buy things they do not need. To what extent do you agree or disagree?" }
+    { k: "media", n: "Truyền thông & quảng cáo", e: "📣", q: "Advertising encourages people to buy things they do not need. To what extent do you agree or disagree?" },
+    { k: "pay", n: "Ai trả tiền? (đề lặp 2025–26)", e: "💰", q: "Some people think that governments should spend money on supporting professional athletes who compete internationally, while others believe this money should be spent on sports facilities for the general public. Discuss both views and give your own opinion." }
   ],
   t1: [
     { k: "line", n: "Line graph", e: "📈", q: "The line graph below shows the number of journeys made each year by three types of public transport in the city of Newport between 2000 and 2020. Summarise the information by selecting and reporting the main features, and make comparisons where relevant." },
@@ -326,7 +353,8 @@ B79.topics = {
     { k: "table", n: "Table", e: "🧮", q: "The table below shows average monthly household spending on five categories in one European country in 2003 and 2023. Summarise the information by selecting and reporting the main features, and make comparisons where relevant." },
     { k: "pie", n: "Pie chart", e: "🥧", q: "The pie charts below show the sources of electricity in one country in 1995 and 2015. Summarise the information by selecting and reporting the main features, and make comparisons where relevant." },
     { k: "map", n: "Map", e: "🗺️", q: "The maps below show the village of Ashby in 1990 and today. Summarise the information by selecting and reporting the main features, and make comparisons where relevant." },
-    { k: "process", n: "Process", e: "⚙️", q: "The diagram below shows how used glass bottles are recycled. Summarise the information by selecting and reporting the main features, and make comparisons where relevant." }
+    { k: "process", n: "Process", e: "⚙️", q: "The diagram below shows how used glass bottles are recycled. Summarise the information by selecting and reporting the main features, and make comparisons where relevant." },
+    { k: "mixed", n: "Mixed charts", e: "🧩", q: "The bar chart below shows the number of passengers carried each year by one rail company between 2000 and 2020, and the table shows the percentage of its trains that arrived on time, compared with the company's target. Summarise the information by selecting and reporting the main features, and make comparisons where relevant." }
   ]
 };
 
@@ -1126,6 +1154,85 @@ B79.phases = [
   ]);
 })();
 
+
+/* ===== Bộ bài tập bổ sung (10/2026): chủ đề “Ai trả tiền?” dựng từ các đề Task 2 lặp lại trong 2025–2026, và dạng Mixed charts cho Task 1.
+   Câu chữ và số liệu do trang tự soạn; không chép đề thi hay bài mẫu. ===== */
+(function () {
+  var add = function (k, y, arr) { arr.forEach(function (o) { o.k = k; o.y = o.y || y; B79.items.push(o); }); };
+  var B3 = ["Khái quát hóa quá mức", "Nhảy cóc suy luận", "Dẫn chứng lạc trọng tâm", "Lập luận chặt"];
+  var BL = ["Tự nhiên ✔", "Không tự nhiên ✘"], BS = ["Giọng hô hào ✘", "Giọng phân tích ✔"];
+  var KM = ["Đặc điểm chính: phải viết", "Chi tiết phụ: có thể bỏ"], DS = ["Mô tả dữ liệu ✔", "Suy diễn / ý kiến ✘"];
+
+  add("TR1", "order", [{ t: "pay", i: [
+    "Public money for sport is better spent on local facilities than on elite athletes.",
+    "A neighbourhood pool or pitch is used by thousands of residents every year, whereas funding for a national squad reaches only a few dozen competitors.",
+    "Regular use of such facilities raises activity levels across the population, which in turn eases the burden of inactivity-related illness on the health service.",
+    "This reasoning carries less weight where existing facilities already stand half-empty; in that case, the obstacle is motivation rather than access."] }]);
+  add("TR2", "mcq", [{ t: "pay", q: "Luận điểm: Governments should fund community sports facilities rather than elite athletes.\nPhản đề: International success inspires ordinary people to take up sport.",
+    o: ["Any such inspiration soon fades unless people have an affordable pitch or pool nearby in which to act on it.", "Sport is good for everyone's health.", "Elite athletes already earn a great deal of money from sponsorship."],
+    w: "Phản đề nói về cảm hứng từ thành tích quốc tế. Câu đúng thừa nhận cảm hứng đó rồi chỉ ra điều kiện để nó có tác dụng. Hai câu còn lại nói sang chuyện khác: lợi ích sức khỏe nói chung và thu nhập của vận động viên." }]);
+  add("TR3", "sort", [{ t: "pay", b: B3, i: [
+    ["Taxpayers never benefit from money spent on space research.", 0],
+    ["If fruit were subsidised, obesity would disappear within a decade.", 1],
+    ["Governments should fund the arts; after all, many museums now have cafés.", 2],
+    ["Subsidising fresh produce lowers its price relative to processed food, which tends to shift what low-income households buy.", 3]] }]);
+  add("TR4", "mcq", [{ t: "pay", q: "Luận điểm: Public money is better spent on local sports facilities than on elite athletes.",
+    w: "Ví dụ đúng nêu một nơi hoặc một tình huống hình dung được. Một lựa chọn sai vẫn chung chung; lựa chọn còn lại bịa số liệu và nguồn, là dấu hiệu của bài yếu.", o: [
+    "A floodlit pitch on a housing estate, for instance, can be used by hundreds of local children every week for decades.",
+    "For example, many people in many places like to play sport.",
+    "For example, a 2021 Harvard report showed that 87% of citizens prefer local facilities."] }]);
+  add("CC1", "gap", [{ t: "pay", b: "Firstly, junk food is cheap. Moreover, fruit is expensive. Furthermore, poor families buy unhealthy food.",
+    s: "Processed food is often cheaper per calorie than fresh produce, {which} pushes families on tight budgets towards unhealthy choices. A subsidy on fruit would narrow {this} price gap, {while} a tax on sugary snacks would raise the revenue to pay for it.",
+    d: ["moreover", "furthermore", "firstly"] }]);
+  add("CC2", "gap", [{ t: "pay", s: "Some governments tax sugary drinks and use the revenue to make fruit cheaper. This {approach} places part of the cost of public health on the companies that profit from unhealthy products.", d: ["mismatch", "trend", "assumption"],
+    w: "Đánh thuế rồi dùng tiền thu được để trợ giá là một cách làm, nên danh từ tóm lược là “approach”." }]);
+  add("CC3", "mcq", [{ t: "pay", q: "Đoạn 1: thành tích của vận động viên đỉnh cao mang lại niềm tự hào quốc gia.\nĐoạn 2: cơ sở thể thao cho cộng đồng cải thiện sức khỏe của số đông.",
+    w: "Câu đúng nhặt lại ý đoạn 1 bằng từ khác rồi mới mở ý đoạn 2. Hai câu còn lại hoặc mở bằng từ nối máy móc, hoặc không nhắc gì đến đoạn trước.", o: [
+    "Such national pride, however, is felt only briefly, whereas local facilities improve the health of far more people over a much longer period.",
+    "Secondly, community facilities are good for health.",
+    "On the other hand, there is another view to consider."] }]);
+  add("LR1", "sort", [{ t: "pay", q: "Danh từ khóa: FUNDING", b: BL, i: [["allocate funding", 0], ["secure funding", 0], ["cut funding", 0], ["public funding", 0], ["do funding", 1], ["pay a funding", 1]],
+    w: "Funding đi với allocate, secure, provide, cut. “Funding” không đếm được nên không có “a funding”, và không ai “do funding”." }]);
+  add("LR2", "match", [{ t: "pay", p: [["give money to a project", "fund"], ["take on the cost", "bear"], ["put a tax on sugary drinks", "impose"], ["share out the budget", "allocate"]] }]);
+  add("LR3", "spot", [{ t: "pay", s: "Food companies should {make|take} responsibility for the health effects of their products." }]);
+  add("GR1", "build", [{ t: "pay", b: "Because governments are spending more on space programmes, people are arguing about whether public money is being used well.",
+    c: ["Rising public spending", "on space programmes", "has fuelled debate", "about the use of public money."] }]);
+  add("GR2", "match", [{ t: "pay", p: [["If fruit were subsidised, low-income families would probably buy more of it.", "Đề xuất một chính sách chưa có"], ["Although such subsidies are costly, they reduce long-term healthcare spending.", "Nhượng bộ rồi giữ lập trường"], ["A tax on junk food raises its price, discouraging regular consumption.", "Nêu hệ quả ngay trong câu"]] }]);
+  add("GR3", "spot", [{ t: "pay", s: "Governments should invest more {on|in} disease prevention than in hospital treatment.", w: "Giới từ: invest in." }]);
+  add("ST1", "mcq", [{ t: "pay", q: "Câu gốc: Spending money on space exploration is a complete waste.",
+    w: "Câu đúng mạnh vừa đủ so với bằng chứng. Một lựa chọn sai vẫn tuyệt đối; lựa chọn còn lại hedging chồng chất đến mức mất hẳn quan điểm.", o: [
+    "Spending on space exploration is difficult to justify while basic services remain underfunded, although some of its technology has proved useful on Earth.",
+    "Space exploration is absolutely the biggest waste of money in human history.",
+    "It could perhaps be argued that space spending might possibly be somewhat wasteful in some ways."] }]);
+  add("ST2", "sort", [{ t: "pay", b: BS, i: [["Why should our taxes pay for millionaire athletes?", 0], ["Companies must stop poisoning our children right now!", 0], ["Firms that profit from unhealthy products can reasonably be expected to bear part of the resulting cost.", 1], ["Funding for grassroots sport is likely to benefit a far larger share of the population.", 1]] }]);
+  add("PR2", "hunt", [{ t: "pay", s: "Supporters of elite sport argue that medals {rise|raise} a nation's profile abroad. However, the benefits of {this|these} victories are short-lived, and {nobody takes|few people take} up sport simply because a compatriot has won a medal. Local facilities, by contrast, are used every week." }]);
+
+  B79.ds.mixed = { kind: "multi", title: "Northline Rail: passengers and punctuality, 2000–2020", parts: [
+    { kind: "bar", title: "Passengers carried (millions per year)", unit: "Millions", x: ["2000", "2005", "2010", "2015", "2020"], series: [{ n: "Passengers", v: [30, 36, 44, 48, 42] }] },
+    { kind: "table", title: "Trains arriving on time, against the company's target", head: ["Year", "Trains on time", "Company target"], rows: [["2000", "91%", "95%"], ["2005", "93%", "95%"], ["2010", "96%", "95%"], ["2015", "89%", "95%"], ["2020", "94%", "95%"]] }],
+    note: "Số liệu do trang tự soạn, theo kiểu đề “số hành khách và độ đúng giờ của tàu” mà thí sinh ghi nhận nhiều lần trong 2025–2026. Đây không phải số liệu của đề thi thật." };
+  B79.models.mixed = "The bar chart shows how many passengers Northline Rail carried each year between 2000 and 2020, while the table compares the proportion of its trains that arrived on time with the company's target of 95%.\n\nOverall, passenger numbers were considerably higher at the end of the period than at the start, despite a fall after 2015. Punctuality, by contrast, fluctuated and met the target in only one of the five years shown.\n\nIn 2000, the company carried 30 million passengers. This figure rose in each of the next three five-year periods, reaching 44 million in 2010 and peaking at 48 million in 2015, before dropping back to 42 million in 2020, still 40% above the initial level.\n\nTurning to punctuality, 91% of trains ran on time in 2000 and 93% in 2005, both short of the target. The target was exceeded only in 2010, when the figure reached 96%. Punctuality then fell to its lowest point, 89%, in 2015, the year in which passenger numbers were highest, and recovered to 94% in 2020, one percentage point below the target.";
+
+  add("TA1", "sort", [{ t: "mixed", b: KM, i: [["Passenger numbers peaked in 2015.", 0], ["More passengers were carried in 2020 than in 2000.", 0], ["The punctuality target was met only in 2010.", 0], ["Punctuality was lowest in the year with the most passengers.", 0], ["36 million passengers were carried in 2005.", 1], ["93% of trains were on time in 2005.", 1]],
+    w: "Với đề hai biểu đồ, đặc điểm chính là xu hướng và cực trị của từng biểu đồ, cùng điểm hai biểu đồ gặp nhau (năm 2015). Số liệu của một năm giữa kỳ là chi tiết phụ." }]);
+  add("TA2", "mcq", [{ t: "mixed", q: "Chọn overview tốt nhất.", o: [
+    "Overall, passenger numbers were considerably higher at the end of the period than at the start despite a late fall, whereas punctuality fluctuated and reached the company's target in only one of the five years.",
+    "Overall, passengers rose from 30 million to 42 million and punctuality went from 91% to 94%.",
+    "Overall, the trains became less punctual because they were carrying too many passengers."],
+    w: "Overview của đề hai biểu đồ cần một ý cho mỗi biểu đồ và không có con số. Câu có “because” suy diễn quan hệ nhân quả mà đề không cho." }]);
+  add("TA3", "gap", [{ t: "mixed", s: "By 2020, passenger numbers were {40%} higher than in 2000, while punctuality stood {one percentage point} below the target.", d: ["12%", "one per cent", "a quarter"],
+    w: "30 lên 42 là tăng 40%. 94% so với 95% là thấp hơn một điểm phần trăm; “one per cent below” là một phép tính khác." }]);
+  add("TA4", "build", [{ t: "mixed", b: "Punctuality was 96% in 2010. It was 89% in 2015.",
+    c: ["Having exceeded the target", "in 2010,", "punctuality fell", "to a low of 89%", "five years later."] }]);
+  add("TA5", "sort", [{ t: "mixed", b: DS, i: [["Punctuality was at its lowest in 2015, when passenger numbers peaked.", 0], ["The target was exceeded only once, in 2010.", 0], ["Trains ran late in 2015 because they were overcrowded.", 1], ["The company should lower its target to a more realistic level.", 1]] }]);
+  add("T1C", "gap", [{ t: "mixed", s: "Passenger numbers peaked at 48 million in 2015, {the year in which} punctuality was lowest. {Turning to} the table, the 95% target was met only once.", d: ["moreover", "in conclusion", "firstly"],
+    w: "Đề hai biểu đồ cần một cụm chuyển sang biểu đồ thứ hai (Turning to…) và một chỗ nối hai biểu đồ với nhau (the year in which…)." }]);
+  add("T1L", "spot", [{ t: "mixed", s: "Passenger numbers reached a {top|peak} of 48 million in 2015.", w: "Điểm cao nhất của một chuỗi số liệu là peak: reach a peak of, hoặc peak at." }]);
+  add("T1G", "gap", [{ t: "mixed", s: "Punctuality reached 96% in 2010, {exceeding} the target for the only time in the period.", d: ["exceeded", "exceeds", "to exceed"], w: "Mệnh đề phân từ hiện tại nêu kết quả của mệnh đề chính." }]);
+  add("T1M", "gap", [{ t: "mixed", s: "By 2015, passenger numbers {had risen} to 48 million, but only 89% of trains {arrived} on time that year.", d: ["have risen", "were risen", "have arrived"],
+    w: "“By + mốc trong quá khứ” đi với quá khứ hoàn thành; “that year” là thời điểm đã qua nên dùng quá khứ đơn. “Rise” là nội động từ nên không có bị động." }]);
+})();
+
 /* Ngân hàng đề Task 2: đề trong tài liệu “Tổng hợp bài sample theo topic” của giáo viên và đề thi 2025–2026 do thí sinh nhớ lại.
    d: các tháng đề được ghi nhận; ms: nơi có bài mẫu cho đề này; ty: dạng đề. Chỉ có đề bài, không chép bài mẫu. */
 B79.xtopics = [{"k": "fam", "n": "Gia đình & xã hội", "e": "👪"}, {"k": "cult", "n": "Văn hóa, ngôn ngữ & nghệ thuật", "e": "🎭"}, {"k": "gov", "n": "Chính phủ & kinh tế", "e": "🏛️"}, {"k": "ent", "n": "Giải trí, thể thao & du lịch", "e": "⚽"}, {"k": "misc", "n": "Chủ đề khác", "e": "🧩"}];
@@ -1727,7 +1834,6 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
   /* Đề Task 1 lấy từ thư mục đề của giáo viên (file bank1x.js): mỗi đề có số liệu, bài mẫu và bài tập sinh từ bài mẫu. */
   B79.bank1 = B79.bank1.concat(window.B79_BANK1X || []);
   B79.bank1.forEach(function (b) { b.m = "t1"; b.ms = b.ms || []; b.d = b.d || []; });
-  if (B79.bank1.some(function (b) { return b.tp === "mixed"; })) B79.xtopics.push({ k: "mixed", n: "Mixed charts", e: "🧩", m: "t1" });
 })();
 
 /* Bộ phân tích bài viết: đo các đặc trưng band 7 / 8 / 9 mà máy đếm được, rồi xếp thành các bước nâng cấp.
@@ -2319,15 +2425,45 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
 
   /* =================== KHUNG TRANG =================== */
   const app = $("#app");
+  const NAV = [
+    { k: "why", n: "Band 7 → 9", h: "#/", subs: [["#/", "Bảy khác biệt"], ["#/stats", "Thống kê đề thi 2025–2026"]] },
+    { k: "coach", n: "Thử với bài của bạn", h: "#/coach", subs: [] },
+    { k: "prac", n: "Luyện tập", h: "#/by/tech", subs: [["#/by/tech", "Theo kỹ thuật"], ["#/by/topic", "Theo chủ đề và đề thi"]] },
+    { k: "me", n: "Tiến độ", h: "#/me", subs: [["#/me", "Tiến độ của tôi"], ["#/plan", "Lộ trình giờ học"]] },
+    { k: "contact", n: "Liên hệ", h: "#/contact", subs: [["#/contact", "Trao đổi, đăng ký học"], ["#/feedback", "Góp ý cho trang"], ["#/about", "Về trang này"]] }
+  ];
+  function navState() {
+    const p = location.hash.replace(/^#\/?/, "").split("/"), r = p[0] || ""; let g = "why", sub = "#/";
+    if (r === "stats") sub = "#/stats";
+    else if (r === "coach") { g = "coach"; sub = ""; }
+    else if (["by", "m", "k", "t", "p", "w", "xb", "wb"].indexOf(r) >= 0) { g = "prac"; sub = (r === "by" && p[1] === "topic") || r === "t" || r === "xb" || r === "wb" || ((r === "p" || r === "w") && p[3] === "t") ? "#/by/topic" : "#/by/tech"; }
+    else if (r === "me" || r === "plan") { g = "me"; sub = "#/" + r; }
+    else if (["contact", "feedback", "about"].indexOf(r) >= 0) { g = "contact"; sub = "#/" + r; }
+    return { g: g, sub: sub, r: r };
+  }
+  /* Lời mời trao đổi: chỉ hiện sau khi người học đã làm vài bài, ngoài lúc đang làm bài; bấm “Để sau” thì ẩn 7 ngày. */
+  const actsN = () => Object.keys(S.done).length + Object.keys(S.wr).reduce((a, k) => a + S.wr[k].length, 0);
+  function nudgeHtml(ns) {
+    if (ns.g === "contact" || ns.g === "coach" || ["p", "w", "xb", "wb"].indexOf(ns.r) >= 0) return "";
+    const c = S.cta || {}, n = actsN(); if (n < 3 || c.sent || (c.skip && Date.now() - c.skip < 7 * 864e5)) return "";
+    return `<aside class="nudge" id="nudge"><p><b>Bạn đã làm ${n} bài trên trang.</b> Trang đếm được các đặc trưng của bài viết, nhưng không chấm được chất lượng lập luận. Nếu bạn muốn có giáo viên đọc bài và chỉ ra chỗ cần sửa trước, hoặc muốn trao đổi về lộ trình học, hãy để lại thông tin.</p><div class="acts"><a class="btn primary" href="#/contact">Trao đổi với giáo viên →</a><button type="button" class="btn" id="nudge-x">Để sau</button></div></aside>`;
+  }
   function shell(inner, crumbs) {
-    const total = totalSec();
+    const total = totalSec(), ns = navState(), grp = NAV.filter(x => x.k === ns.g)[0];
     app.innerHTML = `<header class="top"><a class="brand" href="#/"><span class="b79"><b>7</b><i>→</i><b>9</b></span><span>Writing Lab</span></a>
-      <nav><a href="#/">Trang chính</a><a href="#/why">Band 7 khác band 9</a><a href="#/coach">Nâng cấp bài viết</a><a href="#/plan">Lộ trình giờ học</a><a href="#/me">Tiến độ của tôi</a><a href="#/feedback">Góp ý</a><a href="#/contact">Liên hệ</a><a href="#/about">Về trang này</a></nav>
+      <nav aria-label="Mục chính">${NAV.map(x => `<a href="${x.h}"${x.k === ns.g ? ' class="on" aria-current="true"' : ""}>${x.n}</a>`).join("")}</nav>
       <div class="who"><span class="hrs" id="tophours">${fmtH(total)} / ${CFG.targetHours} giờ</span><button class="link" id="switch" title="Đổi người học">${esc(U.name)} ⇄</button></div></header>
-      <main>${crumbs ? `<div class="crumbs">${crumbs}</div>` : ""}${inner}</main>
+      ${grp.subs.length ? `<div class="subnav"><div role="navigation" aria-label="${grp.n}">${grp.subs.map(x => `<a href="${x[0]}"${x[0] === ns.sub ? ' class="on" aria-current="page"' : ""}>${x[1]}</a>`).join("")}</div></div>` : ""}
+      <main>${crumbs ? `<div class="crumbs">${crumbs}</div>` : ""}${inner}${nudgeHtml(ns)}</main>
       <footer>${CFG.endpoint ? "Kết quả được gửi về bảng theo dõi của giáo viên." : "Tiến độ đang lưu trên thiết bị này."} · <a href="#/feedback">Góp ý cho trang</a> · <a href="#/contact">Liên hệ, đăng ký học</a> · Câu band 9 trên trang do nhóm soạn viết theo các đặc điểm đã phân tích từ bài mẫu, không phải điểm của giám khảo.</footer>`;
     $("#switch").onclick = () => { if (confirm("Đổi người học? Tiến độ của " + U.name + " vẫn được giữ trên máy này.")) { save(); store.del("b79:user"); U = null; S = null; location.hash = "#/"; route(); } };
+    if ($("#nudge-x")) $("#nudge-x").onclick = () => { S.cta = Object.assign(S.cta || {}, { skip: Date.now() }); save(); $("#nudge").remove(); };
     window.scrollTo(0, 0);
+  }
+  function tabify(root) {
+    const bs = $$("[data-tab]", root), ps = $$("[data-pane]", root);
+    const show = k => { bs.forEach(b => { const on = b.dataset.tab === k; b.classList.toggle("on", on); b.setAttribute("aria-selected", on ? "true" : "false"); }); ps.forEach(p => { p.hidden = p.dataset.pane !== k; }); };
+    bs.forEach(b => { b.setAttribute("role", "tab"); b.onclick = () => show(b.dataset.tab); }); if (bs[0]) show(bs[0].dataset.tab);
   }
   const ring = (frac, label, sub) => { const r = 52, c = 2 * Math.PI * r; return `<svg viewBox="0 0 130 130" class="ring"><defs><linearGradient id="g79" x1="0" x2="1"><stop offset="0" stop-color="#f2a531"/><stop offset="1" stop-color="#12a37f"/></linearGradient></defs><circle cx="65" cy="65" r="${r}" fill="none" stroke="#ebe7dc" stroke-width="12"/><circle cx="65" cy="65" r="${r}" fill="none" stroke="url(#g79)" stroke-width="12" stroke-linecap="round" stroke-dasharray="${c}" stroke-dashoffset="${c * (1 - Math.min(frac, 1))}" transform="rotate(-90 65 65)"/><text x="65" y="63" text-anchor="middle" class="rv">${label}</text><text x="65" y="82" text-anchor="middle" class="rs">${sub}</text></svg>`; };
   const bar = (frac, col) => `<div class="pbar"><i style="width:${Math.round(Math.min(frac, 1) * 100)}%;background:${col || "var(--b9)"}"></i></div>`;
@@ -2356,9 +2492,9 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
   /* ---------- trang chính ---------- */
   const ART79 = `<article class="g79" id="why79">
   <header class="g-head">
-    <p class="g-kick">Đọc trước khi luyện · khoảng 7 phút</p>
+    <p class="g-kick">Đọc trước khi luyện · khoảng 7 phút · bấm từng thẻ để xem</p>
     <h2>Band 7 khác band 9 ở đâu?</h2>
-    <p class="g-lead">Bài band 7 đã trả lời đúng đề, có bố cục rõ và dùng được từ vựng tốt. Khoảng cách tới band 9 <b>không nằm ở từ hiếm hơn hay câu dài hơn</b>. Nó nằm ở bảy chỗ dưới đây, và chỗ nào cũng luyện được.</p>
+    <p class="g-lead">Bài band 7 đã trả lời đúng đề, có bố cục rõ và dùng được từ vựng tốt. Khoảng cách tới band 9 <b>không nằm ở từ hiếm hơn hay câu dài hơn</b>. Nó nằm ở bảy chỗ dưới đây, và chỗ nào cũng luyện được. Mỗi thẻ có ví dụ đối chiếu và số đếm trên 26 bài mẫu do người viết.</p>
     <div class="g-toc">
       <button type="button" data-go="g-0">Hai đoạn mẫu</button>
       <button type="button" data-go="g-1">1 · Ý</button>
@@ -2426,12 +2562,13 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
         <div class="b9"><span class="tag t9">Phản bác khớp</span><p class="en">Graduates repay the investment through higher income tax over their careers.</p><p class="g-note">Nhặt lại đúng từ khóa của phản đề: ai trả tiền.</p></div>
       </div>
     </div>
+    <div class="g-ev"><h4>📊 Đếm trên 14 bài mẫu Task 2 do người viết</h4><ul><li><b>16/30</b>đoạn thân bài chỉ phát triển một ý chính</li><li><b>7/14</b>bài có ví dụ gắn với một nơi, một nhóm người hoặc một tình huống cụ thể</li><li><b>khoảng 5/14</b>bài có đoạn nhượng bộ rồi phản bác</li><li><b>12/14</b>bài dài 274–307 từ: sâu hơn chứ không dài hơn</li></ul><p class="small">Một ý mỗi đoạn mới chiếm khoảng một nửa số đoạn, và nhượng bộ chỉ có ở khoảng một phần ba số bài: đây là hướng nên luyện, không phải quy tắc bắt buộc. Số đếm là xấp xỉ. <button type="button" data-go="g-8">Cách chọn bài và giới hạn của số liệu</button></p></div>
     <p class="g-go">Luyện: <a href="#/k/TR1">TR1 Thang “Vì sao – Thì sao”</a> · <a href="#/k/TR2">TR2 Phản đề – phản bác khớp</a> · <a href="#/k/TR3">TR3 Chẩn đoán lỗ hổng lập luận</a> · <a href="#/k/TR4">TR4 Ví dụ có địa chỉ</a></p>
   </section>
 
   <section id="g-2" style="--c:#2f6fde">
     <h3><span class="g-n">2</span>Liên kết: band 7 dán nhãn đầu câu, band 9 nối bằng nội dung</h3>
-    <p>Band 9 yêu cầu liên kết <span class="en">“attracts no attention”</span>: người đọc đi từ câu này sang câu kia mà không để ý mình được dẫn đi. Các nghiên cứu về phương tiện liên kết cũng chỉ ra cùng hướng: có nhiều từ nối không làm bài mạch lạc hơn, còn quy chiếu ngược về câu trước và đoạn trước thì đi cùng bài chất lượng cao.</p>
+    <p>Band 9 yêu cầu liên kết <span class="en">“very rarely attracts attention”</span>: người đọc đi từ câu này sang câu kia mà không để ý mình được dẫn đi. Các nghiên cứu về phương tiện liên kết cũng chỉ ra cùng hướng: có nhiều từ nối không làm bài mạch lạc hơn, còn quy chiếu ngược về câu trước và đoạn trước thì đi cùng bài chất lượng cao.</p>
     <div class="g-pair">
       <div class="b7"><span class="tag t7">Đặc trưng band 7</span>
         <p class="en"><span class="hc">Firstly,</span> remote work saves time. <span class="hc">Moreover,</span> it reduces costs. <span class="hc">Furthermore,</span> employees are happier.</p>
@@ -2446,6 +2583,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
       <p><b>Phép thử đảo câu.</b> Lấy một đoạn bạn đã viết, đổi chỗ hai câu bất kỳ. Nếu đoạn vẫn ổn, từ nối của bạn đang làm thay việc của nội dung.</p>
       <p><b>Giữa các đoạn cũng vậy.</b> Thay vì mở đoạn 2 bằng <span class="en">On the other hand,</span> hãy nhặt lại ý đoạn 1 rồi mới rẽ: <span class="en">While <span class="hr">these economic gains</span> are real, they are rarely shared evenly among local residents.</span></p>
     </div>
+    <div class="g-ev"><h4>📊 Đếm trên 14 bài mẫu Task 2 do người viết</h4><ul><li><b>13/14</b>bài dùng <span class="en">this / these</span> + danh từ để nối câu</li><li><b>12/14</b>bài dùng <span class="en">while / whereas</span> nối ngay trong câu</li><li><b>4/14</b>bài có <span class="en">However</span>; cũng 4/14 bài có <span class="en">Furthermore</span></li><li class="zero"><b>0/14</b>bài dùng <span class="en">Moreover, Nevertheless</span> hay <span class="en">In a nutshell</span></li></ul><p class="small">Số đếm là xấp xỉ. <button type="button" data-go="g-8">Cách chọn bài và giới hạn của số liệu</button></p></div>
     <p class="g-go">Luyện: <a href="#/k/CC1">CC1 Xóa từ nối</a> · <a href="#/k/CC2">CC2 Chuỗi quy chiếu</a> · <a href="#/k/CC3">CC3 Cầu nối giữa đoạn</a></p>
   </section>
 
@@ -2466,6 +2604,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
       <tr><td class="en">cause a bad effect to</td><td class="en">have a detrimental effect on</td></tr>
     </table></div>
     <p>Dấu hiệu bạn đang đi đúng: câu sau khi sửa <b>ngắn hơn hoặc bằng</b> câu gốc. Nếu nó dài ra, bạn đang trang trí chứ chưa chính xác hơn.</p>
+    <div class="g-ev"><h4>📊 Đếm trên 14 bài mẫu Task 2 do người viết</h4><ul><li><b>2/14</b>bài có thành ngữ (idiom)</li><li><b>5–6 từ</b>là số từ hiếm nhiều nhất trong một bài; phần còn lại là từ thông dụng kết hợp đúng</li></ul><p class="small">Số đếm là xấp xỉ. <button type="button" data-go="g-8">Cách chọn bài và giới hạn của số liệu</button></p></div>
     <p class="g-go">Luyện: <a href="#/k/LR1">LR1 Lưới collocation</a> · <a href="#/k/LR2">LR2 Nâng cấp động từ + danh từ</a> · <a href="#/k/LR3">LR3 Sửa collocation sai</a></p>
   </section>
 
@@ -2486,6 +2625,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
       <div class="b9"><span class="tag t9">Cấu trúc vừa sức, không lỗi</span><p class="en">Public transport reduces pollution and is affordable for people on low incomes.</p></div>
     </div>
     <p>Mỗi đoạn thân bài chỉ cần một, hai câu nén. Nén mọi câu làm bài khó đọc.</p>
+    <div class="g-ev"><h4>📊 Đếm trên 14 bài mẫu Task 2 do người viết</h4><ul><li><b>58%</b>số câu là câu phức; 34% là câu đơn, 8% là câu ghép</li><li><b>khoảng 21 từ</b>là độ dài trung bình của một câu</li><li><b>14/14</b>bài có danh hóa</li><li><b>12/14</b>bài có mệnh đề quan hệ; cũng 12/14 bài có bị động</li><li><b>5/14</b>bài có câu điều kiện; khoảng 9/14 bài có mệnh đề phân từ</li><li class="zero"><b>1/14</b>bài có đảo ngữ; <b style="display:inline;font-size:1em">0/14</b> bài có câu chẻ</li></ul><p class="small">Cấu trúc “để khoe” gần như vắng mặt; một phần ba số câu vẫn là câu đơn. Số đếm là xấp xỉ. <button type="button" data-go="g-8">Cách chọn bài và giới hạn của số liệu</button></p></div>
     <p class="g-go">Luyện: <a href="#/k/GR1">GR1 Nén thành cụm danh từ</a> · <a href="#/k/GR2">GR2 Một ý, ba cấu trúc</a> · <a href="#/k/GR3">GR3 Câu không lỗi</a></p>
   </section>
 
@@ -2506,6 +2646,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
       <div class="b7"><span class="tag t7">Hô hào</span><p class="en">How can we let our children suffer like this? We must act now!</p></div>
       <div class="b9"><span class="tag t9">Phân tích</span><p class="en">The risks to children are serious enough to justify immediate regulation.</p></div>
     </div>
+    <div class="g-ev"><h4>📊 Đếm trên 14 bài mẫu Task 2 do người viết</h4><ul><li><b>khoảng 10/14</b>bài có cách nói giảm mức khẳng định (<span class="en">tend to, may, is likely to</span>)</li><li><b>12/14</b>bài có bị động; 14/14 bài có danh hóa, hai dấu hiệu của giọng phân tích</li></ul><p class="small">Số đếm là xấp xỉ. <button type="button" data-go="g-8">Cách chọn bài và giới hạn của số liệu</button></p></div>
     <p class="g-go">Luyện: <a href="#/k/ST1">ST1 Thang hedging</a> · <a href="#/k/ST2">ST2 Từ hô hào sang phân tích</a></p>
   </section>
 
@@ -2518,6 +2659,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
       <div class="g-time"><span class="g-tl">Có kiểm soát</span><span class="g-tb"><i style="flex:5;background:#3b3fd8">5</i><i style="flex:31;background:var(--b9)">Viết · 31 phút</i><i style="flex:4;background:#1b1e3c">4</i></span></div>
       <p class="g-note">5 phút dàn ý có cả ô ngôn ngữ (collocation và cấu trúc định dùng) · 31 phút viết · 4 phút soát ba lượt, mỗi lượt chỉ tìm một thứ: lỗi cá nhân hay gặp → từ nối thừa và đại từ mơ hồ → nhận định tuyệt đối.</p>
     </figure>
+    <div class="g-ev"><h4>📊 Đếm trên 14 bài mẫu Task 2 do người viết</h4><ul><li><b>12/14</b>bài nằm gọn trong 274–307 từ</li><li><b>2/14</b>bài nằm ngoài khoảng đó</li></ul><p class="small">Người viết không dùng 40 phút để viết thật dài. Độ dài ổn định quanh 290 từ khớp với cách chia giờ có dàn ý và có lượt soát. Số đếm là xấp xỉ. <button type="button" data-go="g-8">Cách chọn bài và giới hạn của số liệu</button></p></div>
     <p class="g-go">Luyện: <a href="#/k/PR1">PR1 Dàn ý 5 phút có ô ngôn ngữ</a> · <a href="#/k/PR2">PR2 Soát bài có giới hạn thời gian</a> · <a href="#/k/F2">F2 Bài Task 2 hoàn chỉnh</a></p>
   </section>
 
@@ -2548,6 +2690,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
         <p class="g-note">Overview không có con số, chỉ có quy luật · số liệu được chọn và đặt vào phép so sánh · mỗi phép so sánh khớp đúng số (45 &gt; 2 × 20; 70 = 2 × 35).</p>
       </div>
     </div>
+    <div class="g-ev"><h4>📊 Đếm trên 12 bài mẫu Task 1 do người viết</h4><ul><li><b>9/12</b>bài đặt overview thành đoạn riêng thứ hai; không bài nào để overview ở cuối</li><li><b>8–15</b>số liệu được dẫn trong một bài, không kể hết</li><li class="zero"><b>0/12</b>bài nêu ý kiến hoặc nguyên nhân</li><li><b>147–210 từ</b>trung vị khoảng 180 từ</li><li><b>12/12</b>bài có mệnh đề phân từ; khoảng một phần ba số câu là câu phức</li><li><b>9/12</b>bài mở overview bằng <span class="en">Overall</span></li></ul><p class="small">Số đếm là xấp xỉ. <button type="button" data-go="g-8">Cách chọn bài và giới hạn của số liệu</button></p></div>
     <p class="g-go">Luyện: <a href="#/k/TA1">TA1 Chọn và nhóm dữ liệu</a> · <a href="#/k/TA2">TA2 Overview không có con số</a> · <a href="#/k/TA3">TA3 So sánh và định lượng chính xác</a> · <a href="#/k/TA4">TA4 Một dữ liệu, nhiều cách viết</a> · <a href="#/k/TA5">TA5 Mô tả, không suy diễn</a></p>
   </section>
 
@@ -2564,7 +2707,8 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
       <tr><td><b>Task 1</b></td><td>Kể số liệu theo khuôn, suy diễn nguyên nhân</td><td>Chọn lọc, overview nêu quy luật, so sánh khớp số</td><td><a href="#/k/TA1">TA1</a>–<a href="#/k/TA5">TA5</a></td></tr>
     </table></div>
     <div class="g-box g-honest">
-      <p><b>Ba điều cần nói rõ.</b></p>
+      <p><b>Bốn điều cần nói rõ.</b></p>
+      <p><b>Về các số đếm.</b> Chúng được đếm trên 26 bài mẫu (14 bài Task 2, 12 bài Task 1) của các tác giả có tên, không dùng bài do AI viết. IELTS không công bố bài band 9 chính thức; trong tài liệu chính thức mà nhóm tìm được, bài có điểm giám khảo cao nhất là 8.5 (Task 1) và 8 (Task 2). Khi đối chiếu với band descriptor, nhóm ước lượng khoảng 8 trong 26 bài giữ được mức band 9 ở cả bốn tiêu chí. Vì vậy số đếm cho biết người viết giỏi thường làm gì, không phải công thức của band 9, và một số con số là xấp xỉ.</p>
       <p>Gần như không có nghiên cứu nào đo trực tiếp chặng band 7 lên band 9: các nghiên cứu dùng bài thi IELTS thật thường dừng ở band 7 hoặc 8. Bài này ghép hai nguồn, nghiên cứu IELTS ở band cao nhất có dữ liệu và nghiên cứu về viết ngoại ngữ từ B2 đến C2; phần áp vào chặng 7 lên 9 là suy luận của nhóm soạn.</p>
       <p>Các câu và đoạn mẫu ở trên do nhóm soạn viết để minh họa. Nhãn “band 7” và “band 9” là ước lượng theo band descriptor công khai, không phải điểm do giám khảo chấm.</p>
       <p>Không có một đặc điểm đơn lẻ nào làm nên band 9. Bài tốt là tổng hòa của cả bảy điểm, nên sau khi luyện từng kỹ thuật, bạn cần viết cả bài.</p>
@@ -2574,20 +2718,24 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
   </section>
 </article>`;
   function vHome(toArt) {
-    const total = totalSec(), perWeek = Math.round(CFG.targetHours / CFG.weeks);
+    const total = totalSec(), nT = D.techs.filter(t => t.g !== "FULL").length, nBank = (D.bank || []).length + (D.bank1 || []).length;
     shell(`<section class="hero"><div><p class="hi">Chào ${esc(U.name.split(" ").pop())},</p><h1>Từ band 7 lên band 9: từ vựng chính xác và tự nhiên hơn, ý sâu hơn, liên kết kín hơn và ít lỗi hơn.</h1>
-      <p>Lộ trình ${CFG.targetHours} giờ trong ${CFG.weeks} tuần, khoảng ${perWeek} giờ mỗi tuần. Đồng hồ chỉ chạy khi bạn đang làm bài.</p></div>
+      <p>Trang này chỉ ra bảy khác biệt có thể đếm được giữa hai band, cho bạn thử ngay trên bài của mình, rồi luyện từng khác biệt một.</p></div>
       <div class="ringbox">${ring(total / (CFG.targetHours * 3600), fmtH(total), "/ " + CFG.targetHours + " giờ")}</div></section>
-      <button type="button" class="readme" data-go="why79"><span><b>📖 Band 7 khác band 9 ở đâu?</b><span class="small">Bài giải thích có ví dụ đối chiếu cho từng khác biệt. Nên đọc trước khi luyện.</span></span><span class="go">Đọc bài ↓</span></button>
-      <h2 class="ways-h">Bạn muốn luyện theo cách nào?</h2>
-      <section class="mods ways">
-        <a class="waycard tech" href="#/by/tech"><div class="me">🧗</div><h2>Theo kỹ thuật nâng band</h2><p>Chọn một kỹ thuật (ví dụ: xóa từ nối, danh hóa), rồi luyện kỹ thuật đó qua lần lượt các chủ đề.</p><p class="cnt">${D.techs.filter(t => t.g !== "FULL").length} kỹ thuật · hợp khi bạn biết mình yếu ở tiêu chí nào</p><span class="go">Chọn kỹ thuật →</span></a>
-        <a class="waycard topic" href="#/by/topic"><div class="me">🗂️</div><h2>Theo chủ đề</h2><p>Chọn một chủ đề (ví dụ: Giáo dục, Môi trường) hoặc một dạng đề Task 1, rồi luyện mọi kỹ thuật trên đúng chủ đề đó.</p><p class="cnt">${D.topics.t2.length + (D.xtopics || []).length} chủ đề Task 2 · ${D.topics.t1.length} dạng đề Task 1 · ${(D.bank || []).length + (D.bank1 || []).length} đề viết cả bài, có đề thi 2025–2026</p><span class="go">Chọn chủ đề →</span></a>
-      </section>
-      <p class="small ways-n">Ở cả hai cách, bạn đều có thể chọn viết bài hoàn chỉnh và được dẫn sửa từng bước.</p>${ART79}`);
-    const go = id => { const el = document.getElementById(id); if (el) el.scrollIntoView({ behavior: "smooth", block: "start" }); };
-    app.querySelectorAll("[data-go]").forEach(b => b.onclick = () => go(b.dataset.go));
-    if (toArt) { const el = document.getElementById("why79"); if (el) el.scrollIntoView(); }
+      <ol class="steps4">
+        <li style="--c:#e2553d"><button type="button" data-go="why79"><b><span class="sn">1</span>Hiểu</b><span class="small">Band 7 và band 9 khác nhau ở bảy chỗ nào: ví dụ đối chiếu và số đếm trên bài mẫu.</span></button></li>
+        <li style="--c:#3b3fd8"><a href="#/coach"><b><span class="sn">2</span>Thử</b><span class="small">Dán một đoạn bạn đã viết. Trang chỉ ra nó đang mang đặc trưng của band nào và dẫn bạn sửa.</span></a></li>
+        <li style="--c:#0f9a8a"><a href="#/by/tech"><b><span class="sn">3</span>Luyện</b><span class="small">${nT} kỹ thuật, ${D.items.length} bài tập và ${nBank} đề viết cả bài, có đề thi 2025–2026.</span></a></li>
+        <li style="--c:#c7801a"><a href="#/contact"><b><span class="sn">4</span>Trao đổi</b><span class="small">Muốn có giáo viên đọc bài hoặc muốn đăng ký học: để lại thông tin, chúng tôi liên hệ lại.</span></a></li>
+      </ol>${ART79}`);
+    const art = $("#why79"), secs = $$("section", art), tb = $$(".g-toc button", art);
+    const show = (id, scroll) => { secs.forEach(x => x.classList.toggle("on", x.id === id)); tb.forEach(b => { const on = b.dataset.go === id; b.classList.toggle("on", on); b.setAttribute("aria-pressed", on ? "true" : "false"); }); if (scroll) art.scrollIntoView({ behavior: "smooth", block: "start" }); };
+    art.classList.add("tabbed");
+    secs.forEach((x, i) => { const pv = secs[i - 1], nx = secs[i + 1], lab = y => tb.filter(b => b.dataset.go === y.id)[0].textContent;
+      x.insertAdjacentHTML("beforeend", `<div class="g-nextrow">${pv ? `<button type="button" class="btn" data-go="${pv.id}">← ${esc(lab(pv))}</button>` : "<span></span>"}${nx ? `<button type="button" class="btn primary" data-go="${nx.id}">Tiếp: ${esc(lab(nx))} →</button>` : `<a class="btn primary" href="#/stats">Xem thống kê đề thi 2025–2026 →</a>`}</div>`); });
+    $$("[data-go]").forEach(b => { b.onclick = () => { const id = b.dataset.go; if (/^g-\d$/.test(id)) show(id, true); else { const el = document.getElementById(id); if (el) el.scrollIntoView({ behavior: "smooth", block: "start" }); } }; });
+    show("g-0");
+    if (toArt) art.scrollIntoView();
   }
 
   /* ---------- chọn cách luyện ---------- */
@@ -2595,6 +2743,21 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
   function modCard(m) { const ts = techsOf(m); let d = 0, n = 0, w = 0; ts.forEach(t => { const s = techStat(t); d += s.done; n += s.total; w += s.wr; }); const M = D.modules[m];
     return `<a class="modcard ${m}" href="#/m/${m}"><div class="me">${M.e}</div><h2>${M.n}</h2><p>${M.sub}</p><p class="cnt">${ts.filter(t => t.g !== "FULL").length} kỹ thuật · ${D.topics[m].length} ${m === "t2" ? "chủ đề" : "dạng đề"}</p>${bar(n ? d / n : 0)}<p class="small">${d}/${n} bài luyện đã đúng · ${w} bài viết đã nộp</p></a>`; }
   function topicStat(m, tk) { let done = 0, total = 0, wr = 0; techsOf(m).forEach(t => { const id = t.k + "/" + tk; if (hasGame(t)) { total++; if (isDone(id)) done++; } wr += wrCount(id); }); const bw = bankWr(tk); return { done, total, wr: wr + bw, full: wrCount(FULLK(m) + "/" + tk) + bw, bank: (BANKBY[tk] || []).length }; }
+  /* 12 lỗ hổng rút từ báo cáo phân tích bài mẫu: [lỗ hổng, số đếm, kỹ thuật, chủ đề của bài tập mới] */
+  const GAP12 = [
+    ["Nhiều ý, mỗi ý một câu", "16/30 đoạn thân bài chỉ kéo một ý, qua nhiều bậc", "TR1", "pay"],
+    ["Ví dụ chung chung", "7/14 bài có ví dụ gắn với nơi chốn, tình huống cụ thể", "TR4", "pay"],
+    ["Không nhượng bộ, hoặc phản bác lạc", "Khoảng 5/14 bài có đoạn nhượng bộ rồi phản bác", "TR2", "pay"],
+    ["Từ nối đứng đầu mọi câu", "12/14 bài nối bằng while / whereas; 0/14 bài dùng Moreover", "CC1", "pay"],
+    ["Thiếu danh từ tóm lược sau “This”", "13/14 bài dùng this / these + danh từ", "CC2", "pay"],
+    ["Collocation sai hoặc gượng", "Mỗi bài không quá 5–6 từ hiếm; idiom chỉ có ở 2/14 bài", "LR3", "pay"],
+    ["Lỗi nhỏ còn sót", "Band 9 chỉ còn sơ suất hiếm gặp; cần lượt soát riêng", "PR2", "pay"],
+    ["Câu phức gượng ép", "Danh hóa 14/14 bài; đảo ngữ 1/14; câu chẻ 0/14", "GR1", "pay"],
+    ["Khẳng định tuyệt đối", "Khoảng 10/14 bài có cách nói giảm mức khẳng định", "ST1", "pay"],
+    ["Task 1: overview có con số", "9/12 bài có overview riêng ở đoạn hai, chỉ nêu quy luật", "TA2", "mixed"],
+    ["Task 1: kể hết số liệu", "Mỗi bài chỉ dẫn 8–15 số liệu, đã chọn và nhóm", "TA1", "mixed"],
+    ["Task 1: sai thì, thiếu bị động", "Map và process chiếm 26% đề Task 1 trong 2025–2026", "T1M", "mixed"]
+  ];
   function vBy(kind) {
     if (kind === "topic") {
       let h = `<h1 class="pt">🗂️ Luyện theo chủ đề <small>Chọn một chủ đề, luyện mọi kỹ thuật trên chủ đề đó</small></h1><p class="banknote">Ngân hàng đề Task 2 hiện có <b>${(D.bank || []).length} đề</b>: ${(D.bank || []).filter(b => b.d.some(d => d.slice(0, 4) === "2026")).length} đề thi năm 2026 và ${(D.bank || []).filter(b => b.d.some(d => d.slice(0, 4) === "2025")).length} đề thi năm 2025 do thí sinh nhớ lại, cùng các đề trong bộ bài mẫu theo chủ đề của giáo viên. Ngân hàng đề Task 1 có <b>${(D.bank1 || []).length} đề</b> (đề thi 2018–2024 và đề Cambridge), trong đó ${(D.bank1 || []).filter(b => b.mo).length} đề có bài mẫu band 9 và bài tập riêng.</p>`;
@@ -2615,7 +2778,11 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
           h += "</div>"; } });
       return shell(h, `<a href="#/">Trang chính</a> › Theo chủ đề`);
     }
-    shell(`<h1 class="pt">🧗 Luyện theo kỹ thuật nâng band <small>Chọn module, rồi chọn kỹ thuật</small></h1><section class="mods">${modCard("t2")}${modCard("t1")}</section>`, `<a href="#/">Trang chính</a> › Theo kỹ thuật`);
+    const rows = GAP12.map((g, i) => { const d = isDone(g[2] + "/" + g[3]); return `<tr><td>${i + 1}. ${g[0]}</td><td>${g[1]}</td><td><a href="#/k/${g[2]}"><span class="code sm" style="--c:${color(TECH[g[2]])}">${g[2]}</span> ${esc(TECH[g[2]].n)}</a></td><td><a class="btn sm ${d ? "done" : "primary"}" href="#/p/${g[2]}/${g[3]}">${d ? "✓ Luyện lại" : "▶ Bài mới"}</a></td></tr>`; }).join("");
+    shell(`<h1 class="pt">🧗 Luyện theo kỹ thuật nâng band <small>Chọn module, rồi chọn kỹ thuật</small></h1><section class="mods">${modCard("t2")}${modCard("t1")}</section>
+      <h2 class="ways-h">Chưa biết bắt đầu từ đâu? 12 lỗ hổng thường gặp ở band 7</h2>
+      <p class="small">Mỗi dòng là một chỗ bài band 7 khác các bài mẫu đã phân tích, kèm số đếm và một bài tập mới dựng trên đề lặp lại trong 2025–2026. Bấm vào tên kỹ thuật để luyện tiếp trên các chủ đề khác.</p>
+      <div class="tablewrap"><table class="dt wide gap12"><tr><th>Lỗ hổng</th><th>Bài mẫu làm gì</th><th>Kỹ thuật</th><th></th></tr>${rows}</table></div>`, `<a href="#/">Trang chính</a> › Theo kỹ thuật`);
   }
 
   /* ---------- trang chủ đề ---------- */
@@ -2884,7 +3051,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
       <h3>Trang này dạy gì</h3><p>${D.techs.filter(t => t.g !== "FULL").length} kỹ thuật, chia hai module Task 1 và Task 2. Mỗi kỹ thuật nhắm vào một rào cản mà nghiên cứu và phân tích bài mẫu chỉ ra ở chặng band 7 lên band 9. Trong mỗi kỹ thuật, bài luyện được chia theo chủ đề lớn của IELTS (Task 2) hoặc theo dạng đề (Task 1).</p>
       <h3>Khối lượng hiện có</h3><p>${nGame} bài luyện dạng game và ${nWrite} đề viết. Một lượt làm hết các bài game mất khoảng 4 đến 6 giờ; phần còn lại của khung giờ đến từ các đề viết và việc luyện lại.</p>
       <h3>Về nhãn “Band 7” và “Band 9”</h3><p>Các câu và bài mẫu band 9 trên trang do nhóm soạn viết, dựa trên những đặc điểm đo được khi phân tích bài mẫu của các tác giả có tên. Các câu band 7 cũng do nhóm soạn viết để minh họa lỗi điển hình. Nhãn band là ước lượng theo band descriptor công khai, không phải điểm do giám khảo IELTS chấm.</p>
-      <h3>Phần “Nâng cấp bài viết” đo cái gì</h3><p>Trang đếm các đặc trưng có thể đếm được trên bài của bạn (từ nối đầu câu, từ tuyệt đối, cụm danh từ, số liệu trong overview…) và so với ngưỡng rút từ bài mẫu. Kết quả là “bài đang mang đặc trưng của band nào”, không phải điểm thi. Máy không chấm được chất lượng lập luận và không bắt hết lỗi ngữ pháp.</p>${PAID.enabled ? `<h3>Chế độ trả phí</h3><p>Chế độ miễn phí luôn bật. Nếu muốn trợ lý AI chấm riêng bài của mình, bạn điền form yêu cầu ngay trong mục Nâng cấp bài viết; phí là ${vnd(FEE)} mỗi bài. Khi dùng chế độ này, bài bạn dán được gửi tới dịch vụ AI (Claude của Anthropic) để đọc.</p>` : ""}<h3>Ngân hàng đề Task 2</h3><p>${(D.bank || []).length} đề viết cả bài, xếp theo chủ đề bằng từ khóa nên một số đề có thể nằm chưa đúng chủ đề. Đề thi 2025 và 2026 là đề do thí sinh nhớ lại, lấy từ các trang tổng hợp Onthiielts, TalkFirst, Langmaster và IELTS Fighter; IELTS không công bố đề thi, nên câu chữ và tháng thi chỉ mang tính tham khảo. Các đề còn lại lấy từ bộ bài mẫu theo chủ đề của giáo viên; trang chỉ đăng đề bài và tên nơi có bài mẫu (How to do IELTS, IELTS Vietop, IELTS Advantage, Thanh Nguyễn), không đăng lại bài mẫu.</p><h3>Đề thi Task 1 năm 2024</h3><p>${(D.bank1 || []).length} đề lấy từ bộ đề năm 2024 của giáo viên, chỉ gồm những đề đọc được đầy đủ số liệu. Hình và bảng do trang vẽ lại từ số liệu của đề, không phải hình gốc; trang không đăng bài mẫu của bộ đề đó.</p><h3>Dữ liệu Task 1</h3><p>Sáu bộ dữ liệu (Newport, Ashby và các bảng số) được dựng riêng cho trang này, không phải số liệu thật.</p>
+      <h3>Phần “Nâng cấp bài viết” đo cái gì</h3><p>Trang đếm các đặc trưng có thể đếm được trên bài của bạn (từ nối đầu câu, từ tuyệt đối, cụm danh từ, số liệu trong overview…) và so với ngưỡng rút từ bài mẫu. Kết quả là “bài đang mang đặc trưng của band nào”, không phải điểm thi. Máy không chấm được chất lượng lập luận và không bắt hết lỗi ngữ pháp.</p>${PAID.enabled ? `<h3>Chế độ trả phí</h3><p>Chế độ miễn phí luôn bật. Nếu muốn trợ lý AI chấm riêng bài của mình, bạn điền form yêu cầu ngay trong mục Nâng cấp bài viết; phí là ${vnd(FEE)} mỗi bài. Khi dùng chế độ này, bài bạn dán được gửi tới dịch vụ AI (Claude của Anthropic) để đọc.</p>` : ""}<h3>Ngân hàng đề Task 2</h3><p>${(D.bank || []).length} đề viết cả bài, xếp theo chủ đề bằng từ khóa nên một số đề có thể nằm chưa đúng chủ đề. Đề thi 2025 và 2026 là đề do thí sinh nhớ lại, lấy từ các trang tổng hợp Onthiielts, TalkFirst, Langmaster và IELTS Fighter; IELTS không công bố đề thi, nên câu chữ và tháng thi chỉ mang tính tham khảo. Các đề còn lại lấy từ bộ bài mẫu theo chủ đề của giáo viên; trang chỉ đăng đề bài và tên nơi có bài mẫu (How to do IELTS, IELTS Vietop, IELTS Advantage, Thanh Nguyễn), không đăng lại bài mẫu.</p><h3>Đề thi Task 1 năm 2024</h3><p>${(D.bank1 || []).length} đề lấy từ bộ đề năm 2024 của giáo viên, chỉ gồm những đề đọc được đầy đủ số liệu. Hình và bảng do trang vẽ lại từ số liệu của đề, không phải hình gốc; trang không đăng bài mẫu của bộ đề đó.</p><h3>Dữ liệu Task 1</h3><p>Bảy bộ dữ liệu (Newport, Ashby, Northline Rail và các bảng số) được dựng riêng cho trang này, không phải số liệu thật.</p><h3>Số đếm trên bài mẫu và thống kê đề thi</h3><p>Số đếm trong bài “Band 7 khác band 9 ở đâu?” lấy từ 26 bài mẫu của các tác giả có tên (14 bài Task 2, 12 bài Task 1), không dùng bài do AI viết; phần lớn số đếm là xấp xỉ. Trang Thống kê đề thi 2025–2026 đếm trên 177 đề do thí sinh nhớ lại, lấy từ Prep, ZIM và Langmaster. Chủ đề “Ai trả tiền?” dựng trên các đề lặp lại trong giai đoạn đó, với câu chữ do nhóm soạn viết.</p>
       <h3>Dữ liệu của bạn</h3><p>${CFG.endpoint ? "Tên, lớp, kết quả từng bài, thời gian làm, bài viết bạn nộp và đánh giá, góp ý bạn gửi được chuyển về bảng theo dõi của giáo viên. Nếu bạn điền form Liên hệ, số điện thoại, email hoặc Facebook bạn ghi cũng được gửi về đó và chỉ dùng để liên hệ lại với bạn." : "Trang chưa nối với bảng theo dõi của giáo viên. Tiến độ chỉ lưu trên thiết bị này; bạn có thể tải báo cáo ở mục Tiến độ của tôi."}</p></div>`, `<a href="#/">Trang chính</a> › Về trang này`);
   }
 
@@ -3177,11 +3344,49 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
       const last = store.get("b79:clast") || 0; if (Date.now() - last < 30000) return fail("Bạn vừa gửi rồi. Nếu cần sửa thông tin, hãy thử lại sau nửa phút.");
       store.set("b79:clast", Date.now());
       if (CFG.endpoint) {
+        S.cta = Object.assign(S.cta || {}, { sent: Date.now() }); save();
         send({ kind: "contact", name: name, tech: "", topic: "", type: why, ok: 0, try: 0, sec: 0, words: words(msg), text: JSON.stringify({ phone: phone, email: email, fb: fb, msg: msg, user: U.name }) });
         $("#cf").outerHTML = `<div class="cform"><p class="fbthanks">✓ Cảm ơn ${esc(name)}. Thông tin đã được gửi.</p><p style="margin:0">Nhóm phát triển sẽ liên hệ lại với bạn qua ${[phone && "Zalo", email && "email", fb && "Facebook"].filter(Boolean).join(", ").replace(/, ([^,]*)$/, " hoặc $1")} trong thời gian sớm nhất.</p><div class="bar-actions" style="margin-top:0"><a class="btn primary" href="#/">Về trang chính</a></div></div>`;
       } else return fail("Trang đang tạm thời chưa gửi được thông tin. Bạn vui lòng thử lại sau.");
       window.scrollTo(0, 0);
     };
+  }
+
+  /* ---------- thống kê đề thi 2025–2026 (số liệu từ báo cáo tổng hợp tháng 10/2026) ---------- */
+  const ST_T2TOPIC = [["Giáo dục", 29, "edu"], ["Đô thị, giao thông, nhà ở", 20, "city"], ["Truyền thông, quảng cáo", 18, "media"], ["Việc làm, kinh doanh", 16, "work"], ["Sức khỏe, thực phẩm", 15, "health"], ["Văn hóa, nghệ thuật, toàn cầu hóa", 15, "cult"], ["Môi trường", 14, "env"], ["Xã hội, gia đình, giới trẻ", 13, "fam"], ["Tội phạm", 10, "crime"], ["Công nghệ", 8, "tech"], ["Chính phủ, kinh tế", 8, "gov"], ["Thể thao", 7, "ent"], ["Chủ đề khác", 4, "misc"]];
+  const ST_T2TYPE = [["Opinion (agree / disagree)", 39], ["Discuss both views", 25], ["Two-part / direct question", 13], ["Advantages / disadvantages", 12], ["Causes, problems & solutions", 9], ["Positive or negative development", 3]];
+  const ST_T1TYPE = [["Bar chart", 33, "bar"], ["Line graph", 31, "line"], ["Table", 30, "table"], ["Map / plan", 30, "map"], ["Mixed charts", 26, "mixed"], ["Process", 16, "process"], ["Pie chart", 11, "pie"]];
+  const pct = (n, t) => (n / t * 100).toFixed(1).replace(".", ",") + "%";
+  const sbars = (rows, total, col) => { const mx = Math.max.apply(null, rows.map(r => r[1])); return `<div class="sbars" style="--c:${col}">${rows.map(r => `<div class="sbar"><span>${r[2] && (TOPIC[r[2]] || (BANKBY[r[2]] || []).length) ? `<a href="#/t/${r[2]}">${esc(r[0])}</a>` : esc(r[0])}</span><span class="trk"><i style="width:${Math.round(r[1] / mx * 100)}%"></i></span><span class="sv"><strong>${r[1]}</strong> · ${pct(r[1], total)}</span></div>`).join("")}</div>`; };
+  function vStats() {
+    shell(`<h1 class="pt">📈 Thống kê đề thi 2025–2026 <small>Để biết nên ưu tiên luyện gì</small></h1>
+      <p>Nhóm soạn đếm trên <b>177 đề thi</b> do thí sinh nhớ lại, từ tháng 1/2025 đến tháng 8/2026: 125 đề năm 2025 và 52 đề năm 2026. Dạng câu hỏi Task 2 được phân loại trên 101 đề có câu chữ đủ rõ.</p>
+      <div class="prio"><b>Bốn điều rút ra cho việc luyện</b><ol>
+        <li><b>Task 2: nắm chắc hai dạng trước.</b> Opinion và Discuss both views chiếm 64 trong 101 đề, tức gần hai phần ba.</li>
+        <li><b>Năm chủ đề chiếm hơn một nửa số đề:</b> giáo dục, đô thị, truyền thông, việc làm và sức khỏe (98/177). Công nghệ ít gặp hơn nhiều người nghĩ (8/177).</li>
+        <li><b>Khoảng một phần ba số đề xoay quanh một câu hỏi:</b> ai nên trả tiền hoặc chịu trách nhiệm, chính phủ, cá nhân hay doanh nghiệp. Trang có riêng chủ đề <a href="#/t/pay">💰 Ai trả tiền?</a> để luyện góc nhìn này.</li>
+        <li><b>Task 1: không dạng nào bỏ được.</b> Bar, line, table và map mỗi dạng chiếm 17–19%. Map và process cộng lại là 26%, mixed charts gần 15%; pie đứng riêng là dạng ít gặp nhất.</li></ol></div>
+      <div class="tabrow" role="tablist"><button type="button" data-tab="a">Chủ đề Task 2</button><button type="button" data-tab="b">Dạng câu hỏi Task 2</button><button type="button" data-tab="c">Dạng đề Task 1</button><button type="button" data-tab="d">Đề lặp lại</button><button type="button" data-tab="e">Nguồn và giới hạn</button></div>
+      <div data-pane="a"><h3 class="gh" style="--c:#3b3fd8">Task 2 theo chủ đề · 177 đề</h3>${sbars(ST_T2TOPIC, 177, "#3b3fd8")}<p class="small">Bấm vào tên chủ đề để mở bài luyện và ngân hàng đề của chủ đề đó. Một đề có thể chạm hai chủ đề; mỗi đề chỉ được đếm vào chủ đề chính.</p></div>
+      <div data-pane="b"><h3 class="gh" style="--c:#7b4fd6">Task 2 theo dạng câu hỏi · 101 đề</h3>${sbars(ST_T2TYPE, 101, "#7b4fd6")}
+        <div class="tablewrap" style="margin-top:14px"><table class="dt wide gap12"><tr><th>Dạng</th><th>Đề hỏi gì</th><th>Điều band 9 đòi hỏi</th></tr>
+        <tr><td>Opinion</td><td class="en">To what extent do you agree or disagree?</td><td>Lập trường rõ từ mở bài và giữ suốt bài; mỗi đoạn thân bài kéo một lý do đến cùng.</td></tr>
+        <tr><td>Discuss both</td><td class="en">Discuss both views and give your own opinion.</td><td>Trình bày đủ cả hai quan điểm và nêu ý kiến riêng; ý kiến không chỉ nằm ở kết bài.</td></tr>
+        <tr><td>Two-part</td><td class="en">Why is this the case? Is it a positive or negative development?</td><td>Trả lời đủ cả hai câu hỏi, mỗi câu một đoạn.</td></tr>
+        <tr><td>Adv / disadv</td><td class="en">Do the advantages outweigh the disadvantages?</td><td>Có phán đoán bên nào nặng hơn, không chỉ liệt kê hai phía.</td></tr>
+        <tr><td>Causes / solutions</td><td class="en">What are the causes? What can be done?</td><td>Giải pháp phải khớp với đúng nguyên nhân đã nêu.</td></tr></table></div></div>
+      <div data-pane="c"><h3 class="gh" style="--c:#0f9a8a">Task 1 theo dạng đề · 177 đề</h3>${sbars(ST_T1TYPE, 177, "#0f9a8a")}<p class="small">Ranh giới giữa line và bar là xấp xỉ, vì thí sinh nhớ lại không phải lúc nào cũng ghi rõ dạng biểu đồ. Bấm vào tên dạng đề để mở bài luyện.</p></div>
+      <div data-pane="d"><div class="rep"><div><h3>Task 2: đề được ghi nhận nhiều lần</h3><ul>
+        <li>Đại học miễn phí hay sinh viên tự trả học phí</li><li>Tài trợ vận động viên đỉnh cao hay thể thao cộng đồng</li><li>Quảng cáo và ảnh hưởng của nó đến người mua</li><li>Thực phẩm địa phương hay thực phẩm nhập khẩu</li><li>Giữ cây xanh hay xây nhà ở; thành phố mở rộng theo chiều ngang hay chiều cao</li><li>Phòng bệnh hay chữa bệnh; trợ giá rau quả hay đánh thuế đồ ăn nhanh</li><li>Chi tiền cho nghiên cứu vũ trụ</li><li>Tăng trưởng kinh tế và môi trường</li><li>Tin tốt và tin xấu trên truyền thông</li><li>Người phạm tội vị thành niên (riêng năm 2025 xuất hiện ít nhất 6 lần)</li></ul>
+        <a class="btn sm primary" href="#/t/pay">Luyện chủ đề 💰 Ai trả tiền? →</a></div>
+        <div><h3>Task 1: đề được ghi nhận nhiều lần</h3><ul>
+        <li>Process: lò hun khói thực phẩm tại nhà (5 lần)</li><li>Map: một ngôi làng trước và sau khi núi lửa phun</li><li>Process: sản xuất nước uống có ga</li><li>Process: tái chế lon nhôm</li><li>Mixed: số hành khách và độ đúng giờ của tàu</li><li>Line / table: giá bánh mì</li><li>Bar / table: bằng cấp đại học theo giới tính</li></ul>
+        <p class="small">Trang không có hình gốc của các đề này nên không dựng lại chúng. Bài luyện <a href="#/t/mixed">🧩 Mixed charts</a> dùng số liệu tự soạn theo kiểu đề “hành khách và độ đúng giờ”.</p>
+        <a class="btn sm primary" href="#/t/process">Luyện Process →</a> <a class="btn sm" href="#/t/map">Luyện Map →</a></div></div></div>
+      <div data-pane="e"><div class="about"><h3>Nguồn</h3><p>Đề năm 2025 lấy từ bảng tổng hợp của Prep; đề năm 2026 lấy từ ZIM và Langmaster. Đây là đề do thí sinh nhớ lại sau buổi thi. IELTS không công bố đề thi, nên câu chữ và ngày thi chỉ mang tính tham khảo.</p>
+        <h3>Giới hạn</h3><p>Việc xếp chủ đề và dạng đề do nhóm soạn thực hiện; một số đề có thể xếp vào hơn một nhóm. Số liệu năm 2026 mới đến tháng 8 và ít hơn năm 2025, nên chưa đủ để so sánh hai năm. Đề lặp lại trong quá khứ không bảo đảm sẽ xuất hiện trong kỳ thi của bạn; hãy dùng thống kê để xếp thứ tự ưu tiên, không phải để đoán đề.</p></div></div>
+      <div class="bar-actions"><a class="btn primary" href="#/by/topic">Chọn chủ đề để luyện →</a><a class="btn" href="#/coach">Thử với bài của bạn</a></div>`, `<a href="#/">Trang chính</a> › Thống kê đề thi 2025–2026`);
+    tabify(app);
   }
 
   /* ---------- điều hướng ---------- */
@@ -3204,6 +3409,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
       case "about": return vAbout();
       case "feedback": return vFeedback();
       case "contact": return vContact();
+      case "stats": return vStats();
       case "why": return vHome(true);
       default: return vHome();
     }
