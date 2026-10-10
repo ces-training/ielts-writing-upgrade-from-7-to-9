@@ -160,6 +160,11 @@ textarea{min-height:230px;resize:vertical;font-family:"Source Serif 4",Georgia,s
 .lv{display:inline-block;padding:2px 9px;border-radius:99px;font-size:.78em;font-weight:800;white-space:nowrap}.l9{background:#d6f3ea;color:#0b7a5e}.l8{background:#dfe8ff;color:#2444b8}.l7{background:#ffe9c2;color:#8a5a00}
 .est{display:flex;gap:16px;align-items:center;border-radius:var(--r);padding:14px 16px;margin:12px 0;border:2px solid}.est .big{font-size:1.7rem;font-weight:800;white-space:nowrap}.est .big small{font-size:.5em;display:block;font-weight:600}
 .e9{background:#eefaf6;border-color:#a9e2d0}.e9 .big{color:#0b7a5e}.e8{background:#eff3ff;border-color:#c4d0fb}.e8 .big{color:#2444b8}.e7{background:#fff7e6;border-color:#f6d79a}.e7 .big{color:#8a5a00}
+.elow{background:#fff3f0;border-color:#f3b9ad;align-items:flex-start}.elow .big{color:#b23a22}.est>div:last-child{min-width:0}
+.l6{background:#ffe3d3;color:#9a3d12}.l5{background:#ffd5cd;color:#a02a1c}.l4{background:#f7c4c4;color:#8a1616}.lok{background:#e8f1ea;color:#2d6a3e}
+.crit{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}.crit span{background:#fff;border:1px solid var(--line);border-radius:10px;padding:5px 12px;font-size:.78em;text-align:center}.crit b{display:block;font-size:1.45em}.crit .lo{border-color:#f3b9ad}.crit .lo b{color:#b23a22}
+.whyb{margin:8px 0;padding-left:1.2em}.whyb li{margin:5px 0}
+.ladder td,.ladder th{white-space:normal;vertical-align:top;text-align:left}.ladder th{background:#faf8f3}.ladder td:first-child{font-weight:800;white-space:nowrap}.ladder .b7r td{background:#f3faf6}
 .feat td,.feat th{white-space:normal;vertical-align:top}.feat .gr td{font-weight:800;font-size:.82em;text-transform:uppercase;letter-spacing:.05em;background:#faf8f3;border-left:5px solid var(--c)}
 .from-to{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:6px 0 10px}.finding{font-size:1.02em}
 .sh{margin:18px 0 6px;text-transform:uppercase;letter-spacing:.07em;font-size:.74em;color:var(--mut)}
@@ -2000,16 +2005,23 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
   var NOM = /\b(rise|growth|decline|increase|decrease|reduction|spread|lack|loss|shift|expansion|development|introduction|adoption|availability|popularity|use|consumption|ageing|closure|provision|demand|pressure|exposure|access|dependence|reliance|shortage|absence|presence|emergence|creation|removal|improvement|investment|taxation|regulation|restriction|protection|prevention|promotion|production|destruction|migration|urbani[sz]ation|globali[sz]ation|automation|competition|participation|contribution|distribution|allocation|clearing|funding|cost|benefits?|risks?|effects?|impact|quality|scale|pace|rate|level|number|share|proportion)\s+(?:of|in|on|to|for|from)\b/gi;
   var SUB = /\b(which|who|whom|whose|that|while|whilst|whereas|although|though|because|since|if|unless|when|where|as|so that|in order to|rather than|before|after|once)\b|,\s+[a-z]+ing\b/i;
   var INV = /^(Not only|Only when|Only by|Never (?:before )?(?:have|has|had)|Rarely (?:do|does|did|have|has)|Seldom (?:do|does|did)|Hardly|Scarcely|No sooner|Little (?:do|did)|Were (?:it|we|the)|Had (?:it|we|the|they) )/;
+  /* danh từ số nhiều đứng sau giới từ thì không phải chủ ngữ ("the number of students is" là đúng): bỏ qua */
+  /* ngữ cảnh đứng trước một chỗ nghi là lỗi: g là biểu thức chặn (khớp thì bỏ qua), hoặc { req: … } (không khớp thì bỏ qua) */
+  var blocked = function (g, prev) { return !!g && (g.req ? !g.req.test(prev) : g.test(prev)); };
+  /* chủ ngữ phải đứng đầu mệnh đề thì mới chắc là chủ ngữ ("people who enjoy it live …", "judging people is …" là đúng) */
+  var REQP = { req: /(?:^|[.;,!?:]\s+|\n\s*|\b(?:but|because|so|when|while|although|since|that|if|nowadays|today|think|believe)\s+)(?:(?:many|most|some|these|those|other|all|the|young|old|poor|rich)\s+)?$/i };
+  var REQS = { req: /(?:^|[.;,!?:]\s+|\n\s*|\b(?:and|but|because|so|when|while|although|since|that|then|if|think|believe)\s+)$/i };
+  var PREPG = /\b(?:of|for|among|between|by|with|to|in|on|about|from|than)\s+(?:(?:the|these|those|their|its|our|most|many|some|all|young|older?|local|foreign)\s+)?$/i;
   var ACC = [
     ["\\b(?:informations|knowledges|advices|equipments|researches|evidences|furnitures|homeworks|staffs|softwares|traffics|pollutions|luggages|childrens|peoples)\\b", "danh từ không đếm được / số nhiều sai"],
-    ["\\b(?:people|children|men|women|students|governments|they|we|many \\w+) (?:is|has|was|does)\\b", "hòa hợp chủ–vị (số nhiều)"], ["\\b(?:he|she|it|this|everyone|everybody|each \\w+|the government|the number) (?:have|are|were|do)\\b", "hòa hợp chủ–vị (số ít)"],
-    ["\\ba (?:[aei][a-z]+|hour|honest)\\b", "a → an"], ["\\ban (?:[bcdfgjklmnpqrstvwxyz][a-z]+|university|unique|useful|user|european|one)\\b", "an → a"],
+    ["\\b(?:people|children|men|women|students|governments|they|we|many \\w+) (?:is|has|was|does)\\b", "hòa hợp chủ–vị (số nhiều)", REQP], ["\\b(?:he|she|it|this|everyone|everybody|each \\w+|the government|the number) (?:have|are|do)\\b", "hòa hợp chủ–vị (số ít)", REQS],
+    ["\\ba (?!eu|ew|one\\b|once\\b)(?:[aei][a-z]+|hour|honest)\\b", "a → an"], ["\\ban (?:[bcdfgjklmnpqrstvwxyz][a-z]+|university|unique|useful|user|european|one)\\b", "an → a"],
     ["\\b(?!that\\b|had\\b)([a-z]{2,})\\s+\\1\\b", "lặp từ"], ["\\b(?:more|most) (?:easier|better|worse|cheaper|faster|bigger|higher|lower|easiest|best)\\b", "so sánh kép"],
     ["\\b(?:can|could|should|must|will|would|may|might) to\\b", "động từ tình thái + V nguyên mẫu, không có “to”"], ["\\bthere (?:is|was) (?:many|several|a lot of|two|three|some \\w+s)\\b", "there are / were"],
-    ["\\b(?:depend|depends|depended|dependent|rely|relies|relied) (?:of|to)\\b", "giới từ: on"], ["\\binterest(?:ed)? (?:on|to|about)\\b", "giới từ: in"], ["\\bresponsible (?:of|to)\\b", "giới từ: for"],
-    ["\\bresult(?:s|ed)? to\\b", "giới từ: result in"], ["\\bcontribut(?:e|es|ed) for\\b", "giới từ: to"], ["\\baffect(?:s|ed)? (?:to|on)\\b", "affect + tân ngữ, không giới từ"], ["\\beffects? to\\b", "giới từ: effect on"], ["\\breasons? of\\b", "giới từ: reason for"],
-    ["\\b(?:rised|rosed|falled|growed|leaded|spended|costed|teached)\\b", "dạng quá khứ sai"], ["\\ba lots of\\b", "a lot of / lots of"]
-  ].map(function (c) { return [new RegExp(c[0], "gi"), c[1]]; });
+    ["\\b(?:depend|depends|depended|dependent|rely|relies|relied) (?:of|to)\\b", "giới từ: on"], ["\\binterested (?:on|about)\\b", "giới từ: in"], ["\\bresponsible of\\b", "giới từ: for"],
+    ["\\bresult(?:s|ed)? to\\b", "giới từ: result in", /\b(?:their|the|its|his|her|these|those|of)\s+$/i], ["\\bcontribut(?:e|es|ed) for\\b", "giới từ: to"], ["\\baffect(?:s|ed)? (?:to|on)\\b", "affect + tân ngữ, không giới từ"], ["\\beffects? to\\b", "giới từ: effect on"], ["\\breasons? of\\b", "giới từ: reason for", /\bfor\s+$/i],
+    ["\\b(?:rised|rosed|falled|growed|spended|costed|teached)\\b", "dạng quá khứ sai"], ["\\ba lots of\\b", "a lot of / lots of"]
+  ].map(function (c) { return [new RegExp(c[0], "gi"), c[1], c[2]]; });
   var HED = /\b(may|might|could|can|tends? to|(?:is|are) likely to|likely|unlikely|appears?|seems?|suggests?|generally|often|usually|typically|largely|in many cases|in some cases|to some extent|to a (?:large|certain) extent|(?:is|are) associated with|arguably|probably|perhaps|possibly|potentially|relatively|rarely)\b/gi;
   var TON = /(!|\?|\b\w+n't\b|\b(?:I|we|you|they|it|he|she|that|there)'(?:m|re|ve|ll|s|d)\b|\b(?:we must|let's|let us|you (?:should|must|can|will|need)|your)\b|\b(?:gonna|wanna|guys|okay)\b)/gi;
   var OP = /\b(I (?:firmly |strongly |personally |would |also |still )?(?:believe|think|agree|disagree|argue|feel|contend)|in my (?:opinion|view)|my (?:own )?view|I am (?:convinced|of the view)|this essay (?:will )?(?:argue|agree|disagree)s?|I side with|to my mind)\b/i;
@@ -2032,7 +2044,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
 
   var lv = function (n, t9, t8) { return n >= t9 ? 9 : n >= t8 ? 8 : 7; };       /* nhiều là tốt */
   var lvMax = function (n, t9, t8) { return n <= t9 ? 9 : n <= t8 ? 8 : 7; };   /* ít là tốt */
-  var listFix = function (pairs, text) { var marks = [], sugg = []; pairs.forEach(function (c) { find(c[0], text).forEach(function (m) { marks.push(m); sugg.push(m[2] + " → " + c[1]); }); }); return { marks: marks, sugg: sugg }; };
+  var listFix = function (pairs, text) { var marks = [], sugg = []; pairs.forEach(function (c) { find(c[0], text).forEach(function (m) { if (blocked(c[2], text.slice(Math.max(0, m[0] - 40), m[0]))) return; marks.push(m); sugg.push(m[2] + " → " + c[1]); }); }); return { marks: marks, sugg: sugg }; };
 
   /* ================= TASK 2 ================= */
   function task2(c) {
@@ -2211,13 +2223,285 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
     return out;
   }
 
+  /* ================= NỀN TẢNG: dấu hiệu của các band dưới 7 =================
+     Các kiểm tra ở trên chỉ phân biệt band 7 / 8 / 9. Phần này tìm dấu hiệu của band 4, 5 và 6, để người học chưa tới band 7
+     biết mình đang ở khoảng nào và vì sao. Căn cứ:
+     - Bảng mô tả band điểm Writing công khai của IELTS (bản cập nhật tháng 5/2023), band 4 đến 7 của cả bốn tiêu chí.
+     - Nghiên cứu trên bài thi thật: Banerjee, Franceschina & Smith (2007, IELTS Research Reports 7, band 3–8) và Riazi & Knox (2013,
+       band 5–7): độ dài bài, mức chính xác ngữ pháp và độ phổ biến của từ thay đổi đều theo band; tỉ lệ type/token và các số đo
+       mệnh đề phụ thì không phân biệt tốt các band. Vì vậy trang không dùng type/token, và chỉ tính mệnh đề phụ khi chúng gần như vắng mặt.
+     Mỗi kiểm tra trả về lvl 4 | 5 | 6 | 7. Mức 7 nghĩa là "không thấy dấu hiệu dưới band 7 mà máy đo được", không phải "chắc chắn đã band 7". */
+  var SPELLMAP = {};
+  ("goverment:government,goverments:governments,govement:government,govermment:government,enviroment:environment,enviroments:environments,environtment:environment,enviromental:environmental," +
+   "becuase:because,beacuse:because,becasue:because,becouse:because,wich:which,whitch:which,thier:their,recieve:receive,recieved:received,beleive:believe,belive:believe,acheive:achieve,achive:achieve," +
+   "definately:definitely,definitly:definitely,seperate:separate,occured:occurred,begining:beginning,writting:writing,studing:studying,untill:until,accross:across,adress:address,arguement:argument," +
+   "knowlege:knowledge,knowledg:knowledge,responsability:responsibility,proffesional:professional,profesional:professional,oppurtunity:opportunity,oportunity:opportunity,oppotunity:opportunity," +
+   "neccessary:necessary,necesary:necessary,neccesary:necessary,succesful:successful,sucessful:successful,successfull:successful,sucess:success,succes:success,tecnology:technology,technolegy:technology,techology:technology," +
+   "benifit:benefit,benifits:benefits,benefical:beneficial,advantge:advantage,advantadge:advantage,disadvantge:disadvantage,diffrent:different,diferent:different,diffrence:difference,importan:important,importent:important," +
+   "exemple:example,developement:development,devlopment:development,devlop:develop,nowaday:nowadays,alot:a lot,eventhough:even though,inspite:in spite,infact:in fact,aswell:as well," +
+   "peple:people,poeple:people,pepole:people,sociaty:society,socity:society,econmy:economy,polution:pollution,pollusion:pollution,educaton:education,eduction:education,studens:students,studnets:students," +
+   "teh:the,adn:and,taht:that,realy:really,finaly:finally,usualy:usually,generaly:generally,especialy:especially,basicly:basically,completly:completely,extremly:extremely,imediately:immediately,immediatly:immediately," +
+   "unfortunatly:unfortunately,truely:truly,tommorow:tomorrow,tomorow:tomorrow,freind:friend,freinds:friends,foriegn:foreign,foregin:foreign,intresting:interesting,intersting:interesting," +
+   "comunication:communication,comunicate:communicate,comunity:community,communty:community,convinient:convenient,convienient:convenient,enought:enough,throught:through,altough:although,althought:although," +
+   "howerver:however,hovever:however,therefor:therefore,futhermore:furthermore,furthemore:furthermore,firstable:first of all,percentege:percentage,percentange:percentage,persent:per cent," +
+   "incresed:increased,increse:increase,decresed:decreased,decrese:decrease,gragh:graph,signficant:significant,significent:significant,slighty:slightly,gradualy:gradually,dramaticaly:dramatically,steadly:steadily," +
+   "remaind:remained,lenght:length,strenght:strength,heigth:height,competion:competition,excercise:exercise,exercice:exercise,exersise:exercise,healty:healthy,healthly:healthy,helth:health," +
+   "resturant:restaurant,restaurent:restaurant,vehical:vehicle,vehicel:vehicle,trafic:traffic,crimminal:criminal,punishement:punishment,advertisment:advertisement,bussiness:business,buisness:business,busines:business," +
+   "compnay:company,salery:salary,carrer:career,carreer:career,univercity:university,univeristy:university,universty:university,sciense:science,reserch:research,reasearch:research," +
+   "experiance:experience,experince:experience,abillity:ability,ablity:ability,posible:possible,imposible:impossible,probem:problem,problm:problem,solusion:solution,reasone:reason,conclution:conclusion," +
+   "oppinion:opinion,opinon:opinion,openion:opinion,tradional:traditional,traditonal:traditional,cultrue:culture,contry:country,coutry:country,contries:countries,coutries:countries,citys:cities," +
+   "famaly:family,familly:family,familys:families,parrents:parents,parants:parents,childs:children,womans:women,lifes:lives,moden:modern,morden:modern,socail:social,speacial:special,specail:special,privite:private,pubilc:public," +
+   "dont:do not,doesnt:does not,didnt:did not,isnt:is not,arent:are not,couldnt:could not,shouldnt:should not,wouldnt:would not,gonna:going to,wanna:want to,bcz:because,coz:because,cuz:because,thru:through,tho:though,pls:please,ppl:people")
+    .split(",").forEach(function (p) { var a = p.split(":"); SPELLMAP[a[0]] = a[1]; });
+  var SPELLRE = new RegExp("\\b(" + Object.keys(SPELLMAP).join("|") + ")\\b", "gi");
+
+  /* Lỗi ngữ pháp cơ bản mà máy bắt được khá chắc: [biểu thức, cách sửa, biểu thức chặn (xét 40 ký tự đứng trước), 1 = chỉ tô nhóm bắt đầu tiên]. */
+  var NOTN = "(?!the\\b|a\\b|an\\b|this\\b|that\\b|their\\b|his\\b|her\\b|its\\b|my\\b|our\\b|your\\b|these\\b|those\\b|them\\b|us\\b|him\\b|me\\b|you\\b|it\\b|people\\b|be\\b)";
+  /* "make it go", "does it make", "should he go": động từ nguyên mẫu ở đây là đúng */
+  var BAREG = /\b(?:make|makes|made|making|let|lets|letting|help|helps|helped|helping|see|sees|saw|watch|watched|have|has|had|having|does|do|did|can|could|should|will|would|may|might|must|to|that|than)\s+(?:not\s+)?$/i;
+  var NOUNG = /\b(?:make|makes|made|making|let|lets|letting|help|helps|helped|helping|see|sees|saw|watch|watched|have|has|had|having|does|do|did|can|could|should|will|would|may|might|must|to|that|than|of|for|on|in|by|with|from|through|via|about|and|or|all)\s+(?:not\s+)?$/i;
+  var BERR = [
+    ["\\b(?:he|she|it) (?:go|make|have|do|need|want|help|give|take|cause|lead|mean|become|get|think|say|show|live|work|use|bring|provide|spend|learn|know|feel|seem|allow|create|affect|reduce|improve|depend|happen|require|increase|decrease|rise|fall|remain|reach|drop|grow|change)\\b(?!-)", "ngôi thứ ba số ít: thêm -s (it makes, he goes, she has)", REQS],
+    ["\\bthe (?:chart|graph|table|diagram|map|picture|line graph|bar chart|pie chart) (?:show|illustrate|compare|give|present|describe|indicate|depict|display|provide)\\b", "chủ ngữ số ít: thêm -s (the chart shows)"],
+    ["\\b(?:public transport|technology|education|pollution|everyone|everybody|someone|nobody|each (?:person|student|child)|the internet|this (?:problem|trend|idea|issue|solution|method)) (?:have|need|make|go|help|cause|lead|give|bring|take|become|play|do|provide|allow|create|affect|reduce|improve)\\b(?!-)", "chủ ngữ số ít: thêm -s (technology makes, everyone has)", NOUNG],
+    ["\\bthere (?:is|are|was|were) (?:many|some|a lot of|lots of|several|more and more) (?:[a-z]+ ){1,2}(?:think|believe|say|want|use|live|work|agree|prefer|choose|like|have|go|spend|buy)\\b", "một câu hai động từ: many people think …, hoặc there are many people who think …"],
+    ["\\b(?:instead of|without|by|after|before|despite|in spite of) (?:build|make|do|go|spend|learn|take|give|buy|reduce|solve|protect|teach|eat|pay|provide|create|develop|have|get|become|improve|bring|let|keep|put|send|know|see|allow)\\b(?!-)", "sau giới từ dùng V-ing (instead of building, by making)"],
+    ["\\b(?:less|fewer|more) (?:car|bus|student|person|child|teacher|worker|job|school|house|animal|tree|road|factory|tourist|accident)\\b(?!s|-| (?:[a-z]+(?:s|ion|ment|ing|ship)|use|traffic|park|travel|industry|market)\\b)", "danh từ đếm được: dùng số nhiều (fewer cars, more jobs)"],
+    ["\\b(?:use|uses|used|buy|buys|bought|drive|drives|own|owns|take|takes|took|ride|rides|build|builds|built) (?:car|bus|train|bike|bicycle|motorbike|computer|phone|smartphone|house|road|school|hospital|factory|ticket)\\b(?!s|-| (?:[a-z]+s|security|software|technology|service|station|stop|system|lane|park|price|use|ownership|work|market|travel|transport)\\b)", "danh từ đếm được số ít cần a / an / the, hoặc dùng số nhiều (buy a car, use buses)"],
+    ["(?:^|[.!?\\n]\\s*|\\b(?:because|and|but|so|if|when|while)\\s+)((?:car|bus|train|student|teacher|child|parent|computer|internet|road|city|advertisement|tourist) (?:is|are|make|makes|have|has|can|will|should|help|helps|need|needs|play|plays|cause|causes))\\b", "danh từ đếm được số ít cần mạo từ, hoặc dùng số nhiều (cars are, the internet is)", null, 1],
+    ["\\bthe (?:number|percentage|proportion) of [a-z]+ (?:use|go|travel|live|work|have|buy|study|visit|watch|choose|prefer|own|spend)\\b", "thiếu who hoặc V-ing: the number of people who use / using …"],
+    ["\\b(?!status\\b|bus\\b|process\\b|access\\b|progress\\b|analysis\\b|basis\\b|crisis\\b|class\\b|business\\b|news\\b|series\\b|species\\b|campus\\b|virus\\b|focus\\b|success\\b|stress\\b|loss\\b|gas\\b|this\\b|is\\b|its\\b|was\\b|has\\b|does\\b|always\\b|perhaps\\b|thus\\b)[a-z]{3,}s which (?:is|has|was|makes|causes|helps)\\b", "danh từ số nhiều + which are / have / make"],
+    ["\\bcan not\\b", "cannot (viết liền)"],
+    ["\\b(?:they|we) (?:is|has|was|does)\\b", "chủ ngữ số nhiều: are / have / were / do"],
+    ["\\b(?:people|children|students|parents|they|we|governments|many (?:people|students|countries)) (?:doesn't|does not|goes|makes|needs|wants|thinks|likes|lives|works|uses|spends|gets|becomes|feels|prefers|tends)\\b", "chủ ngữ số nhiều: động từ không thêm -s", REQP],
+    ["\\b(?:it|he|she|everyone|everybody|someone|nobody|each person|the government|a person|a child|a student|technology|education|society|the internet|this problem|this trend) (?:don't|do not)\\b", "chủ ngữ số ít: does not", REQS],
+    ["\\b(?:am|is|are|was|were) (?:not )?(?:agree|disagree|depend|belong|happen|exist|consist|occur|seem|become|think|believe|want|have|go|come|make|take|give|spend|learn|know|prefer|affect|provide|bring|allow|get)\\b(?!-)", "be + động từ nguyên mẫu là sai: bỏ be (I agree, it depends), hoặc thêm -ing / -ed"],
+    ["\\b(?:can|could|should|must|will|would|may|might|cannot|can't|couldn't|shouldn't|won't|wouldn't) (?:not )?(?!bring\\b|spring\\b|string\\b|swing\\b|sing\\b|ring\\b|king\\b|during\\b|[a-z]*thing\\b|[a-z]*eed\\b|embed\\b|shed\\b|hundred\\b)(?:[a-z]{3,}ing|[a-z]{3,}ed|helps|makes|leads|causes|gives|takes|goes|brings|gets|becomes|increases|reduces|improves|affects|needs)\\b", "sau động từ tình thái là động từ nguyên mẫu (can help, will increase)"],
+    ["\\b(?:does|do|did|doesn't|don't|didn't|cannot|can't|won't) (?:not )?(?:went|made|came|took|gave|got|knew|saw|goes|makes|helps|needs|wants|likes|lives)\\b", "sau do / does / did / can là động từ nguyên mẫu"],
+    ["\\b(?:have|has|had) (?:been )?(?:went|came|saw|took|gave|ate|wrote|knew|grew|rose|fell|became|began|chose|spoke|broke|drove|forgot|ran)\\b", "sau have / has / had là V3 (gone, taken, become, risen)"],
+    ["\\b(?:many|several|various|numerous|a few|these|those|both|two|three|four|five|one of the|a number of|a lot of|lots of) (?:student|country|person|child|problem|reason|way|thing|factor|benefit|advantage|disadvantage|company|city|parent|teacher|school|government|job|kind|type|effect|solution|issue|area|worker|car|house|animal|language|university|skill|subject|product|example|opportunity|idea|argument|measure|consequence)\\b(?!s|-| (?:[a-z]+s|old|period|plan|course|programme|program|degree|term|group|system|level|life)\\b)", "sau từ chỉ số nhiều cần danh từ số nhiều (many students, one of the reasons)"],
+    ["\\b(?:too much|so much|much) (?:people|students|children|countries|cars|problems|jobs|cities|companies|teachers|parents|things|workers|animals|schools)\\b(?! (?:watch|use|spend|earn|pay|know|learn|care|eat|drink|now|can|have|do)\\b)", "danh từ đếm được: many", /\bhow\s+$/i],
+    ["\\b(?:this|another|each|every|a|an) (?:people|children|students|countries|problems|reasons|things|ways|advantages|disadvantages|benefits|effects|solutions|parents|teachers|companies|cities|governments|jobs|factors|issues|kinds|types|years|activities|skills)\\b(?!['’])", "this / a / every / another + danh từ số ít"],
+    ["\\b(?:a|an) (?:information|advice|research|evidence|equipment|furniture|homework|traffic|pollution|software|money|progress|damage|news|luggage)\\b(?=\\s*(?:[.,;:!?]|$)|\\s(?:is|are|was|were|that|which|about|on|of|for|to|in|but|has|have|can|will|shows?)\\b)", "danh từ không đếm được: bỏ a / an"],
+    ["\\b(?:although|though|even though)\\b[^.;!?\\n]{3,120}?,\\s*(?:but|however)\\b", "although … but: chỉ dùng một trong hai"],
+    ["(?:^|[.!?\\n]\\s*)(Because [^.;!?\\n]{3,120}?,\\s*so)\\b", "because … so: chỉ dùng một trong hai", null, 1],
+    ["\\b(?:despite|in spite of) (?:they|he|she|we|i|there)\\b", "despite + cụm danh từ hoặc V-ing, không đi với mệnh đề (hoặc dùng although)"],
+    ["\\b(?:make|makes|made|making|let|lets|letting) (?:people|them|us|him|her|children|students|me|you) to " + NOTN + "[a-z]+\\b", "make / let + tân ngữ + động từ nguyên mẫu, không có to"],
+    ["\\b(?:enjoy|enjoys|enjoyed|avoid|avoids|avoided|finish|finished|suggest|suggests|suggested|practise|keep on) to " + NOTN + "[a-z]+\\b", "sau động từ này dùng V-ing"],
+    ["\\b(?:in|at) (?:the )?(?:another|other) hand\\b|\\bon the other hands\\b|\\bin (?:my|our) point of view\\b|\\b(?:as|by) my opinion\\b|\\bin nowadays\\b|\\bnow a days\\b|\\bthe most of\\b|\\balmost of\\b", "cụm cố định sai (on the other hand, from my point of view, in my opinion, nowadays, most of)"],
+    ["\\b(?:on other hand|at same time|on internet|in countryside|in whole world|all over world|around world)\\b", "thiếu mạo từ the"],
+    ["\\b(?:more|most) (?:easy|cheap|fast|big|small|high|low|old|young|safe|rich|poor|hard|strong|clean|large|quick|long|short|happy|busy)\\b(?!-| (?:people|[a-z]+s)\\b)", "tính từ ngắn: dùng -er / -est (easier, cheaper)"],
+    ["\\bthere (?:have|has|had)\\b(?! been| to)", "there is / there are"],
+    ["\\b(?:we|they|you) (?:am|is)\\b|\\bI (?:is|are|has|does)\\b", "hòa hợp chủ–vị", /\band\s+$/i],
+    ["\\b(?:very|so|too) much (?:important|difficult|good|bad|big|expensive|useful|easy|hard|popular|beautiful|necessary)\\b", "bỏ much: very important"],
+    ["\\bdepend(?:s|ed|ing)? (?:in|at|from|with)\\b|\\blisten(?:s|ed|ing)? (?:music|songs|the radio)\\b|\\b(?:go|goes|went|going|study|travel|move) to (?:abroad|there|here)\\b|\\bmarried with\\b", "giới từ sai (depend on, listen to, go abroad, married to)"]
+  ].map(function (c) { return [new RegExp(c[0], "gi"), c[1], c[2], c[3]]; });
+  var FRAG = /^(?:(?:Because(?! of)|Although|Though|Even though|Whereas)\b(?![^,]*,)|(?:Such as|Especially|Like)\b)/;
+  /* từ rất thông dụng: dùng để ước lượng vốn từ còn chung đến đâu (không tính từ chức năng) */
+  var FUNCW = " the a an of to in on at for from with by and or but as is are was were be been being am it its their his her this that these those than then so not no do does did has have had will would can could may might should must i we you they he she them us our your my me him who which what when where why how if because while although though also more most much many some any all each every other another such there here very too only just than into over under about after before between through during both either neither nor up down out off again once ";
+  var BASICW = " people person man men woman women child children kid kids student students thing things time times year years day days way ways life lives world country countries city cities place places home house houses school schools family families friend friends job jobs work works money problem problems reason reasons example examples part number lot lots kind kinds idea ideas fact case point side group area areas government governments company companies car cars food water air good bad big small large little long short high low new old young great important different same easy hard difficult happy sad nice free true real right wrong sure better best worse worst bigger biggest main many few first second third next last make makes made making do get gets got getting give gives gave take takes took go goes went going come comes came see sees saw look looks know knows knew think thinks thought want wants wanted need needs needed like likes liked use uses used using help helps helped helping have live lives lived work worked working play plays played buy buys bought learn learns learned learning study studies studied teach show shows tell tells told say says said feel feels felt find finds found become becomes became spend spends spent pay pays paid put keep keeps kept let try tries tried start starts started stop stops change changes changed bring brings cause causes caused lead leads agree disagree believe believes opinion nowadays today now always never often sometimes usually really still even well however therefore moreover firstly secondly thirdly finally conclusion addition hand believe think lot ";
+  var CONCL = /\b(in conclusion|to conclude|to sum up|in summary|to summari[sz]e|in short|all in all|on the whole|overall|for th(?:is|ese) reasons?|taking everything into (?:account|consideration))\b/i;
+  var OPX = /\b(I (?:firmly |strongly |personally |would |also |still |totally |completely |partly |partially |do not |don't )?(?:believe|think|agree|disagree|argue|feel|contend|support|prefer|say|suppose)|in my (?:opinion|view|mind)|my (?:own |personal )?(?:view|opinion|belief)|I am (?:convinced|of the view|in favou?r|against|for)|from my (?:point of view|perspective)|this essay (?:will )?(?:argue|agree|disagree|discuss|examine)s?|I side with|to my mind|outweigh|as far as I am concerned|it seems to me|I would (?:say|argue))\b/i;
+  var QOP = /\b(agree|disagree|to what extent|your (?:own )?opinion|what is your (?:view|opinion)|do you think|positive or (?:a )?negative|outweigh|is this a|which (?:do you|view)|give your)\b/i;
+  var OVX = /^(Overall|In general|Generally(?: speaking)?|In summary|To summari[sz]e|To sum up|In conclusion|In short|On the whole|It is (?:clear|evident|apparent|noticeable|obvious)(?: from [^,]{3,50},?)? that|It can be seen that|As can be seen|As an overall trend|At first glance|The most (?:striking|noticeable|obvious|significant|notable)|Looking at the (?:chart|graph|table|diagram|maps?|figures?|data)|A glance at)\b/i;
+  var PLAIN1 = /\b(a lot|went up|go(?:es)? up|going up|went down|go(?:es)? down|going down|big(?:ger|gest)?|got|gets?|very (?:much|big|high|low|fast|slow)|more and more|less and less)\b/gi;
+  var num1 = function (T) { return find(/\b\d[\d,.]*\b/g, T).filter(function (x) { return !/^(1[5-9]|20)\d\d$/.test(x[2].replace(/[.,]+$/, "")); }).length; };
+  var rnd = function (x) { return x.toFixed(1).replace(".", ","); };
+
+  /* quét lỗi ngữ pháp, chính tả và dấu câu; dùng chung cho cả bài và cho từng câu */
+  function scan(c) {
+    var T = c.text, gm = [], gs = [];
+    var push = function (s, e, label) { for (var i = 0; i < gm.length; i++) if (s < gm[i][1] && e > gm[i][0]) return; gm.push([s, e, T.slice(s, e)]); gs.push(T.slice(s, e).replace(/\s+/g, " ").trim() + " → " + label); };
+    ACC.concat(BERR).forEach(function (p) { var re = p[0], m; re.lastIndex = 0; while ((m = re.exec(T))) {
+      if (m.index === re.lastIndex) re.lastIndex++;
+      if (blocked(p[2], T.slice(Math.max(0, m.index - 40), m.index))) continue;
+      var w = p[3] && m[1] ? m[1] : m[0], s = p[3] && m[1] ? m.index + m[0].lastIndexOf(m[1]) : m.index; push(s, s + w.length, p[1]); } });
+    c.sents.forEach(function (s) { if (FRAG.test(s.t) && wc(s.t) <= 10) push(s.s, s.e, "câu chưa hoàn chỉnh: mệnh đề phụ đứng một mình (nối vào câu trước hoặc sau)"); });
+    var pm = [], ps = [], pp = function (s, e, label) { pm.push([s, e, T.slice(s, e)]); if (ps.indexOf(label) < 0) ps.push(label); };
+    c.sents.forEach(function (s) { if (/^[a-z]/.test(s.t) && !/^(?:e\.g|i\.e)\b/.test(s.t)) pp(s.s, s.s + 1, "viết hoa chữ đầu câu"); });
+    find(/(?:^|[\s(])i(?=[\s,'])/g, T).forEach(function (x) { pp(x[1] - 1, x[1], "đại từ I luôn viết hoa"); });
+    find(/[A-Za-z] +[,.;:!?](?=\s|$)/g, T).forEach(function (x) { pp(x[0] + 1, x[1], "không để dấu cách trước dấu câu"); });
+    find(/[a-z],[A-Za-z]/g, T).forEach(function (x) { pp(x[0], x[1], "thêm dấu cách sau dấu phẩy"); });
+    find(/[a-z]{2}\.[A-Z][a-z]/g, T).forEach(function (x) { pp(x[0] + 2, x[1], "thêm dấu cách sau dấu chấm"); });
+    c.paras.forEach(function (p) { if (p.w > 12 && /[A-Za-z0-9]$/.test(p.t.trim())) pp(p.e - 1, p.e, "thiếu dấu chấm cuối đoạn"); });
+    var sm = [], ss = [], seen = {};
+    find(SPELLRE, T).forEach(function (x) { sm.push(x); var k = x[2].toLowerCase(); if (!seen[k]) { seen[k] = 1; ss.push(x[2] + " → " + SPELLMAP[k]); } });
+    find(/\b[a-z]*([a-z])\1\1[a-z]*\b/gi, T).forEach(function (x) { sm.push(x); ss.push(x[2] + " → kiểm tra chính tả"); });
+    var bad = 0; c.sents.forEach(function (s) { if (gm.concat(sm).some(function (k) { return k[0] >= s.s && k[0] < s.e; })) bad++; });
+    return { gm: gm, gs: gs, pm: pm, ps: ps, sm: sm, ss: ss, bad: bad };
+  }
+  /* tỉ lệ từ rất thông dụng trong các từ mang nghĩa, và tỉ lệ từ dài (từ 8 chữ cái): hai số đo thô cho "độ phổ biến của từ" */
+  function lexStat(T) {
+    var ws = (T.toLowerCase().match(/[a-z][a-z'-]*/g) || []).filter(function (w) { return w.length > 1 && FUNCW.indexOf(" " + w + " ") < 0; });
+    var b = 0, lg = 0, cnt = {}; ws.forEach(function (w) { if (BASICW.indexOf(" " + w + " ") >= 0) b++; if (w.length >= 8) lg++; if (w.length >= 4) cnt[w] = (cnt[w] || 0) + 1; });
+    var top = Object.keys(cnt).sort(function (x, y) { return cnt[y] - cnt[x]; })[0];
+    return { n: ws.length, basic: ws.length ? b / ws.length : 0, long: ws.length ? lg / ws.length : 0, top: top, topN: top ? cnt[top] : 0 };
+  }
+  var stemq = function (w) { return w.length > 6 ? w.slice(0, 5) : w.length > 4 ? w.slice(0, 4) : w; };
+
+  function base(c, o) {
+    var out = [], T = c.text, t1 = o.m === "t1", full = c.full, W = c.W, kind = c.kind, sc = scan(c), lx = lexStat(T), n, m, l;
+    var add = function (x) { x.base = true; x.ok = x.lvl >= 7; out.push(x); };
+    var body = full && c.paras.length >= 3 ? (t1 ? c.paras.slice(1) : c.paras.slice(1, -1)) : c.paras;
+    var per = W ? 100 / W : 0;
+
+    /* 1. độ dài */
+    if (full) {
+      var need = t1 ? 150 : 250; l = t1 ? (W < 90 ? 4 : W < 120 ? 5 : W < 145 ? 6 : 7) : (W < 150 ? 4 : W < 200 ? 5 : W < 240 ? 6 : 7);
+      add({ id: "b-len", k: t1 ? "F1" : "F2", g: t1 ? "TA" : "TR", name: "Độ dài bài", lvl: l, measure: W + " từ (đề yêu cầu ít nhất " + need + ")", marks: [],
+        msg: "Đề yêu cầu ít nhất " + need + " từ. Bài ngắn hơn không đủ chỗ để " + (t1 ? "nêu overview, số liệu và so sánh" : "nêu lập trường, khai triển hai ý và kết luận") + ", nên dễ rơi vào mô tả của band 5: " + (t1 ? "các đặc điểm chính chưa được trình bày đủ (“key features which are selected are not adequately covered”)." : "ý có nhưng ít và chưa khai triển (“limited and are not sufficiently developed”).") + " Trong nghiên cứu của Banerjee và cộng sự (2007) trên bài thi thật, bài " + (t1 ? "Task 1 dài trung bình khoảng 140 từ ở band 3 và khoảng 230 từ ở band 8." : "Task 2 dài trung bình khoảng 130 từ ở band 3 và hơn 320 từ ở band 8."),
+        fix: t1 ? ["Kiểm tra bài đã có đủ bốn phần chưa: câu giới thiệu, overview, hai đoạn chi tiết.", "Với mỗi đoạn chi tiết, thêm một số liệu ở mốc quan trọng (đầu, cuối, đỉnh, đáy) và một phép so sánh.", "Luyện viết đủ 150 từ trong 20 phút trước khi luyện các kỹ thuật band 9."] : ["Kiểm tra bài đã có đủ bốn phần chưa: mở bài, hai đoạn thân bài, kết bài.", "Với mỗi ý ở thân bài, viết thêm một câu trả lời “vì sao?” và một câu “dẫn đến điều gì?” hoặc một ví dụ.", "Luyện viết đủ 250 từ trong 40 phút trước khi luyện các kỹ thuật band 9."] });
+    }
+
+    /* 2. chia đoạn */
+    if (full || W >= (t1 ? 130 : 190)) {
+      var np = c.paras.length, one = body.filter(function (p) { return p.sents.length < 2; }).length;
+      l = t1 ? (np === 1 ? 6 : 7) : (np === 1 ? 5 : np === 2 || np > 6 || (np >= 3 && one) ? 6 : 7);
+      add({ id: "b-para", k: t1 ? "F1" : "F2", g: "CC", name: "Chia đoạn", lvl: l, measure: np + " đoạn" + (!t1 && np >= 3 && one ? " · " + one + " đoạn thân bài chỉ có một câu" : ""), marks: [],
+        msg: "Bảng mô tả band 5 ghi: “Paragraphing may be inadequate or missing”; band 6: việc chia đoạn có thể chưa hợp lý hoặc chủ đề của đoạn chưa rõ; band 7: chia đoạn nhìn chung hiệu quả. " + (np === 1 ? "Bài của bạn đang là một khối liền, nên người chấm không thấy bố cục." : "Mỗi đoạn cần một chủ đề rõ và đủ câu để khai triển chủ đề đó."),
+        fix: t1 ? ["Xuống dòng (để trống một dòng) giữa các phần: giới thiệu, overview, từng nhóm số liệu.", "Mỗi đoạn chi tiết gom các số liệu cùng một quy luật (cùng tăng, cùng giảm, cùng mức)."] : ["Chia bài thành 4 đoạn, để trống một dòng giữa các đoạn: mở bài, thân bài 1, thân bài 2, kết bài.", "Mỗi đoạn thân bài mở bằng một câu nêu ý chính của đoạn, và chỉ nói về ý đó.", "Đoạn chỉ có một câu: gộp vào đoạn bên cạnh, hoặc viết thêm lý do và ví dụ cho đủ một đoạn."] });
+    }
+
+    if (!t1) {
+      /* 3. khai triển ý */
+      var thin = body.filter(function (p) { return p.sents.length < 3 || p.w < 40; }).length, avgB = body.length ? Math.round(body.reduce(function (a, p) { return a + p.w; }, 0) / body.length) : 0;
+      var listy = body.filter(function (p) { var k = p.sents.filter(function (s, i) { return i > 0 && /^(Firstly|First of all|First|Secondly|Second|Thirdly|Third|Moreover|Furthermore|In addition|Besides|Also|Another|Finally|Last but not least|Next)\b/i.test(s.t); }).length; return k >= 2 && p.w / (k + 1) < 30; }).length;
+      if (full && c.paras.length >= 3) l = thin === body.length ? 5 : thin || listy ? 6 : 7;
+      else if (full) l = avgB < 60 ? 5 : 7;
+      else l = c.sents.length <= 2 && W < 45 ? 5 : c.sents.length < 3 || W < 55 ? 6 : 7;
+      /* bài luyện một kỹ thuật ở mức câu (không phải đoạn lập luận) thì không xét độ khai triển */
+      if (full || !c.k0 || /^(TR1|TR2|TR4|TR5)$/.test(c.k0)) add({ id: "b-dev", k: "TR1", g: "TR", name: "Mức khai triển ý", lvl: l, measure: (full && c.paras.length >= 3 ? body.length + " đoạn thân bài, trung bình " + avgB + " từ" + (thin ? " · " + thin + " đoạn dưới 3 câu hoặc dưới 40 từ" : "") + (listy ? " · " + listy + " đoạn chỉ liệt kê ý" : "") : c.sents.length + " câu · " + W + " từ"), marks: [],
+        msg: "Band 7: ý chính được mở rộng và có dẫn chứng (“extended and supported”). Band 6: ý đúng đề nhưng có ý chưa khai triển đủ (“insufficiently developed”). Band 5: có vài ý nhưng ít và chưa khai triển (“limited and are not sufficiently developed”). Một ý chỉ được tính là đã khai triển khi sau câu nêu ý còn có lý do, hệ quả hoặc ví dụ.",
+        fix: ["Với mỗi đoạn thân bài, gạch dưới câu nêu ý chính. Đếm số câu đứng sau nó.", "Nếu chỉ có một câu hoặc không có câu nào: viết thêm một câu “This is because …” (lý do) và một câu “As a result, …” hoặc “For example, …”.", "Nếu đoạn nêu ba ý, mỗi ý một câu: giữ một hoặc hai ý mạnh nhất, rồi giải thích cho đến nơi.", "Mục tiêu trước mắt: mỗi đoạn thân bài 4 đến 6 câu, khoảng 80 đến 110 từ."],
+        scaffold: [{ l: "Câu nêu ý chính", v: (body[0] && body[0].sents[0] ? body[0].sents[0].t : "") }, { l: "Lý do", ph: "This is because …" }, { l: "Hệ quả hoặc ví dụ", ph: "As a result, … / For example, …" }] });
+
+      /* 4. lập trường và kết bài */
+      if (full && c.paras.length >= 3) {
+        var intro = c.paras[0], concl = c.paras[c.paras.length - 1], hasOp = OPX.test(intro.t) || OPX.test(concl.t) || body.some(function (p) { return OPX.test(p.t); });
+        var asks = !!o.q && QOP.test(o.q), noC = !CONCL.test(concl.t) && !OPX.test(concl.t) && concl.w > 75;
+        l = asks && !hasOp ? (noC ? 5 : 6) : noC ? 6 : 7;
+        add({ id: "b-pos", k: "F2", g: "TR", name: "Lập trường và kết bài", lvl: l, measure: "câu nêu quan điểm: " + (hasOp ? "có" : "chưa thấy") + " · kết bài: " + (noC ? "chưa thấy" : "có"), marks: [],
+          msg: "Band 7 cần một lập trường rõ và được khai triển (“a clear and developed position”). Band 6: có lập trường nhưng kết luận có thể chưa rõ hoặc lặp lại. Band 5: có nêu lập trường nhưng phần khai triển không phải lúc nào cũng rõ. Band 4: người đọc phải đọc kỹ mới tìm ra lập trường. Máy chỉ tìm các cụm nêu quan điểm quen thuộc (I believe, in my view, outweigh …); nếu bạn đã nêu bằng cách khác, hoặc đề chỉ hỏi nguyên nhân và giải pháp, hãy bỏ qua bước này.",
+          fix: ["Đọc lại câu hỏi của đề và trả lời nó bằng một câu, đặt ở cuối mở bài: I believe that … / In my view, …", "Viết kết bài 1 đến 2 câu, mở bằng In conclusion, nhắc lại đúng câu trả lời đó bằng từ khác.", "Kiểm tra từng đoạn thân bài: đoạn này đang bênh vực câu trả lời nào?"],
+          scaffold: [{ l: "Câu trả lời thẳng cho đề (cuối mở bài)", ph: "I believe that …" }, { l: "Kết bài", ph: "In conclusion, …" }] });
+      }
+
+      /* 5. bám đề: chỉ xét khi có đề bài */
+      if (o.q && wc(o.q) >= 12 && W >= 60) {
+        var qs = {}, es = {}; (o.q.toLowerCase().match(/[a-z]{5,}/g) || []).forEach(function (w) { if (FUNCW.indexOf(" " + w + " ") < 0 && !/^(people|think|believe|agree|disagree|extent|opinion|discuss|views?|should|others?|whether|advantages?|disadvantages?|outweigh|positive|negative|development|reasons?|answer|include|relevant|examples?|knowledge|experience|while|being|their|there|which|these|those|about|would|could|write|words|least|some|many|nowadays)$/.test(w)) qs[stemq(w)] = 1; });
+        (T.toLowerCase().match(/[a-z]{4,}/g) || []).forEach(function (w) { es[stemq(w)] = 1; });
+        var qk = Object.keys(qs), hit = qk.filter(function (k) { return es[k]; }).length, share = qk.length ? hit / qk.length : 1;
+        var copy = 0, qn = o.q.toLowerCase().replace(/[^a-z ]+/g, " ").replace(/\s+/g, " "), tw = T.toLowerCase().replace(/[^a-z ]+/g, " ").replace(/\s+/g, " ").split(" ");
+        for (var i = 0; i + 10 <= tw.length; i++) if (qn.indexOf(tw.slice(i, i + 10).join(" ")) >= 0) { copy = 1; break; }
+        if (qk.length >= 4) add({ id: "b-topic", k: "PR1", g: "TR", name: "Bám từ khóa của đề", lvl: hit === 0 ? 5 : copy ? 6 : 7, measure: hit + "/" + qk.length + " từ khóa của đề xuất hiện trong bài" + (copy ? " · có đoạn chép nguyên văn đề" : ""), marks: [],
+          msg: "Band 4 mô tả bài trả lời lệch đề (“tangential”), band 5 mô tả bài chỉ trả lời được một phần đề. Bài gần như không dùng từ khóa nào của đề thường là bài viết về chủ đề chung chứ không trả lời câu hỏi. Chép nguyên văn đề vào mở bài không được tính là ngôn ngữ của bạn. Máy chỉ so từ khóa, không hiểu ý: nếu bạn đã diễn đạt lại đề bằng từ đồng nghĩa, hãy tự đối chiếu.",
+          fix: ["Gạch dưới các từ khóa trong đề: đối tượng, hành động, phạm vi, và câu hỏi cụ thể.", "Mở bài: viết lại đề bằng lời của bạn (đổi cấu trúc câu, không chỉ thay từ), rồi trả lời câu hỏi.", "Mỗi đoạn thân bài: câu đầu phải nhắc tới ít nhất một từ khóa của đề.", "Luyện bước đọc đề ở mục “Phân tích đề và lên ý”."] });
+      }
+    } else if (full) {
+      /* Task 1: overview, số liệu, so sánh */
+      var hasOv = c.sents.some(function (s) { return OVX.test(s.t) || /^[^,.]{0,40}\boverall\b/i.test(s.t); });
+      add({ id: "b-ov", k: "TA2", g: "TA", name: "Overview", lvl: hasOv ? 7 : 5, measure: hasOv ? "có câu overview" : "chưa thấy câu overview", marks: [],
+        msg: "Đây là ranh giới rõ nhất trong bảng mô tả Task 1. Band 7: “presents a clear overview”. Band 6: “a relevant overview is attempted”. Band 5: “the recounting of detail is mainly mechanical”, bài chỉ kể chi tiết mà không nói tới bức tranh chung. Bài không có overview khó vượt band 5 ở tiêu chí Task Achievement, dù số liệu chính xác đến đâu.",
+        fix: ["Viết một đoạn riêng ngay sau câu giới thiệu, mở bằng “Overall,”.", kind === "process" ? "Nêu quy trình có bao nhiêu bước, bắt đầu bằng gì và kết thúc bằng gì." : kind === "map" ? "Nêu thay đổi lớn nhất và phần gần như giữ nguyên." : "Nêu xu hướng chung (tăng, giảm, ổn định) và mục cao nhất hoặc thay đổi nhiều nhất.", "Overview không cần con số: nó trả lời câu hỏi “nhìn tổng thể, hình này cho thấy điều gì?”."],
+        scaffold: [{ l: "Overview (2 câu)", ph: "Overall, … , while … ." }] });
+      if (kind !== "process" && kind !== "map") {
+        n = num1(T); var cm = find(CMP, T).length, sp = find(SPEC, T).length;
+        l = n < 3 ? 5 : n > 30 || cm === 0 || sp >= 3 ? 6 : 7;
+        add({ id: "b-data", k: n > 30 ? "TA1" : cm === 0 ? "TA3" : sp >= 3 ? "TA5" : "TA1", g: "TA", name: "Số liệu và so sánh", lvl: l, measure: n + " con số (không tính năm) · " + cm + " cụm so sánh" + (sp >= 3 ? " · " + sp + " chỗ giải thích hoặc nêu ý kiến" : ""), marks: sp >= 3 ? find(SPEC, T) : [],
+          msg: "Band 6: thông tin được chọn lọc và có số liệu làm chứng (“supported using figures/data”). Band 5: “there may be no data to support the description”, hoặc bài chỉ kể chi tiết mà không so sánh. Đề luôn yêu cầu “make comparisons where relevant”. Kể hết mọi con số cũng là dấu hiệu của bài kể chi tiết máy móc, và ý kiến riêng hay lời giải thích nguyên nhân là thông tin không thuộc về bài.",
+          fix: n < 3 ? ["Với mỗi đặc điểm bạn nêu, dẫn một con số đọc từ hình: điểm đầu, điểm cuối, đỉnh hoặc đáy.", "Ghi kèm đơn vị (%, million, tonnes) và mốc thời gian."] : n > 30 ? ["Bỏ các số liệu giữa kỳ; giữ điểm đầu, điểm cuối, đỉnh, đáy.", "Gom các mục có cùng quy luật vào một câu."] : cm === 0 ? ["Đặt hai con số cạnh nhau trong một câu bằng while / whereas / compared with.", "Dùng tỉ lệ thay cho đọc số: twice as high as, half of, the highest."] : ["Xóa các câu giải thích nguyên nhân (because, due to) và ý kiến (I think, should).", "Thay bằng một số liệu hoặc một phép so sánh lấy từ hình."] });
+      }
+    }
+
+    /* 6. liên kết */
+    if (c.sents.length >= 4) {
+      var lk = startMarks(c.sents, t1 ? /^(Firstly|First of all|First|Secondly|Second|Thirdly|Moreover|Furthermore|In addition|Additionally|Besides|However|Therefore|Thus|Also|Then|Next|After that|Finally|Last but not least|In conclusion|To sum up|On the other hand)\b,?/i : /^(Firstly|First of all|First|To begin with|Secondly|Second|Thirdly|Third|Moreover|Furthermore|In addition|Additionally|Besides|On the one hand|On the other hand|However|Nevertheless|Nonetheless|Therefore|Thus|Hence|Consequently|As a result|Last but not least|In a nutshell|Finally|Also|Then|Next|After that|So|And|But)\b,?/i);
+      var r = lk.length / c.sents.length, conn = find(/\b(because|so|but|and|however|although|though|while|whereas|which|who|that|therefore|also|for example|for instance|such as|when|if|as a result|this|these|they|it)\b/gi, T).length / c.sents.length;
+      l = r > 0.65 ? 5 : conn < 0.6 ? 5 : r > 0.45 ? 6 : 7;
+      add({ id: "b-link", k: t1 ? "T1C" : "CC1", g: "CC", name: "Liên kết giữa các câu", lvl: l, measure: lk.length + "/" + c.sents.length + " câu mở bằng từ nối" + (conn < 0.6 ? " · rất ít từ nối và từ quy chiếu" : ""), marks: lk,
+        msg: "Band 7: dùng nhiều phương tiện liên kết một cách linh hoạt, kể cả từ quy chiếu và từ thay thế. Band 6: liên kết có thể “faulty or mechanical due to misuse, overuse or omission”. Band 5: các câu “are not fluently linked to each other”, từ nối bị dùng thiếu hoặc dùng quá nhiều, bài lặp từ vì thiếu quy chiếu. " + (r > 0.45 ? "Khi hơn nửa số câu mở bằng Firstly, Moreover, However…, người chấm đọc thấy một danh sách chứ không thấy một lập luận." : conn < 0.6 ? "Bài của bạn gần như không có từ nối hay từ quy chiếu, nên các câu đứng rời nhau." : ""),
+        fix: r > 0.45 ? ["Giữ tối đa hai từ nối đầu câu trong mỗi đoạn; xóa các từ còn lại (đang được tô màu).", "Nối câu vừa xóa từ nối với câu trước bằng because, so, which, while hoặc although.", "Mở câu bằng This / These + danh từ để nhắc lại ý câu trước (This problem, These changes)."] : conn < 0.6 ? ["Tìm hai câu liền nhau có quan hệ nhân quả và nối bằng because hoặc so.", "Tìm hai câu trái ngược nhau và nối bằng but, while hoặc although.", "Dùng it / they / this để nhắc lại danh từ ở câu trước thay vì viết lại danh từ đó."] : ["Bài chưa có dấu hiệu liên kết dưới band 7."],
+        sugg: r > 0.45 ? ["Moreover, it is cheap. → It is also cheap, which …", "Therefore, people … → …, so people …", "However, it … → Although it …, …"] : ["because / so", "but / while / although", "this / these + danh từ", "it / they / them"] });
+    }
+
+    /* 7. chính tả và dạng từ */
+    n = sc.sm.length; l = n >= 6 || (n >= 4 && n * per >= 2.5) ? 5 : n >= 2 ? 6 : 7;
+    add({ id: "b-spell", k: t1 ? "T1L" : "PR2", g: "LR", name: "Chính tả", lvl: l, measure: n + " lỗi chính tả hoặc dạng viết tắt máy bắt được", marks: sc.sm, sugg: sc.ss,
+      msg: "Band 7: chỉ có “a few errors in spelling and/or word formation”. Band 6: có một số lỗi chính tả và dạng từ nhưng không cản trở việc hiểu. Band 5: lỗi “may be noticeable and may cause some difficulty for the reader”. Máy chỉ biết khoảng 200 lỗi chính tả hay gặp, nên số lỗi thật có thể nhiều hơn số đang hiện.",
+      fix: ["Sửa từng từ được tô màu theo gợi ý.", "Chép các từ này vào sổ lỗi chính tả của riêng bạn; viết lại mỗi từ ba lần.", "Dành 2 phút cuối giờ chỉ để soát chính tả, đọc từng từ một."] });
+
+    /* 8. vốn từ */
+    if (!t1 && lx.n >= 25) {
+      l = lx.basic > 0.56 ? 5 : lx.basic > 0.47 ? 6 : 7;
+      add({ id: "b-vocab", k: "LR2", g: "LR", name: "Vốn từ", lvl: l, measure: Math.round(lx.basic * 100) + "% từ mang nghĩa là từ rất thông dụng (bài mẫu band 9 của trang: khoảng 16–31%)", marks: find(VAG, T),
+        msg: "Band 7: vốn từ đủ để diễn đạt linh hoạt và chính xác. Band 6: nghĩa nhìn chung rõ dù vốn từ khá hẹp hoặc chọn từ thiếu chính xác (“a rather restricted range or a lack of precision”). Band 5: vốn từ hạn chế, lặp lại và đơn giản hóa thường xuyên. Riazi và Knox (2013) thấy trên bài thi thật rằng bài band 6 và 7 dùng từ ít phổ biến hơn và đa dạng hơn bài band 5. Tỉ lệ ở trên chỉ là số đo thô: mục tiêu không phải là dùng từ khó, mà là gọi đúng tên điều bạn muốn nói.",
+        fix: ["Với mỗi từ được tô màu (thing, good, bad, big, a lot of …), hỏi: chính xác thì tôi muốn nói gì?", "Học từ theo chủ đề của đề, mỗi chủ đề 10 đến 15 cụm danh từ và động từ đi cùng nhau (reduce congestion, raise living standards).", "Viết lại 3 câu trong bài, mỗi câu thay một từ chung bằng một cụm của chủ đề."],
+        sugg: ["good → beneficial / effective", "bad → harmful", "big → major / considerable", "a lot of → many / a great deal of", "things → factors / issues / measures", "get → obtain / receive / become"] });
+    } else if (t1 && W >= 40) {
+      m = find(PLAIN1, T); l = m.length >= 4 && m.length * per >= 2 ? 6 : 7;
+      add({ id: "b-vocab", k: "T1L", g: "LR", name: "Vốn từ mô tả số liệu", lvl: l, measure: m.length + " cách nói đời thường (went up, a lot, big, got …)", marks: m,
+        msg: "Band 7: vốn từ đủ để diễn đạt linh hoạt và chính xác. Band 6: nghĩa rõ nhưng vốn từ khá hẹp hoặc chọn từ thiếu chính xác. Mô tả số liệu chỉ bằng went up, went down, big, a lot cho thấy vốn từ còn hẹp.",
+        fix: ["Thay went up / went down bằng rose, increased, climbed / fell, declined, dropped.", "Thay a lot, big bằng trạng từ và tính từ chỉ mức độ: significantly, slightly, sharp, steady, marked.", "Học theo cặp: a sharp rise in … = … rose sharply."],
+        sugg: ["went up → rose / increased", "went down → fell / declined", "a lot → significantly / considerably", "big → sharp / marked / substantial", "got bigger → grew / expanded"] });
+    }
+
+    /* 9. lỗi ngữ pháp và dấu câu */
+    var eg = sc.gm.length, ep = Math.min(sc.pm.length, 4), e = eg + ep, d = e * per, okS = c.sents.length - sc.bad;
+    l = (e >= 9 && d >= 5.5) || (e >= 5 && d >= 12) ? 4 : (e >= 5 && d >= 2.6) || (e >= 3 && d >= 6) ? 5 : (e >= 2 && d >= 1.1) || e >= 5 ? 6 : 7;
+    add({ id: "b-gram", k: "GR3", g: "GR", name: "Lỗi ngữ pháp và dấu câu cơ bản", lvl: l, measure: eg + " lỗi ngữ pháp · " + sc.pm.length + " lỗi dấu câu, viết hoa (" + rnd(d) + " lỗi / 100 từ) · " + okS + "/" + c.sents.length + " câu máy không thấy lỗi", marks: sc.gm.concat(sc.pm), sugg: sc.gs.concat(sc.ps),
+      msg: "Band 7: ngữ pháp và dấu câu được kiểm soát tốt, “error-free sentences are frequent”. Band 6: “errors in grammar and punctuation occur, but rarely impede communication”. Band 5: “grammatical errors may be frequent”, dấu câu có thể sai. Band 4: lỗi thường xuyên và có thể cản trở việc hiểu. Banerjee và cộng sự (2007) thấy mức chính xác ngữ pháp tăng đều theo band. Máy chỉ bắt được một phần nhỏ các lỗi (hòa hợp chủ–vị, số ít số nhiều, dạng động từ, vài giới từ, dấu câu), nên số lỗi thật gần như chắc chắn cao hơn số đang hiện.",
+      fix: ["Sửa từng chỗ được tô màu theo gợi ý bên dưới.", "Soát thêm một lượt chỉ cho động từ: chủ ngữ số ít hay số nhiều, thì có đúng không.", "Soát thêm một lượt chỉ cho danh từ: đếm được hay không, số ít hay số nhiều, có cần a / an / the không.", "Ghi mỗi lỗi vào sổ lỗi cá nhân. Ở chặng dưới band 7, bớt lỗi cơ bản nâng điểm nhanh hơn học cấu trúc mới."] });
+
+    /* 10. kiểu câu */
+    if (c.sents.length >= 4) {
+      var cx = c.sents.filter(function (s) { return SUB.test(s.t) || (t1 && find(CL, s.t).length); }).length, ratio = cx / c.sents.length, avg = W / c.sents.length, longS = c.sents.filter(function (s) { return wc(s.t) > 55; });
+      l = ratio < 0.12 || avg < 9 ? 5 : avg < 11.5 || (!t1 && ratio < 0.2) || longS.length >= 2 ? 6 : 7;
+      add({ id: "b-sent", k: t1 ? "T1G" : "GR2", g: "GR", name: "Kiểu câu", lvl: l, measure: cx + "/" + c.sents.length + " câu có mệnh đề phụ · trung bình " + Math.round(avg) + " từ/câu" + (longS.length ? " · " + longS.length + " câu trên 55 từ" : ""), marks: longS.map(function (s) { return [s.s, s.e, s.t]; }),
+        msg: "Band 7: dùng nhiều cấu trúc phức với mức linh hoạt và chính xác nhất định. Band 6: “a mix of simple and complex sentence forms”. Band 5: cấu trúc hạn chế và lặp lại. Band 4: “subordinate clauses are rare and simple sentences predominate”. Nghiên cứu trên bài thi thật cho thấy số mệnh đề phụ tự nó không phân biệt tốt các band, nên trang chỉ báo dấu hiệu này khi câu phức gần như vắng mặt, câu quá ngắn, hoặc câu quá dài vì thiếu dấu chấm.",
+        fix: longS.length >= 2 && ratio >= 0.2 ? ["Tách các câu đang được tô màu: mỗi câu một ý chính, đặt dấu chấm ở chỗ chuyển ý.", "Sau khi tách, kiểm tra mỗi câu có đủ chủ ngữ và động từ."] : ["Tìm hai câu ngắn liền nhau nói về cùng một điều.", "Ghép lại bằng because (lý do), although (trái ngược), which (thêm thông tin) hoặc if (điều kiện).", "Mỗi đoạn có ít nhất hai câu ghép như vậy. Viết đúng trước, phức tạp sau: một câu phức sai bị trừ nhiều hơn một câu đơn đúng."],
+        sugg: ["because / since", "although / while", "which / who", "if / unless", "so that"] });
+    }
+    return out;
+  }
+
+  /* band của từng tiêu chí và band chung. Tiêu chí có dấu hiệu dưới 7 lấy mức thấp nhất trong các dấu hiệu đó;
+     tiêu chí không có dấu hiệu lấy theo các đặc trưng band 7 / 8 / 9, nhưng tính tối đa là 7 khi bài còn tiêu chí khác dưới 7
+     (máy không đo được hết, và điểm bốn tiêu chí của cùng một bài hiếm khi lệch nhau xa). Band chung = trung bình, làm tròn xuống 0,5. */
+  function bandOf(all, m) {
+    var crit = m === "t1" ? ["TA", "CC", "LR", "GR"] : ["TR", "CC", "LR", "GR"], o = { order: crit, crit: {}, low: false, why: [] }, sum = 0;
+    crit.forEach(function (g) {
+      var bs = all.filter(function (x) { return x.base && x.g === g; }), up = all.filter(function (x) { return !x.base && (x.g === g || (g === "TR" && x.g === "ST")); });
+      var lo = bs.reduce(function (a, x) { return Math.min(a, x.lvl); }, 7), n9 = up.filter(function (x) { return x.lvl === 9; }).length, n7 = up.filter(function (x) { return x.lvl === 7; }).length;
+      var hi = !up.length ? 7 : !n7 && n9 / up.length >= 0.75 ? 9 : n7 <= (up.length > 3 ? 1 : 0) ? 8 : 7;
+      if (lo < 7) { o.low = true; bs.filter(function (x) { return x.lvl < 7; }).sort(function (a, b) { return a.lvl - b.lvl; }).forEach(function (x) { o.why.push({ g: g, lvl: x.lvl, id: x.id, name: x.name, measure: x.measure }); }); }
+      o.crit[g] = { b: lo < 7 ? lo : hi, low: lo < 7, seen: bs.length + up.length };
+    });
+    crit.forEach(function (g) { sum += o.low ? Math.min(o.crit[g].b, 7) : o.crit[g].b; });
+    o.overall = Math.floor(sum / 4 * 2) / 2;
+    o.why.sort(function (a, b) { return a.lvl - b.lvl; });
+    return o;
+  }
+
+  /* ước lượng cho một hoặc hai câu (mục Phân tích đề và lên ý): chỉ xét lỗi cơ bản, chính tả và vốn từ */
+  D.sentBand = function (raw, m) {
+    var c = parse(raw || ""), sc = scan(c), lx = lexStat(c.text), e = sc.gm.length + Math.min(sc.pm.length, 2), sp = sc.sm.length, why = [];
+    if (sc.gm.length) why.push({ t: "Lỗi ngữ pháp cơ bản", hits: sc.gs });
+    if (sc.pm.length) why.push({ t: "Dấu câu, viết hoa", hits: sc.ps });
+    if (sp) why.push({ t: "Chính tả", hits: sc.ss });
+    var plain = m !== "t1" && lx.n >= 5 && lx.basic > 0.62 && !SUB.test(c.text);
+    if (plain) why.push({ t: "Câu đơn, toàn từ rất thông dụng", hits: [] });
+    var b = e + sp >= 4 ? 4 : e + sp >= 2 ? 5 : e + sp >= 1 || plain ? 6 : 7;
+    return { b: b, why: why };
+  };
+
   D.analyse = function (raw, o) {
     var c = parse(raw || ""); o = o || {};
     c.full = o.scope === "full" || (o.scope !== "para" && (c.paras.length >= 3 || c.W >= (o.m === "t1" ? 130 : 190)));
     c.kind = o.kind || ""; c.k0 = o.k0 || "";
-    var checks = o.m === "t1" ? task1(c) : task2(c);
+    var checks = o.m === "t1" ? task1(c) : task2(c), bs = base(c, o), all = bs.concat(checks), band = bandOf(all, o.m);
     var n9 = checks.filter(function (x) { return x.lvl === 9; }).length, n7 = checks.filter(function (x) { return x.lvl === 7; }).length, f = checks.length ? n9 / checks.length : 0;
-    return { text: c.text, W: c.W, full: c.full, checks: checks, n9: n9, n: checks.length, est: f >= 0.9 && !n7 ? "9" : f >= 0.65 && n7 <= 2 ? "8" : "7" };
+    var est = band.low ? String(band.overall) : f >= 0.9 && !n7 ? "9" : f >= 0.65 && n7 <= 2 ? "8" : "7";
+    return { text: c.text, W: c.W, full: c.full, checks: all, n9: n9, n: checks.length, est: est, band: band, nlow: bs.filter(function (x) { return x.lvl < 7; }).length };
   };
 })();
 
@@ -2547,7 +2831,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
   /* =================== KHUNG TRANG =================== */
   const app = $("#app");
   const NAV = [
-    { k: "why", n: "Band 7 → 9", h: "#/", subs: [["#/", "Bảy khác biệt"], ["#/stats", "Thống kê đề thi 2025–2026"]] },
+    { k: "why", n: "Band 7 → 9", h: "#/", subs: [["#/", "Bảy khác biệt"], ["#/bands", "Bạn đang ở band nào?"], ["#/stats", "Thống kê đề thi 2025–2026"]] },
     { k: "coach", n: "Thử với bài của bạn", h: "#/coach", subs: [] },
     { k: "prac", n: "Luyện tập", h: "#/by/tech", subs: [["#/by/tech", "Theo kỹ thuật"], ["#/by/topic", "Theo chủ đề và đề thi"], ["#/by/type", "Theo dạng bài"], ["#/lab", "Phân tích đề và lên ý"]] },
     { k: "me", n: "Tiến độ", h: "#/me", subs: [["#/me", "Tiến độ của tôi"], ["#/plan", "Lộ trình giờ học"]] },
@@ -2555,7 +2839,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
   ];
   function navState() {
     const p = location.hash.replace(/^#\/?/, "").split("/"), r = p[0] || ""; let g = "why", sub = "#/";
-    if (r === "stats") sub = "#/stats";
+    if (r === "stats" || r === "bands") sub = "#/" + r;
     else if (r === "coach") { g = "coach"; sub = ""; }
     else if (r === "lab") { g = "prac"; sub = "#/lab"; }
     else if (["by", "m", "k", "t", "p", "w", "xb", "wb", "ty"].indexOf(r) >= 0) { g = "prac"; sub = (r === "by" && p[1] === "type") || r === "ty" || ((r === "xb" || r === "wb") && fromTy) ? "#/by/type" : (r === "by" && p[1] === "topic") || r === "t" || r === "xb" || r === "wb" || ((r === "p" || r === "w") && p[3] === "t") ? "#/by/topic" : "#/by/tech"; }
@@ -2620,12 +2904,12 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
   /* ---------- đăng nhập bằng tên ---------- */
   function vLogin() {
     const known = store.get("b79:names") || [];
-    app.innerHTML = `<div class="login"><div class="card"><div class="b79 big"><b>7</b><i>→</i><b>9</b></div><h1>IELTS Writing Lab</h1><p>Luyện 27 kỹ thuật đưa bài viết từ band 7 lên band 9, cho Task 1 và Task 2.</p><p class="small">Trang cần tên của bạn để lưu tiến độ và kết quả bài làm, và số Zalo để mời bạn vào nhóm người học (bạn có thể chọn không tham gia).</p>
+    app.innerHTML = `<div class="login"><div class="card"><div class="b79 big"><b>7</b><i>→</i><b>9</b></div><h1>IELTS Writing Lab</h1><p>Luyện 27 kỹ thuật đưa bài viết từ band 7 lên band 9, cho Task 1 và Task 2.</p><p class="small">Chưa tới band 7? Trang vẫn ước lượng band hiện tại của bạn (từ band 4) và chỉ ra việc cần làm trước.</p><p class="small">Trang cần tên của bạn để lưu tiến độ và kết quả bài làm, và số Zalo để mời bạn vào nhóm người học (bạn có thể chọn không tham gia).</p>
       <form id="lf"><label>Họ và tên của bạn<input id="ln" required minlength="2" maxlength="60" autocomplete="name" placeholder="Ví dụ: Nguyễn Minh Anh" list="names"></label><datalist id="names">${known.map(n => `<option value="${esc(n)}">`).join("")}</datalist>
       <label>Lớp <span class="opt-l">(không bắt buộc)</span>${CFG.classes && CFG.classes.length ? `<select id="lc"><option value="">Chọn lớp</option>${CFG.classes.map(c => `<option>${esc(c)}</option>`).join("")}</select>` : '<input id="lc" maxlength="30" placeholder="Ví dụ: IVY-W79">'}</label>
       ${phoneField()}
       <button class="btn primary" type="submit">Bắt đầu học</button></form>
-      <p class="small">Hãy nhập đúng một tên trong mọi lần học để tiến độ được cộng dồn.</p><p class="small"><a href="#/">← Chưa muốn nhập tên? Đọc bài “Band 7 khác band 9 ở đâu?”</a> · <a href="#/stats">Thống kê đề thi 2025–2026</a></p></div></div>`;
+      <p class="small">Hãy nhập đúng một tên trong mọi lần học để tiến độ được cộng dồn.</p><p class="small"><a href="#/">← Chưa muốn nhập tên? Đọc bài “Band 7 khác band 9 ở đâu?”</a> · <a href="#/bands">Bạn đang ở band nào?</a> · <a href="#/stats">Thống kê đề thi 2025–2026</a></p></div></div>`;
     /* người đã từng học trên máy này: gõ lại đúng tên thì số Zalo được điền sẵn */
     $("#ln").addEventListener("change", () => { const ph = (store.get("b79:phones") || {})[slug($("#ln").value.trim())]; if (ph && !$("#lz").value) $("#lz").value = ph; });
     wirePhone();
@@ -2891,7 +3175,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
       ${U ? `<div class="ringbox">${ring(total / (CFG.targetHours * 3600), fmtH(total), "/ " + CFG.targetHours + " giờ")}</div>` : `<div class="ringbox"><a class="btn primary" href="#/coach">Thử với bài của bạn →</a></div>`}</section>
       <ol class="steps4">
         <li style="--c:#e2553d"><button type="button" data-go="why79"><b><span class="sn">1</span>Hiểu</b><span class="small">Band 7 và band 9 khác nhau ở bảy chỗ nào: ví dụ đối chiếu và số đếm trên bài mẫu.</span></button></li>
-        <li style="--c:#3b3fd8"><a href="#/coach"><b><span class="sn">2</span>Thử</b><span class="small">Dán một đoạn bạn đã viết. Trang chỉ ra nó đang mang đặc trưng của band nào và dẫn bạn sửa.</span></a></li>
+        <li style="--c:#3b3fd8"><a href="#/coach"><b><span class="sn">2</span>Thử</b><span class="small">Dán một đoạn bạn đã viết. Trang ước lượng band hiện tại của bạn, kể cả khi chưa tới band 7, nêu lí do và dẫn bạn sửa.</span></a></li>
         <li style="--c:#0f9a8a"><a href="#/by/tech"><b><span class="sn">3</span>Luyện</b><span class="small">${nT} kỹ thuật, ${D.items.length} bài tập và ${nBank} đề viết cả bài, có đề thi 2025–2026.</span></a></li>
         <li style="--c:#c7801a"><a href="#/contact"><b><span class="sn">4</span>Trao đổi</b><span class="small">Muốn có giáo viên đọc bài hoặc muốn đăng ký học: để lại thông tin, chúng tôi liên hệ lại.</span></a></li>
       </ol>${ART79}`);
@@ -2986,7 +3270,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
   /* Bảng tự đối chiếu: mốc band 7 chung của cả bài, theo bảng mô tả band điểm công khai. */
   function bandBox(m, open) {
     const B = (SUB.bands || {})[m]; if (!B) return "";
-    return `<details class="b7box"${open ? " open" : ""}><summary>Tự đối chiếu: bài ${m === "t1" ? "Task 1" : "Task 2"} của bạn đã đạt band 7 chưa?</summary><ul>${B.b7.map(x => `<li>${esc(x)}</li>`).join("")}</ul><p><b>Khoảng cách lên band 9:</b> ${esc(B.b9)}</p><p class="small">Các mốc này diễn đạt lại từ bảng mô tả band điểm Writing công khai của IELTS. Nếu còn thiếu mốc nào, hãy luyện mốc đó trước ở mục <a href="#/by/tech">Theo kỹ thuật</a>; lời khuyên band 9 trên trang giả định bạn đã đạt các mốc này. Mốc band 7 của từng nhóm đề là cách trang áp dụng bảng mô tả vào nhóm đề đó, không phải tiêu chí chấm chính thức.</p></details>`;
+    return `<details class="b7box"${open ? " open" : ""}><summary>Tự đối chiếu: bài ${m === "t1" ? "Task 1" : "Task 2"} của bạn đã đạt band 7 chưa?</summary><ul>${B.b7.map(x => `<li>${esc(x)}</li>`).join("")}</ul><p><b>Khoảng cách lên band 9:</b> ${esc(B.b9)}</p><p class="small">Các mốc này diễn đạt lại từ bảng mô tả band điểm Writing công khai của IELTS. Nếu còn thiếu mốc nào, hãy luyện mốc đó trước ở mục <a href="#/by/tech">Theo kỹ thuật</a>; lời khuyên band 9 trên trang giả định bạn đã đạt các mốc này. Chưa chắc mình đã ở band 7? Xem <a href="#/bands">thang band 4 đến 7</a>, hoặc dán bài vào mục <a href="#/coach">Thử với bài của bạn</a> để trang ước lượng band hiện tại và nêu lí do. Mốc band 7 của từng nhóm đề là cách trang áp dụng bảng mô tả vào nhóm đề đó, không phải tiêu chí chấm chính thức.</p></details>`;
   }
   function vByType() {
     const b2 = D.bank || [];
@@ -3096,6 +3380,12 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
 
   /* ---------- trang luyện (game) ---------- */
   let game = null;
+  /* Bài luyện được soạn cho người đã ở khoảng band 7. Người làm sai phần lớn ngay lần đầu được mời ước lượng band của mình. */
+  function levelHint(ok) {
+    if (ok || !S) return ""; const ds = Object.keys(S.done).map(k => S.done[k]).filter(d => d.f != null); if (ds.length < 6) return "";
+    const f = ds.filter(d => d.f === 1).length; if (f / ds.length >= 0.5) return "";
+    return `<p class="banknote">Các bài luyện trên trang được soạn cho người đã ở khoảng band 7. Đến lúc này bạn làm đúng ngay lần đầu ${f}/${ds.length} bài. Con số đó không nói lên band của bạn, nhưng nếu nhiều bài đang quá sức, hãy <a href="#/coach">dán một đoạn bạn viết</a> để trang ước lượng band hiện tại và chỉ ra việc nên luyện trước, hoặc xem <a href="#/bands">thang band 4 đến 7</a>.</p>`;
+  }
   function vPlay(k, tk, via) {
     const t = TECH[k], it = ITEM[k + "/" + tk], tp = TOPIC[tk]; if (!t || !it) return vTech(k);
     const byT = via === "t", M = D.modules[t.m], tps = D.topics[t.m], ix = tps.findIndex(x => x.k === tk), nxt = tps[ix + 1];
@@ -3117,7 +3407,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
       $("#check").remove(); const mdl = model(it);
       $("#fb").innerHTML = `<div class="fb ${ok ? "ok" : "bad"}"><div class="fbh">${ok ? "✓ Chính xác" : "✗ Chưa đúng"}</div>
         ${mdl ? `<div class="b9"><span class="tag t9">Band 9</span><p class="en">${esc(mdl)}</p></div>` : ""}
-        ${it.w ? `<p class="whyp">${esc(it.w)}</p>` : ""}<p class="tip"><b>Ghi nhớ:</b> ${esc(t.tip)}</p>
+        ${it.w ? `<p class="whyp">${esc(it.w)}</p>` : ""}<p class="tip"><b>Ghi nhớ:</b> ${esc(t.tip)}</p>${levelHint(ok)}
         <div class="bar-actions"><button class="btn" id="again">↻ Làm lại</button><a class="btn" href="#/w/${id}${byT ? "/t" : ""}">✎ Viết với kỹ thuật này</a>${byT ? (nxtT ? `<a class="btn primary" href="#/p/${nxtT.k}/${tk}/t">Kỹ thuật tiếp: ${esc(nxtT.n)} →</a>` : `<a class="btn primary" href="#/w/${FULLK(t.m)}/${tk}/t">Xong chủ đề. Viết cả bài →</a>`) : nxt ? `<a class="btn primary" href="#/p/${t.k}/${nxt.k}">Bài tiếp: ${esc(nxt.n)} →</a>` : `<a class="btn primary" href="#/k/${t.k}">Xong ${t.k} →</a>`}</div></div>`;
       $("#again").onclick = () => vPlay(k, tk, via);
       sessDone++; fbMount($("#fb"), { tech: t.k, topic: tk, src: "item" });
@@ -3202,7 +3492,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
       send({ kind: "item", tech: "XB" + n, topic: id, type: it.y, ok: ok ? 1 : 0, try: d.n, sec: act ? act.sec : 0 });
       if (act) act.sec = 0;
       $("#check").remove();
-      $("#fb").innerHTML = `<div class="fb ${ok ? "ok" : "bad"}"><div class="fbh">${ok ? "✓ Chính xác" : "✗ Chưa đúng"}</div><p class="whyp">${esc(it.w)}</p>
+      $("#fb").innerHTML = `<div class="fb ${ok ? "ok" : "bad"}"><div class="fbh">${ok ? "✓ Chính xác" : "✗ Chưa đúng"}</div><p class="whyp">${esc(it.w)}</p>${levelHint(ok)}
         <div class="bar-actions"><button class="btn" id="again">↻ Làm lại</button>${n < 3 ? `<a class="btn primary" href="#/xb/${id}/${n + 1}">Bài tiếp: ${XBN[n]} →</a>` : `<a class="btn" href="#/xb/${id}/m">📄 Xem bài mẫu band 9</a><a class="btn primary" href="#/wb/${id}">Viết cả bài với đề này →</a>`}</div></div>`;
       $("#again").onclick = () => vBankEx(id, n);
       $("#fb").scrollIntoView({ behavior: "smooth", block: "nearest" });
@@ -3248,7 +3538,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
       const ticked = $$("[data-ck]").filter(c => c.checked).length;
       const rec = { ts: Date.now(), sec: act ? act.sec : 0, words: n, text: text, ck: ticked };
       (S.wr[id] = S.wr[id] || []).push(rec); if (S.wr[id].length > 5) S.wr[id].shift(); delete S.draft[id]; save();
-      send({ kind: "write", tech: t.k, topic: tk, type: bk ? "write:" + bk.id : fo ? "write:" + fo.k : "write", ok: ticked, try: S.wr[id].length, sec: rec.sec, words: n, text: text });
+      send({ kind: "write", tech: t.k, topic: tk, type: bk ? "write:" + bk.id : fo ? "write:" + fo.k : "write", ok: ticked, try: S.wr[id].length, sec: rec.sec, words: n, text: (PROSE.indexOf(t.k) >= 0 ? bandTag(null, D.analyse(text, { m: t.m, kind: t.m === "t1" ? tk : "", scope: t.g === "FULL" ? "full" : "", q: tp.q, k0: fo ? fo.k : t.k })) : "") + text });
       if (act) act.sec = 0;
       if (PROSE.indexOf(t.k) >= 0) { startCoach({ m: t.m, kind: t.m === "t1" ? tk : "", scope: t.g === "FULL" ? "full" : "", q: tp.q, k0: fo ? fo.k : t.k, tk: tk, text: text }); return; }
       const ref = refModel(t, tk);
@@ -3297,21 +3587,82 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
     };
   }
 
+  /* Thang band 4–7: diễn đạt lại bảng mô tả band công khai, kèm dấu hiệu trang đo được. Khách chưa nhập tên vẫn đọc được. */
+  function vBands() {
+    const L = [
+      ["7", "Trả lời đủ các phần của đề; lập trường rõ và được khai triển; ý chính được mở rộng và có dẫn chứng, dù đôi chỗ còn khái quát hóa. Task 1: overview rõ, xu hướng chính được nêu.", "Tổ chức hợp lý, mạch ý tiến triển rõ; dùng nhiều phương tiện liên kết, kể cả quy chiếu và thay thế, đôi chỗ thừa hoặc thiếu; chia đoạn nhìn chung hiệu quả.", "Vốn từ đủ để diễn đạt linh hoạt, chính xác; có dùng từ ít phổ biến và có ý thức về collocation; chỉ vài lỗi chính tả, dạng từ.", "Nhiều cấu trúc phức; câu không lỗi xuất hiện thường xuyên; còn vài lỗi nhưng không cản trở việc hiểu."],
+      ["6", "Trả lời các phần chính của đề nhưng phần đầy phần mỏng; có lập trường nhưng kết luận có thể chưa rõ hoặc lặp lại; ý đúng đề nhưng có ý chưa khai triển đủ. Task 1: có cố gắng viết overview, thông tin có số liệu làm chứng.", "Sắp xếp nhìn chung mạch lạc; có dùng từ nối nhưng liên kết có thể sai hoặc máy móc vì dùng sai, dùng thừa hoặc bỏ sót; chia đoạn có chỗ chưa hợp lý.", "Vốn từ nhìn chung đủ cho đề; nghĩa rõ dù vốn từ khá hẹp hoặc chọn từ thiếu chính xác; có một số lỗi chính tả, dạng từ nhưng không cản trở việc hiểu.", "Có cả câu đơn và câu phức nhưng kém linh hoạt; câu phức kém chính xác hơn câu đơn; có lỗi ngữ pháp và dấu câu nhưng hiếm khi cản trở việc hiểu."],
+      ["5", "Chưa trả lời đủ các phần chính của đề; có nêu lập trường nhưng khai triển không phải lúc nào cũng rõ; có vài ý nhưng ít và chưa khai triển, có thể lặp ý. Task 1: kể chi tiết một cách máy móc, có thể không có số liệu, không nói tới bức tranh chung.", "Có bố cục nhưng chưa hoàn toàn hợp lý; các câu chưa nối với nhau trôi chảy; từ nối dùng thiếu hoặc dùng quá nhiều; lặp từ vì thiếu quy chiếu; chia đoạn chưa đủ hoặc không chia đoạn.", "Vốn từ hạn chế, vừa đủ cho đề; từ đơn giản dùng đúng nhưng ít biến đổi; hay đơn giản hóa và lặp lại; lỗi chính tả, dạng từ dễ thấy và có thể gây khó cho người đọc.", "Cấu trúc hạn chế và lặp lại; có thử viết câu phức nhưng hay sai, chính xác nhất ở câu đơn; lỗi ngữ pháp có thể thường xuyên; dấu câu có thể sai."],
+      ["4", "Trả lời đề ở mức tối thiểu hoặc lệch đề; phải đọc kỹ mới tìm ra lập trường; ý chính khó nhận ra, thiếu liên quan hoặc thiếu dẫn chứng; nhiều phần lặp lại. Task 1: chọn được ít đặc điểm chính.", "Thông tin có nhưng sắp xếp chưa mạch lạc, không thấy mạch tiến triển; chỉ dùng vài từ nối cơ bản, có thể sai hoặc lặp; có thể không chia đoạn.", "Vốn từ hạn chế, không đủ cho đề; từ cơ bản dùng lặp đi lặp lại; có thể dùng cụm học thuộc không hợp chỗ; lỗi chọn từ, dạng từ, chính tả có thể cản trở việc hiểu.", "Rất ít kiểu cấu trúc; mệnh đề phụ hiếm, câu đơn chiếm phần lớn; lỗi ngữ pháp thường xuyên và có thể cản trở việc hiểu; dấu câu hay sai."]
+    ];
+    const M = [
+      ["Độ dài", "Task 2 dưới 240 từ, Task 1 dưới 145 từ; càng ngắn, mức ước lượng càng thấp.", "TR / TA"],
+      ["Chia đoạn", "Bài là một khối liền, chỉ có hai đoạn, hoặc có đoạn thân bài chỉ một câu.", "CC"],
+      ["Khai triển ý (Task 2)", "Đoạn thân bài dưới 3 câu hoặc dưới 40 từ; đoạn liệt kê ba ý, mỗi ý một câu.", "TR"],
+      ["Lập trường và kết bài (Task 2)", "Đề hỏi ý kiến nhưng không thấy câu nêu quan điểm; không thấy kết bài.", "TR"],
+      ["Bám đề (Task 2, khi bạn dán đề)", "Bài không dùng từ khóa nào của đề; có đoạn chép nguyên văn đề.", "TR"],
+      ["Overview, số liệu, so sánh (Task 1)", "Không có câu overview; dưới 3 con số; không có cụm so sánh nào; nhiều lời giải thích hoặc ý kiến riêng.", "TA"],
+      ["Liên kết", "Hơn 45% số câu mở bằng từ nối (Firstly, Moreover, However…); hoặc gần như không có từ nối và từ quy chiếu.", "CC"],
+      ["Chính tả", "Từ 2 lỗi trở lên trong khoảng 200 lỗi chính tả hay gặp mà trang biết.", "LR"],
+      ["Vốn từ", "Trên 47% từ mang nghĩa là từ rất thông dụng (bài mẫu band 9 của trang: khoảng 16–31%).", "LR"],
+      ["Lỗi ngữ pháp và dấu câu cơ bản", "Mật độ lỗi máy bắt được: hòa hợp chủ–vị, số ít số nhiều, dạng động từ, mạo từ thiếu ở vài danh từ quen thuộc, giới từ, viết hoa, dấu câu.", "GRA"],
+      ["Kiểu câu", "Câu phức gần như vắng mặt, câu trung bình dưới 11–12 từ, hoặc nhiều câu trên 55 từ.", "GRA"]
+    ];
+    shell(`<h1 class="pt">Bạn đang ở band nào?</h1><div class="about">
+      <p>Trang này được soạn cho chặng band 7 lên band 9, nhưng nhiều người dùng trang chưa tới band 7. Vì vậy mục <a href="#/coach">Thử với bài của bạn</a> không chỉ nói “bài đã ở band 7 hay chưa”: nó ước lượng band hiện tại từ band 4 đến band 9, nêu lí do theo từng tiêu chí, rồi xếp việc cần sửa theo thứ tự nền tảng trước, kỹ thuật band 9 sau.</p>
+      <div class="bar-actions"><a class="btn primary" href="#/coach">Ước lượng band cho bài của tôi →</a></div>
+      <h3>Thang band 4 đến 7, theo bốn tiêu chí</h3>
+      <p class="small">Diễn đạt lại bằng tiếng Việt từ bảng mô tả band điểm Writing công khai của IELTS (bản cập nhật tháng 5/2023). Đọc từ dưới lên và dừng ở dòng mô tả đúng nhất bài của bạn ở từng cột; bốn cột không nhất thiết cùng một dòng.</p>
+      <div class="tablewrap"><table class="dt wide ladder"><tr><th>Band</th><th>Task Response (Task 2) · Task Achievement (Task 1)</th><th>Coherence &amp; Cohesion</th><th>Lexical Resource</th><th>Grammatical Range &amp; Accuracy</th></tr>${L.map(r => `<tr${r[0] === "7" ? ' class="b7r"' : ""}><td>${badge(r[0] === "7" ? "ok" : +r[0])}</td><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td><td>${r[4]}</td></tr>`).join("")}</table></div>
+      <h3>Trang ước lượng bằng những dấu hiệu nào</h3>
+      <p>Máy không đọc hiểu được bài, nên trang chỉ dùng các dấu hiệu đếm được và có căn cứ trong bảng mô tả band. Mỗi dấu hiệu kéo tiêu chí tương ứng xuống band 6, 5 hoặc 4 tùy mức độ.</p>
+      <div class="tablewrap"><table class="dt wide ladder"><tr><th>Dấu hiệu</th><th>Khi nào trang báo dưới band 7</th><th>Tiêu chí</th></tr>${M.map(r => `<tr><td style="white-space:normal">${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td></tr>`).join("")}</table></div>
+      <p>Band của một tiêu chí là mức thấp nhất trong các dấu hiệu thuộc tiêu chí đó. Tiêu chí không có dấu hiệu nào được tạm tính là 7. Band chung là trung bình bốn tiêu chí, làm tròn xuống 0,5. Khi bài không còn dấu hiệu nào dưới band 7, trang chuyển sang so bài với các đặc trưng của band 7, 8 và 9.</p>
+      <h3>Nghiên cứu nói gì về các mốc dưới band 7</h3>
+      <ul>
+        <li><b>Banerjee, Franceschina và Smith (2007)</b>, IELTS Research Reports tập 7, phân tích bài thi thật từ band 3 đến band 8: bài ở band cao hơn dài hơn rõ rệt (Task 2 trung bình khoảng 130 từ ở band 3, hơn 320 từ ở band 8), dùng từ phong phú hơn và chính xác ngữ pháp hơn. Tỉ lệ type/token và các số đo độ phức tạp cú pháp thì không tăng đều theo band.</li>
+        <li><b>Riazi và Knox (2013)</b>, IELTS Research Reports Online, phân tích bài Task 2 ở band 5, 6 và 7: độ dài bài và độ phổ biến của từ là các chỉ báo tốt cho band, bất kể tiếng mẹ đẻ; bài band 6 và 7 dùng từ ít phổ biến hơn và đa dạng hơn bài band 5.</li>
+      </ul>
+      <p>Từ đó trang chọn độ dài, mật độ lỗi cơ bản và độ phổ biến của từ làm dấu hiệu chính; không dùng type/token; và chỉ tính “thiếu câu phức” khi câu phức gần như vắng mặt.</p>
+      <h3>Giới hạn cần biết</h3>
+      <ul>
+        <li>Đây là ước lượng, không phải điểm thi. Ngưỡng do nhóm soạn đặt, đã thử trên các bài mẫu band 9 của trang để tránh báo nhầm, nhưng chưa được kiểm chứng trên bài có điểm thi thật.</li>
+        <li>Máy không biết bài có trả lời đúng câu hỏi không, ý có hợp lý không, và chỉ bắt được một phần nhỏ lỗi ngữ pháp. Vì vậy band thật có thể thấp hơn mức trang ước lượng, nhất là ở Task Response.</li>
+        <li>“Chưa thấy dấu hiệu dưới band 7” không có nghĩa là bài đã chắc band 7.</li>
+        <li>Muốn có người đọc hiểu nội dung bài: dùng chế độ trợ lý AI ở mục Thử với bài của bạn, hoặc <a href="#/contact">trao đổi với giáo viên</a>.</li>
+      </ul>
+      <h3>Nếu bạn đang dưới band 7, nên dùng trang thế nào</h3>
+      <ol>
+        <li>Dán một bài đã viết vào <a href="#/coach">Thử với bài của bạn</a> và làm hết vòng “nền tảng”.</li>
+        <li>Luyện <a href="#/lab">Phân tích đề và lên ý</a> để tập đọc đề, chọn ý và viết từng câu đúng trước khi viết cả bài.</li>
+        <li>Trong mục <a href="#/by/tech">Theo kỹ thuật</a>, bắt đầu bằng các kỹ thuật gần nền tảng nhất: TR1 (khai triển ý), GR3 (câu không lỗi), LR3 (sửa collocation sai), TA2 (overview), T1M (thì và bị động).</li>
+        <li>Khi bài không còn dấu hiệu dưới band 7, chuyển sang các kỹ thuật còn lại của chặng band 7 lên band 9.</li>
+      </ol></div>`, `<a href="#/">Trang chính</a> › Bạn đang ở band nào?`);
+  }
+
   function vAbout() {
     const nGame = D.items.length, nWrite = D.techs.reduce((a, t) => a + D.topics[t.m].length, 0);
     shell(`<h1 class="pt">Về trang này</h1><div class="about">
       <h3>Trang này dạy gì</h3><p>${D.techs.filter(t => t.g !== "FULL").length} kỹ thuật, chia hai module Task 1 và Task 2. Mỗi kỹ thuật nhắm vào một rào cản mà nghiên cứu và phân tích bài mẫu chỉ ra ở chặng band 7 lên band 9. Trong mỗi kỹ thuật, bài luyện được chia theo chủ đề lớn của IELTS (Task 2) hoặc theo dạng đề (Task 1).</p>
       <h3>Khối lượng hiện có</h3><p>${nGame} bài luyện dạng game và ${nWrite} đề viết. Một lượt làm hết các bài game mất khoảng 4 đến 6 giờ; phần còn lại của khung giờ đến từ các đề viết và việc luyện lại.</p>
       <h3>Về nhãn “Band 7” và “Band 9”</h3><p>Các câu và bài mẫu band 9 trên trang do nhóm soạn viết, dựa trên những đặc điểm đo được khi phân tích bài mẫu của các tác giả có tên. Các câu band 7 cũng do nhóm soạn viết để minh họa lỗi điển hình. Nhãn band là ước lượng theo band descriptor công khai, không phải điểm do giám khảo IELTS chấm.</p>
-      <h3>Phần “Nâng cấp bài viết” đo cái gì</h3><p>Trang đếm các đặc trưng có thể đếm được trên bài của bạn (từ nối đầu câu, từ tuyệt đối, cụm danh từ, số liệu trong overview…) và so với ngưỡng rút từ bài mẫu. Kết quả là “bài đang mang đặc trưng của band nào”, không phải điểm thi. Máy không chấm được chất lượng lập luận và không bắt hết lỗi ngữ pháp.</p>${PAID.enabled ? `<h3>Chế độ trả phí</h3><p>Chế độ miễn phí luôn bật. Nếu muốn trợ lý AI chấm riêng bài của mình, bạn điền form yêu cầu ngay trong mục Nâng cấp bài viết; phí là ${vnd(FEE)} mỗi bài. Khi dùng chế độ này, bài bạn dán được gửi tới dịch vụ AI (Claude của Anthropic) để đọc.</p>` : ""}<h3>Ngân hàng đề Task 2</h3><p>${(D.bank || []).length} đề viết cả bài, xếp theo chủ đề bằng từ khóa nên một số đề có thể nằm chưa đúng chủ đề. Đề thi 2025 và 2026 là đề do thí sinh nhớ lại, lấy từ các trang tổng hợp Onthiielts, TalkFirst, Langmaster và IELTS Fighter; IELTS không công bố đề thi, nên câu chữ và tháng thi chỉ mang tính tham khảo. Các đề còn lại lấy từ bộ bài mẫu theo chủ đề của giáo viên; trang chỉ đăng đề bài và tên nơi có bài mẫu (How to do IELTS, IELTS Vietop, IELTS Advantage, Thanh Nguyễn), không đăng lại bài mẫu.</p><h3>Đề thi Task 1 năm 2024</h3><p>${(D.bank1 || []).length} đề lấy từ bộ đề năm 2024 của giáo viên, chỉ gồm những đề đọc được đầy đủ số liệu. Hình và bảng do trang vẽ lại từ số liệu của đề, không phải hình gốc; trang không đăng bài mẫu của bộ đề đó.</p><h3>Dữ liệu Task 1</h3><p>Bảy bộ dữ liệu (Newport, Ashby, Northline Rail và các bảng số) được dựng riêng cho trang này, không phải số liệu thật.</p><h3>Số đếm trên bài mẫu và thống kê đề thi</h3><p>Số đếm trong bài “Band 7 khác band 9 ở đâu?” lấy từ 26 bài mẫu của các tác giả có tên (14 bài Task 2, 12 bài Task 1), không dùng bài do AI viết; phần lớn số đếm là xấp xỉ. Trang Thống kê đề thi 2025–2026 đếm trên 177 đề do thí sinh nhớ lại, lấy từ Prep, ZIM và Langmaster. Chủ đề “Ai trả tiền?” dựng trên các đề lặp lại trong giai đoạn đó, với câu chữ do nhóm soạn viết.</p>
+      <h3>Phần “Nâng cấp bài viết” đo cái gì</h3><p>Trang đếm các đặc trưng có thể đếm được trên bài của bạn (từ nối đầu câu, từ tuyệt đối, cụm danh từ, số liệu trong overview…) và so với ngưỡng rút từ bài mẫu. Kết quả là “bài đang mang đặc trưng của band nào”, không phải điểm thi. Máy không chấm được chất lượng lập luận và không bắt hết lỗi ngữ pháp.</p><h3>Ước lượng cho bài chưa tới band 7</h3><p>Trước khi so bài với band 9, trang tìm các dấu hiệu của band 4, 5 và 6 theo bảng mô tả band điểm Writing công khai của IELTS (bản cập nhật tháng 5/2023): bài thiếu độ dài, không chia đoạn, ý chưa khai triển, không có overview hoặc số liệu (Task 1), từ nối máy móc, lỗi chính tả, vốn từ quá chung, lỗi ngữ pháp cơ bản dày, câu phức gần như vắng mặt. Khi có dấu hiệu, trang ước lượng band của từng tiêu chí và band chung, nêu lí do, và xếp các bước sửa nền tảng lên trước. Cách chọn dấu hiệu dựa thêm vào nghiên cứu trên bài thi thật (Banerjee, Franceschina và Smith 2007; Riazi và Knox 2013). Ngưỡng do nhóm soạn đặt và đã được thử trên các bài mẫu band 9 của trang để tránh báo nhầm; chúng chưa được kiểm chứng trên bài có điểm thi thật, nên con số chỉ là ước lượng. Xem chi tiết ở trang <a href="#/bands">Bạn đang ở band nào?</a></p>${PAID.enabled ? `<h3>Chế độ trả phí</h3><p>Chế độ miễn phí luôn bật. Nếu muốn trợ lý AI chấm riêng bài của mình, bạn điền form yêu cầu ngay trong mục Nâng cấp bài viết; phí là ${vnd(FEE)} mỗi bài. Khi dùng chế độ này, bài bạn dán được gửi tới dịch vụ AI (Claude của Anthropic) để đọc.</p>` : ""}<h3>Ngân hàng đề Task 2</h3><p>${(D.bank || []).length} đề viết cả bài, xếp theo chủ đề bằng từ khóa nên một số đề có thể nằm chưa đúng chủ đề. Đề thi 2025 và 2026 là đề do thí sinh nhớ lại, lấy từ các trang tổng hợp Onthiielts, TalkFirst, Langmaster và IELTS Fighter; IELTS không công bố đề thi, nên câu chữ và tháng thi chỉ mang tính tham khảo. Các đề còn lại lấy từ bộ bài mẫu theo chủ đề của giáo viên; trang chỉ đăng đề bài và tên nơi có bài mẫu (How to do IELTS, IELTS Vietop, IELTS Advantage, Thanh Nguyễn), không đăng lại bài mẫu.</p><h3>Đề thi Task 1 năm 2024</h3><p>${(D.bank1 || []).length} đề lấy từ bộ đề năm 2024 của giáo viên, chỉ gồm những đề đọc được đầy đủ số liệu. Hình và bảng do trang vẽ lại từ số liệu của đề, không phải hình gốc; trang không đăng bài mẫu của bộ đề đó.</p><h3>Dữ liệu Task 1</h3><p>Bảy bộ dữ liệu (Newport, Ashby, Northline Rail và các bảng số) được dựng riêng cho trang này, không phải số liệu thật.</p><h3>Số đếm trên bài mẫu và thống kê đề thi</h3><p>Số đếm trong bài “Band 7 khác band 9 ở đâu?” lấy từ 26 bài mẫu của các tác giả có tên (14 bài Task 2, 12 bài Task 1), không dùng bài do AI viết; phần lớn số đếm là xấp xỉ. Trang Thống kê đề thi 2025–2026 đếm trên 177 đề do thí sinh nhớ lại, lấy từ Prep, ZIM và Langmaster. Chủ đề “Ai trả tiền?” dựng trên các đề lặp lại trong giai đoạn đó, với câu chữ do nhóm soạn viết.</p>
       <h3>Dữ liệu của bạn</h3><p>${CFG.endpoint ? "Tên, lớp, kết quả từng bài, thời gian làm, bài viết bạn nộp và đánh giá, góp ý bạn gửi được chuyển về bảng theo dõi của giáo viên. Nếu bạn điền form Liên hệ, số điện thoại, email hoặc Facebook bạn ghi cũng được gửi về đó và chỉ dùng để liên hệ lại với bạn." : "Trang chưa nối với bảng theo dõi của giáo viên. Tiến độ chỉ lưu trên thiết bị này; bạn có thể tải báo cáo ở mục Tiến độ của tôi."}</p></div>`, `<a href="#/">Trang chính</a> › Về trang này`);
   }
 
   /* =================== HUẤN LUYỆN VIÊN: chẩn đoán → từng bước → tổng kết =================== */
   const PROSE = ["TR1", "TR5", "TR3", "CC1", "GR3", "F2", "TA2", "TA5", "T1C", "T1M", "F1"];
-  const LV = { 9: ["Band 9", "l9"], 8: ["Band 8", "l8"], 7: ["Band 7 trở xuống", "l7"] };
-  const badge = l => `<span class="lv ${LV[l][1]}">${LV[l][0]}</span>`;
-  const snap = a => { const lv = {}; a.checks.forEach(c => { lv[c.id] = c.lvl; }); return { n9: a.n9, n: a.n, est: a.est, lv: lv }; };
+  /* Kiểm tra "nền tảng" (c.base) tìm dấu hiệu của band 4–6 và đạt khi không còn dấu hiệu đó (lvl 7);
+     các kiểm tra còn lại phân biệt band 7 / 8 / 9 và đạt ở lvl 9. */
+  const LV = { 9: ["Band 9", "l9"], 8: ["Band 8", "l8"], 7: ["Band 7 trở xuống", "l7"], 6: ["Band 6", "l6"], 5: ["Band 5", "l5"], 4: ["Band 4 trở xuống", "l4"], ok: ["Qua mốc band 7", "lok"] };
+  const badge = l => LV[l] ? `<span class="lv ${LV[l][1]}">${LV[l][0]}</span>` : "–";
+  const lvKey = (c, l) => c.base && l >= 7 ? "ok" : l;
+  const todo = c => c.base ? c.lvl < 7 : c.lvl < 9;
+  const CRS = { TR: "TR", TA: "TA", CC: "CC", LR: "LR", GR: "GRA" };
+  const fmtB = e => { const v = String(e); return v.indexOf(".") >= 0 ? v.replace(".", ",") : v + ",0"; };
+  const snap = a => { const lv = {}; a.checks.forEach(c => { lv[c.id] = c.lvl; }); return { n9: a.n9, n: a.n, est: a.est, lv: lv, band: a.band ? { low: a.band.low, order: a.band.order, crit: a.band.crit } : null }; };
+  /* dòng ghi kèm bài gửi về bảng theo dõi, để giáo viên thấy mức ước lượng của từng bài */
+  const bandTag = (b, a) => { const one = x => "≈ band " + fmtB(x.est) + (x.band && x.band.low ? " (" + x.band.order.map(g => CRS[g] + " " + (x.band.crit[g].low ? x.band.crit[g].b : "–")).join(", ") + ")" : ""); return "[Ước lượng tự động: " + (b ? "trước khi sửa " + one(b) + " → sau khi sửa " : "") + one(a) + "]\n"; };
   const runC = C => D.analyse(C.text, { m: C.m, kind: C.kind, scope: C.scope, k0: C.k0 });
   const AI_ON = () => !!(PAID.enabled && CFG.endpoint && S && S.paid && S.paid.code);
   function marked(text, marks) {
@@ -3339,7 +3690,9 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
   }
   function planSteps(C) {
     if (C.aiSteps && C.round === 1) { C.mode = "ai"; C.order = C.aiSteps.map((_, i) => i); }
-    else { C.mode = "rule"; const xs = runC(C).checks.filter(c => c.lvl < 9); xs.sort((x, y) => (y.k === C.k0 ? 1 : 0) - (x.k === C.k0 ? 1 : 0)); C.order = xs.map(c => c.id); }
+    else { C.mode = "rule"; const all = runC(C).checks.filter(todo), bs = all.filter(c => c.base).sort((x, y) => x.lvl - y.lvl);
+      /* bài còn dấu hiệu dưới band 7: vòng này chỉ sửa nền tảng, từ mức thấp nhất; các đặc trưng band 9 để vòng sau */
+      const xs = bs.length ? bs : all.sort((x, y) => (y.k === C.k0 ? 1 : 0) - (x.k === C.k0 ? 1 : 0)); C.order = xs.map(c => c.id); }
     C.i = 0; C.skip = {}; C.passed = {}; C.stage = C.order.length ? "step" : "done"; save();
   }
   const coachCrumb = C => `<a href="#/">Trang chính</a> › Nâng cấp bài viết${C && C.k0 ? " › " + C.k0 : ""}`;
@@ -3355,7 +3708,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
   }
 
   function coachIntake() {
-    shell(`<div class="play coach" style="--c:#1b1e3c"><div class="phead"><span class="code">7→9</span><div><h1>Nâng cấp bài viết của bạn</h1><p class="grp">Dán một đoạn hoặc cả bài. Trang sẽ chỉ ra bài đang mang đặc trưng band nào, rồi dẫn bạn sửa từng bước.</p></div></div>
+    shell(`<div class="play coach" style="--c:#1b1e3c"><div class="phead"><span class="code">7→9</span><div><h1>Nâng cấp bài viết của bạn</h1><p class="grp">Dán một đoạn hoặc cả bài. Trang ước lượng bài đang ở khoảng band nào (từ band 4 đến band 9, kể cả khi bạn chưa tới band 7), nêu lí do theo bảng mô tả band, rồi dẫn bạn sửa từng bước.</p></div></div>
       <form id="cf"><div class="seg"><label><input type="radio" name="m" value="t2" checked> Task 2</label><label><input type="radio" name="m" value="t1"> Task 1</label>
       <select id="ckind" hidden><option value="">Dạng đề…</option>${D.topics.t1.map(t => `<option value="${t.k}">${esc(t.n)}</option>`).join("")}</select></div>
       <label>Đề bài <span class="opt-l">(nên dán để ${AI_ON() ? "trợ lý AI xét bài có trả lời đúng đề không" : "bạn tiện đối chiếu"})</span><input id="cq" maxlength="600" placeholder="Some people think that …"></label>
@@ -3367,10 +3720,23 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
   }
 
   function featTable(a, before) {
-    const gs = []; a.checks.forEach(c => { if (gs.indexOf(c.g) < 0) gs.push(c.g); });
-    return `<div class="tablewrap"><table class="dt wide feat"><tr><th>Đặc trưng</th><th>Trong bài của bạn</th>${before ? "<th>Trước</th><th>Sau</th>" : "<th>Mức</th>"}<th>Kỹ thuật</th></tr>${gs.map(g => `<tr class="gr"><td colspan="${before ? 5 : 4}" style="--c:${D.groups[g].c}">${esc(D.groups[g].n)}</td></tr>` + a.checks.filter(c => c.g === g).map(c => `<tr><td>${esc(c.name)}</td><td class="small">${esc(c.measure)}</td>${before ? `<td>${before.lv[c.id] ? badge(before.lv[c.id]) : "–"}</td>` : ""}<td>${badge(c.lvl)}</td><td><a href="#/k/${c.k}" target="_blank" rel="noopener">${c.k}</a></td></tr>`).join("")).join("")}</table></div>`;
+    const gs = []; a.checks.forEach(c => { if (!c.base && gs.indexOf(c.g) < 0) gs.push(c.g); });
+    const bs = a.checks.filter(c => c.base), span = before ? 5 : 4;
+    const row = c => `<tr><td>${esc(c.name)}${c.base ? ` <span class="small">· ${esc(D.groups[c.g].n)}</span>` : ""}</td><td class="small">${esc(c.measure)}</td>${before ? `<td>${before.lv[c.id] ? badge(lvKey(c, before.lv[c.id])) : "–"}</td>` : ""}<td>${badge(lvKey(c, c.lvl))}</td><td><a href="#/k/${c.k}" target="_blank" rel="noopener">${c.k}</a></td></tr>`;
+    return `<div class="tablewrap"><table class="dt wide feat"><tr><th>Đặc trưng</th><th>Trong bài của bạn</th>${before ? "<th>Trước</th><th>Sau</th>" : "<th>Mức</th>"}<th>Kỹ thuật</th></tr>${bs.length ? `<tr class="gr"><td colspan="${span}" style="--c:#b23a22">Nền tảng · các mốc cần qua trước band 7</td></tr>` + bs.map(row).join("") : ""}${gs.map(g => `<tr class="gr"><td colspan="${span}" style="--c:${D.groups[g].c}">${esc(D.groups[g].n)} · chặng band 7 lên band 9</td></tr>` + a.checks.filter(c => !c.base && c.g === g).map(row).join("")).join("")}</table></div>`;
   }
-  const estLine = a => `<div class="est e${a.est}"><div class="big">${a.est === "7" ? "Band 7<small> trở xuống</small>" : "Band " + a.est}</div><div><b>${a.n9}/${a.n} đặc trưng đo được đã ở mức band 9.</b><br><span class="small">Đây là mức gần nhất theo các đặc trưng máy đếm được trên bài của bạn, không phải điểm thi. Máy không chấm được chất lượng lập luận và không bắt hết lỗi ngữ pháp.</span></div></div>`;
+  /* brief = bản rút gọn cho cột "Trước khi sửa" */
+  function estLine(a, brief) {
+    const B = a.band, isLow = !!(B && B.low);
+    if (isLow) {
+      const chips = `<div class="crit">${B.order.map(g => `<span class="${B.crit[g].low ? "lo" : ""}"><b>${B.crit[g].low ? B.crit[g].b : "–"}</b>${CRS[g]}</span>`).join("")}</div>`;
+      const why = (B.why || []).slice(0, 7);
+      return `<div class="est elow"><div class="big">≈ ${fmtB(a.est)}<small>band hiện tại (ước lượng)</small></div><div>${brief ? chips : `<b>Bài chưa tới band 7: trang thấy ${(B.why || []).length} dấu hiệu của các band thấp hơn.</b>${chips}
+        <ul class="whyb">${why.map(y => `<li><b>${CRS[y.g]} · band ${y.lvl}${y.lvl === 4 ? " trở xuống" : ""}</b> · ${esc(y.name)}: ${esc(y.measure)}</li>`).join("")}</ul>
+        <span class="small">Đây là ước lượng theo bảng mô tả band công khai của IELTS và các dấu hiệu máy đo được, không phải điểm thi. Tiêu chí ghi “–” là tiêu chí máy chưa thấy dấu hiệu dưới band 7; band chung tạm tính các tiêu chí đó là 7 rồi lấy trung bình bốn tiêu chí, làm tròn xuống 0,5. Máy không chấm được ý và không bắt hết lỗi, nên band thật có thể thấp hơn. <a href="#/bands">Xem thang band 4 đến 7 và cách trang ước lượng →</a></span>`}</div></div>`;
+    }
+    return `<div class="est e${a.est}"><div class="big">Band ${a.est}${a.est === "7" ? "<small>chưa thấy dấu hiệu dưới 7</small>" : ""}</div><div><b>${a.n9}/${a.n} đặc trưng đo được đã ở mức band 9.</b>${brief ? "" : `<br><span class="small">${a.est === "7" ? "Trang không thấy dấu hiệu của band 4–6 mà máy đo được, nhưng điều đó chưa chắc bài đã đạt band 7: máy không chấm được chất lượng lập luận và không bắt hết lỗi ngữ pháp. " : ""}Đây là mức gần nhất theo các đặc trưng máy đếm được trên bài của bạn, không phải điểm thi.${a.est === "7" ? "" : " Máy không chấm được chất lượng lập luận và không bắt hết lỗi ngữ pháp."}</span>`}</div></div>`;
+  }
   const aiBlock = ai => ai ? `<div class="aibox"><span class="tag">Nhận xét của trợ lý AI</span>${ai.bands ? `<div class="aib">${["TR", "CC", "LR", "GRA"].map(k => ai.bands[k] != null ? `<span><b>${esc(ai.bands[k])}</b>${k === "TR" ? "TR/TA" : k}</span>` : "").join("")}${ai.bands.overall != null ? `<span class="ov"><b>${esc(ai.bands.overall)}</b>Ước lượng chung</span>` : ""}</div>` : ""}<p>${esc(ai.summary || "")}</p><p class="small">Ước lượng của AI theo band descriptor công khai, không phải điểm của giám khảo.</p></div>` : "";
 
   /* hai chế độ: miễn phí (bộ phân tích tự động) và trả phí (trợ lý AI) */
@@ -3385,7 +3751,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
       <p class="lead">Biết ngay bài đang ở đâu và cần sửa gì trước, không tốn phí.</p>
       <ul class="bene">
         <li>Có kết quả tức thì, không giới hạn số bài.</li>
-        <li>Thấy bài đang mang đặc trưng band 7, 8 hay 9 ở từng tiêu chí, kèm số đo cụ thể trên chính bài của bạn.</li>
+        <li>Ước lượng band hiện tại của bài, từ band 4 đến band 9, kể cả khi bạn chưa tới band 7, kèm lí do theo từng tiêu chí và số đo trên chính bài của bạn.</li>
         <li>Tô màu đúng chỗ cần sửa và dẫn bạn sửa từng bước, mỗi bước một kỹ thuật.</li>
         <li>Kiểm tra lại sau mỗi lần sửa, lặp đến khi đạt.</li>
       </ul>
@@ -3447,12 +3813,13 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
   }
 
   function coachDiag(C) {
-    const a = runC(C), nTodo = a.checks.filter(c => c.lvl < 9).length;
-    shell(`<div class="play coach" style="--c:#1b1e3c">${dots(C)}<h1>Bài của bạn đang mang đặc trưng band nào</h1>${estLine(a)}
+    const a = runC(C), isLow = a.band && a.band.low, nBase = a.checks.filter(c => c.base && todo(c)).length, nTodo = isLow ? nBase : a.checks.filter(todo).length;
+    shell(`<div class="play coach" style="--c:#1b1e3c">${dots(C)}<h1>Bài của bạn đang ở khoảng band nào</h1>${estLine(a)}
+      ${isLow ? `<p class="whyp"><b>Việc nên làm trước:</b> qua ${nBase} mốc nền tảng đang ở mức band 4–6 (nhóm đầu tiên trong bảng dưới), bắt đầu từ mốc thấp nhất. Vòng nâng cấp này chỉ gồm các mốc đó; các kỹ thuật band 9 để vòng sau, khi nền đã vững.</p>` : ""}
       ${aiBlock(C.ai)}
       ${featTable(a)}
       <details class="hist"><summary>Xem lại bài bạn đã nộp (${a.W} từ)</summary><p class="en pre">${esc(C.text)}</p></details>
-      <div class="bar-actions"><button class="btn primary" id="go">${C.aiSteps ? "Bắt đầu nâng cấp cùng trợ lý AI · " + C.aiSteps.length + " bước →" : nTodo ? "Bắt đầu nâng cấp · " + nTodo + " bước →" : "Xem tổng kết →"}</button><button class="btn" id="drop">Bỏ bài này, dán bài khác</button></div>
+      <div class="bar-actions"><button class="btn primary" id="go">${C.aiSteps ? "Bắt đầu nâng cấp cùng trợ lý AI · " + C.aiSteps.length + " bước →" : nTodo ? (isLow ? "Bắt đầu từ nền tảng · " : "Bắt đầu nâng cấp · ") + nTodo + " bước →" : "Xem tổng kết →"}</button><button class="btn" id="drop">Bỏ bài này, dán bài khác</button></div>
       ${payPanel(C)}</div>`, coachCrumb(C));
     $("#go").onclick = () => { planSteps(C); vCoach(); };
     $("#drop").onclick = () => { S.coach = null; save(); vCoach(); };
@@ -3462,15 +3829,15 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
   function coachStep(C) {
     const a = runC(C); let st, chk = null;
     /* tự bỏ qua bước đã đạt nhờ các bước trước */
-    while (C.mode === "rule" && C.i < C.order.length) { chk = a.checks.find(c => c.id === C.order[C.i]); if (chk && chk.lvl < 9) break; if (chk) C.passed[chk.id] = 1; C.i++; }
+    while (C.mode === "rule" && C.i < C.order.length) { chk = a.checks.find(c => c.id === C.order[C.i]); if (chk && todo(chk)) break; if (chk) C.passed[chk.id] = 1; C.i++; }
     if (C.i >= C.order.length) { C.stage = "done"; save(); return coachDone(C); }
     if (C.mode === "ai") { const s = C.aiSteps[C.order[C.i]], at = s.where ? C.text.indexOf(s.where) : -1; st = { k: s.k, title: TECH[s.k].n, lvl: null, finding: s.why, marks: at >= 0 ? [[at, at + s.where.length]] : [], fix: String(s.how).split(/\n+/).filter(Boolean), demo: s.demo, quote: at < 0 ? s.where : "" }; }
-    else st = { k: chk.k, title: chk.name, lvl: chk.lvl, finding: chk.msg, measure: chk.measure, marks: chk.marks, fix: chk.fix, sugg: chk.sugg, scaffold: chk.scaffold };
-    const t = TECH[st.k], ex = exampleFor(st.k); if (act) act.k = st.k;
+    else st = { k: chk.k, title: chk.name, lvl: chk.lvl, base: !!chk.base, finding: chk.msg, measure: chk.measure, marks: chk.marks, fix: chk.fix, sugg: chk.sugg, scaffold: chk.scaffold };
+    const t = TECH[st.k], ex = st.base ? null : exampleFor(st.k); if (act) act.k = st.k;
     if (C.stepText == null || C.stepAt !== C.i) { C.stepText = C.text; C.stepAt = C.i; }
     shell(`<div class="play coach" style="--c:${color(t)}">${dots(C)}
-      <div class="phead"><span class="code">${t.k}</span><div><h1>Bước ${C.i + 1}/${C.order.length} · ${esc(st.title)}</h1><p class="grp">Kỹ thuật: ${esc(t.n)} · ${esc(D.groups[t.g].n)}${C.round > 1 ? " · vòng " + C.round : ""}</p></div><span class="clock">⏱ <b id="clock">0:00</b></span></div>
-      <div class="from-to">${st.lvl ? badge(st.lvl) : '<span class="lv l7">Hiện tại</span>'}<span>→</span>${badge(9)}${st.measure ? `<span class="small">Hiện tại: ${esc(st.measure)}</span>` : ""}</div>
+      <div class="phead"><span class="code">${t.k}</span><div><h1>Bước ${C.i + 1}/${C.order.length} · ${esc(st.title)}</h1><p class="grp">${st.base ? "Nền tảng (mốc band 7) · kỹ thuật liên quan: " : "Kỹ thuật: "}${esc(t.n)} · ${esc(D.groups[t.g].n)}${C.round > 1 ? " · vòng " + C.round : ""}</p></div><span class="clock">⏱ <b id="clock">0:00</b></span></div>
+      <div class="from-to">${st.lvl ? badge(st.lvl) : '<span class="lv l7">Hiện tại</span>'}<span>→</span>${badge(st.base ? "ok" : 9)}${st.measure ? `<span class="small">Hiện tại: ${esc(st.measure)}</span>` : ""}</div>
       <p class="finding">${esc(st.finding)}</p>
       <h5 class="sh">Trong bài của bạn</h5><div class="mytext en pre" id="mytext">${marked(C.text, st.marks)}</div>${st.quote ? `<p class="small">Câu cần xem: “${esc(st.quote)}”</p>` : ""}
       <h5 class="sh">Cách sửa, lần lượt</h5><ol class="fix">${st.fix.map(f => `<li>${esc(f)}</li>`).join("")}</ol>
@@ -3493,29 +3860,31 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
         const s = C.aiSteps[C.order[C.i]], d = await aiCall({ mode: "step", m: C.m, k: s.k, why: s.why, how: s.how, before: C.stepText, after: C.text });
         if (S.coach !== C || !$("#re")) return; $("#re").disabled = false;
         if (d && d.ok) { ok = !!d.pass; note = d.comment || ""; } else { ok = true; note = (d && AI_ERR[d.error] ? AI_ERR[d.error] + " " : "") + "Trợ lý AI chưa xét được bản sửa này, nên bước được ghi nhận là đã sửa."; }
-      } else { const c2 = runC(C).checks.find(c => c.id === chk.id); lvl = c2 ? c2.lvl : 9; ok = lvl === 9; note = c2 && !ok ? "Hiện tại: " + c2.measure + "." : ""; $("#mytext").innerHTML = marked(C.text, c2 ? c2.marks : []); }
+      } else { const c2 = runC(C).checks.find(c => c.id === chk.id); lvl = c2 ? c2.lvl : 9; ok = c2 ? !todo(c2) : true; note = c2 && !ok ? "Hiện tại: " + c2.measure + "." : ""; $("#mytext").innerHTML = marked(C.text, c2 ? c2.marks : []); }
       save();
-      fb.innerHTML = ok ? `<div class="fb ok"><div class="fbh">✓ Bước này đã đạt đặc trưng band 9</div>${note ? `<p>${esc(note)}</p>` : ""}<div class="bar-actions"><button class="btn primary" id="nx">${C.i + 1 < C.order.length ? "Sang bước " + (C.i + 2) + " →" : "Xem tổng kết →"}</button></div></div>`
-        : `<div class="fb bad"><div class="fbh">${lvl === 8 ? "Đã tốt hơn: đang ở mức band 8" : !changed ? "Bạn chưa sửa gì ở bước này" : "Chưa đạt, sửa thêm một lượt nữa"}</div>${note ? `<p>${esc(note)}</p>` : ""}<p class="small">Xem lại các chỗ được tô màu ở trên (đã cập nhật theo bản mới) và làm tiếp theo danh sách “Cách sửa”.</p>${lvl === 8 ? '<div class="bar-actions"><button class="btn" id="nx">Tạm chấp nhận, sang bước sau →</button></div>' : ""}</div>`;
+      const better = !ok && C.mode !== "ai" && chk && (chk.base ? lvl > chk.lvl : lvl === 8);
+      fb.innerHTML = ok ? `<div class="fb ok"><div class="fbh">${chk && chk.base ? "✓ Bước này đã qua mốc band 7" : "✓ Bước này đã đạt đặc trưng band 9"}</div>${note ? `<p>${esc(note)}</p>` : ""}<div class="bar-actions"><button class="btn primary" id="nx">${C.i + 1 < C.order.length ? "Sang bước " + (C.i + 2) + " →" : "Xem tổng kết →"}</button></div></div>`
+        : `<div class="fb bad"><div class="fbh">${better ? "Đã tốt hơn: đang ở mức band " + lvl : !changed ? "Bạn chưa sửa gì ở bước này" : chk && chk.base ? "Vẫn còn ở mức band " + lvl + ", sửa thêm một lượt nữa" : "Chưa đạt, sửa thêm một lượt nữa"}</div>${note ? `<p>${esc(note)}</p>` : ""}<p class="small">Xem lại các chỗ được tô màu ở trên (đã cập nhật theo bản mới) và làm tiếp theo danh sách “Cách sửa”.</p>${better ? '<div class="bar-actions"><button class="btn" id="nx">Tạm chấp nhận, sang bước sau →</button></div>' : ""}</div>`;
       if ($("#nx")) $("#nx").onclick = () => next(!ok);
       fb.scrollIntoView({ behavior: "smooth", block: "nearest" });
     };
   }
 
   function coachDone(C) {
-    const a = runC(C), left = a.checks.filter(c => c.lvl < 9), origin = C.k0 && TECH[C.k0] ? TECH[C.k0] : null, ref = origin ? refModel(origin, C.tk) : null;
+    const a = runC(C), left = a.checks.filter(todo), isLow = a.band && a.band.low, origin = C.k0 && TECH[C.k0] ? TECH[C.k0] : null, ref = origin ? refModel(origin, C.tk) : null;
     if (!C.sent || C.sent !== C.round) {
       C.sent = C.round; const id = origin ? C.k0 + "/" + C.tk : "COACH/" + C.m;
-      (S.wr[id] = S.wr[id] || []).push({ ts: Date.now(), sec: C.sec || 0, words: a.W, text: C.text, coach: a.n9 + "/" + a.n }); if (S.wr[id].length > 5) S.wr[id].shift(); save();
-      send({ kind: "coach", tech: C.k0 || "COACH", topic: C.tk || C.m, type: "r" + C.round, ok: a.n9, try: a.n, sec: C.sec || 0, words: a.W, text: C.text }); C.sec = 0;
+      (S.wr[id] = S.wr[id] || []).push({ ts: Date.now(), sec: C.sec || 0, words: a.W, text: C.text, coach: a.n9 + "/" + a.n, est: a.est }); if (S.wr[id].length > 5) S.wr[id].shift(); save();
+      send({ kind: "coach", tech: C.k0 || "COACH", topic: C.tk || C.m, type: "r" + C.round, ok: a.n9, try: a.n, sec: C.sec || 0, words: a.W, text: bandTag(C.before, a) + C.text }); C.sec = 0;
     }
     shell(`<div class="play coach" style="--c:#12a37f">${dots(C)}<h1>Tổng kết${C.round > 1 ? " vòng " + C.round : ""}</h1>
-      <div class="ba"><div><span class="small">Trước khi sửa</span>${estLine({ est: C.before.est, n9: C.before.n9, n: C.before.n }).replace(/<span class="small">.*?<\/span>/, "")}</div><div class="arrow">→</div><div><span class="small">Sau khi sửa</span>${estLine(a)}</div></div>
+      <div class="ba"><div><span class="small">Trước khi sửa</span>${estLine({ est: C.before.est, n9: C.before.n9, n: C.before.n, band: C.before.band }, true)}</div><div class="arrow">→</div><div><span class="small">Sau khi sửa</span>${estLine(a, true)}</div></div>
+      ${isLow ? `<p class="whyp"><b>Bài vẫn còn ${a.band.why.length} dấu hiệu dưới band 7</b> (${a.band.why.slice(0, 4).map(y => CRS[y.g] + " band " + y.lvl + ": " + esc(y.name.charAt(0).toLowerCase() + y.name.slice(1))).join("; ")}). Ở chặng này, việc đáng làm nhất là viết đủ dài, đủ ý và bớt lỗi cơ bản; các kỹ thuật band 9 phát huy tác dụng khi nền đã vững. <a href="#/bands">Xem thang band 4 đến 7</a> · <a href="#/contact">Trao đổi với giáo viên</a></p>` : ""}
       ${aiBlock(C.ai2)}<div id="aiwait"></div>
       ${featTable(a, C.before)}
       <h5 class="sh">Bản hiện tại của bạn (${a.W} từ)</h5><p class="en pre mytext">${esc(C.text)}</p>
       ${ref ? `<details class="exd"><summary>${esc(ref.label)}</summary><div class="b9"><p class="en pre">${esc(ref.text)}</p></div></details>` : ""}
-      <div class="bar-actions">${left.length ? `<button class="btn primary" id="more">Vòng ${C.round + 1}: nâng tiếp ${left.length} đặc trưng còn lại →</button>` : ""}<button class="btn ${left.length ? "" : "primary"}" id="fin">Kết thúc, nâng cấp bài khác</button>${origin ? `<a class="btn" href="#/k/${origin.k}" id="back">Về ${origin.k}</a>` : ""}</div>
+      <div class="bar-actions">${left.length ? `<button class="btn primary" id="more">Vòng ${C.round + 1}: ${isLow ? "sửa tiếp " + left.filter(c => c.base).length + " mốc nền tảng" : "nâng tiếp " + left.length + " đặc trưng còn lại"} →</button>` : ""}<button class="btn ${left.length ? "" : "primary"}" id="fin">Kết thúc, nâng cấp bài khác</button>${origin ? `<a class="btn" href="#/k/${origin.k}" id="back">Về ${origin.k}</a>` : ""}</div>
       ${left.length ? "" : '<p class="whyp">Bài đã đạt mọi đặc trưng band 9 mà trang đo được. Việc còn lại là thứ máy không đo: đọc lại xem mỗi câu có thực sự cần cho lập luận không, và nhờ giáo viên xem lỗi ngữ pháp còn sót.</p>'}</div>`, coachCrumb(C));
     if ($("#more")) $("#more").onclick = () => { C.round++; C.aiSteps = null; planSteps(C); vCoach(); };
     $("#fin").onclick = () => { S.coach = null; save(); vCoach(); };
@@ -3883,8 +4252,11 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
     /* ----- bước 7: nâng cấp ----- */
     if (step === 6) {
       const dg = x => LAB.diag(R.sent[x.id] || "", { m: C.m, role: x.role || "", kind: C.ty });
-      const panel = x => { const d = dg(x), n = (R.tries || {})[x.id] || 0;
-        return (d.issues.length ? `<div class="fb bad"><div class="fbh">${d.issues.length} chỗ có thể nâng cấp</div><ol class="upl">${d.issues.map(it => `<li><b>${esc(it.t)}</b>${TECH[it.k] ? ` <a class="small" href="#/k/${it.k}" target="_blank" rel="noopener">Luyện kỹ thuật ${it.k} ↗</a>` : ""}<br>${esc(it.d)}<br><i>Cách làm:</i> ${esc(it.how)}${it.hits.length ? `<div class="sugg">${it.hits.map(h => `<span>${esc(h)}</span>`).join("")}</div>` : ""}</li>`).join("")}</ol>${d.good.length ? `<p class="small">Đã đạt: ${d.good.map(esc).join("; ")}.</p>` : ""}</div>`
+      const sbOf = x => D.sentBand(R.sent[x.id] || "", C.m);
+      const panel = x => { const d = dg(x), n = (R.tries || {})[x.id] || 0, sb = sbOf(x);
+        const lvlLine = sb.b < 7 ? `<p><span class="lv l${sb.b}">Khoảng band ${sb.b}${sb.b === 4 ? " trở xuống" : ""}</span> Câu còn dấu hiệu dưới band 7: ${sb.why.map(y => esc(y.t) + (y.hits.length ? " (" + y.hits.slice(0, 4).map(esc).join("; ") + ")" : "")).join(" · ")}. Hãy sửa các chỗ này trước; ở mức này, bớt một lỗi cơ bản có giá trị hơn thêm một cấu trúc hay.</p>` : d.issues.length ? `<p><span class="lv lok">Qua mốc band 7</span> Trang không thấy lỗi cơ bản trong câu. Các chỗ dưới đây là khoảng cách từ band 7 lên band 9.</p>` : "";
+        if (!d.issues.length && sb.b < 7) return `<div class="fb bad"><div class="fbh">Câu còn lỗi cơ bản</div>${lvlLine}</div>`;
+        return (d.issues.length ? `<div class="fb bad"><div class="fbh">${d.issues.length} chỗ có thể nâng cấp</div>${lvlLine}<ol class="upl">${d.issues.map(it => `<li><b>${esc(it.t)}</b>${TECH[it.k] ? ` <a class="small" href="#/k/${it.k}" target="_blank" rel="noopener">Luyện kỹ thuật ${it.k} ↗</a>` : ""}<br>${esc(it.d)}<br><i>Cách làm:</i> ${esc(it.how)}${it.hits.length ? `<div class="sugg">${it.hits.map(h => `<span>${esc(h)}</span>`).join("")}</div>` : ""}</li>`).join("")}</ol>${d.good.length ? `<p class="small">Đã đạt: ${d.good.map(esc).join("; ")}.</p>` : ""}</div>`
           : `<div class="fb ok"><div class="fbh">✓ Câu này đã mang các đặc trưng band 9 mà trang đo được</div><p>Trang không đề xuất nâng cấp thêm cho câu này. Sửa tiếp một câu đã tốt dễ làm nó nặng và gượng hơn.${n > 0 ? " Bạn đã sửa " + n + " lượt." : ""}</p>${d.good.length ? `<p class="small">Đã đạt: ${d.good.map(esc).join("; ")}.</p>` : ""}</div>`); };
       const ref = x => x.b9 ? `<details class="exd"><summary>Xem một cách viết band 9 cho ý này (xem sau khi bạn đã tự sửa)</summary><div class="b7 labb"><span class="tag t7">Band 7</span><p class="en">${esc(x.b7)}</p></div><div class="b9 labb"><span class="tag t9">Band 9</span><p class="en">${esc(x.b9)}</p></div><h5 class="sh">Điều gì đã thay đổi</h5><ul class="fix">${x.up.map(u => `<li>${esc(u)}</li>`).join("")}</ul><p class="small">Đây là một cách viết, không phải đáp án duy nhất. Câu của bạn không cần giống câu này.</p></details>` : `<p class="small">${x.mine ? "Ý bạn tự viết" : "Ý này"} không có câu mẫu soạn sẵn. Hãy dùng phần kiểm tra chéo ở cuối trang.</p>`;
       const body = wr.map((x, i) => `<div class="labcard"><h4>Ý ${i + 1}: ${esc(x.vi)}</h4>${roleTip(x) ? `<p class="small">${roleTip(x)}</p>` : ""}
@@ -3892,7 +4264,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
           <div data-use="${x.id}">${useLine(x, R.sent[x.id] || "")}</div>
           <div class="bar-actions" style="margin-top:8px"><button type="button" class="btn sm primary" data-re="${x.id}">Kiểm tra lại câu này</button></div>
           <div data-dg="${x.id}">${panel(x)}</div>${ref(x)}</div>`).join("") + xcheck();
-      wrap("Nâng cấp câu của bạn", "Với mỗi câu, trang chỉ ra những chỗ có thể nâng và cách làm. Sửa ngay trong ô rồi bấm kiểm tra lại. Khi một câu đã đạt, trang không đề xuất thêm.", body, nav(true, R.fin ? "Xem tổng kết →" : "Hoàn thành đề này →"));
+      wrap("Nâng cấp câu của bạn", "Với mỗi câu, trang ước lượng câu đang ở mức nào (còn lỗi của band 4–6, hay đã qua mốc band 7), rồi chỉ ra những chỗ có thể nâng và cách làm. Sửa ngay trong ô rồi bấm kiểm tra lại. Khi một câu đã đạt, trang không đề xuất thêm.", body, nav(true, R.fin ? "Xem tổng kết →" : "Hoàn thành đề này →"));
       $$("[data-sent]").forEach(ta => { ta.oninput = () => { R.sent[ta.dataset.sent] = ta.value; ta.dataset.dirty = "1"; }; });
       $$("[data-re]").forEach(b => { b.onclick = () => { const id = b.dataset.re, x = wr.filter(y => y.id === id)[0], ta = $(`[data-sent="${id}"]`);
         if (LAB.wc(R.sent[id] || "") < 8) { $(`[data-dg="${id}"]`).innerHTML = '<div class="fb bad"><div class="fbh">Câu quá ngắn để kiểm tra.</div></div>'; return; }
@@ -3901,7 +4273,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
       bindCoach();
       $("#lnext").onclick = () => {
         if (!wr.every(x => LAB.wc(R.sent[x.id] || "") >= 8)) { $("#lwhy").textContent = "Mỗi ý cần một câu hoàn chỉnh, ít nhất 8 từ."; return; }
-        const clean = wr.filter(x => !dg(x).issues.length).length, text = allText(), first = !R.fin;
+        const clean = wr.filter(x => !dg(x).issues.length && sbOf(x).b >= 7).length, text = allText(), first = !R.fin;
         R.fin = Date.now(); R.clean = clean; R.nsent = wr.length;
         if (first || R.sentText !== text) { R.sentText = text; const id = "LAB/" + C.rid;
           (S.wr[id] = S.wr[id] || []).push({ ts: Date.now(), sec: R.sec || 0, words: words(text), text: text }); if (S.wr[id].length > 5) S.wr[id].shift();
@@ -3934,8 +4306,8 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
     if (game && game.stop) game.stop(); game = null; act = null; if (S) save();
     const p = location.hash.replace(/^#\/?/, "").split("/");
     /* Khách chưa nhập tên đọc được bài trang chính và trang thống kê; mọi trang khác hỏi tên trước rồi mở đúng trang đó. */
-    if (!U && ["", "why", "stats"].indexOf(p[0] || "") < 0) return vLogin();
-    if (U && !U.phone && !U.noZalo && ["", "why", "stats"].indexOf(p[0] || "") < 0) return vPhone();
+    if (!U && ["", "why", "stats", "bands"].indexOf(p[0] || "") < 0) return vLogin();
+    if (U && !U.phone && !U.noZalo && ["", "why", "stats", "bands"].indexOf(p[0] || "") < 0) return vPhone();
     switch (p[0]) {
       case "m": return vModule(p[1]);
       case "k": return vTech(p[1]);
@@ -3954,6 +4326,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
       case "feedback": return vFeedback();
       case "contact": return vContact();
       case "stats": return vStats();
+      case "bands": return vBands();
       case "why": return vHome(true);
       default: return vHome();
     }

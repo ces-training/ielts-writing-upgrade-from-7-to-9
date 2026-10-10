@@ -227,7 +227,10 @@ h2{margin:26px 0 10px;font-size:1.15rem}.pb{display:inline-block;width:70px;heig
     h += "</tbody></table></div>";
     if (s.essays.length) {
       h += "<h2>Bài viết đã nộp (" + s.essays.length + ")</h2>";
-      s.essays.slice().reverse().forEach(function (r) { h += '<div class="essay"><div class="meta">' + new Date(r[0]).toLocaleString("vi-VN") + " · " + esc(r[4]) + " " + esc((TECHS[r[4]] || {}).n || "") + " · " + esc(r[5]) + " · " + r[10] + " từ · " + Math.round((+r[9] || 0) / 60) + " phút · " + (r[3] === "coach" ? "sau khi sửa cùng huấn luyện viên: " + r[7] + "/" + r[8] + " đặc trưng band 9" : "tự soát " + r[7] + " mục") + "</div><p>" + esc(r[11]) + "</p></div>"; });
+      s.essays.slice().reverse().forEach(function (r) {
+        /* bài gửi từ trang học sinh có thể mở đầu bằng dòng "[Ước lượng tự động: …]": tách ra để hiện riêng */
+        var tx = String(r[11] == null ? "" : r[11]), bt = tx.match(/^\[(Ước lượng tự động:[^\]]*)\]\n?/), band = ""; if (bt) { tx = tx.slice(bt[0].length); band = bt[1]; }
+        h += '<div class="essay"><div class="meta">' + new Date(r[0]).toLocaleString("vi-VN") + " · " + esc(r[4]) + " " + esc((TECHS[r[4]] || {}).n || "") + " · " + esc(r[5]) + " · " + r[10] + " từ · " + Math.round((+r[9] || 0) / 60) + " phút · " + (r[3] === "coach" ? "sau khi sửa cùng huấn luyện viên: " + r[7] + "/" + r[8] + " đặc trưng band 9" : "tự soát " + r[7] + " mục") + (band ? " · <b>" + esc(band) + "</b> (máy ước lượng, không phải điểm chấm)" : "") + "</div><p>" + esc(tx) + "</p></div>"; });
     }
     $("#detail").innerHTML = h; $("#detail").scrollIntoView({ behavior: "smooth" });
   }
