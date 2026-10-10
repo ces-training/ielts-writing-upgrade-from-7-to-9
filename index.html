@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Band 7 → 9 · IELTS Writing Lab</title>
-<meta name="description" content="Luyện 26 kỹ thuật đưa bài IELTS Writing từ band 7 lên band 9, cho Task 1 và Task 2.">
+<meta name="description" content="Luyện 27 kỹ thuật đưa bài IELTS Writing từ band 7 lên band 9, cho Task 1 và Task 2.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap" rel="stylesheet">
@@ -430,6 +430,13 @@ B79.techs = [
     tip: "Ví dụ tốt có tên một nơi hoặc một tình huống hình dung được, và chứng minh đúng luận điểm.",
     st: "Viết 3 câu: một luận điểm cho đề bên dưới, một câu giải thích, và một ví dụ có nơi chốn hoặc tình huống cụ thể. Không bịa số liệu hay nghiên cứu.",
     ck: ["Ví dụ có tên nơi chốn hoặc một tình huống hình dung được", "Không có số liệu hoặc “a recent study” không rõ nguồn", "Ví dụ chứng minh đúng luận điểm, không phải ý bên cạnh"], min: 10 },
+  { k: "TR5", m: "t2", g: "TR", n: "Đoạn hai ý, ý nào cũng đến nơi",
+    r: "Bài mẫu của các cựu giám khảo thường có đoạn mang hai ý, nhất là khi đề hỏi số nhiều (causes, solutions, advantages). Band 7 cũng viết hai, ba ý, nhưng mỗi ý chỉ được một câu.",
+    goal: "Viết được đoạn có hai ý cùng một chủ đề, trong đó ý nào cũng có giải thích hoặc ví dụ riêng và ý thứ hai được dẫn vào tự nhiên.",
+    how: "Kéo (hoặc bấm mũi tên) để xếp 5 câu thành một đoạn: ý 1 → phát triển ý 1 → ý 2 → phát triển ý 2 → câu giới hạn chung.",
+    tip: "Tìm câu dẫn ý thứ hai (as well, too, a second cause). Câu đứng ngay sau mỗi ý phải trả lời “vì sao” hoặc “thì sao” cho chính ý đó. Số ý không phải là tiêu chí: ý nào đã đưa vào đoạn thì phải được giải thích.",
+    st: "Viết MỘT đoạn thân bài (100–130 từ) cho đề bên dưới với hai ý cùng một chủ đề. Mỗi ý cần ít nhất một câu riêng trả lời “vì sao” hoặc “thì sao”, hoặc một ví dụ cụ thể. Dẫn ý thứ hai bằng nội dung, không dùng Secondly hay Moreover.",
+    ck: ["Hai ý khác nhau thật sự, không phải một ý nói hai lần", "Sau mỗi ý có ít nhất một câu giải thích, hệ quả hoặc ví dụ của riêng ý đó", "Hai ý cùng phục vụ một chủ đề của đoạn", "Ý thứ hai được dẫn vào mà không cần Secondly, Moreover, Furthermore"], min: 15 },
 
   { k: "CC1", m: "t2", g: "CC", n: "Xóa từ nối",
     r: "Bài band 9 có rất ít từ nối đầu câu. Ý được nối ngay trong câu bằng which, while, as và “this + danh từ”.",
@@ -534,7 +541,7 @@ B79.techs = [
     how: "5 phút dàn ý, 31 phút viết, 4 phút soát.",
     tip: "Bài mẫu thường dài 270–310 từ, 4 đoạn, kết bài 1–2 câu.",
     st: "Viết bài Task 2 hoàn chỉnh trong 40 phút: 5 phút dàn ý, 31 phút viết, 4 phút soát 3 lượt. Mục tiêu 270–310 từ, 4 đoạn.",
-    ck: ["Quan điểm ở mở bài và kết bài trùng nhau", "Mỗi đoạn thân bài một chủ đề: một ý kéo đến cùng, hoặc hai ý mà ý nào cũng có giải thích riêng", "Tối đa 2 từ nối đầu câu mỗi đoạn", "Kết bài 1–2 câu, không thêm ý mới", "Đã soát đủ 3 lượt"], min: 40 },
+    ck: ["Quan điểm ở mở bài và kết bài trùng nhau", "Mỗi đoạn thân bài một chủ đề; ý nào đưa vào đoạn cũng được giải thích đến cùng, dù đoạn có một hay hai ý", "Tối đa 2 từ nối đầu câu mỗi đoạn", "Kết bài 1–2 câu, không thêm ý mới", "Đã soát đủ 3 lượt"], min: 40 },
 
   /* ---------- TASK 1 ---------- */
   { k: "TA1", m: "t1", g: "TA", n: "Chọn và nhóm dữ liệu",
@@ -611,7 +618,7 @@ B79.techs = [
 
 /* Lộ trình: chia khung giờ mục tiêu theo tỉ lệ (đề xuất, chỉnh được trong config.js) */
 B79.phases = [
-  { n: "Phát triển ý", share: 0.20, ks: ["TR1", "TR2", "TR3", "TR4"] },
+  { n: "Phát triển ý", share: 0.20, ks: ["TR1", "TR5", "TR2", "TR3", "TR4"] },
   { n: "Liên kết", share: 0.15, ks: ["CC1", "CC2", "CC3", "T1C"] },
   { n: "Từ vựng chính xác", share: 0.15, ks: ["LR1", "LR2", "LR3", "T1L"] },
   { n: "Ngữ pháp có kiểm soát", share: 0.15, ks: ["GR1", "GR2", "GR3", "T1G", "T1M"] },
@@ -1204,6 +1211,64 @@ B79.phases = [
   var BL = ["Tự nhiên ✔", "Không tự nhiên ✘"], BS = ["Giọng hô hào ✘", "Giọng phân tích ✔"];
   var KM = ["Đặc điểm chính: phải viết", "Chi tiết phụ: có thể bỏ"], DS = ["Mô tả dữ liệu ✔", "Suy diễn / ý kiến ✘"];
 
+  /* ===== TR5 · Đoạn hai ý, ý nào cũng đến nơi (order): ý 1 → phát triển → ý 2 → phát triển → giới hạn chung ===== */
+  add("TR5", "order", [
+    { t: "edu", i: [
+      "Free university tuition widens access to higher education.",
+      "When no fees are charged, the decision to apply depends on a school-leaver's ability and not on what the family can afford.",
+      "The wider economy gains as well.",
+      "A country needs more engineers, nurses and teachers than its wealthiest families can supply, and public funding helps to fill those posts.",
+      "Both benefits depend on places being well funded, however, since a free but overcrowded course serves neither students nor employers."] },
+    { t: "env", i: [
+      "Rapid industrial growth damages the environment that poor communities depend on.",
+      "Factories and power stations that burn coal pollute the air and rivers, and it is usually the poorest families who live beside them.",
+      "The land suffers too.",
+      "Forest is cleared for farms and mines, which leaves the soil exposed, so harvests fall and floods become more frequent.",
+      "Neither kind of damage is inevitable, though, because cleaner energy and careful land use allow an economy to expand at a lower cost."] },
+    { t: "tech", i: [
+      "Children spend hours on smartphones partly because the devices solve a problem for their parents.",
+      "Adults who work long hours find that a screen keeps a child quiet and occupied when little else will.",
+      "The design of the devices is a second cause.",
+      "Games and video apps are built to hold attention, so each clip leads to another and a child sees no natural place to stop.",
+      "These two causes reinforce each other, since a tired parent is unlikely to interrupt a child who seems content."] },
+    { t: "health", i: [
+      "Spending on prevention saves money that would otherwise go on treatment.",
+      "Vaccination and help with giving up smoking cost far less per person than the years of medication or surgery they make unnecessary.",
+      "Prevention is fairer as well.",
+      "Clean water and school meals reach whole communities, including families who rarely see a doctor, whereas treatment tends to reach the well-off first.",
+      "Neither argument means that hospitals can be neglected, because some illnesses cannot be prevented however much is spent."] },
+    { t: "work", i: [
+      "Working from home gives employees back the time they used to spend travelling.",
+      "Someone who no longer commutes may gain an hour or two a day, which can go on family, exercise or sleep.",
+      "It also opens jobs to people who could not otherwise take them.",
+      "A parent of young children, for example, or someone living far from a big city, can accept a post that once required moving house.",
+      "These advantages apply only to work that can be done on a screen, so nurses and factory staff do not share them."] },
+    { t: "city", i: [
+      "Money spent on public transport reduces congestion for longer than new roads do.",
+      "Extra lanes soon fill with additional cars, whereas a single train carries the passengers of several hundred vehicles without adding to the traffic.",
+      "Buses and trains bring a social benefit too.",
+      "They give teenagers, elderly people and low-paid workers, who may not own a car, a way to reach jobs and services across the city.",
+      "Both gains depend on reliable services, since a bus that comes once an hour will not tempt anyone out of a car."] },
+    { t: "crime", i: [
+      "Many former prisoners offend again because they cannot find lawful work.",
+      "A criminal record and a gap of several years put employers off, and without a wage the pressure to return to crime is strong.",
+      "Prison itself is a second cause.",
+      "Inmates spend years among other offenders and away from their families, so some leave with closer ties to criminals than to anyone else.",
+      "Neither cause applies to every prisoner, but together they explain why one sentence so often leads to another."] },
+    { t: "media", i: [
+      "Much advertising works by making people dissatisfied with what they already own.",
+      "Campaigns for phones and clothes suggest that last year's model, which still works perfectly well, is now something to be embarrassed about.",
+      "Other advertisements attach a product to a feeling.",
+      "A soft drink is shown with laughing friends, for example, so that buying it seems to promise a sense of belonging that it cannot supply.",
+      "Neither technique works on everyone, however, and most adults ignore the majority of the advertisements they see."] },
+    { t: "pay", i: [
+      "Local sports facilities improve the health of far more people than funding for elite athletes can.",
+      "A neighbourhood pool is used by thousands of residents every week, and regular exercise lowers their risk of heart disease and obesity.",
+      "Such places strengthen communities as well.",
+      "A weekly swimming class or football session brings together neighbours who would otherwise never meet.",
+      "Both benefits are lost, however, if entry fees are set too high for the families who need the facilities most."] }
+  ]);
+
   add("TR1", "order", [{ t: "pay", i: [
     "Public money for sport is better spent on local facilities than on elite athletes.",
     "A neighbourhood pool or pitch is used by thousands of residents every year, whereas funding for a national squad reaches only a few dozen competitors.",
@@ -1259,7 +1324,7 @@ B79.phases = [
     "env": "Economic growth has reduced poverty on a scale that no aid programme has matched, yet it has also placed a heavy burden on the natural world. Some conclude that growth must continue at any price, others that it should be deliberately slowed. In my view, both positions mistake the real choice, which concerns the kind of growth a country pursues, not its speed.\n\nSupporters of growth have history on their side. Countries that industrialised rapidly in recent decades saw incomes rise, and with them life expectancy and school attendance. The mechanism is simple: expanding industries create paid work, and wages allow families to afford food, medicine and education that no government could supply to all its citizens. The garment factories of Bangladesh and Vietnam, for example, have given millions of rural families their first regular wage.\n\nCritics reply, however, that this progress has been bought on credit. Growth powered by coal and cleared forest pollutes the air, exhausts the soil and warms the climate. The costs fall hardest on the poor themselves, who farm the land that floods and live beside the rivers that are contaminated. Although the concern is well founded, the proposed remedy is not. Asking low-income countries to limit their economies would, in effect, ask those with least to pay for damage largely caused elsewhere. A better answer is to change how economies grow, since investment in clean energy, public transport and efficient farming still creates jobs, but without the same damage.\n\nI believe, therefore, that growth should be redirected, not restricted, and that wealthier nations have both the means and the responsibility to help finance the change. Ending poverty and protecting the environment are compatible aims, provided that governments stop treating one as the price of the other.",
     "tech": "In many households, a smartphone now occupies more of a child's day than any other activity outside school. The reasons are not hard to find, and in my view the effects, at this level of use, are more harmful than beneficial.\n\nTwo causes stand out. The first is that phones solve a problem for parents. Adults who work long hours, often in homes without a garden or a safe street nearby, find that a screen keeps a child quiet and occupied when little else will. The second is that the devices are built to be hard to put down. Games and video platforms are designed by companies whose income depends on attention, so each clip leads automatically to another and every pause is filled with a reward. A child's self-control is no match for this, and nor, frequently, is an adult's.\n\nThe consequences are largely negative, mainly because of what the screen replaces. Hours spent scrolling are hours not spent sleeping, playing outdoors or talking with other people, and these are the activities through which children develop physically and socially. A pupil who stays up late on a phone is also likely to struggle to concentrate the following day. It would be wrong to claim that the technology itself is the problem: a phone can, for example, teach a language, answer a child's questions or keep them in touch with distant relatives. These benefits, however, come from limited and purposeful use, not from the unbroken hours that are now typical.\n\nAmong children, then, heavy smartphone use is the predictable result of busy parents and persuasive design, and in my view its costs outweigh its advantages. The sensible response is not to ban the devices but to restore the balance, with clear limits at home and more attractive alternatives outside it.",
     "health": "Most health budgets are spent on people who are already ill, while the measures that might have kept them well receive a small fraction of the total. I agree that this balance should shift towards prevention, although not to the point where treatment is neglected.\n\nThe main reason is that many of the conditions which now fill hospitals develop slowly and could have been avoided. Type 2 diabetes, heart disease and several cancers are closely linked to diet, smoking and inactivity, and by the time they are diagnosed they require years of medication or surgery. Vaccination, screening and help for people trying to give up smoking, for example, cost far less per person than the treatment they make unnecessary. Money moved in this direction therefore does more than save lives: it frees beds and staff for patients whose illnesses could not have been prevented.\n\nPrevention is also fairer. Treatment reaches people only once they are sick, and it tends to reach the well-informed and well-off first. Clean water, school meals and public information campaigns benefit whole communities, including those who rarely visit a doctor. The difficulty, however, is political. The benefits of prevention appear slowly and are almost invisible, since a heart attack that did not happen goes unnoticed, whereas a new hospital can be opened in front of the cameras.\n\nNone of this means that treatment can be neglected: accidents, inherited conditions and the illnesses of old age will occur however healthily people live, and those who suffer them deserve prompt care. Within that limit, I am convinced that each additional sum is better spent keeping people healthy than repairing the damage afterwards.",
-    "work": "Working from home has moved from a rare privilege to an ordinary arrangement in many professions. Although it brings real difficulties, I believe its benefits are greater, particularly when employees spend part of the week in the office.\n\nThe most obvious advantage is the time it returns to people. An employee who no longer commutes may gain an hour or two every day, which can be spent with family, on exercise or simply on sleep. This matters to employers as well, because staff who are rested and in control of their schedule tend to concentrate better, and companies need less office space to accommodate them. Remote work also widens the pool of people who can hold a job at all. A parent of young children, for example, or someone living far from a major city, can take a position that would once have required moving house.\n\nThe drawbacks, though real, are mostly social. Colleagues who meet only on a screen exchange information but seldom ideas, since the casual conversations in which problems are often solved do not happen by appointment. New employees suffer most, as they learn a great deal by watching more experienced staff. There is also a risk that work spreads into the evening when the office is the kitchen table, so that the time saved on travel is quietly lost again. Although these are serious concerns, they arise chiefly when colleagues rarely meet; two or three shared days in the office restore most of what is missing.\n\nNot every job can be done remotely, and for nurses or factory workers the question does not arise. For the many roles in which it can, however, I believe home working offers gains in time, wellbeing and opportunity that outweigh its costs, provided that it is combined with regular contact in person.",
+    "work": "Working from home has moved from a rare privilege to an ordinary arrangement in many professions. Although it brings real difficulties, I believe its benefits are greater, particularly when employees spend part of the week in the office.\n\nThe most obvious advantage is the time it returns to people. An employee who no longer commutes may gain an hour or two every day, which can be spent with family, on exercise or simply on sleep. This matters to employers as well, because staff who are rested and in control of their schedule tend to concentrate better, and companies need less office space to accommodate them. Remote work also widens the pool of people who can hold a job at all. A parent of young children, for example, or someone living far from a major city, can take a position that would once have required moving house.\n\nThe drawbacks, though real, are mostly social. Colleagues who meet only on a screen exchange information but seldom ideas, since the casual conversations in which problems are often solved do not happen by appointment. New employees suffer most, as they learn a great deal by watching more experienced staff. A graduate who joins a team remotely may wait a day for advice that a colleague at the next desk would have given in a minute, and so takes longer to become useful. Although these are serious concerns, they arise chiefly when colleagues rarely meet; two or three shared days in the office restore most of what is missing.\n\nNot every job can be done remotely, and for nurses or factory workers the question does not arise. For the many roles in which it can, however, I believe home working offers gains in time, wellbeing and opportunity that outweigh its costs, provided that it is combined with regular contact in person.",
     "city": "When a city's roads fill up, the instinctive response is to build more of them. I agree, for the most part, with those who argue that the money would be better spent on public transport, at least in urban areas. There, most journeys are short and many people are travelling in the same direction.\n\nThe case against new roads is that they rarely solve the problem for long. Additional lanes make driving quicker for a time, which persuades more people to drive, and within a few years the extra capacity is full. The city is then left with the same queues, together with higher maintenance costs and more pollution. Public transport works differently, because it moves far more people in the same space: a single train can carry the passengers of several hundred cars without adding to the traffic. Every commuter it attracts also leaves more room on the road for those who have no choice but to drive, such as delivery drivers and emergency services.\n\nInvestment in buses and trains has a social benefit as well. Roads serve only those who can afford a car and are able to drive one, whereas a reliable bus route gives teenagers, elderly people and low-paid workers access to jobs and services across the city. This advantage depends on quality, however. Services that are infrequent or overcrowded will not tempt anyone out of a car, so a half-funded network may achieve very little.\n\nThe argument is weaker in rural areas, where houses are scattered, buses would run almost empty and roads remain the only practical option. Within cities, however, I believe public transport deserves priority, since it is the only investment that reduces congestion instead of merely moving it somewhere else.",
     "crime": "In many countries, a large proportion of prisoners are convicted again within a few years of their release. The explanation lies less in the character of offenders than in the circumstances they return to, and it is those circumstances that any solution must address.\n\nThe first cause is that people often leave prison less able to live lawfully than when they entered. Many enter with few qualifications, and a sentence adds a criminal record and a gap in their working life that employers are reluctant to overlook. Without a wage, and sometimes without a home, a former prisoner faces strong pressure to return to the only source of income he or she knows. A second cause is prison itself. Inmates spend years among other offenders, cut off from family and from ordinary routines, and may emerge with stronger ties to criminals than to anyone else. Problems such as addiction are frequently left untreated there, so the original reason for offending remains on release.\n\nBecause these causes are practical, so are the remedies. Prisons should use the time they have: teaching inmates to read well, training them in a trade for which there is demand, such as plumbing or electrical work, and treating drug and alcohol dependence. Support should then continue after release, when the risk is highest. Help with housing in the first months, and incentives for companies that hire former prisoners, would give people a realistic alternative at the moment they most need one. Although such measures cost money, they cost considerably less than imprisoning the same person a second and third time.\n\nRehabilitation will not succeed with every offender, and the most dangerous offenders must remain in custody for the public's protection. For the majority, however, reoffending is the result of leaving prison with nothing to return to, and it will fall only when that changes.",
     "media": "Advertising is often accused of persuading people to spend money on things they could happily live without. I agree to a considerable extent, although the charge is not true of all advertising, and consumers are not as helpless as it implies.\n\nMuch modern advertising does not describe a product so much as create a reason to want it. Fashion and technology companies are the clearest examples: their campaigns suggest that last year's coat or phone, which still works perfectly well, is now something to be embarrassed about. Other advertisements attach a product to a feeling, such as confidence, belonging or success, that the product itself cannot supply. Because the dissatisfaction has been manufactured, the purchase does not remove it, and the customer is ready to be persuaded again the following season. Children are especially exposed to this pressure, since they cannot easily tell when they are being sold something, and their requests are then passed on to their parents.\n\nIt would be an exaggeration, however, to say that advertising only creates false needs. A great deal of it simply informs. A notice that a supermarket has reduced its prices, or that a new medicine is available, helps people to buy what they already require more cheaply or more wisely. Although children are vulnerable, adults are generally capable of resisting persuasion; most of us ignore the vast majority of the advertisements we see. The problem is therefore one of degree: the more an advertisement relies on image and the less on information, the more likely it is to sell something unnecessary.\n\nIn my view, then, advertising does encourage wasteful consumption, particularly in industries that depend on constant novelty, but it also performs a useful service. The reasonable response is to restrict its most manipulative forms, above all those aimed at children, and not to condemn the practice as a whole.",
@@ -1982,19 +2047,21 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
       fix: ["Tách bài thành 4 đoạn: mở bài, hai đoạn thân bài, kết bài (xuống dòng giữa các đoạn).", "Nếu thiếu từ, trước hết kéo dài ý đang có bằng một câu “vì sao” hoặc “thì sao”. Chỉ thêm ý thứ hai khi bạn còn chỗ để giải thích nó.", "Nếu trên 340 từ, cắt câu lặp ý và rút kết bài còn 1–2 câu."] });
 
     /* Số ý trong mỗi đoạn: tách đoạn tại những câu mở sang ý kế tiếp; một ý "mỏng" là ý chỉ có một câu ngắn. */
-    var NEXT = /\b(secondly|thirdly|another (?:reason|benefit|advantage|disadvantage|drawback|problem|point|factor|cause|solution|measure|concern)|in addition|additionally|moreover|furthermore|besides|last but not least|finally|a (?:second|third|further) (?:reason|benefit|advantage|disadvantage|drawback|problem|point|factor|cause|solution|measure|concern)|the (?:second|third|other) (?:main |major )?(?:reason|benefit|advantage|disadvantage|drawback|problem|point|factor|cause|solution|measure|concern))\b/i;
+    var NEXT = /\b(secondly|thirdly|another (?:reason|benefit|advantage|disadvantage|drawback|problem|point|factor|cause|solution|measure|concern)|last but not least|a (?:second|third|further) (?:reason|benefit|advantage|disadvantage|drawback|problem|point|factor|cause|solution|measure|concern)|the (?:second|third|other) (?:main |major )?(?:reason|benefit|advantage|disadvantage|drawback|problem|point|factor|cause|solution|measure|concern)|(?:is|are) (?:a|the) (?:second|third|other|further) [a-z]+|(?:as well|too)\.$|^(?:[A-Z][\w'-]*,? ){1,4}also\b|^Other [a-z]+|^(?:in addition|additionally|moreover|furthermore|besides|finally)\b)/i;
+    var WHYX = /\b(because|since|so|which|whereas|while|unless|although|though|as|for example|for instance|such as|means?|when|if|however|rather than|including|by [a-z]+ing|, [a-z]+ing)\b/i;
     var maxIdeas = 1, thinIdeas = 0, worstLv = 9, thin = null;
     body.forEach(function (p) {
       if (p.sents.length < 3 && !thin) thin = p;
       var segs = [[]]; p.sents.forEach(function (s, i) { if (i > 0 && NEXT.test(s.t)) segs.push([]); segs[segs.length - 1].push(s); });
-      var tn = segs.length > 1 ? segs.filter(function (g) { return g.length < 2 && wc(g[0] ? g[0].t : "") < 30; }).length : 0;
-      var l = segs.length >= 3 ? (tn ? 7 : 8) : segs.length === 2 ? (tn ? 8 : 9) : 9;
+      var tn = segs.length > 1 ? segs.filter(function (g) { var w = wc(g[0] ? g[0].t : ""); return g !== segs[0] && g.length < 2 && w < 22 && !WHYX.test(g[0].t); }).length : 0;
+      var l = tn ? (segs.length >= 3 ? 7 : 8) : 9;
       if (segs.length > maxIdeas) maxIdeas = segs.length; thinIdeas += tn; if (l < worstLv) worstLv = l;
     });
     m = bodyText(LIST);
-    add({ id: "oneidea", k: "TR1", g: "TR", name: "Mỗi ý được khai triển đến cùng", lvl: thin ? 7 : worstLv, measure: (thin ? "có đoạn chỉ " + thin.sents.length + " câu" : maxIdeas === 1 ? "mỗi đoạn một ý" : "đoạn nhiều ý nhất có " + maxIdeas + " ý, " + (thinIdeas ? thinIdeas + " ý chỉ được nêu trong một câu" : "ý nào cũng có giải thích riêng")), marks: m,
-      msg: "Band 7 nêu hai, ba ý trong một đoạn, mỗi ý một câu, rồi dừng. Bài mẫu band 9 kéo từng ý qua chuỗi luận điểm → vì sao → thì sao → giới hạn: thường một ý mỗi đoạn, hoặc hai ý cùng chủ đề khi đề hỏi số nhiều (causes, solutions, advantages), miễn ý nào cũng có giải thích riêng.",
-      fix: ["Đếm số ý trong mỗi đoạn thân bài (những chỗ đang được tô màu là nơi bạn chuyển sang ý khác). Giữ một ý, hoặc hai ý nếu đề hỏi số nhiều, và xóa các ý còn lại.", "Với mỗi ý được giữ, viết một câu trả lời “vì sao điều đó xảy ra?” (cơ chế).", "Thêm cho từng ý một câu “thì sao?” (hệ quả cho ai) hoặc một ví dụ cụ thể.", "Kết đoạn bằng một câu giới hạn: khi nào điều này không còn đúng."],
+    var one5 = c.k0 === "TR5" && maxIdeas === 1 && !thin;
+    add({ id: "oneidea", k: maxIdeas > 1 || c.k0 === "TR5" ? "TR5" : "TR1", g: "TR", name: "Mỗi ý được khai triển đến cùng", lvl: thin ? 7 : one5 ? 8 : worstLv, measure: (thin ? "có đoạn chỉ " + thin.sents.length + " câu" : one5 ? "chưa thấy câu dẫn sang ý thứ hai (bài này luyện đoạn hai ý)" : maxIdeas === 1 ? "mỗi đoạn một ý" : "đoạn nhiều ý nhất có " + maxIdeas + " ý, " + (thinIdeas ? thinIdeas + " ý chỉ được nêu trong một câu" : "ý nào cũng có giải thích riêng")), marks: m,
+      msg: "Band 7 nêu hai, ba ý trong một đoạn, mỗi ý một câu, rồi dừng. Bài mẫu band 9 kéo từng ý qua chuỗi luận điểm → vì sao → thì sao → giới hạn: thường một ý mỗi đoạn, hoặc hai ý cùng chủ đề khi đề hỏi số nhiều (causes, solutions, advantages). Số ý không phải là tiêu chí; tiêu chí là ý nào đã đưa vào thì cũng có giải thích riêng.",
+      fix: ["Đếm số ý trong mỗi đoạn thân bài (những chỗ đang được tô màu là nơi bạn chuyển sang ý khác). Với từng ý, quyết định: giải thích nó cho đến nơi, hoặc xóa nó để dành chỗ cho ý mạnh hơn.", "Với mỗi ý được giữ, viết một câu trả lời “vì sao điều đó xảy ra?” (cơ chế).", "Thêm cho từng ý một câu “thì sao?” (hệ quả cho ai) hoặc một ví dụ cụ thể.", "Kết đoạn bằng một câu giới hạn: khi nào điều này không còn đúng."],
       scaffold: [{ l: "Luận điểm của đoạn (ý bạn giữ lại)", v: (body[0] && body[0].sents[0] ? body[0].sents[0].t : "") }, { l: "Vì sao? (cơ chế)", ph: "This is because …" }, { l: "Thì sao? (hệ quả)", ph: "As a result, … / … , which means that …" }, { l: "Giới hạn (khi nào không đúng)", ph: "This holds mainly in …; in …, however, …" }] });
 
     n = bodyText(CON).length;
@@ -2553,7 +2620,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
   /* ---------- đăng nhập bằng tên ---------- */
   function vLogin() {
     const known = store.get("b79:names") || [];
-    app.innerHTML = `<div class="login"><div class="card"><div class="b79 big"><b>7</b><i>→</i><b>9</b></div><h1>IELTS Writing Lab</h1><p>Luyện 26 kỹ thuật đưa bài viết từ band 7 lên band 9, cho Task 1 và Task 2.</p><p class="small">Trang cần tên của bạn để lưu tiến độ và kết quả bài làm, và số Zalo để mời bạn vào nhóm người học (bạn có thể chọn không tham gia).</p>
+    app.innerHTML = `<div class="login"><div class="card"><div class="b79 big"><b>7</b><i>→</i><b>9</b></div><h1>IELTS Writing Lab</h1><p>Luyện 27 kỹ thuật đưa bài viết từ band 7 lên band 9, cho Task 1 và Task 2.</p><p class="small">Trang cần tên của bạn để lưu tiến độ và kết quả bài làm, và số Zalo để mời bạn vào nhóm người học (bạn có thể chọn không tham gia).</p>
       <form id="lf"><label>Họ và tên của bạn<input id="ln" required minlength="2" maxlength="60" autocomplete="name" placeholder="Ví dụ: Nguyễn Minh Anh" list="names"></label><datalist id="names">${known.map(n => `<option value="${esc(n)}">`).join("")}</datalist>
       <label>Lớp <span class="opt-l">(không bắt buộc)</span>${CFG.classes && CFG.classes.length ? `<select id="lc"><option value="">Chọn lớp</option>${CFG.classes.map(c => `<option>${esc(c)}</option>`).join("")}</select>` : '<input id="lc" maxlength="30" placeholder="Ví dụ: IVY-W79">'}</label>
       ${phoneField()}
@@ -2642,11 +2709,11 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
     </figure>
     <p>Bậc 4 (giới hạn) là chỗ chặn lỗi khái quát hóa quá mức: người viết tự nói ra khi nào luận điểm của mình không còn đúng.</p>
     <div class="g-box">
-      <p><b>Một ý hay hai ý trong một đoạn?</b> Cả hai cách đều có trong bài mẫu của các cựu giám khảo. Band descriptor không đòi “một ý mỗi đoạn”: nó đòi mỗi đoạn có <span class="en">“a clear central topic”</span> (band 7) và các ý <span class="en">“relevant, fully extended and well supported”</span> (band 9). Thứ phân biệt band 7 với band 9 là mỗi ý được kéo sâu đến đâu, không phải số ý.</p>
+      <p><b>Một ý hay hai ý trong một đoạn?</b> Cả hai cách đều có trong bài mẫu của các cựu giám khảo. Band descriptor không đòi “một ý mỗi đoạn”: nó đòi mỗi đoạn có <span class="en">“a clear central topic”</span> (band 7) và các ý <span class="en">“relevant, fully extended and well supported”</span> (band 9). Thứ phân biệt band 7 với band 9 là mỗi ý được kéo sâu đến đâu, không phải số ý: không có con số bắt buộc, chỉ có yêu cầu là ý nào đã đưa vào đoạn thì phải được phát triển thấu đáo.</p>
       <ul>
         <li><b>Một ý kéo sâu</b> là lựa chọn mặc định cho đề hỏi quan điểm (<span class="en">agree or disagree, positive or negative</span>): mỗi đoạn một lý do, đi đủ bốn bậc.</li>
         <li><b>Hai ý cùng một chủ đề</b> hợp khi đề hỏi số nhiều (<span class="en">causes, problems, solutions, advantages, disadvantages</span>), hoặc khi một phía của đề <span class="en">discuss both views</span> có hai lý do khác hẳn nhau. Mỗi ý cần ít nhất một câu riêng trả lời “vì sao” hoặc “thì sao”, hoặc một ví dụ riêng.</li>
-        <li><b>Nên tránh:</b> ba ý trở lên, mỗi ý một câu; ý thứ hai chỉ được nêu trong một câu rồi bỏ đó; hai ý không cùng chủ đề của đoạn.</li>
+        <li><b>Nên tránh:</b> ý chỉ được nêu trong một câu rồi bỏ đó; các ý không cùng chủ đề của đoạn. Ba ý trong một đoạn khoảng 100 từ không sai, nhưng hiếm khi còn đủ chỗ để giải thích cả ba.</li>
       </ul>
       <p>Đề: <span class="en">Many major cities have become overcrowded. Why is this?</span> Đoạn dưới đây dài 81 từ, mang hai nguyên nhân, và nguyên nhân nào cũng được giải thích.</p>
       <div class="b9"><span class="tag t9">Band 9, hai ý</span>
@@ -2663,7 +2730,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
       </div>
     </div>
     <div class="g-ev"><h4>📊 Đếm trên 14 bài mẫu Task 2 do người viết</h4><ul><li><b>16/30</b>đoạn thân bài chỉ phát triển một ý chính</li><li><b>7/14</b>bài có ví dụ gắn với một nơi, một nhóm người hoặc một tình huống cụ thể</li><li><b>khoảng 5/14</b>bài có đoạn nhượng bộ rồi phản bác</li><li><b>12/14</b>bài dài 274–307 từ: sâu hơn chứ không dài hơn</li></ul><p class="small">Một ý mỗi đoạn chiếm khoảng một nửa số đoạn; nửa còn lại phần lớn là đoạn hai ý. Nhượng bộ chỉ có ở khoảng một phần ba số bài. Cả hai là hướng nên luyện, không phải quy tắc bắt buộc. Số đếm là xấp xỉ. <button type="button" data-go="g-8">Cách chọn bài và giới hạn của số liệu</button></p></div>
-    <p class="g-go">Luyện: <a href="#/k/TR1">TR1 Thang “Vì sao – Thì sao”</a> · <a href="#/k/TR2">TR2 Phản đề – phản bác khớp</a> · <a href="#/k/TR3">TR3 Chẩn đoán lỗ hổng lập luận</a> · <a href="#/k/TR4">TR4 Ví dụ có địa chỉ</a></p>
+    <p class="g-go">Luyện: <a href="#/k/TR1">TR1 Thang “Vì sao – Thì sao”</a> · <a href="#/k/TR5">TR5 Đoạn hai ý, ý nào cũng đến nơi</a> · <a href="#/k/TR2">TR2 Phản đề – phản bác khớp</a> · <a href="#/k/TR3">TR3 Chẩn đoán lỗ hổng lập luận</a> · <a href="#/k/TR4">TR4 Ví dụ có địa chỉ</a></p>
   </section>
 
   <section id="g-2" style="--c:#2f6fde">
@@ -2798,7 +2865,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
     <h3>Tóm tắt: bảy khác biệt và chỗ luyện</h3>
     <div class="tablewrap g-tw"><table class="dt wide feat">
       <tr><th></th><th>Band 7</th><th>Band 9</th><th>Luyện ở</th></tr>
-      <tr><td><b>Ý</b></td><td>Hai, ba ý mỗi đoạn, mỗi ý một câu; hay khái quát hóa</td><td>Một ý đi đủ bốn bậc, hoặc hai ý cùng chủ đề mà ý nào cũng được giải thích; phản bác khớp phản đề</td><td><a href="#/k/TR1">TR1</a>–<a href="#/k/TR4">TR4</a></td></tr>
+      <tr><td><b>Ý</b></td><td>Hai, ba ý mỗi đoạn, mỗi ý một câu; hay khái quát hóa</td><td>Ý nào cũng được phát triển thấu đáo, dù đoạn có một ý đi đủ bốn bậc hay hai ý cùng chủ đề; phản bác khớp phản đề</td><td><a href="#/k/TR1">TR1</a>–<a href="#/k/TR5">TR5</a></td></tr>
       <tr><td><b>Liên kết</b></td><td>Từ nối đứng đầu gần như mọi câu</td><td>Quy chiếu về câu trước, đoạn trước; rất ít từ nối đầu câu</td><td><a href="#/k/CC1">CC1</a>–<a href="#/k/CC3">CC3</a></td></tr>
       <tr><td><b>Từ vựng</b></td><td>Động từ chung chung, hoặc từ hiếm dùng gượng</td><td>Collocation chính xác, nhất là động từ + danh từ</td><td><a href="#/k/LR1">LR1</a>–<a href="#/k/LR3">LR3</a></td></tr>
       <tr><td><b>Ngữ pháp</b></td><td>Nối thêm mệnh đề; còn câu có lỗi</td><td>Nén vào cụm danh từ; lỗi chỉ là sơ suất hiếm gặp</td><td><a href="#/k/GR1">GR1</a>–<a href="#/k/GR3">GR3</a></td></tr>
@@ -2899,9 +2966,9 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
   const QTYTIP = {
     opin: ["Mở bài nêu rõ lập trường, lập trường không đổi đến kết bài, và mỗi đoạn thân bài có một ý chính được giải thích.", "Phát triển mỗi lý do qua nhiều bậc (vì sao, dẫn đến điều gì, ví dụ cụ thể) trước khi nghĩ đến thêm lý do mới; một đoạn chỉ nên có lý do thứ hai khi bạn còn chỗ giải thích nó. Nếu chỉ đồng ý một phần, nói rõ đồng ý ở điểm nào, không đồng ý ở điểm nào và vì sao; không đứng giữa hai phía."],
     disc: ["Bạn trình bày cả hai quan điểm, và nêu quan điểm của mình khi đề yêu cầu.", "Hai quan điểm được phát triển sâu tương đương, bằng ngôi thứ ba (proponents of this view argue that…); mỗi quan điểm một đoạn, với một lý do kéo sâu hoặc hai lý do đều được giải thích. Khi đề có “give your own opinion”, quan điểm của bạn xuất hiện từ mở bài và nhất quán đến kết bài, không chỉ nằm ở câu cuối. Đề chỉ ghi “discuss both views” thì không bắt buộc nêu quan điểm riêng."],
-    adv: ["Bạn nêu được cả ưu điểm lẫn nhược điểm, mỗi ý có giải thích; với đề “outweigh”, bạn nói rõ bên nào nặng hơn.", "Với đề “do the advantages outweigh the disadvantages”, kết luận bên nào nặng hơn phải được chứng minh trong thân bài: cân hai phía với nhau chứ không chỉ liệt kê. Vì đề hỏi số nhiều (advantages, disadvantages), mỗi phía nên có hai ý, ý nào cũng có giải thích hoặc ví dụ riêng; không cần quá hai. Đề chỉ hỏi “what are the advantages and disadvantages” thì không bắt buộc nêu quan điểm."],
+    adv: ["Bạn nêu được cả ưu điểm lẫn nhược điểm, mỗi ý có giải thích; với đề “outweigh”, bạn nói rõ bên nào nặng hơn.", "Với đề “do the advantages outweigh the disadvantages”, kết luận bên nào nặng hơn phải được chứng minh trong thân bài: cân hai phía với nhau chứ không chỉ liệt kê. Vì đề hỏi số nhiều (advantages, disadvantages), mỗi phía thường cần hơn một ý, và ý nào cũng phải có giải thích hoặc ví dụ riêng. Đề chỉ hỏi “what are the advantages and disadvantages” thì không bắt buộc nêu quan điểm."],
     posneg: ["Bạn trả lời rõ đây là xu hướng tích cực hay tiêu cực ngay từ mở bài.", "Đánh giá hệ quả của xu hướng chứ không chỉ mô tả xu hướng. Nếu thấy cả hai mặt, nói rõ mặt nào trội hơn và trong điều kiện nào."],
-    ps: ["Bạn nêu được nguyên nhân hoặc vấn đề và giải pháp, mỗi ý có giải thích.", "Mỗi giải pháp khớp với một nguyên nhân hoặc vấn đề đã nêu ở đoạn trước; nói rõ ai thực hiện và nó tác động ra sao. Khi đề hỏi số nhiều (causes, problems, solutions), mỗi đoạn nên có hai ý được giải thích; ba, bốn ý mỗi ý một câu là kiểu liệt kê của band 7. Tránh giải pháp chung chung như “the government should raise awareness”."],
+    ps: ["Bạn nêu được nguyên nhân hoặc vấn đề và giải pháp, mỗi ý có giải thích.", "Mỗi giải pháp khớp với một nguyên nhân hoặc vấn đề đã nêu ở đoạn trước; nói rõ ai thực hiện và nó tác động ra sao. Khi đề hỏi số nhiều (causes, problems, solutions), mỗi đoạn thường cần hơn một ý; ý nào cũng phải được giải thích, vì ba, bốn ý mỗi ý một câu là kiểu liệt kê của band 7. Tránh giải pháp chung chung như “the government should raise awareness”."],
     two: ["Bạn trả lời cả hai câu hỏi của đề.", "Hai câu trả lời được phát triển sâu tương đương, mỗi câu một đoạn thân bài, và mở bài báo trước câu trả lời cho cả hai. Câu nào hỏi số nhiều (reasons, effects, measures) thì đoạn trả lời nên có hai ý, ý nào cũng được giải thích."]
   };
   /* Một dòng đề trong ngân hàng đề, dùng chung cho trang chủ đề và trang dạng bài. */
@@ -3241,7 +3308,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
   }
 
   /* =================== HUẤN LUYỆN VIÊN: chẩn đoán → từng bước → tổng kết =================== */
-  const PROSE = ["TR1", "TR3", "CC1", "GR3", "F2", "TA2", "TA5", "T1C", "T1M", "F1"];
+  const PROSE = ["TR1", "TR5", "TR3", "CC1", "GR3", "F2", "TA2", "TA5", "T1C", "T1M", "F1"];
   const LV = { 9: ["Band 9", "l9"], 8: ["Band 8", "l8"], 7: ["Band 7 trở xuống", "l7"] };
   const badge = l => `<span class="lv ${LV[l][1]}">${LV[l][0]}</span>`;
   const snap = a => { const lv = {}; a.checks.forEach(c => { lv[c.id] = c.lvl; }); return { n9: a.n9, n: a.n, est: a.est, lv: lv }; };
