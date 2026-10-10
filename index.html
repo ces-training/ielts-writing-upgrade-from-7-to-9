@@ -264,6 +264,20 @@ a.topcard.link h4{margin:4px 0 8px}.topgrid.wide{grid-template-columns:repeat(au
   .readme{flex-direction:column;align-items:flex-start;gap:6px}
 }
 
+
+/* góp ý và đánh giá */
+.fbq{position:relative;margin-top:18px;padding:16px;border-radius:var(--r);background:#fffaf0;border:1px solid #f6d79a}
+.fbq.full{background:#fff;border-color:var(--line);border-radius:22px;padding:22px;margin-top:0}
+.fbq h5{font-size:1rem;margin-right:34px}.fbq .x{position:absolute;top:8px;right:10px;border:0;background:none;font-size:1.4rem;line-height:1;color:var(--mut);padding:6px}
+.stars{display:flex;align-items:center;gap:4px;margin:8px 0 2px;flex-wrap:wrap}
+.star{border:0;background:none;font-size:2rem;line-height:1;padding:2px 3px;color:#d9d4c6}.star.on{color:var(--b7)}
+.starw{margin-left:10px;font-weight:700;font-size:.92em}
+.asp{display:grid;gap:6px;margin:8px 0 14px}.asprow{display:flex;align-items:center;gap:8px;padding:7px 10px;background:#fff;border:1px solid var(--line);border-radius:10px}
+.asprow span{flex:1;font-size:.93em}.vote{border:1.5px solid var(--line);background:#fff;border-radius:99px;padding:4px 11px;font-size:.84em;font-weight:600;white-space:nowrap}
+.vote.up.on{background:#e9f8f3;border-color:var(--b9);color:#0b7a5e}.vote.down.on{background:#fdecea;border-color:var(--bad);color:#a52c22}
+textarea.fbt{min-height:92px;margin-top:0;font-family:inherit;font-size:1em;line-height:1.5}
+.fbthanks{font-weight:700;color:#0b7a5e;margin:0}
+@media(max-width:720px){.asprow{flex-wrap:wrap}.asprow span{flex-basis:100%}}
 </style>
 </head>
 <body>
@@ -2283,10 +2297,10 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
   function shell(inner, crumbs) {
     const total = totalSec();
     app.innerHTML = `<header class="top"><a class="brand" href="#/"><span class="b79"><b>7</b><i>→</i><b>9</b></span><span>Writing Lab</span></a>
-      <nav><a href="#/">Trang chính</a><a href="#/why">Band 7 khác band 9</a><a href="#/coach">Nâng cấp bài viết</a><a href="#/plan">Lộ trình giờ học</a><a href="#/me">Tiến độ của tôi</a><a href="#/about">Về trang này</a></nav>
+      <nav><a href="#/">Trang chính</a><a href="#/why">Band 7 khác band 9</a><a href="#/coach">Nâng cấp bài viết</a><a href="#/plan">Lộ trình giờ học</a><a href="#/me">Tiến độ của tôi</a><a href="#/feedback">Góp ý</a><a href="#/about">Về trang này</a></nav>
       <div class="who"><span class="hrs" id="tophours">${fmtH(total)} / ${CFG.targetHours} giờ</span><button class="link" id="switch" title="Đổi người học">${esc(U.name)} ⇄</button></div></header>
       <main>${crumbs ? `<div class="crumbs">${crumbs}</div>` : ""}${inner}</main>
-      <footer>${CFG.endpoint ? "Kết quả được gửi về bảng theo dõi của giáo viên." : "Tiến độ đang lưu trên thiết bị này."} · Câu band 9 trên trang do nhóm soạn viết theo các đặc điểm đã phân tích từ bài mẫu, không phải điểm của giám khảo.</footer>`;
+      <footer>${CFG.endpoint ? "Kết quả được gửi về bảng theo dõi của giáo viên." : "Tiến độ đang lưu trên thiết bị này."} · <a href="#/feedback">Góp ý cho trang</a> · Câu band 9 trên trang do nhóm soạn viết theo các đặc điểm đã phân tích từ bài mẫu, không phải điểm của giám khảo.</footer>`;
     $("#switch").onclick = () => { if (confirm("Đổi người học? Tiến độ của " + U.name + " vẫn được giữ trên máy này.")) { save(); store.del("b79:user"); U = null; S = null; location.hash = "#/"; route(); } };
     window.scrollTo(0, 0);
   }
@@ -2658,6 +2672,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
         ${it.w ? `<p class="whyp">${esc(it.w)}</p>` : ""}<p class="tip"><b>Ghi nhớ:</b> ${esc(t.tip)}</p>
         <div class="bar-actions"><button class="btn" id="again">↻ Làm lại</button><a class="btn" href="#/w/${id}${byT ? "/t" : ""}">✎ Viết với kỹ thuật này</a>${byT ? (nxtT ? `<a class="btn primary" href="#/p/${nxtT.k}/${tk}/t">Kỹ thuật tiếp: ${esc(nxtT.n)} →</a>` : `<a class="btn primary" href="#/w/${FULLK(t.m)}/${tk}/t">Xong chủ đề. Viết cả bài →</a>`) : nxt ? `<a class="btn primary" href="#/p/${t.k}/${nxt.k}">Bài tiếp: ${esc(nxt.n)} →</a>` : `<a class="btn primary" href="#/k/${t.k}">Xong ${t.k} →</a>`}</div></div>`;
       $("#again").onclick = () => vPlay(k, tk, via);
+      sessDone++; fbMount($("#fb"), { tech: t.k, topic: tk, src: "item" });
       $("#fb").scrollIntoView({ behavior: "smooth", block: "nearest" });
     };
     game = G[it.y](it, $("#game"), { submit });
@@ -2709,6 +2724,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
         <div class="bar-actions"><button class="btn" id="again">✎ Viết bài khác</button>${t.tpl ? "" : `<button class="btn" id="toc">Phân tích và nâng cấp bài này →</button>`}<a class="btn primary" href="${back}">${byT ? "Về chủ đề " + esc(tp.n) : "Về " + t.k} →</a></div></div>`;
       $("#again").onclick = () => vWrite(k, tk, via, bk);
       if ($("#toc")) $("#toc").onclick = () => startCoach({ m: t.m, kind: t.m === "t1" ? tk : "", q: tp.q, k0: t.k, tk: tk, text: text });
+      fbMount($("#fb"), { tech: t.k, topic: tk, src: "write" });
       $("#fb").scrollIntoView({ behavior: "smooth", block: "nearest" });
     };
   }
@@ -2753,7 +2769,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
       <h3>Khối lượng hiện có</h3><p>${nGame} bài luyện dạng game và ${nWrite} đề viết. Một lượt làm hết các bài game mất khoảng 4 đến 6 giờ; phần còn lại của khung giờ đến từ các đề viết và việc luyện lại.</p>
       <h3>Về nhãn “Band 7” và “Band 9”</h3><p>Các câu và bài mẫu band 9 trên trang do nhóm soạn viết, dựa trên những đặc điểm đo được khi phân tích bài mẫu của các tác giả có tên. Các câu band 7 cũng do nhóm soạn viết để minh họa lỗi điển hình. Nhãn band là ước lượng theo band descriptor công khai, không phải điểm do giám khảo IELTS chấm.</p>
       <h3>Phần “Nâng cấp bài viết” đo cái gì</h3><p>Trang đếm các đặc trưng có thể đếm được trên bài của bạn (từ nối đầu câu, từ tuyệt đối, cụm danh từ, số liệu trong overview…) và so với ngưỡng rút từ bài mẫu. Kết quả là “bài đang mang đặc trưng của band nào”, không phải điểm thi. Máy không chấm được chất lượng lập luận và không bắt hết lỗi ngữ pháp.</p>${PAID.enabled ? `<h3>Chế độ trả phí</h3><p>Chế độ miễn phí luôn bật. Nếu muốn trợ lý AI chấm riêng bài của mình, bạn gửi yêu cầu tới ${esc(PAID.email)}; phí là ${vnd(FEE)} mỗi bài. Khi dùng chế độ này, bài bạn dán được gửi tới dịch vụ AI (Claude của Anthropic) để đọc.</p>` : ""}<h3>Ngân hàng đề Task 2</h3><p>${(D.bank || []).length} đề viết cả bài, xếp theo chủ đề bằng từ khóa nên một số đề có thể nằm chưa đúng chủ đề. Đề thi 2025 và 2026 là đề do thí sinh nhớ lại, lấy từ các trang tổng hợp Onthiielts, TalkFirst, Langmaster và IELTS Fighter; IELTS không công bố đề thi, nên câu chữ và tháng thi chỉ mang tính tham khảo. Các đề còn lại lấy từ bộ bài mẫu theo chủ đề của giáo viên; trang chỉ đăng đề bài và tên nơi có bài mẫu (How to do IELTS, IELTS Vietop, IELTS Advantage, Thanh Nguyễn), không đăng lại bài mẫu.</p><h3>Đề thi Task 1 năm 2024</h3><p>${(D.bank1 || []).length} đề lấy từ bộ đề năm 2024 của giáo viên, chỉ gồm những đề đọc được đầy đủ số liệu. Hình và bảng do trang vẽ lại từ số liệu của đề, không phải hình gốc; trang không đăng bài mẫu của bộ đề đó.</p><h3>Dữ liệu Task 1</h3><p>Sáu bộ dữ liệu (Newport, Ashby và các bảng số) được dựng riêng cho trang này, không phải số liệu thật.</p>
-      <h3>Dữ liệu của bạn</h3><p>${CFG.endpoint ? "Tên, lớp, kết quả từng bài, thời gian làm và bài viết bạn nộp được gửi về bảng theo dõi của giáo viên." : "Trang chưa nối với bảng theo dõi của giáo viên. Tiến độ chỉ lưu trên thiết bị này; bạn có thể tải báo cáo ở mục Tiến độ của tôi."}</p></div>`, `<a href="#/">Trang chính</a> › Về trang này`);
+      <h3>Dữ liệu của bạn</h3><p>${CFG.endpoint ? "Tên, lớp, kết quả từng bài, thời gian làm, bài viết bạn nộp và đánh giá, góp ý bạn gửi được chuyển về bảng theo dõi của giáo viên." : "Trang chưa nối với bảng theo dõi của giáo viên. Tiến độ chỉ lưu trên thiết bị này; bạn có thể tải báo cáo ở mục Tiến độ của tôi."}</p></div>`, `<a href="#/">Trang chính</a> › Về trang này`);
   }
 
   /* =================== HUẤN LUYỆN VIÊN: chẩn đoán → từng bước → tổng kết =================== */
@@ -2968,7 +2984,54 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
     if ($("#more")) $("#more").onclick = () => { C.round++; C.aiSteps = null; planSteps(C); vCoach(); };
     $("#fin").onclick = () => { S.coach = null; save(); vCoach(); };
     if ($("#back")) $("#back").onclick = () => { S.coach = null; save(); };
+    fbMount($(".coach"), { tech: C.k0 || "COACH", topic: C.tk || C.m, src: "coach" });
     if (AI_ON() && C.ai && C.ai2r !== C.round) { C.ai2r = C.round; aiCall({ mode: "diag", m: C.m, dtype: C.kind, q: C.q, text: C.text }).then(d => { if (S.coach !== C || !d || !d.ok) return; C.ai2 = { bands: d.bands, summary: d.summary }; save(); const w = $("#aiwait"); if (w && C.stage === "done") w.innerHTML = aiBlock(C.ai2); }); }
+  }
+
+  /* =================== GÓP Ý VÀ ĐÁNH GIÁ =================== */
+  const FB_ASPECTS = [["ex", "Bài luyện dạng game"], ["exp", "Lời giải thích và bản band 9"], ["coach", "Nâng cấp bài viết (chẩn đoán band)"], ["topic", "Đề bài và chủ đề"], ["ui", "Giao diện, dễ dùng"], ["tech", "Tốc độ, lỗi kỹ thuật"], ["plan", "Lộ trình và theo dõi tiến độ"]];
+  const FB_WORD = ["", "Rất không hài lòng", "Không hài lòng", "Bình thường", "Hài lòng", "Rất hài lòng"];
+  const today = () => { const d = new Date(); return d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0") + "-" + String(d.getDate()).padStart(2, "0"); };
+  let sessDone = 0;
+  /* force = trang Góp ý (luôn hiện đủ). Không force = hỏi nhanh sau khi làm xong một hoạt động, mỗi ngày tối đa một lần. */
+  function fbMount(host, ctx, force) {
+    if (!host || !U || !S) return;
+    if (!force) { const f = S.fb || {}; if (f.day === today() || f.skip === today()) return; if (ctx.src === "item" && sessDone < 3) return; }
+    const box = document.createElement("div"); box.className = "fbq" + (force ? " full" : "");
+    box.innerHTML = `${force ? "" : '<button type="button" class="x" aria-label="Để sau" title="Để sau">×</button>'}<h5>${force ? "Bạn hài lòng với trang ở mức nào?" : "Buổi học hôm nay thế nào? Đánh giá của bạn giúp cô cải thiện trang."}</h5>
+      <div class="stars" role="radiogroup" aria-label="Mức hài lòng, từ 1 đến 5 sao">${[1, 2, 3, 4, 5].map(i => `<button type="button" class="star" role="radio" aria-checked="false" aria-label="${i} sao: ${FB_WORD[i]}" data-s="${i}">★</button>`).join("")}<span class="starw" aria-live="polite"></span></div>
+      <div class="fbmore"${force ? "" : " hidden"}><p class="small">Bạn hài lòng hoặc chưa hài lòng ở điểm nào? Mục nào không có ý kiến thì bỏ qua.</p>
+      <div class="asp">${FB_ASPECTS.map(a => `<div class="asprow" data-a="${a[0]}"><span>${a[1]}</span><button type="button" class="vote up" aria-pressed="false">👍 Hài lòng</button><button type="button" class="vote down" aria-pressed="false">👎 Chưa hài lòng</button></div>`).join("")}</div>
+      <label><span>Gợi ý cải thiện <span class="opt-l">(không bắt buộc)</span></span><textarea class="fbt" maxlength="1500" placeholder="Ví dụ: bài nào khó hiểu, phần nào muốn có thêm, lỗi bạn gặp…"></textarea></label>
+      <div class="bar-actions"><button type="button" class="btn primary fbsend">Gửi góp ý</button></div></div>`;
+    host.appendChild(box);
+    let star = 0; const votes = {};
+    $$(".star", box).forEach(b => { b.onclick = () => {
+      star = +b.dataset.s; $$(".star", box).forEach(x => { const on = +x.dataset.s <= star; x.classList.toggle("on", on); x.setAttribute("aria-checked", +x.dataset.s === star ? "true" : "false"); });
+      $(".starw", box).textContent = FB_WORD[star]; $(".fbmore", box).hidden = false;
+      $(".fbt", box).placeholder = star <= 2 ? "Điều gì làm bạn chưa hài lòng? Cô sẽ đọc và sửa." : "Ví dụ: bài nào khó hiểu, phần nào muốn có thêm, lỗi bạn gặp…";
+    }; });
+    $$(".asprow", box).forEach(r => { const a = r.dataset.a, up = $(".up", r), dn = $(".down", r);
+      const set = v => { votes[a] = votes[a] === v ? 0 : v; up.classList.toggle("on", votes[a] === 1); dn.classList.toggle("on", votes[a] === -1); up.setAttribute("aria-pressed", votes[a] === 1); dn.setAttribute("aria-pressed", votes[a] === -1); };
+      up.onclick = () => set(1); dn.onclick = () => set(-1); });
+    if (!force) $(".x", box).onclick = () => { S.fb = Object.assign(S.fb || {}, { skip: today() }); save(); box.remove(); };
+    $(".fbsend", box).onclick = () => {
+      if (!star) { alert("Hãy chọn số sao trước khi gửi."); return; }
+      const up = FB_ASPECTS.map(a => a[0]).filter(a => votes[a] === 1), down = FB_ASPECTS.map(a => a[0]).filter(a => votes[a] === -1), c = $(".fbt", box).value.trim();
+      S.fb = Object.assign(S.fb || {}, { day: today() }); save();
+      if (CFG.endpoint) {
+        send({ kind: "rate", tech: ctx.tech || "SITE", topic: ctx.topic || "", type: ctx.src, ok: star, try: 0, sec: 0, words: words(c), text: JSON.stringify({ up: up, down: down, c: c }) });
+        box.innerHTML = '<p class="fbthanks">✓ Cảm ơn bạn. Góp ý đã được gửi tới giáo viên.</p>';
+      } else {
+        const lab = k => FB_ASPECTS.find(a => a[0] === k)[1];
+        const body = "Đánh giá: " + star + "/5 (" + FB_WORD[star] + ")\nHài lòng: " + (up.map(lab).join("; ") || "-") + "\nChưa hài lòng: " + (down.map(lab).join("; ") || "-") + "\nGợi ý: " + (c || "-") + "\n\nNgười gửi: " + U.name + (U.cls ? " · " + U.cls : "");
+        box.innerHTML = `<p class="fbthanks">✓ Cảm ơn bạn.</p><p class="small">Trang chưa nối với bảng theo dõi của giáo viên, nên hãy bấm nút dưới để gửi góp ý qua email.</p><div class="bar-actions"><a class="btn primary" href="mailto:${esc(PAID.email)}?subject=${encodeURIComponent("[Band 7→9] Góp ý cho trang")}&body=${encodeURIComponent(body)}">Gửi qua email</a></div>`;
+      }
+    };
+  }
+  function vFeedback() {
+    shell(`<h1 class="pt">Góp ý cho trang</h1><p>Cô đọc mọi đánh giá và dùng chúng để sửa trang. Bạn chấm sao, đánh dấu điểm hài lòng hoặc chưa hài lòng, và viết gợi ý nếu có. Bạn có thể gửi nhiều lần.</p><div id="fbhost"></div>`, `<a href="#/">Trang chính</a> › Góp ý`);
+    fbMount($("#fbhost"), { tech: "SITE", topic: "", src: "form" }, true);
   }
 
   /* ---------- điều hướng ---------- */
@@ -2988,6 +3051,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
       case "plan": return vPlan();
       case "me": return vMe();
       case "about": return vAbout();
+      case "feedback": return vFeedback();
       case "why": return vHome(true);
       default: return vHome();
     }
