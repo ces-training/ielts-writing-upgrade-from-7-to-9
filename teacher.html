@@ -84,7 +84,8 @@ h2{margin:26px 0 10px;font-size:1.15rem}.pb{display:inline-block;width:70px;heig
       var id = String(r[1]).trim().toLowerCase() + "|" + r[2];
       var s = by[id] || (by[id] = { name: r[1], cls: r[2], sec: 0, okIds: {}, first: 0, firstOk: 0, techs: {}, wr: 0, words: 0, last: "", items: [], essays: [], phone: "", phoneTs: "" });
       if (r[0] > s.last) s.last = r[0];
-      if (r[3] === "login" && r[6] === "phone" && r[11] && r[0] >= s.phoneTs) { s.phone = String(r[11]).replace(/\D/g, ""); if (s.phone && s.phone.charAt(0) !== "0") s.phone = "0" + s.phone; s.phoneTs = r[0]; }
+      if (r[3] === "login" && r[6] === "phone" && r[11] && r[0] >= s.phoneTs) { s.phone = String(r[11]).replace(/\D/g, ""); if (s.phone && s.phone.charAt(0) !== "0") s.phone = "0" + s.phone; s.phoneTs = r[0]; s.noZalo = false; }
+      if (r[3] === "login" && r[6] === "nozalo" && r[0] >= s.phoneTs) { s.phone = ""; s.phoneTs = r[0]; s.noZalo = true; }
       if (r[3] === "item") {
         s.sec += +r[9] || 0; s.techs[r[4]] = 1; s.items.push(r);
         if (+r[7] === 1) s.okIds[r[4] + "/" + r[5]] = 1;
@@ -102,7 +103,7 @@ h2{margin:26px 0 10px;font-size:1.15rem}.pb{display:inline-block;width:70px;heig
     var col = function (k, t) { return '<th data-k="' + k + '">' + t + (sortKey === k ? (sortDir < 0 ? " ▼" : " ▲") : "") + "</th>"; };
     h += '<div class="wrap"><table><thead><tr>' + col("name", "Họ tên") + col("cls", "Lớp") + col("phone", "Zalo") + col("sec", "Giờ học") + col("ok", "Bài luyện đã đúng") + col("acc", "Đúng lần đầu") + col("nt", "Kỹ thuật đã học") + col("wr", "Bài viết") + col("words", "Số từ đã viết") + col("last", "Lần học gần nhất") + "</tr></thead><tbody>";
     list.forEach(function (s, i) {
-      h += '<tr data-i="' + i + '"><td class="n">' + esc(s.name) + "</td><td>" + esc(s.cls) + "</td><td>" + (s.phone ? '<a target="_blank" rel="noopener" href="https://zalo.me/' + esc(s.phone) + '">' + esc(s.phone) + "</a>" : "–") + '</td><td><span class="pb"><i style="width:' + Math.min(100, s.sec / 36 / T) + '%"></i></span>' + hrs(s.sec) + "</td><td>" + s.ok + "/" + NITEMS + "</td><td" + (s.acc >= 0 && s.acc < 0.6 ? ' class="low"' : "") + ">" + (s.acc < 0 ? "–" : Math.round(s.acc * 100) + "%") + "</td><td>" + s.nt + "/" + nT + "</td><td>" + s.wr + "</td><td>" + s.words + "</td><td>" + (s.last ? new Date(s.last).toLocaleString("vi-VN") : "–") + "</td></tr>";
+      h += '<tr data-i="' + i + '"><td class="n">' + esc(s.name) + "</td><td>" + esc(s.cls) + "</td><td>" + (s.phone ? '<a target="_blank" rel="noopener" href="https://zalo.me/' + esc(s.phone) + '">' + esc(s.phone) + "</a>" : s.noZalo ? "Không tham gia" : "–") + '</td><td><span class="pb"><i style="width:' + Math.min(100, s.sec / 36 / T) + '%"></i></span>' + hrs(s.sec) + "</td><td>" + s.ok + "/" + NITEMS + "</td><td" + (s.acc >= 0 && s.acc < 0.6 ? ' class="low"' : "") + ">" + (s.acc < 0 ? "–" : Math.round(s.acc * 100) + "%") + "</td><td>" + s.nt + "/" + nT + "</td><td>" + s.wr + "</td><td>" + s.words + "</td><td>" + (s.last ? new Date(s.last).toLocaleString("vi-VN") : "–") + "</td></tr>";
     });
     h += "</tbody></table></div>";
 
@@ -234,7 +235,7 @@ h2{margin:26px 0 10px;font-size:1.15rem}.pb{display:inline-block;width:70px;heig
   $("#csv").onclick = function () {
     var q = function (v) { return '"' + String(v == null ? "" : v).replace(/"/g, '""') + '"'; };
     var out = [["Họ tên", "Lớp", "Zalo", "Giờ học", "Bài luyện đã đúng", "Đúng lần đầu (%)", "Kỹ thuật đã học", "Bài viết", "Số từ", "Lần học gần nhất"].map(q).join(",")];
-    list.forEach(function (s) { out.push([s.name, s.cls, s.phone ? "'" + s.phone : "", hrs(s.sec), s.ok, s.acc < 0 ? "" : Math.round(s.acc * 100), s.nt, s.wr, s.words, s.last].map(q).join(",")); });
+    list.forEach(function (s) { out.push([s.name, s.cls, s.phone ? "'" + s.phone : s.noZalo ? "Không tham gia" : "", hrs(s.sec), s.ok, s.acc < 0 ? "" : Math.round(s.acc * 100), s.nt, s.wr, s.words, s.last].map(q).join(",")); });
     var a = document.createElement("a"); a.href = URL.createObjectURL(new Blob(["﻿" + out.join("\n")], { type: "text/csv;charset=utf-8" })); a.download = "band79-lop.csv"; document.body.appendChild(a); a.click(); a.remove();
   };
 })();
