@@ -3828,7 +3828,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
       if ($("#lsee")) $("#lsee").onclick = () => { if (!labOwnIdeas(R).length) { $("#lmsg").innerHTML = '<p class="ferr">Hãy tự ghi ít nhất một ý trước khi xem gợi ý.</p>'; return; } R.seen2 = 1; redraw(true); };
       if ($("#ledit")) $("#ledit").onclick = () => { R.seen2 = 0; R.pdone = 0; R.pick = R.pick.filter(id => id[0] !== "o"); redraw(true); $("#lown").focus(); };
       $$("[data-idea]").forEach(x => { x.onchange = () => { const id = x.dataset.idea; R.pick = R.pick.filter(y => y !== id); if (x.checked) R.pick.push(id); redraw(true); }; });
-      if ($("#lfix")) $("#lfix").onclick = () => { if (nPick < 2 || nPick > 3) { $("#lmsg").innerHTML = '<p class="ferr">Hãy chọn 2 hoặc 3 ý.</p>'; return; } R.pdone = 1; redraw(true); };
+      if ($("#lfix")) $("#lfix").onclick = () => { if (nPick < 2 || nPick > 3) { $("#lmsg").innerHTML = `<p class="ferr">${nPick > 3 ? "Bạn đang chọn " + nPick + " ý, nhiều hơn mức tối đa là 3. Hãy bỏ tick bớt, chỉ giữ lại 2 hoặc 3 ý." : "Bạn mới chọn " + nPick + " ý. Hãy chọn 2 hoặc 3 ý."}</p>`; return; } R.pdone = 1; redraw(true); };
       $("#lnext").onclick = () => go(3); return;
     }
     const wr = labWrite(C, R), ilabel = id => { const i = wr.map(x => x.id).indexOf(id); return i >= 0 ? "ý " + (i + 1) : ""; };
@@ -3852,10 +3852,12 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
       const body = `<div class="labideas">${wr.map((x, i) => `<p><b>Ý ${i + 1}:</b> ${esc(x.vi)}</p>`).join("")}</div>
         ${gs.map(g => { const on = R.gr.indexOf(g.k) >= 0, G = LAB.gram[g.k] || [g.k, ""];
           return `<label class="labopt${on ? " on" : ""}${R.gdone ? " f" + g.f : ""}"><input type="checkbox" data-gr="${g.k}" ${on ? "checked" : ""}><span><b>${esc(G[0])}</b><span class="vi">${esc(G[1])}</span>${R.gdone ? `<span class="vd">${vtag(GF[g.f])} ${esc(g.note)}</span><span class="vd en">${g.f === "over" ? "Ví dụ gượng: " : "Ví dụ: "}${esc(g.ex)}</span>` : ""}</span></label>`; }).join("")}`
-        + (R.gdone ? `<div class="fb ok"><div class="fbh">Cấu trúc phục vụ ý, không phải để trang trí</div><p>Band 9 dùng nhiều kiểu cấu trúc một cách tự nhiên. Một cấu trúc chỉ đáng dùng khi nó nói được quan hệ giữa hai ý (nhượng bộ, điều kiện, hệ quả, so sánh) gọn hơn hai câu rời. Bạn vẫn có thể đổi lựa chọn.</p></div>` : `<div class="bar-actions"><button type="button" class="btn primary" id="lgchk">Xem nhận xét và ví dụ</button></div><div id="lmsg"></div>`);
+        + (R.gdone ? `<div class="fb ok"><div class="fbh">Cấu trúc phục vụ ý, không phải để trang trí</div><p>Band 9 dùng nhiều kiểu cấu trúc một cách tự nhiên. Một cấu trúc chỉ đáng dùng khi nó nói được quan hệ giữa hai ý (nhượng bộ, điều kiện, hệ quả, so sánh) gọn hơn hai câu rời. Bạn vẫn có thể đổi lựa chọn.</p></div><div id="lmsg"></div>` : `<div class="bar-actions"><button type="button" class="btn primary" id="lgchk">Xem nhận xét và ví dụ</button></div><div id="lmsg"></div>`);
       wrap("Chọn cấu trúc ngữ pháp", "Chọn từ 1 đến 3 cấu trúc bạn cho là hợp nhất để diễn đạt các ý đã chọn. Có cấu trúc hợp, có cấu trúc dùng được nhưng ít giá trị, và có cấu trúc dễ thành gượng.", body, nav(!!R.gdone, "Sang bước viết câu →", "Hãy xem nhận xét về lựa chọn cấu trúc trước."));
-      $$("[data-gr]").forEach(x => { x.onchange = () => { const k = x.dataset.gr; R.gr = R.gr.filter(y => y !== k); if (x.checked) R.gr.push(k); redraw(true); }; });
-      if ($("#lgchk")) $("#lgchk").onclick = () => { if (R.gr.length < 1 || R.gr.length > 3) { $("#lmsg").innerHTML = '<p class="ferr">Hãy chọn từ 1 đến 3 cấu trúc.</p>'; return; } R.gdone = 1; redraw(true); };
+      $$("[data-gr]").forEach(x => { x.onchange = () => { const k = x.dataset.gr; R.gr = R.gr.filter(y => y !== k);
+        if (x.checked && R.gr.length >= 3) { x.checked = false; $("#lmsg").innerHTML = '<p class="ferr">Bạn đã chọn đủ 3 cấu trúc. Muốn chọn cấu trúc này, hãy bỏ tick một cấu trúc đang chọn trước.</p>'; return; }
+        if (x.checked) R.gr.push(k); redraw(true); }; });
+      if ($("#lgchk")) $("#lgchk").onclick = () => { if (R.gr.length < 1 || R.gr.length > 3) { $("#lmsg").innerHTML = `<p class="ferr">${R.gr.length < 1 ? "Bạn chưa chọn cấu trúc nào. Hãy chọn từ 1 đến 3 cấu trúc." : "Bạn đang chọn " + R.gr.length + " cấu trúc, nhiều hơn mức tối đa là 3. Hãy bỏ tick bớt, chỉ giữ lại 1 đến 3 cấu trúc hợp nhất."}</p>`; return; } R.gdone = 1; redraw(true); };
       $("#lnext").onclick = () => go(5); return;
     }
     const allV = labVocab(C), myV = String(R.myv || "").split(/[,;\n]+/).map(x => x.trim()).filter(x => x.length > 1).map(w => ({ w: w, f: "mine" }));
