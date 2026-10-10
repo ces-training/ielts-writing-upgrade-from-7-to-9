@@ -2998,7 +2998,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
     if (!host || !U || !S) return;
     if (!force) { const f = S.fb || {}; if (f.day === today() || f.skip === today()) return; if (ctx.src === "item" && sessDone < 3) return; }
     const box = document.createElement("div"); box.className = "fbq" + (force ? " full" : "");
-    box.innerHTML = `${force ? "" : '<button type="button" class="x" aria-label="Để sau" title="Để sau">×</button>'}<h5>${force ? "Bạn hài lòng với trang ở mức nào?" : "Buổi học hôm nay thế nào? Đánh giá của bạn giúp cô cải thiện trang."}</h5>
+    box.innerHTML = `${force ? "" : '<button type="button" class="x" aria-label="Để sau" title="Để sau">×</button>'}<h5>${force ? "Bạn hài lòng với trang ở mức nào?" : "Buổi học hôm nay thế nào? Đánh giá của bạn giúp nhóm phát triển hoàn thiện trang."}</h5>
       <div class="stars" role="radiogroup" aria-label="Mức hài lòng, từ 1 đến 5 sao">${[1, 2, 3, 4, 5].map(i => `<button type="button" class="star" role="radio" aria-checked="false" aria-label="${i} sao: ${FB_WORD[i]}" data-s="${i}">★</button>`).join("")}<span class="starw" aria-live="polite"></span></div>
       <div class="fbmore"${force ? "" : " hidden"}><p class="small">Bạn hài lòng hoặc chưa hài lòng ở điểm nào? Mục nào không có ý kiến thì bỏ qua.</p>
       <div class="asp">${FB_ASPECTS.map(a => `<div class="asprow" data-a="${a[0]}"><span>${a[1]}</span><button type="button" class="vote up" aria-pressed="false">👍 Hài lòng</button><button type="button" class="vote down" aria-pressed="false">👎 Chưa hài lòng</button></div>`).join("")}</div>
@@ -3009,7 +3009,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
     $$(".star", box).forEach(b => { b.onclick = () => {
       star = +b.dataset.s; $$(".star", box).forEach(x => { const on = +x.dataset.s <= star; x.classList.toggle("on", on); x.setAttribute("aria-checked", +x.dataset.s === star ? "true" : "false"); });
       $(".starw", box).textContent = FB_WORD[star]; $(".fbmore", box).hidden = false;
-      $(".fbt", box).placeholder = star <= 2 ? "Điều gì làm bạn chưa hài lòng? Cô sẽ đọc và sửa." : "Ví dụ: bài nào khó hiểu, phần nào muốn có thêm, lỗi bạn gặp…";
+      $(".fbt", box).placeholder = star <= 2 ? "Điều gì làm bạn chưa hài lòng? Chúng tôi sẽ đọc và cải thiện." : "Ví dụ: bài nào khó hiểu, phần nào muốn có thêm, lỗi bạn gặp…";
     }; });
     $$(".asprow", box).forEach(r => { const a = r.dataset.a, up = $(".up", r), dn = $(".down", r);
       const set = v => { votes[a] = votes[a] === v ? 0 : v; up.classList.toggle("on", votes[a] === 1); dn.classList.toggle("on", votes[a] === -1); up.setAttribute("aria-pressed", votes[a] === 1); dn.setAttribute("aria-pressed", votes[a] === -1); };
@@ -3021,7 +3021,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
       S.fb = Object.assign(S.fb || {}, { day: today() }); save();
       if (CFG.endpoint) {
         send({ kind: "rate", tech: ctx.tech || "SITE", topic: ctx.topic || "", type: ctx.src, ok: star, try: 0, sec: 0, words: words(c), text: JSON.stringify({ up: up, down: down, c: c }) });
-        box.innerHTML = '<p class="fbthanks">✓ Cảm ơn bạn. Góp ý đã được gửi tới giáo viên.</p>';
+        box.innerHTML = '<p class="fbthanks">✓ Cảm ơn bạn. Góp ý đã được gửi tới nhóm phát triển.</p>';
       } else {
         const lab = k => FB_ASPECTS.find(a => a[0] === k)[1];
         const body = "Đánh giá: " + star + "/5 (" + FB_WORD[star] + ")\nHài lòng: " + (up.map(lab).join("; ") || "-") + "\nChưa hài lòng: " + (down.map(lab).join("; ") || "-") + "\nGợi ý: " + (c || "-") + "\n\nNgười gửi: " + U.name + (U.cls ? " · " + U.cls : "");
@@ -3030,7 +3030,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
     };
   }
   function vFeedback() {
-    shell(`<h1 class="pt">Góp ý cho trang</h1><p>Cô đọc mọi đánh giá và dùng chúng để sửa trang. Bạn chấm sao, đánh dấu điểm hài lòng hoặc chưa hài lòng, và viết gợi ý nếu có. Bạn có thể gửi nhiều lần.</p><div id="fbhost"></div>`, `<a href="#/">Trang chính</a> › Góp ý`);
+    shell(`<h1 class="pt">Góp ý cho trang</h1><p>Nhóm phát triển Writing Lab rất mong nhận được đánh giá và góp ý của bạn. Chúng tôi đọc từng ý kiến và dùng chúng để hoàn thiện trang qua mỗi lần cập nhật, để trang ngày càng hữu ích cho cộng đồng người học IELTS.</p><p>Bạn hãy chấm sao, đánh dấu những điểm hài lòng hoặc chưa hài lòng, và viết gợi ý nếu có. Bạn có thể gửi bao nhiêu lần cũng được; ý kiến nào cũng đáng quý với chúng tôi.</p><div id="fbhost"></div>`, `<a href="#/">Trang chính</a> › Góp ý`);
     fbMount($("#fbhost"), { tech: "SITE", topic: "", src: "form" }, true);
   }
 
