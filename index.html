@@ -1998,7 +1998,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
   "use strict";
   const D = window.B79;
   const CFG = Object.assign({ endpoint: "", targetHours: 200, weeks: 20, classes: [] }, window.B79_CONFIG || {});
-  const PAID = CFG.paid = Object.assign({ enabled: true, email: "duyenvth@hanu.edu.vn", aiCostPerEssayVND: 2000, markup: 2, usdToVnd: 26000, packs: [5, 10, 20], payNote: "" }, (window.B79_CONFIG || {}).paid || {});
+  const PAID = CFG.paid = Object.assign({ enabled: true, aiCostPerEssayVND: 2000, markup: 2, usdToVnd: 26000, packs: [5, 10, 20], payNote: "" }, (window.B79_CONFIG || {}).paid || {});
   const FEE = Math.round(PAID.aiCostPerEssayVND * PAID.markup), vnd = n => Number(n).toLocaleString("vi-VN") + " đ";
 
   /* ---------- tiện ích ---------- */
@@ -2884,7 +2884,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
       <h3>Trang này dạy gì</h3><p>${D.techs.filter(t => t.g !== "FULL").length} kỹ thuật, chia hai module Task 1 và Task 2. Mỗi kỹ thuật nhắm vào một rào cản mà nghiên cứu và phân tích bài mẫu chỉ ra ở chặng band 7 lên band 9. Trong mỗi kỹ thuật, bài luyện được chia theo chủ đề lớn của IELTS (Task 2) hoặc theo dạng đề (Task 1).</p>
       <h3>Khối lượng hiện có</h3><p>${nGame} bài luyện dạng game và ${nWrite} đề viết. Một lượt làm hết các bài game mất khoảng 4 đến 6 giờ; phần còn lại của khung giờ đến từ các đề viết và việc luyện lại.</p>
       <h3>Về nhãn “Band 7” và “Band 9”</h3><p>Các câu và bài mẫu band 9 trên trang do nhóm soạn viết, dựa trên những đặc điểm đo được khi phân tích bài mẫu của các tác giả có tên. Các câu band 7 cũng do nhóm soạn viết để minh họa lỗi điển hình. Nhãn band là ước lượng theo band descriptor công khai, không phải điểm do giám khảo IELTS chấm.</p>
-      <h3>Phần “Nâng cấp bài viết” đo cái gì</h3><p>Trang đếm các đặc trưng có thể đếm được trên bài của bạn (từ nối đầu câu, từ tuyệt đối, cụm danh từ, số liệu trong overview…) và so với ngưỡng rút từ bài mẫu. Kết quả là “bài đang mang đặc trưng của band nào”, không phải điểm thi. Máy không chấm được chất lượng lập luận và không bắt hết lỗi ngữ pháp.</p>${PAID.enabled ? `<h3>Chế độ trả phí</h3><p>Chế độ miễn phí luôn bật. Nếu muốn trợ lý AI chấm riêng bài của mình, bạn gửi yêu cầu tới ${esc(PAID.email)}; phí là ${vnd(FEE)} mỗi bài. Khi dùng chế độ này, bài bạn dán được gửi tới dịch vụ AI (Claude của Anthropic) để đọc.</p>` : ""}<h3>Ngân hàng đề Task 2</h3><p>${(D.bank || []).length} đề viết cả bài, xếp theo chủ đề bằng từ khóa nên một số đề có thể nằm chưa đúng chủ đề. Đề thi 2025 và 2026 là đề do thí sinh nhớ lại, lấy từ các trang tổng hợp Onthiielts, TalkFirst, Langmaster và IELTS Fighter; IELTS không công bố đề thi, nên câu chữ và tháng thi chỉ mang tính tham khảo. Các đề còn lại lấy từ bộ bài mẫu theo chủ đề của giáo viên; trang chỉ đăng đề bài và tên nơi có bài mẫu (How to do IELTS, IELTS Vietop, IELTS Advantage, Thanh Nguyễn), không đăng lại bài mẫu.</p><h3>Đề thi Task 1 năm 2024</h3><p>${(D.bank1 || []).length} đề lấy từ bộ đề năm 2024 của giáo viên, chỉ gồm những đề đọc được đầy đủ số liệu. Hình và bảng do trang vẽ lại từ số liệu của đề, không phải hình gốc; trang không đăng bài mẫu của bộ đề đó.</p><h3>Dữ liệu Task 1</h3><p>Sáu bộ dữ liệu (Newport, Ashby và các bảng số) được dựng riêng cho trang này, không phải số liệu thật.</p>
+      <h3>Phần “Nâng cấp bài viết” đo cái gì</h3><p>Trang đếm các đặc trưng có thể đếm được trên bài của bạn (từ nối đầu câu, từ tuyệt đối, cụm danh từ, số liệu trong overview…) và so với ngưỡng rút từ bài mẫu. Kết quả là “bài đang mang đặc trưng của band nào”, không phải điểm thi. Máy không chấm được chất lượng lập luận và không bắt hết lỗi ngữ pháp.</p>${PAID.enabled ? `<h3>Chế độ trả phí</h3><p>Chế độ miễn phí luôn bật. Nếu muốn trợ lý AI chấm riêng bài của mình, bạn điền form yêu cầu ngay trong mục Nâng cấp bài viết; phí là ${vnd(FEE)} mỗi bài. Khi dùng chế độ này, bài bạn dán được gửi tới dịch vụ AI (Claude của Anthropic) để đọc.</p>` : ""}<h3>Ngân hàng đề Task 2</h3><p>${(D.bank || []).length} đề viết cả bài, xếp theo chủ đề bằng từ khóa nên một số đề có thể nằm chưa đúng chủ đề. Đề thi 2025 và 2026 là đề do thí sinh nhớ lại, lấy từ các trang tổng hợp Onthiielts, TalkFirst, Langmaster và IELTS Fighter; IELTS không công bố đề thi, nên câu chữ và tháng thi chỉ mang tính tham khảo. Các đề còn lại lấy từ bộ bài mẫu theo chủ đề của giáo viên; trang chỉ đăng đề bài và tên nơi có bài mẫu (How to do IELTS, IELTS Vietop, IELTS Advantage, Thanh Nguyễn), không đăng lại bài mẫu.</p><h3>Đề thi Task 1 năm 2024</h3><p>${(D.bank1 || []).length} đề lấy từ bộ đề năm 2024 của giáo viên, chỉ gồm những đề đọc được đầy đủ số liệu. Hình và bảng do trang vẽ lại từ số liệu của đề, không phải hình gốc; trang không đăng bài mẫu của bộ đề đó.</p><h3>Dữ liệu Task 1</h3><p>Sáu bộ dữ liệu (Newport, Ashby và các bảng số) được dựng riêng cho trang này, không phải số liệu thật.</p>
       <h3>Dữ liệu của bạn</h3><p>${CFG.endpoint ? "Tên, lớp, kết quả từng bài, thời gian làm, bài viết bạn nộp và đánh giá, góp ý bạn gửi được chuyển về bảng theo dõi của giáo viên. Nếu bạn điền form Liên hệ, số điện thoại, email hoặc Facebook bạn ghi cũng được gửi về đó và chỉ dùng để liên hệ lại với bạn." : "Trang chưa nối với bảng theo dõi của giáo viên. Tiến độ chỉ lưu trên thiết bị này; bạn có thể tải báo cáo ở mục Tiến độ của tôi."}</p></div>`, `<a href="#/">Trang chính</a> › Về trang này`);
   }
 
@@ -2995,15 +2995,16 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
         <label>Số điện thoại<input id="pp" type="tel" required pattern="[0-9+ .\\-]{8,16}" maxlength="16" placeholder="09xx xxx xxx" title="Nhập số điện thoại gồm 8–16 chữ số"></label>
         <p class="tot">Phí: <b id="ptot"></b> <span class="small">(${vnd(FEE)} / bài)</span></p>
         ${PAID.payNote ? `<p class="small">${esc(PAID.payNote)}</p>` : ""}
-        <div class="bar-actions"><button class="btn primary" type="submit">Gửi yêu cầu tới ${esc(PAID.email)}</button></div>
-        <p class="small">Yêu cầu gồm họ tên (${esc(U.name)}), email, số điện thoại, số bài và tổng phí. Giáo viên sẽ trả lời qua email và gửi mã kích hoạt sau khi nhận phí. Bạn cũng có thể tự viết email tới <b>${esc(PAID.email)}</b>.</p><div id="pmsg"></div></form>`;
+        <div class="bar-actions"><button class="btn primary" type="submit">Gửi yêu cầu</button></div>
+        <p class="small">Yêu cầu gồm họ tên (${esc(U.name)}), email, số điện thoại, số bài và tổng phí. Giáo viên nhận yêu cầu qua form này, rồi trả lời vào email của bạn và gửi mã kích hoạt sau khi nhận phí.</p><div id="pmsg"></div></form>`;
       const pn = $("#pn"), tot = () => { $("#ptot").textContent = vnd(pn.value * FEE); }; pn.onchange = tot; tot();
       $("#pf").onsubmit = async e => {
         e.preventDefault(); const n = +pn.value, em = $("#pe").value.trim(), ph = $("#pp").value.trim();
-        const body = `Chào cô,\n\nEm muốn bật chế độ chấm bài bằng trợ lý AI trên Band 7 → 9 Writing Lab.\n\nHọ tên trên trang: ${U.name}\nEmail: ${em}\nSố điện thoại: ${ph}\nSố bài: ${n}\nTổng phí: ${n} × ${vnd(FEE)} = ${vnd(n * FEE)}\n\nEm cảm ơn cô.`;
-        const mail = "mailto:" + PAID.email + "?subject=" + encodeURIComponent("[Band 7→9] Yêu cầu bật chấm trả phí: " + U.name) + "&body=" + encodeURIComponent(body);
+        if (!CFG.endpoint) { $("#pmsg").innerHTML = '<p class="small" style="color:var(--bad)">Trang đang tạm thời chưa nhận được yêu cầu. Bạn vui lòng thử lại sau.</p>'; return; }
+        const btn = $("#pf button[type=submit]"); btn.disabled = true; $("#pmsg").innerHTML = '<p class="small">⏳ Đang gửi yêu cầu…</p>';
         const d = await srv({ kind: "payreq", essays: n, fee: FEE, email: em, phone: ph });
-        $("#pmsg").innerHTML = `<div class="fb ok"><div class="fbh">${d && d.ok && d.mailed ? "✓ Đã gửi yêu cầu tới giáo viên" : "Còn một bước: gửi email cho giáo viên"}</div><p>${d && d.ok && d.mailed ? "Giáo viên đã nhận được email về yêu cầu của bạn. Nếu muốn, bạn có thể gửi thêm email từ hộp thư của mình." : "Bấm nút dưới đây để mở sẵn email trong ứng dụng thư của bạn, rồi bấm gửi."}</p><div class="bar-actions"><a class="btn ${d && d.ok && d.mailed ? "" : "primary"}" href="${esc(mail)}">Mở email gửi ${esc(PAID.email)}</a></div><details class="exd"><summary>Không mở được ứng dụng thư? Chép nội dung này</summary><p class="pre small">Gửi tới: ${esc(PAID.email)}\n\n${esc(body)}</p></details></div>`;
+        if (d && d.ok) $("#pmsg").innerHTML = `<div class="fb ok"><div class="fbh">✓ Đã gửi yêu cầu</div><p>Giáo viên sẽ trả lời vào địa chỉ ${esc(em)} và gửi mã kích hoạt sau khi nhận phí.</p></div>`;
+        else { btn.disabled = false; $("#pmsg").innerHTML = `<p class="small" style="color:var(--bad)">${d && d.error === "limit" ? "Bạn đã gửi yêu cầu vài lần gần đây. Giáo viên sẽ trả lời qua email; nếu cần sửa thông tin, hãy dùng form Liên hệ." : 'Chưa gửi được yêu cầu. Hãy kiểm tra kết nối mạng rồi bấm gửi lại, hoặc dùng <a href="#/contact">form Liên hệ</a>.'}</p>`; }
       };
     };
     if (have) have.onclick = () => {
@@ -3138,11 +3139,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
       if (CFG.endpoint) {
         send({ kind: "rate", tech: ctx.tech || "SITE", topic: ctx.topic || "", type: ctx.src, ok: star, try: 0, sec: 0, words: words(c), text: JSON.stringify({ up: up, down: down, c: c }) });
         box.innerHTML = '<p class="fbthanks">✓ Cảm ơn bạn. Góp ý đã được gửi tới nhóm phát triển.</p>';
-      } else {
-        const lab = k => FB_ASPECTS.find(a => a[0] === k)[1];
-        const body = "Đánh giá: " + star + "/5 (" + FB_WORD[star] + ")\nHài lòng: " + (up.map(lab).join("; ") || "-") + "\nChưa hài lòng: " + (down.map(lab).join("; ") || "-") + "\nGợi ý: " + (c || "-") + "\n\nNgười gửi: " + U.name + (U.cls ? " · " + U.cls : "");
-        box.innerHTML = `<p class="fbthanks">✓ Cảm ơn bạn.</p><p class="small">Trang chưa nối với bảng theo dõi của giáo viên, nên hãy bấm nút dưới để gửi góp ý qua email.</p><div class="bar-actions"><a class="btn primary" href="mailto:${esc(PAID.email)}?subject=${encodeURIComponent("[Band 7→9] Góp ý cho trang")}&body=${encodeURIComponent(body)}">Gửi qua email</a></div>`;
-      }
+      } else box.innerHTML = '<p class="cerr">Trang đang tạm thời chưa gửi được góp ý. Bạn vui lòng thử lại sau.</p>';
     };
   }
   function vFeedback() {
@@ -3152,10 +3149,11 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
 
   /* ---------- liên hệ: trao đổi chuyên môn / đăng ký học ---------- */
   function vContact() {
-    shell(`<h1 class="pt">Liên hệ</h1><p>Bạn muốn trao đổi chuyên môn về dạy và học IELTS Writing, hoặc đăng ký học? Hãy để lại thông tin, nhóm phát triển Writing Lab sẽ liên hệ lại với bạn.</p>
+    shell(`<h1 class="pt">Liên hệ</h1><p>Bạn muốn đăng ký học, mua gói chấm bài, hoặc trao đổi chuyên môn về dạy và học IELTS Writing? Mọi liên hệ đều qua form này: hãy để lại thông tin, nhóm phát triển Writing Lab sẽ liên hệ lại với bạn.</p>
       <form class="cform" id="cf" novalidate>
         <fieldset><legend>Bạn liên hệ về việc gì?</legend>
           <label class="pick"><input type="radio" name="why" value="enrol" checked> <span><b>Đăng ký học</b><br><span class="small">Tôi muốn học IELTS Writing để nâng band.</span></span></label>
+          <label class="pick"><input type="radio" name="why" value="buy"> <span><b>Mua gói chấm bài hoặc dịch vụ khác</b><br><span class="small">Tôi muốn hỏi về chấm bài trả phí, tài liệu hoặc dịch vụ.</span></span></label>
           <label class="pick"><input type="radio" name="why" value="expert"> <span><b>Trao đổi chuyên môn</b><br><span class="small">Tôi là giáo viên hoặc người làm chuyên môn, muốn trao đổi hay hợp tác.</span></span></label></fieldset>
         <label>Họ và tên<input id="cn" maxlength="60" autocomplete="name" value="${esc(U.name)}"></label>
         <p class="small" style="margin:0">Điền ít nhất một trong ba cách liên hệ dưới đây.</p>
@@ -3178,14 +3176,10 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
       if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return fail("Địa chỉ email chưa đúng dạng.", $("#ce"));
       const last = store.get("b79:clast") || 0; if (Date.now() - last < 30000) return fail("Bạn vừa gửi rồi. Nếu cần sửa thông tin, hãy thử lại sau nửa phút.");
       store.set("b79:clast", Date.now());
-      const whyL = why === "enrol" ? "Đăng ký học" : "Trao đổi chuyên môn";
       if (CFG.endpoint) {
         send({ kind: "contact", name: name, tech: "", topic: "", type: why, ok: 0, try: 0, sec: 0, words: words(msg), text: JSON.stringify({ phone: phone, email: email, fb: fb, msg: msg, user: U.name }) });
         $("#cf").outerHTML = `<div class="cform"><p class="fbthanks">✓ Cảm ơn ${esc(name)}. Thông tin đã được gửi.</p><p style="margin:0">Nhóm phát triển sẽ liên hệ lại với bạn qua ${[phone && "Zalo", email && "email", fb && "Facebook"].filter(Boolean).join(", ").replace(/, ([^,]*)$/, " hoặc $1")} trong thời gian sớm nhất.</p><div class="bar-actions" style="margin-top:0"><a class="btn primary" href="#/">Về trang chính</a></div></div>`;
-      } else {
-        const body = "Mục đích: " + whyL + "\nHọ tên: " + name + "\nSố điện thoại (Zalo): " + (phone || "-") + "\nEmail: " + (email || "-") + "\nFacebook: " + (fb || "-") + "\n\nNội dung:\n" + (msg || "-");
-        $("#cf").outerHTML = `<div class="cform"><p class="fbthanks">Còn một bước nữa.</p><p style="margin:0">Trang chưa nối với hộp thư của nhóm, nên hãy bấm nút dưới để gửi thông tin qua email.</p><div class="bar-actions" style="margin-top:0"><a class="btn primary" href="mailto:${esc(PAID.email)}?subject=${encodeURIComponent("[Band 7→9] " + whyL + ": " + name)}&body=${encodeURIComponent(body)}">Gửi qua email</a></div></div>`;
-      }
+      } else return fail("Trang đang tạm thời chưa gửi được thông tin. Bạn vui lòng thử lại sau.");
       window.scrollTo(0, 0);
     };
   }

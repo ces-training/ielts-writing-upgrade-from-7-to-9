@@ -135,7 +135,7 @@ h2{margin:26px 0 10px;font-size:1.15rem}.pb{display:inline-block;width:70px;heig
   }
 
   /* ---------- người liên hệ: đăng ký học / trao đổi chuyên môn ---------- */
-  var WHY = { enrol: "Đăng ký học", expert: "Trao đổi chuyên môn" }, ctList = [];
+  var WHY = { enrol: "Đăng ký học", expert: "Trao đổi chuyên môn", buy: "Mua gói chấm bài, dịch vụ" }, ctList = [];
   function contacts() {
     ctList = [];
     rows.forEach(function (r) {
@@ -147,7 +147,7 @@ h2{margin:26px 0 10px;font-size:1.15rem}.pb{display:inline-block;width:70px;heig
     var h = "<h2>Liên hệ: đăng ký học và trao đổi chuyên môn (" + ctList.length + ")</h2>";
     if (!ctList.length) return h + '<p class="msg">Chưa có ai gửi form Liên hệ.</p>';
     var nE = ctList.filter(function (c) { return c.why === "enrol"; }).length;
-    h += '<p class="msg">' + nE + " đăng ký học · " + (ctList.length - nE) + ' trao đổi chuyên môn. <button class="ghost" id="csvct">⬇ Tải danh sách (.csv)</button></p><div class="wrap"><table><thead><tr><th>Thời gian</th><th>Họ tên</th><th>Mục đích</th><th>Điện thoại (Zalo)</th><th>Email</th><th>Facebook</th><th>Nội dung</th></tr></thead><tbody>';
+    h += '<p class="msg">' + nE + " đăng ký học · " + (ctList.length - nE) + ' liên hệ khác. <button class="ghost" id="csvct">⬇ Tải danh sách (.csv)</button></p><div class="wrap"><table><thead><tr><th>Thời gian</th><th>Họ tên</th><th>Mục đích</th><th>Điện thoại (Zalo)</th><th>Email</th><th>Facebook</th><th>Nội dung</th></tr></thead><tbody>';
     ctList.forEach(function (c) {
       var digits = c.phone.replace(/\D/g, ""), url = /^https?:\/\//i.test(c.fb) ? c.fb : /^(www\.|m\.)?(facebook|fb)\.com\//i.test(c.fb) ? "https://" + c.fb : "";
       h += "<tr style=\"cursor:default\"><td>" + new Date(c.ts).toLocaleString("vi-VN") + '</td><td class="n">' + esc(c.name) + (c.user && c.user !== c.name ? '<div class="meta">tên trên trang: ' + esc(c.user) + "</div>" : "") + "</td><td>" + esc(WHY[c.why] || c.why) + "</td><td>" +
