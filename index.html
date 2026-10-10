@@ -49,6 +49,7 @@ label{display:grid;gap:5px;font-weight:600;font-size:.92em}.opt-l{font-weight:40
 input:not([type=checkbox]),select,textarea{font:inherit;padding:11px 13px;border:2px solid var(--line);border-radius:10px;background:#fff;color:var(--ink);width:100%}
 input:focus,select:focus,textarea:focus{border-color:var(--acc);outline:0}
 .login .btn{justify-content:center}
+.zwhy{margin:0;padding:10px 12px;border-radius:10px;background:#e9f8f3;color:#0b5d49;font-size:.86em;font-weight:400;line-height:1.5}.ferr{margin:0;color:#b3261e;font-size:.88em;font-weight:600}
 
 /* trang chính */
 .hero{display:grid;grid-template-columns:1fr auto;gap:24px;align-items:center;background:#fff;border-radius:22px;padding:28px;border:1px solid var(--line)}
@@ -2478,19 +2479,46 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
   const ring = (frac, label, sub) => { const r = 52, c = 2 * Math.PI * r; return `<svg viewBox="0 0 130 130" class="ring"><defs><linearGradient id="g79" x1="0" x2="1"><stop offset="0" stop-color="#f2a531"/><stop offset="1" stop-color="#12a37f"/></linearGradient></defs><circle cx="65" cy="65" r="${r}" fill="none" stroke="#ebe7dc" stroke-width="12"/><circle cx="65" cy="65" r="${r}" fill="none" stroke="url(#g79)" stroke-width="12" stroke-linecap="round" stroke-dasharray="${c}" stroke-dashoffset="${c * (1 - Math.min(frac, 1))}" transform="rotate(-90 65 65)"/><text x="65" y="63" text-anchor="middle" class="rv">${label}</text><text x="65" y="82" text-anchor="middle" class="rs">${sub}</text></svg>`; };
   const bar = (frac, col) => `<div class="pbar"><i style="width:${Math.round(Math.min(frac, 1) * 100)}%;background:${col || "var(--b9)"}"></i></div>`;
 
+  /* ---------- số điện thoại có Zalo: để mời người học vào nhóm Zalo, không dùng để bán hàng ---------- */
+  const ZWHY = "Nhóm phát triển chỉ dùng số này để mời bạn vào nhóm Zalo của người học trên trang: nhắc lịch luyện, báo khi có bài mới và giải đáp cách dùng trang, giúp bạn dùng trang hiệu quả hơn. Số của bạn không dùng để bán hàng hay quảng cáo, và không hiển thị cho người học khác.";
+  const phoneField = () => `<label>Số điện thoại có Zalo<input id="lz" type="tel" inputmode="tel" required maxlength="16" autocomplete="tel" placeholder="Ví dụ: 0912 345 678"></label><p class="zwhy">${ZWHY}</p><p class="ferr" id="lzerr" role="alert" hidden></p>`;
+  const cleanPhone = v => { let d = String(v).replace(/[^\d+]/g, ""); if (d.indexOf("+84") === 0) d = "0" + d.slice(3); else if (d.indexOf("84") === 0 && d.length >= 11) d = "0" + d.slice(2); d = d.replace(/\D/g, ""); return /^0\d{9,10}$/.test(d) ? d : ""; };
+  function readPhone() {
+    const ph = cleanPhone($("#lz").value), er = $("#lzerr");
+    if (!ph) { er.textContent = "Số điện thoại chưa đúng. Hãy nhập số có Zalo gồm 10 chữ số, ví dụ 0912 345 678."; er.hidden = false; $("#lz").focus(); return ""; }
+    er.hidden = true; return ph;
+  }
+  function sendPhone() {
+    const m = store.get("b79:phones") || {}; m[slug(U.name)] = U.phone; store.set("b79:phones", m);
+    send({ kind: "login", tech: "", topic: "", type: "phone", ok: 0, try: 0, sec: 0, words: 0, text: U.phone });
+  }
+  /* Người đã nhập tên từ trước nhưng chưa có số Zalo: hỏi bổ sung ở lần học kế tiếp. */
+  function vPhone() {
+    app.innerHTML = `<div class="login"><div class="card"><div class="b79 big"><b>7</b><i>→</i><b>9</b></div><h1>Chào ${esc(U.name.split(" ").pop())}, thêm một bước nhỏ</h1><p>Trước khi học tiếp, bạn cho nhóm phát triển xin số điện thoại có Zalo nhé. Tiến độ của bạn vẫn được giữ nguyên.</p>
+      <form id="lf">${phoneField()}<button class="btn primary" type="submit">Lưu và học tiếp</button></form>
+      <p class="small"><a href="#/">← Về trang chính</a> · <a href="#" id="notme">Không phải ${esc(U.name)}? Đổi người học</a></p></div></div>`;
+    const old = (store.get("b79:phones") || {})[slug(U.name)]; if (old) $("#lz").value = old;
+    $("#notme").onclick = e => { e.preventDefault(); save(); store.del("b79:user"); U = null; S = null; vLogin(); };
+    $("#lf").onsubmit = e => { e.preventDefault(); const phone = readPhone(); if (!phone) return; U.phone = phone; store.set("b79:user", U); sendPhone(); route(); };
+  }
+
   /* ---------- đăng nhập bằng tên ---------- */
   function vLogin() {
     const known = store.get("b79:names") || [];
-    app.innerHTML = `<div class="login"><div class="card"><div class="b79 big"><b>7</b><i>→</i><b>9</b></div><h1>IELTS Writing Lab</h1><p>Luyện 26 kỹ thuật đưa bài viết từ band 7 lên band 9, cho Task 1 và Task 2.</p><p class="small">Trang cần tên của bạn để lưu tiến độ và kết quả bài làm.</p>
+    app.innerHTML = `<div class="login"><div class="card"><div class="b79 big"><b>7</b><i>→</i><b>9</b></div><h1>IELTS Writing Lab</h1><p>Luyện 26 kỹ thuật đưa bài viết từ band 7 lên band 9, cho Task 1 và Task 2.</p><p class="small">Trang cần tên của bạn để lưu tiến độ và kết quả bài làm, và số Zalo để mời bạn vào nhóm người học.</p>
       <form id="lf"><label>Họ và tên của bạn<input id="ln" required minlength="2" maxlength="60" autocomplete="name" placeholder="Ví dụ: Nguyễn Minh Anh" list="names"></label><datalist id="names">${known.map(n => `<option value="${esc(n)}">`).join("")}</datalist>
       <label>Lớp <span class="opt-l">(không bắt buộc)</span>${CFG.classes && CFG.classes.length ? `<select id="lc"><option value="">Chọn lớp</option>${CFG.classes.map(c => `<option>${esc(c)}</option>`).join("")}</select>` : '<input id="lc" maxlength="30" placeholder="Ví dụ: IVY-W79">'}</label>
+      ${phoneField()}
       <button class="btn primary" type="submit">Bắt đầu học</button></form>
       <p class="small">Hãy nhập đúng một tên trong mọi lần học để tiến độ được cộng dồn.</p><p class="small"><a href="#/">← Chưa muốn nhập tên? Đọc bài “Band 7 khác band 9 ở đâu?”</a> · <a href="#/stats">Thống kê đề thi 2025–2026</a></p></div></div>`;
+    /* người đã từng học trên máy này: gõ lại đúng tên thì số Zalo được điền sẵn */
+    $("#ln").addEventListener("change", () => { const ph = (store.get("b79:phones") || {})[slug($("#ln").value.trim())]; if (ph && !$("#lz").value) $("#lz").value = ph; });
     $("#lf").onsubmit = e => {
       e.preventDefault(); const name = $("#ln").value.trim().replace(/\s+/g, " "); if (name.length < 2) return;
-      U = { name: name, cls: ($("#lc").value || "").trim() }; store.set("b79:user", U);
+      const phone = readPhone(); if (!phone) return;
+      U = { name: name, cls: ($("#lc").value || "").trim(), phone: phone }; store.set("b79:user", U);
       if (known.indexOf(name) < 0) { known.push(name); store.set("b79:names", known); }
-      loadS(); send({ kind: "login" }); if (/^#\/?login/.test(location.hash)) location.hash = "#/"; else route();
+      loadS(); sendPhone(); if (/^#\/?login/.test(location.hash)) location.hash = "#/"; else route();
     };
   }
 
@@ -3407,7 +3435,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
           <label class="pick"><input type="radio" name="why" value="expert"> <span><b>Trao đổi chuyên môn</b><br><span class="small">Tôi là giáo viên hoặc người làm chuyên môn, muốn trao đổi hay hợp tác.</span></span></label></fieldset>
         <label>Họ và tên<input id="cn" maxlength="60" autocomplete="name" value="${esc(U.name)}"></label>
         <p class="small" style="margin:0">Điền ít nhất một trong ba cách liên hệ dưới đây.</p>
-        <label>Số điện thoại có Zalo<input id="cp" type="tel" inputmode="tel" maxlength="16" autocomplete="tel" placeholder="Ví dụ: 0912 345 678"></label>
+        <label>Số điện thoại có Zalo<input id="cp" type="tel" inputmode="tel" maxlength="16" autocomplete="tel" placeholder="Ví dụ: 0912 345 678" value="${esc(U.phone || "")}"></label>
         <label>Email<input id="ce" type="email" maxlength="120" autocomplete="email" placeholder="ten@example.com"></label>
         <label><span>Facebook <span class="opt-l">(tên tài khoản hoặc đường dẫn trang cá nhân)</span></span><input id="cb" maxlength="160" placeholder="facebook.com/…"></label>
         <label><span>Nội dung <span class="opt-l">(không bắt buộc)</span></span><textarea id="cm" maxlength="1500" placeholder="Ví dụ: band hiện tại và mục tiêu của bạn, thời gian bạn có thể học, hoặc chủ đề bạn muốn trao đổi…"></textarea></label>
@@ -3478,6 +3506,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
     const p = location.hash.replace(/^#\/?/, "").split("/");
     /* Khách chưa nhập tên đọc được bài trang chính và trang thống kê; mọi trang khác hỏi tên trước rồi mở đúng trang đó. */
     if (!U && ["", "why", "stats"].indexOf(p[0] || "") < 0) return vLogin();
+    if (U && !U.phone && ["", "why", "stats"].indexOf(p[0] || "") < 0) return vPhone();
     switch (p[0]) {
       case "m": return vModule(p[1]);
       case "k": return vTech(p[1]);
