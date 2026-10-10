@@ -200,6 +200,14 @@ a.topcard.link h4{margin:4px 0 8px}.topgrid.wide{grid-template-columns:repeat(au
 @media(max-width:720px){.fullcta{flex-direction:column;align-items:stretch}.fullcta .btn{text-align:center}}
 
 /* ngân hàng đề */
+.tybox{background:#fff;border:1px solid var(--line);border-top:4px solid var(--c);border-radius:var(--r);padding:14px 16px;margin:12px 0}
+.tybox>header{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.tybox>header h4{margin:0;font-size:1.1rem}.tybox>header .te{font-size:1.5rem}.tybox>header a{margin-left:auto;font-size:.88em;font-weight:600}
+.tydim{display:grid;grid-template-columns:170px 1fr;gap:6px 12px;align-items:start;margin-top:12px}.tydim>span{font-size:.82em;font-weight:700;color:var(--mut);padding-top:9px}
+.tychips{display:flex;gap:8px;flex-wrap:wrap}.tychip{display:inline-flex;flex-direction:column;gap:1px;padding:7px 12px;border:1.5px solid var(--line);border-radius:12px;background:var(--bg);color:var(--ink)!important;text-decoration:none!important;font-size:.9em;font-weight:700;line-height:1.3;transition:transform .1s,border-color .1s}
+.tychip:hover{transform:translateY(-1px);border-color:var(--c,var(--ink))}.tychip small{font-weight:500;color:var(--mut);font-size:.84em}.tychip.on{background:var(--ink);border-color:var(--ink);color:#fff!important}.tychip.on small{color:#d6d8ea}.tychip.all{border-color:var(--b9);background:#e9f8f3}
+.tytip{background:#fff;border:1px solid var(--line);border-left:5px solid var(--c);border-radius:var(--r);padding:12px 16px;margin:14px 0}.tytip h5{margin:0 0 4px;font-size:.78em;text-transform:uppercase;letter-spacing:.08em;color:var(--mut)}.tytip p{margin:0}
+.bsub{margin:6px 0 0;color:var(--mut)}#tyf select{width:auto}
+@media(max-width:720px){.tydim{grid-template-columns:1fr}.tydim>span{padding-top:0}}
 .banknote{background:#fff;border:1px solid var(--line);border-left:5px solid #c7801a;border-radius:var(--r);padding:10px 14px;margin:10px 0 0}
 .topcard .bk{font-weight:600;color:#8a5a10;margin:6px 0 0}
 .bfilter{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:12px 0}.bfilter select{flex:0 1 auto;padding:7px 10px;border-radius:999px;border:1.5px solid var(--ink);background:#fff;font:inherit;font-size:.88em;max-width:100%}
@@ -315,6 +323,7 @@ textarea.fbt{min-height:92px;margin-top:0;font-family:inherit;font-size:1em;line
 <div id="app"><noscript>Trang này cần bật JavaScript.</noscript></div>
 <script src="config.js"></script>
 <script src="bank1x.js"></script>
+<script src="subtypes.js"></script>
 <script>
 window.B79 = window.B79 || {};
 B79.items = [];
@@ -2428,7 +2437,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
   const NAV = [
     { k: "why", n: "Band 7 → 9", h: "#/", subs: [["#/", "Bảy khác biệt"], ["#/stats", "Thống kê đề thi 2025–2026"]] },
     { k: "coach", n: "Thử với bài của bạn", h: "#/coach", subs: [] },
-    { k: "prac", n: "Luyện tập", h: "#/by/tech", subs: [["#/by/tech", "Theo kỹ thuật"], ["#/by/topic", "Theo chủ đề và đề thi"]] },
+    { k: "prac", n: "Luyện tập", h: "#/by/tech", subs: [["#/by/tech", "Theo kỹ thuật"], ["#/by/topic", "Theo chủ đề và đề thi"], ["#/by/type", "Theo dạng bài"]] },
     { k: "me", n: "Tiến độ", h: "#/me", subs: [["#/me", "Tiến độ của tôi"], ["#/plan", "Lộ trình giờ học"]] },
     { k: "contact", n: "Liên hệ", h: "#/contact", subs: [["#/contact", "Trao đổi, đăng ký học"], ["#/feedback", "Góp ý cho trang"], ["#/about", "Về trang này"]] }
   ];
@@ -2436,7 +2445,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
     const p = location.hash.replace(/^#\/?/, "").split("/"), r = p[0] || ""; let g = "why", sub = "#/";
     if (r === "stats") sub = "#/stats";
     else if (r === "coach") { g = "coach"; sub = ""; }
-    else if (["by", "m", "k", "t", "p", "w", "xb", "wb"].indexOf(r) >= 0) { g = "prac"; sub = (r === "by" && p[1] === "topic") || r === "t" || r === "xb" || r === "wb" || ((r === "p" || r === "w") && p[3] === "t") ? "#/by/topic" : "#/by/tech"; }
+    else if (["by", "m", "k", "t", "p", "w", "xb", "wb", "ty"].indexOf(r) >= 0) { g = "prac"; sub = (r === "by" && p[1] === "type") || r === "ty" || ((r === "xb" || r === "wb") && fromTy) ? "#/by/type" : (r === "by" && p[1] === "topic") || r === "t" || r === "xb" || r === "wb" || ((r === "p" || r === "w") && p[3] === "t") ? "#/by/topic" : "#/by/tech"; }
     else if (r === "me" || r === "plan") { g = "me"; sub = "#/" + r; }
     else if (["contact", "feedback", "about"].indexOf(r) >= 0) { g = "contact"; sub = "#/" + r; }
     return { g: g, sub: sub, r: r };
@@ -2760,6 +2769,8 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
     ["Task 1: sai thì, thiếu bị động", "Map và process chiếm 26% đề Task 1 trong 2025–2026", "T1M", "mixed"]
   ];
   function vBy(kind) {
+    fromTy = null;
+    if (kind === "type") return vByType();
     if (kind === "topic") {
       let h = `<h1 class="pt">🗂️ Luyện theo chủ đề <small>Chọn một chủ đề, luyện mọi kỹ thuật trên chủ đề đó</small></h1><p class="banknote">Ngân hàng đề Task 2 hiện có <b>${(D.bank || []).length} đề</b>: ${(D.bank || []).filter(b => b.d.some(d => d.slice(0, 4) === "2026")).length} đề thi năm 2026 và ${(D.bank || []).filter(b => b.d.some(d => d.slice(0, 4) === "2025")).length} đề thi năm 2025 do thí sinh nhớ lại, cùng các đề trong bộ bài mẫu theo chủ đề của giáo viên. Ngân hàng đề Task 1 có <b>${(D.bank1 || []).length} đề</b> (đề thi 2018–2024 và đề Cambridge), trong đó ${(D.bank1 || []).filter(b => b.mo).length} đề có bài mẫu band 9 và bài tập riêng.</p>`;
       ["t2", "t1"].forEach(m => { const M = D.modules[m];
@@ -2786,9 +2797,79 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
       <div class="tablewrap"><table class="dt wide gap12"><tr><th>Lỗ hổng</th><th>Bài mẫu làm gì</th><th>Kỹ thuật</th><th></th></tr>${rows}</table></div>`, `<a href="#/">Trang chính</a> › Theo kỹ thuật`);
   }
 
+  /* ---------- luyện theo dạng bài: nhóm nhỏ trong từng dạng đề Task 1, và dạng câu hỏi Task 2 ---------- */
+  const SUB = window.B79_SUB || { dims: {}, classify: () => [] }, SUBC = {};
+  const subOf = b => SUBC[b.id] || (SUBC[b.id] = b.m === "t1" ? SUB.classify(b) : []);
+  const subGrp = (tp, key) => { let r = null; (SUB.dims[tp] || []).forEach(d => d.g.forEach(g => { if (g[0] === key) r = { d: d, g: g }; })); return r; };
+  const subList = (tp, key) => (BANKBY[tp] || []).filter(b => b.m === "t1" && subOf(b).indexOf(key) >= 0);
+  const wrN = bs => bs.filter(b => (S.wr[bkey(b)] || []).length).length;
+  let fromTy = null;
+  const tyCrumb = () => fromTy ? `<a href="#/by/type">Theo dạng bài</a> › <a href="${fromTy.h}">${esc(fromTy.n)}</a>` : "";
+  const QTYTIP = {
+    opin: "Nêu lập trường ngay ở mở bài và giữ nguyên đến kết bài. Có thể đồng ý một phần, nhưng phải nói rõ đồng ý phần nào và vì sao. Mỗi đoạn thân bài phát triển một lý do qua nhiều bậc, không liệt kê nhiều lý do.",
+    disc: "Trình bày cả hai quan điểm với độ dài tương đương, rồi nêu rõ quan điểm của mình vì đề luôn hỏi “give your own opinion”. Dùng ngôi thứ ba cho quan điểm của người khác: proponents of this view argue that…",
+    adv: "Nếu đề hỏi “do the advantages outweigh the disadvantages” thì phải kết luận bên nào nặng hơn và giải thích vì sao. Chỉ liệt kê hai phía là chưa trả lời đủ câu hỏi.",
+    posneg: "Đây là câu hỏi quan điểm: chọn tích cực, tiêu cực, hoặc cả hai với một bên trội hơn, và nói rõ ngay trong mở bài. Cần đánh giá hệ quả của xu hướng, không chỉ mô tả xu hướng.",
+    ps: "Mỗi giải pháp phải khớp với một nguyên nhân hoặc một vấn đề đã nêu ở đoạn trước. Nói rõ ai thực hiện giải pháp và nó tác động ra sao; tránh câu chung chung như “the government should raise awareness”.",
+    two: "Trả lời đủ cả hai câu hỏi, mỗi câu một đoạn thân bài có độ dài tương đương. Mở bài nên báo trước câu trả lời cho cả hai câu."
+  };
+  /* Một dòng đề trong ngân hàng đề, dùng chung cho trang chủ đề và trang dạng bài. */
+  function bitem(b, skip) {
+    const w = (S.wr[bkey(b)] || []).length, xd = b.mo ? [1, 2, 3].filter(i => isDone("XB" + i + "/" + b.id)).length : 0;
+    const sn = skip ? subOf(b).filter(k => k !== skip).map(k => { const x = subGrp(b.tp, k); return x ? x.g[1] : ""; }).filter(Boolean) : [];
+    const tn = skip && b.m !== "t1" ? ((TOPIC[b.tp] || XTOPIC[b.tp] || {}).n || "") : "";
+    return `<div class="bitem"><div><div class="btags">${bankTags(b)}</div><p class="en">${esc(b.q)}</p>${sn.length ? `<p class="small bsub">${sn.map(esc).join(" · ")}</p>` : ""}${tn ? `<p class="small bsub">Chủ đề: ${esc(tn)}</p>` : ""}</div><div class="bacts">${b.mo ? `<a class="btn sm ${xd === 3 ? "done" : ""}" href="#/xb/${b.id}/1">${xd === 3 ? "✓ Bài tập" : "▶ Bài tập" + (xd ? " (" + xd + "/3)" : "")}</a>` : ""}<a class="btn sm ${w ? "done" : "primary"}" href="#/wb/${b.id}">${w ? "✓ Viết lại (" + w + ")" : "Viết cả bài →"}</a></div></div>`;
+  }
+  /* Ô lọc theo nhóm nhỏ, đặt trong bộ lọc của trang dạng đề Task 1. */
+  function subSel(tp) {
+    const ds = SUB.dims[tp]; if (!ds) return "";
+    return `<select id="bsub"><option value="">Mọi nhóm nhỏ</option>${ds.map(d => `<optgroup label="${esc(d.n)}">${d.g.map(g => { const n = subList(tp, g[0]).length; return n ? `<option value="${g[0]}">${esc(g[1])} (${n})</option>` : ""; }).join("")}</optgroup>`).join("")}</select>`;
+  }
+  function vByType() {
+    const b2 = D.bank || [];
+    let h = `<h1 class="pt">🧩 Luyện theo dạng bài <small>Chọn một nhóm đề cùng kiểu, viết liền vài đề để quen cách xử lý</small></h1>
+      <p class="banknote">Mỗi dạng đề Task 1 được chia thành các <b>nhóm nhỏ</b> theo từng cách nhìn: chẳng hạn đề Map chia theo không gian (trong nhà, ngoài trời), theo mốc thời gian và theo đặc điểm thay đổi. Một đề có thể nằm trong nhiều nhóm. Mỗi nhóm có lời khuyên riêng về thì, từ vựng và cách chia thân bài; vào nhóm rồi bạn làm bài tập hoặc viết cả bài như ở mục Theo chủ đề.</p>
+      <h3 class="gh" style="--c:#0f9a8a">Task 1 · nhóm nhỏ trong từng dạng đề</h3>`;
+    D.topics.t1.forEach(tp => { const ds = SUB.dims[tp.k], all = (BANKBY[tp.k] || []).filter(b => b.m === "t1"); if (!ds || !all.length) return;
+      h += `<section class="tybox" style="--c:#0f9a8a"><header><span class="te">${tp.e}</span><h4>${esc(tp.n)}</h4><span class="small">${all.length} đề · ${wrN(all)} đã viết</span><a href="#/t/${tp.k}">Xem cả dạng ${esc(tp.n)} →</a></header>`;
+      ds.forEach(d => { const chips = d.g.map(g => { const bs = subList(tp.k, g[0]), w = wrN(bs); return bs.length ? `<a class="tychip${w === bs.length ? " all" : ""}" href="#/ty/${tp.k}/${g[0]}">${esc(g[1])}<small>${bs.length} đề${w ? " · " + w + " đã viết" : ""}</small></a>` : ""; }).join("");
+        if (chips) h += `<div class="tydim"><span>${esc(d.n)}</span><div class="tychips">${chips}</div></div>`; });
+      h += "</section>"; });
+    h += `<h3 class="gh" style="--c:#3b3fd8">Task 2 · dạng câu hỏi</h3><p class="small">Cùng một dạng câu hỏi thì cùng một cách trả lời và cùng một bố cục, dù chủ đề khác nhau. Chọn một dạng để luyện trên nhiều chủ đề.</p><div class="topgrid wide">`;
+    Object.keys(QTY).forEach(k => { const bs = b2.filter(b => b.ty === k), w = wrN(bs); if (!bs.length) return;
+      h += `<a class="topcard link" href="#/ty/t2/${k}" style="border-top:4px solid #3b3fd8"><h4>${QTY[k]}</h4>${bar(w / bs.length, "#3b3fd8")}<p class="small bk">📚 ${bs.length} đề viết cả bài</p><p class="small">${w} đề đã viết · ${bs.filter(b => b.d.some(d => d.slice(0, 4) >= "2025")).length} đề thi 2025–2026</p></a>`; });
+    shell(h + "</div>", `<a href="#/">Trang chính</a> › Theo dạng bài`);
+  }
+  function vSub(tp, key) {
+    const t2 = tp === "t2", grp = t2 ? null : subGrp(tp, key), base = t2 ? null : TOPIC[tp];
+    if (t2 ? !QTY[key] : !grp || !base) return vBy("type");
+    const list = t2 ? (D.bank || []).filter(b => b.ty === key) : subList(tp, key); if (!list.length) return vBy("type");
+    const name = t2 ? QTY[key] : grp.g[1], col = t2 ? "#3b3fd8" : "#0f9a8a", done = wrN(list);
+    fromTy = { h: "#/ty/" + tp + "/" + key, n: (t2 ? "Task 2" : base.n) + " · " + name };
+    const others = t2 ? [] : SUB.dims[tp].filter(d => d !== grp.d).map(d => ({ d: d, g: d.g.filter(g => list.some(b => subOf(b).indexOf(g[0]) >= 0)) })).filter(x => x.g.length > 1);
+    const sib = t2 ? Object.keys(QTY).filter(k => (D.bank || []).some(b => b.ty === k)).map(k => [k, QTY[k]]) : grp.d.g.filter(g => subList(tp, g[0]).length);
+    const tops = t2 ? D.topics.t2.concat(D.xtopics || []).filter(x => list.some(b => b.tp === x.k)) : [];
+    let h = `<div class="thead" style="--c:${col}"><span class="code">${t2 ? "T2" : base.e}</span><div><h1>${esc(name)}</h1><p class="grp">${t2 ? "Task 2 · dạng câu hỏi" : "Task 1 · " + esc(base.n) + " · " + esc(grp.d.n.toLowerCase())}</p></div></div>
+      <div class="tytip" style="--c:${col}"><h5>Điểm cần chú ý khi viết nhóm đề này</h5><p>${esc(t2 ? QTYTIP[key] : grp.g[2])}</p></div>
+      ${bar(done / list.length, col)}<p class="small">Bạn đã viết ${done}/${list.length} đề của nhóm này.${t2 ? "" : ` Muốn luyện từng kỹ thuật trên dạng ${esc(base.n)}? <a href="#/t/${tp}">Mở trang dạng ${esc(base.n)}</a>.`}</p>
+      <div class="tydim"><span>${t2 ? "Dạng câu hỏi khác" : esc(grp.d.n)}</span><div class="tychips">${sib.map(g => `<a class="tychip${g[0] === key ? " on" : ""}" href="#/ty/${tp}/${g[0]}"${g[0] === key ? ' aria-current="page"' : ""}>${esc(g[1])}</a>`).join("")}</div></div>
+      <h2 class="ways-h">📚 ${list.length} đề trong nhóm</h2>
+      <div class="bfilter" id="tyf">${others.map((x, i) => `<select data-dim="${i}" aria-label="${esc(x.d.n)}"><option value="">${esc(x.d.n)}: tất cả</option>${x.g.map(g => `<option value="${g[0]}">${esc(g[1])} (${list.filter(b => subOf(b).indexOf(g[0]) >= 0).length})</option>`).join("")}</select>`).join("")}
+        ${t2 ? `<select id="tytp" aria-label="Chủ đề"><option value="">Mọi chủ đề</option>${tops.map(x => `<option value="${x.k}">${esc(x.n)} (${list.filter(b => b.tp === x.k).length})</option>`).join("")}</select>` : ""}
+        <select id="tyst" aria-label="Lọc đề"><option value="">Mọi đề</option><option value="todo">Đề chưa viết (${list.length - done})</option>${t2 ? `<option value="y26">Đề thi 2026</option><option value="y25">Đề thi 2025</option><option value="ms">Có bài mẫu</option>` : `<option value="mo">Có bài mẫu + bài tập (${list.filter(b => b.mo).length})</option>`}</select></div>
+      <div class="blist" id="bl"></div>`;
+    shell(h, `<a href="#/">Trang chính</a> › <a href="#/by/type">Theo dạng bài</a> › ${esc(t2 ? "Task 2" : base.n)} › ${esc(name)}`);
+    let shown = 12;
+    const draw = () => { const st = $("#tyst").value, tpf = $("#tytp") ? $("#tytp").value : "", dv = $$("#tyf select[data-dim]").map(x => x.value).filter(Boolean);
+      const xs = list.filter(b => dv.every(v => subOf(b).indexOf(v) >= 0) && (!tpf || b.tp === tpf) && (!st || (st === "todo" ? !(S.wr[bkey(b)] || []).length : st === "mo" ? b.mo : st === "ms" ? b.ms.length : b.d.some(d => d.slice(0, 4) === (st === "y26" ? "2026" : "2025")))));
+      $("#bl").innerHTML = (xs.length ? xs.slice(0, shown).map(b => bitem(b, key)).join("") : '<p class="small">Không có đề nào khớp bộ lọc này.</p>') + (xs.length > shown ? `<div class="bar-actions"><button class="btn" id="bmore">Xem thêm ${Math.min(12, xs.length - shown)} đề (còn ${xs.length - shown})</button></div>` : "");
+      if ($("#bmore")) $("#bmore").onclick = () => { shown += 12; draw(); }; };
+    $$("#tyf select").forEach(x => { x.onchange = () => { shown = 12; draw(); }; }); draw();
+  }
+
   /* ---------- trang chủ đề ---------- */
   function vTopic(tk) {
-    const xt = XTOPIC[tk], tp = TOPIC[tk] || xt; if (!tp) return vBy("topic");
+    const xt = XTOPIC[tk], tp = TOPIC[tk] || xt; if (!tp) return vBy("topic"); fromTy = null;
     const m = D.topics.t1.indexOf(tp) >= 0 || tp.m === "t1" ? "t1" : "t2", M = D.modules[m], fk = FULLK(m), nf = wrCount(fk + "/" + tk), col = m === "t2" ? "#3b3fd8" : "#0f9a8a";
     const ts = xt ? [] : techsOf(m).filter(t => t.g !== "FULL"), groups = [], bank = BANKBY[tk] || []; ts.forEach(t => { if (groups.indexOf(t.g) < 0) groups.push(t.g); });
     let h = `<div class="thead" style="--c:${col}"><span class="code">${tp.e}</span><div><h1>${esc(tp.n)}</h1><p class="grp">${M.n} · ${m === "t2" ? "chủ đề" : "dạng đề"}</p></div></div>
@@ -2801,7 +2882,8 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
         <div class="bfilter" id="bf"><button class="btn sm primary" data-f="all">Tất cả (${bank.length})</button><button class="btn sm" data-f="y26">Đề thi 2026 (${y26})</button><button class="btn sm" data-f="y25">Đề thi 2025 (${y25})</button><button class="btn sm" data-f="ms">Có bài mẫu (${nm})</button>
         <select id="bty"><option value="">Mọi dạng đề</option>${Object.keys(QTY).map(k => `<option value="${k}">${QTY[k]}</option>`).join("")}</select></div>` : `<p class="small">Đề lấy từ bộ đề của giáo viên (đề thi 2018–2024 và đề Cambridge). Hình và bảng do trang vẽ lại từ số liệu của đề, không phải hình gốc; số đọc từ biểu đồ có thể chênh nhẹ. Với đề không in sẵn câu hỏi, câu chữ đề bài được ghi lại theo đề thí sinh nhớ. Đề có nhãn “Có bài mẫu + bài tập” có ba bài luyện sinh từ bài mẫu band 9 của trang.</p>
         <div class="bfilter" id="bf1"><select id="byr"><option value="">Mọi năm / nguồn</option>${[...new Set(bank.map(b => b.src ? "cam" : (b.d[0] || "").slice(0, 4)).filter(Boolean))].sort().reverse().map(y => `<option value="${y}">${y === "cam" ? "Cambridge IELTS" : "Đề thi " + y} (${bank.filter(b => (b.src ? "cam" : (b.d[0] || "").slice(0, 4)) === y).length})</option>`).join("")}</select>
-        <select id="blv"><option value="">Mọi bộ đề</option>${Object.keys(LVN).filter(k => bank.some(b => b.lv === k)).map(k => `<option value="${k}">Bộ đề ${LVN[k]} (${bank.filter(b => b.lv === k).length})</option>`).join("")}</select></div>`}<div class="blist" id="bl"></div>`;
+        ${subSel(tk)}<select id="blv"><option value="">Mọi bộ đề</option>${Object.keys(LVN).filter(k => bank.some(b => b.lv === k)).map(k => `<option value="${k}">Bộ đề ${LVN[k]} (${bank.filter(b => b.lv === k).length})</option>`).join("")}</select></div>`}<div class="blist" id="bl"></div>`;
+      if (m === "t1" && SUB.dims[tk]) h = h.replace('<div class="bfilter" id="bf1">', `<p class="small">Muốn luyện liền nhiều đề cùng kiểu? Xem <a href="#/by/type">các nhóm nhỏ của dạng ${esc(tp.n)}</a>, hoặc lọc bằng ô “Mọi nhóm nhỏ” bên dưới.</p><div class="bfilter" id="bf1">`);
     }
     if (!xt) h += `<h2 class="ways-h">${bank.length ? "Luyện" : "Hoặc luyện"} từng kỹ thuật trên ${m === "t2" ? "chủ đề" : "dạng đề"} này</h2>`;
     groups.forEach(g => {
@@ -2812,11 +2894,11 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
     shell(h, `<a href="#/">Trang chính</a> › <a href="#/by/topic">Theo chủ đề</a> › ${esc(tp.n)}`);
     if (bank.length) {
       let f = "all", shown = 12;
-      const draw = () => { const ty = $("#bty") ? $("#bty").value : "", yr = $("#byr") ? $("#byr").value : "", lvf = $("#blv") ? $("#blv").value : ""; const xs = bank.filter(b => (f === "all" || (f === "ms" ? b.ms.length : b.d.some(d => d.slice(0, 4) === (f === "y26" ? "2026" : "2025")))) && (!ty || b.ty === ty) && (!yr || (b.src ? "cam" : (b.d[0] || "").slice(0, 4)) === yr) && (!lvf || b.lv === lvf));
-        $("#bl").innerHTML = (xs.length ? xs.slice(0, shown).map(b => { const w = (S.wr[bkey(b)] || []).length; const xd = b.mo ? [1, 2, 3].filter(i => isDone("XB" + i + "/" + b.id)).length : 0; return `<div class="bitem"><div><div class="btags">${bankTags(b)}</div><p class="en">${esc(b.q)}</p></div><div class="bacts">${b.mo ? `<a class="btn sm ${xd === 3 ? "done" : ""}" href="#/xb/${b.id}/1">${xd === 3 ? "✓ Bài tập" : "▶ Bài tập" + (xd ? " (" + xd + "/3)" : "")}</a>` : ""}<a class="btn sm ${w ? "done" : "primary"}" href="#/wb/${b.id}">${w ? "✓ Viết lại (" + w + ")" : "Viết cả bài →"}</a></div></div>`; }).join("") : '<p class="small">Không có đề nào khớp bộ lọc này.</p>') + (xs.length > shown ? `<div class="bar-actions"><button class="btn" id="bmore">Xem thêm ${Math.min(12, xs.length - shown)} đề (còn ${xs.length - shown})</button></div>` : "");
+      const draw = () => { const ty = $("#bty") ? $("#bty").value : "", yr = $("#byr") ? $("#byr").value : "", lvf = $("#blv") ? $("#blv").value : "", sb = $("#bsub") ? $("#bsub").value : ""; const xs = bank.filter(b => (!sb || subOf(b).indexOf(sb) >= 0) && (f === "all" || (f === "ms" ? b.ms.length : b.d.some(d => d.slice(0, 4) === (f === "y26" ? "2026" : "2025")))) && (!ty || b.ty === ty) && (!yr || (b.src ? "cam" : (b.d[0] || "").slice(0, 4)) === yr) && (!lvf || b.lv === lvf));
+        $("#bl").innerHTML = (xs.length ? xs.slice(0, shown).map(b => bitem(b)).join("") : '<p class="small">Không có đề nào khớp bộ lọc này.</p>') + (xs.length > shown ? `<div class="bar-actions"><button class="btn" id="bmore">Xem thêm ${Math.min(12, xs.length - shown)} đề (còn ${xs.length - shown})</button></div>` : "");
         if ($("#bmore")) $("#bmore").onclick = () => { shown += 12; draw(); }; };
       $$("#bf button").forEach(bt => { bt.onclick = () => { f = bt.dataset.f; shown = 12; $$("#bf button").forEach(x => x.classList.toggle("primary", x === bt)); draw(); }; });
-      ["#bty", "#byr", "#blv"].forEach(q => { if ($(q)) $(q).onchange = () => { shown = 12; draw(); }; }); draw();
+      ["#bty", "#byr", "#blv", "#bsub"].forEach(q => { if ($(q)) $(q).onchange = () => { shown = 12; draw(); }; }); draw();
     }
   }
 
@@ -2936,7 +3018,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
     const nav = `<div class="xsteps">${[1, 2, 3].map(i => `<a class="${i === n ? "on" : ""}${isDone("XB" + i + "/" + id) ? " ok" : ""}" href="#/xb/${id}/${i}">${isDone("XB" + i + "/" + id) ? "✓ " : ""}${i}. ${XBN[i - 1]}</a>`).join("")}<a class="${isM ? "on" : ""}" href="#/xb/${id}/m">📄 Bài mẫu band 9</a><a href="#/wb/${id}">✎ Viết cả bài</a></div>`;
     const head = `<div class="phead"><span class="code">${base.e}</span><div><h1>${isM ? "Bài mẫu band 9" : "Bài tập " + n + "/3 · " + XBN[n - 1]}</h1><p class="grp">${esc(base.n)} · đề trong ngân hàng Task 1</p></div>${isM ? "" : '<span class="clock">⏱ <b id="clock">0:00</b></span>'}</div>${nav}
       <div class="prompt"><span class="tag">Đề bài</span> <span class="btags">${bankTags(b)}</span><p class="en">${esc(b.q)}</p></div>${chart(b.ds)}`;
-    const crumbs = `<a href="#/">Trang chính</a> › <a href="#/by/topic">Theo chủ đề</a> › <a href="#/t/${b.tp}">${esc(base.n)}</a> › ${isM ? "Bài mẫu" : "Bài tập " + n}`;
+    const crumbs = `<a href="#/">Trang chính</a> › ${tyCrumb() || `<a href="#/by/topic">Theo chủ đề</a> › <a href="#/t/${b.tp}">${esc(base.n)}</a>`} › ${isM ? "Bài mẫu" : "Bài tập " + n}`;
     if (isM) {
       act = { k: "F1", sec: 0 };
       return shell(`<div class="play" style="--c:#0f9a8a">${head}<div class="b9"><span class="tag t9">Bài mẫu band 9 · ${words(b.mo)} từ</span><p class="en modelp">${esc(xparas(b).join("\n\n"))}</p></div>
@@ -2975,7 +3057,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
     if (bk) { const base = TOPIC[bk.tp] || XTOPIC[bk.tp]; tk = bk.tp; tp = { k: bk.tp, n: base.n, e: base.e, q: bk.q }; }
     if (!t || !tp || (!bk && D.topics[t.m].indexOf(tp) < 0)) return vHome();
     const byT = via === "t", fo = t.g === "FULL" && via && TECH[via] && TECH[via].m === t.m && TECH[via].g !== "FULL" ? TECH[via] : null;
-    const cks = fo ? t.ck.concat(fo.ck) : t.ck, back = byT ? "#/t/" + tk : fo ? "#/k/" + fo.k : "#/k/" + t.k;
+    const cks = fo ? t.ck.concat(fo.ck) : t.ck, back = bk && fromTy ? fromTy.h : byT ? "#/t/" + tk : fo ? "#/k/" + fo.k : "#/k/" + t.k;
     const M = D.modules[t.m], id = k + "/" + (bk ? bk.id : tk), prev = S.wr[id] || [], draft = S.draft[id] != null ? S.draft[id] : (t.tpl || "");
     shell(`<div class="play studio" style="--c:${color(t)}"><div class="phead"><span class="code">${t.k}</span><div><h1>Viết: ${esc(t.n)}</h1><p class="grp">${tp.e} ${esc(tp.n)} · gợi ý ${t.min} phút</p></div><span class="clock">⏱ <b id="clock">0:00</b></span></div>
       <p class="instr">${esc(t.st)}</p>
@@ -2987,7 +3069,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
       <div class="ck"><h5>Tự soát trước khi nộp</h5>${cks.map((c, i) => `<label><input type="checkbox" data-ck="${i}"> ${esc(c)}</label>`).join("")}</div>
       <div class="bar-actions"><button class="btn primary" id="sub">${PROSE.indexOf(t.k) >= 0 ? "Nộp và xem bài đang ở band nào →" : "Nộp bài viết"}</button></div><div id="fb"></div>
       ${prev.length ? `<details class="hist"><summary>Bài đã nộp (${prev.length})</summary>${prev.slice().reverse().map(p => `<div class="past"><p class="small">${new Date(p.ts).toLocaleString("vi-VN")} · ${p.words} từ · ${fmtMS(p.sec)}</p><p class="en pre">${esc(p.text)}</p></div>`).join("")}</details>` : ""}</div>`,
-      byT ? `<a href="#/">Trang chính</a> › <a href="#/by/topic">Theo chủ đề</a> › <a href="#/t/${tk}">${esc(tp.n)}</a> › Viết · ${t.k}` : `<a href="#/">Trang chính</a> › <a href="#/m/${t.m}">${M.n}</a> › <a href="#/k/${(fo || t).k}">${(fo || t).k}</a> › ${fo ? "Cả bài" : "Viết"} · ${esc(tp.n)}`);
+      bk && tyCrumb() ? `<a href="#/">Trang chính</a> › ${tyCrumb()} › Viết cả bài` : byT ? `<a href="#/">Trang chính</a> › <a href="#/by/topic">Theo chủ đề</a> › <a href="#/t/${tk}">${esc(tp.n)}</a> › Viết · ${t.k}` : `<a href="#/">Trang chính</a> › <a href="#/m/${t.m}">${M.n}</a> › <a href="#/k/${(fo || t).k}">${(fo || t).k}</a> › ${fo ? "Cả bài" : "Viết"} · ${esc(tp.n)}`);
     const ta = $("#ta"), wc = $("#wc"), base = t.tpl ? words(t.tpl) : 0;
     const upd = () => { wc.textContent = Math.max(0, words(ta.value) - (ta.value.indexOf("LẬP TRƯỜNG") === 0 ? base : 0)) + " từ"; S.draft[id] = ta.value; };
     ta.oninput = upd; upd();
@@ -3005,7 +3087,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
       $("#sub").remove(); ta.readOnly = true;
       $("#fb").innerHTML = `<div class="fb ok"><div class="fbh">✓ Đã nộp · ${n} từ · tự soát ${ticked}/${cks.length}</div>
         ${ref ? `<div class="b9"><span class="tag t9">${esc(ref.label)}</span><p class="en pre">${esc(ref.text)}</p></div><p class="whyp">Đặt bài của bạn cạnh bản mẫu và tìm một điểm khác nhau về ${t.g === "LR" ? "cách kết hợp từ" : t.g === "GR" ? "cấu trúc câu" : t.g === "CC" ? "cách nối câu" : "cách khai triển"}.</p>` : ""}
-        <div class="bar-actions"><button class="btn" id="again">✎ Viết bài khác</button>${t.tpl ? "" : `<button class="btn" id="toc">Phân tích và nâng cấp bài này →</button>`}<a class="btn primary" href="${back}">${byT ? "Về chủ đề " + esc(tp.n) : "Về " + t.k} →</a></div></div>`;
+        <div class="bar-actions"><button class="btn" id="again">✎ Viết bài khác</button>${t.tpl ? "" : `<button class="btn" id="toc">Phân tích và nâng cấp bài này →</button>`}<a class="btn primary" href="${back}">${bk && fromTy ? "Về nhóm " + esc(fromTy.n) : byT ? "Về chủ đề " + esc(tp.n) : "Về " + t.k} →</a></div></div>`;
       $("#again").onclick = () => vWrite(k, tk, via, bk);
       if ($("#toc")) $("#toc").onclick = () => startCoach({ m: t.m, kind: t.m === "t1" ? tk : "", q: tp.q, k0: t.k, tk: tk, text: text });
       fbMount($("#fb"), { tech: t.k, topic: tk, src: "write" });
@@ -3401,6 +3483,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
       case "k": return vTech(p[1]);
       case "by": return vBy(p[1]);
       case "t": return vTopic(p[1]);
+      case "ty": return vSub(p[1], p[2]);
       case "xb": return vBankEx(p[1], p[2]);
       case "wb": return BANK[p[1]] ? vWrite(BANK[p[1]].m === "t1" ? "F1" : "F2", null, "t", BANK[p[1]]) : vBy("topic");
       case "p": return vPlay(p[1], p[2], p[3]);
