@@ -3626,7 +3626,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
     ];
     shell(`<h1 class="pt">Bạn đang ở band nào?</h1><div class="about">
       <p>Trang này được soạn cho chặng band 7 lên band 9, nhưng nhiều người dùng trang chưa tới band 7. Vì vậy mục <a href="#/coach">Thử với bài của bạn</a> không chỉ nói “bài đã ở band 7 hay chưa”: nó ước lượng band hiện tại từ band 4 đến band 9, nêu lí do theo từng tiêu chí, rồi xếp việc cần sửa theo thứ tự nền tảng trước, kỹ thuật band 9 sau.</p>
-      <div class="bar-actions"><a class="btn primary" href="#/coach">Ước lượng band cho bài của tôi →</a></div>
+      ${PAID.enabled ? payPanel(null, true) : '<div class="bar-actions"><a class="btn primary" href="#/coach">Ước lượng band cho bài của tôi →</a></div>'}
       <h3>Thang band 4 đến 7, theo bốn tiêu chí</h3>
       <p class="small">Diễn đạt lại bằng tiếng Việt từ bảng mô tả band điểm Writing công khai của IELTS (bản cập nhật tháng 5/2023). Đọc từ dưới lên và dừng ở dòng mô tả đúng nhất bài của bạn ở từng cột; bốn cột không nhất thiết cùng một dòng.</p>
       <div class="tablewrap"><table class="dt wide ladder"><tr><th>Band</th><th>Task Response (Task 2) · Task Achievement (Task 1)</th><th>Coherence &amp; Cohesion</th><th>Lexical Resource</th><th>Grammatical Range &amp; Accuracy</th></tr>${L.map(r => `<tr${r[0] === "7" ? ' class="b7r"' : ""}><td>${badge(r[0] === "7" ? "ok" : +r[0])}</td><td>${r[1]}</td><td>${r[2]}</td><td>${r[3]}</td><td>${r[4]}</td></tr>`).join("")}</table></div>
@@ -3654,6 +3654,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
         <li>Trong mục <a href="#/by/tech">Theo kỹ thuật</a>, bắt đầu bằng các kỹ thuật gần nền tảng nhất: TR1 (khai triển ý), GR3 (câu không lỗi), LR3 (sửa collocation sai), TA2 (overview), T1M (thì và bị động).</li>
         <li>Khi bài không còn dấu hiệu dưới band 7, chuyển sang các kỹ thuật còn lại của chặng band 7 lên band 9.</li>
       </ol></div>`, `<a href="#/">Trang chính</a> › Bạn đang ở band nào?`);
+    if (S && PAID.enabled) bindPay(null, vBands);
   }
 
   function vAbout() {
@@ -3754,16 +3755,40 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
     }
     return `<div class="est e${a.est}"><div class="big">Band ${a.est}${a.est === "7" ? "<small>chưa thấy dấu hiệu dưới 7</small>" : ""}</div><div><b>${a.n9}/${a.n} đặc trưng đo được đã ở mức band 9.</b>${brief ? "" : `<br><span class="small">${a.est === "7" ? "Trang không thấy dấu hiệu của band 4–6 mà máy đo được, nhưng điều đó chưa chắc bài đã đạt band 7: máy không chấm được chất lượng lập luận và không bắt hết lỗi ngữ pháp. " : ""}Đây là mức gần nhất theo các đặc trưng máy đếm được trên bài của bạn, không phải điểm thi.${a.est === "7" ? "" : " Máy không chấm được chất lượng lập luận và không bắt hết lỗi ngữ pháp."}</span>`}</div></div>`;
   }
-  const aiBlock = ai => ai ? `<div class="aibox"><span class="tag">Nhận xét của trợ lý AI</span>${ai.bands ? `<div class="aib">${["TR", "CC", "LR", "GRA"].map(k => ai.bands[k] != null ? `<span><b>${esc(ai.bands[k])}</b>${k === "TR" ? "TR/TA" : k}</span>` : "").join("")}${ai.bands.overall != null ? `<span class="ov"><b>${esc(ai.bands.overall)}</b>Ước lượng chung</span>` : ""}</div>` : ""}<p>${esc(ai.summary || "")}</p><p class="small">Ước lượng của AI theo band descriptor công khai, không phải điểm của giám khảo.</p></div>` : "";
+  const aiWhy = w => { const xs = Array.isArray(w) ? w : w && typeof w === "object" ? Object.keys(w).map(k => ({ c: k, reason: w[k] })) : []; const ok = xs.filter(x => x && (x.reason || x.why)); return ok.length ? `<ul class="whyb">${ok.slice(0, 8).map(x => `<li>${x.c ? `<b>${esc(x.c)}${x.band != null ? " · band " + esc(x.band) : ""}</b> · ` : ""}${esc(x.reason || x.why)}</li>`).join("")}</ul>` : ""; };
+  const aiBlock = ai => ai ? `<div class="aibox"><span class="tag t9">Bản trả phí</span> <span class="tag">Phân tích band của trợ lý AI</span>${ai.bands ? `<div class="aib">${["TR", "CC", "LR", "GRA"].map(k => ai.bands[k] != null ? `<span><b>${esc(ai.bands[k])}</b>${k === "TR" ? "TR/TA" : k}</span>` : "").join("")}${ai.bands.overall != null ? `<span class="ov"><b>${esc(ai.bands.overall)}</b>Ước lượng chung</span>` : ""}</div>` : ""}${aiWhy(ai.why)}<p>${esc(ai.summary || "")}</p><p class="small">Ước lượng của AI theo band descriptor công khai, không phải điểm của giám khảo.</p></div>` : "";
 
   /* hai chế độ: miễn phí (bộ phân tích tự động) và trả phí (trợ lý AI) */
-  function payPanel(C) {
+  function payPanel(C, band) {
     if (!PAID.enabled) return "";
-    const left = S.paid ? S.paid.left : 0; let st;
-    if (C && C.ai) st = `<p class="payon">✓ Bài này đang được trợ lý AI chấm.${S.paid ? " Bạn còn " + left + " bài." : ""}</p>`;
-    else if (AI_ON() && C) st = `<button class="btn primary" id="useai" ${left > 0 ? "" : "disabled"}>Chấm bài này bằng trợ lý AI · dùng 1 bài (còn ${left})</button>${left > 0 ? "" : `<button class="btn" id="askpay">Yêu cầu mua thêm · ${vnd(FEE)} / bài</button>`}<div id="aiwait"></div>`;
-    else if (AI_ON()) st = `<p class="payon">✓ Đã bật trả phí · còn ${left} bài. Dán bài rồi chọn chấm bằng trợ lý AI ở bước chẩn đoán.</p>`;
+    const left = S && S.paid ? S.paid.left : 0; let st;
+    if (!S) st = `<a class="btn primary" href="#/coach">Nhập tên để yêu cầu bản trả phí · ${vnd(FEE)} / bài</a>`;
+    else if (C && C.ai) st = `<p class="payon">✓ Bài này đang được trợ lý AI chấm.${S.paid ? " Bạn còn " + left + " bài." : ""}</p>`;
+    else if (AI_ON() && C) st = `<button class="btn primary" id="useai" ${left > 0 ? "" : "disabled"}>${band ? "Phân tích band bài này bằng trợ lý AI" : "Chấm bài này bằng trợ lý AI"} · dùng 1 bài (còn ${left})</button>${left > 0 ? "" : `<button class="btn" id="askpay">Yêu cầu mua thêm · ${vnd(FEE)} / bài</button>`}<div id="aiwait"></div>`;
+    else if (AI_ON()) st = `<p class="payon">✓ Đã bật trả phí · còn ${left} bài. Dán bài rồi chọn chấm bằng trợ lý AI ở bước chẩn đoán.</p>${band ? '<div class="bar-actions"><a class="btn primary" href="#/coach">Dán bài để trợ lý AI phân tích →</a></div>' : ""}`;
     else st = `<button class="btn primary" id="askpay">Yêu cầu bật chấm trả phí · ${vnd(FEE)} / bài</button><button class="btn" id="havecode">Tôi đã có mã kích hoạt</button>`;
+    if (band) return `<h3 class="modes-h" id="bandmodes">Hai cách phân tích band hiện tại của bạn</h3><div class="modes"><div class="mode free"><span class="tag">Miễn phí</span><h4>Bộ ước lượng tự động</h4>
+      <p class="lead">Biết ngay mình đang ở khoảng band nào, không tốn phí.</p>
+      <ul class="bene">
+        <li>Có kết quả tức thì, không giới hạn số bài.</li>
+        <li>Ước lượng band chung và band từng tiêu chí, từ band 4 đến band 9.</li>
+        <li>Nêu lí do bằng các dấu hiệu đếm được trên bài: độ dài, chia đoạn, khai triển ý, overview, từ nối, chính tả, vốn từ, lỗi ngữ pháp cơ bản.</li>
+        <li>Xếp việc cần sửa theo thứ tự: nền tảng trước, kỹ thuật band 9 sau.</li>
+      </ul>
+      <p class="limit">Giới hạn: máy không hiểu ý bạn viết và chỉ bắt được một phần lỗi, nên band thật có thể thấp hơn mức ước lượng, nhất là ở Task Response.</p>
+      ${C ? '<p class="payon">✓ Bạn đang xem kết quả của bản này ở phía trên.</p>' : '<div class="bar-actions"><a class="btn primary" href="#/coach">Phân tích miễn phí bài của tôi →</a></div>'}</div>
+      <div class="mode pay"><span class="tag t9">Trả phí</span><h4>Trợ lý AI phân tích band của bạn</h4>
+      <p class="lead">Đọc và hiểu nội dung bài, nên xét được cả những điều máy không đếm được.</p>
+      <ul class="bene">
+        <li>Ước lượng band cho cả bốn tiêu chí và band chung, kể cả khi bài chưa tới band 7.</li>
+        <li>Xét bài có trả lời đúng và đủ câu hỏi của đề không, ý nào còn nông, lập luận hở ở đâu: phần quyết định Task Response mà bản miễn phí không chấm được.</li>
+        <li>Chỉ đúng câu đang kéo band xuống và giải thích vì sao.</li>
+        <li>Có thể chỉ ra lỗi ngữ pháp và kết hợp từ nằm ngoài danh sách của bộ tự động.</li>
+        <li>Sau khi bạn sửa, đọc lại và ước lượng lại band.</li>
+      </ul>
+      <p class="limit">Band là ước lượng của AI theo band descriptor công khai, không phải điểm của giám khảo. Bạn chỉ bị trừ bài khi tự bấm chấm; nếu AI lỗi, bài đó được hoàn lại.</p>
+      <p class="fee"><b>${vnd(FEE)}</b> / bài</p>
+      <div class="bar-actions">${st}</div><div id="paybox"></div></div></div>`;
     return `<h3 class="modes-h">Chọn cách nhận phản hồi cho bài viết</h3><div class="modes"><div class="mode free"><span class="tag">Miễn phí</span><h4>Bộ phân tích tự động</h4>
       <p class="lead">Biết ngay bài đang ở đâu và cần sửa gì trước, không tốn phí.</p>
       <ul class="bene">
@@ -3777,7 +3802,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
       <p class="lead">Đọc và hiểu nội dung bài, nên chỉ ra được điều bộ tự động không thấy.</p>
       <ul class="bene">
         <li>Xét ý của bạn: bài đã trả lời đúng đề chưa, ý nào còn nông, lập luận hở ở đâu.</li>
-        <li>Ước lượng band cho cả bốn tiêu chí và band chung.</li>
+        <li>Ước lượng band cho cả bốn tiêu chí và band chung, kể cả khi bài chưa tới band 7.</li>
         <li>Chỉ đúng câu cần nâng và giải thích vì sao câu đó mới ở mức band hiện tại.</li>
         <li>Viết mẫu một câu của chính bạn ở mức band 9, để bạn tự làm tiếp các câu còn lại.</li>
         <li>Đọc lại bản sửa ở từng bước và nói rõ còn thiếu gì.</li>
@@ -3822,22 +3847,24 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
     };
     if (use) use.onclick = async () => {
       use.disabled = true; $("#aiwait").innerHTML = '<p class="small">⏳ Trợ lý AI đang đọc bài của bạn, mất khoảng nửa phút…</p>';
-      const d = await aiCall({ mode: "diag", m: C.m, dtype: C.kind, q: C.q, text: C.text });
+      const d = await aiCall({ mode: "diag", want: "band", auto: runC(C).est, m: C.m, dtype: C.kind, q: C.q, text: C.text });
       if (S.coach !== C) return;
-      if (d && d.ok) { C.ai = { bands: d.bands, summary: d.summary }; rs("coach_ai", { sid: C.sid, bands: d.bands, nsteps: (d.steps || []).length }); const st = (d.steps || []).filter(s => s && TECH[s.k] && s.how).slice(0, 7); if (st.length) C.aiSteps = st; save(); if (C.stage === "diag") rerender(); }
+      if (d && d.ok) { C.ai = { bands: d.bands, summary: d.summary, why: d.why || d.reasons }; rs("coach_ai", { sid: C.sid, bands: d.bands, nsteps: (d.steps || []).length }); const st = (d.steps || []).filter(s => s && TECH[s.k] && s.how).slice(0, 7); if (st.length) C.aiSteps = st; save(); if (C.stage === "diag") rerender(); }
       else { use.disabled = false; const w = $("#aiwait"); if (w) w.innerHTML = `<p class="small" style="color:var(--bad)">${d ? esc(AI_ERR[d.error] || "Trợ lý AI chưa trả lời được. Bài của bạn chưa bị trừ.") : "Không kết nối được. Bài của bạn chưa bị trừ."}</p>`; if (d && d.error === "no-credit") rerender(); }
     };
   }
 
   function coachDiag(C) {
     const a = runC(C), isLow = a.band && a.band.low, nBase = a.checks.filter(c => c.base && todo(c)).length, nTodo = isLow ? nBase : a.checks.filter(todo).length;
-    shell(`<div class="play coach" style="--c:#1b1e3c">${dots(C)}<h1>Bài của bạn đang ở khoảng band nào</h1>${estLine(a)}
+    shell(`<div class="play coach" style="--c:#1b1e3c">${dots(C)}<h1>Bài của bạn đang ở khoảng band nào</h1><p class="small" style="margin:6px 0 0"><span class="tag">Bản miễn phí</span> Ước lượng tự động theo các dấu hiệu máy đếm được</p>${estLine(a)}
+      ${PAID.enabled && !C.ai ? `<p class="banknote"><span class="tag t9">Bản trả phí</span> Trợ lý AI đọc hiểu nội dung bài rồi ước lượng band từng tiêu chí, kể cả phần máy không chấm được (bài có trả lời đúng đề không, ý có đủ sâu không) · ${vnd(FEE)} / bài. <a href="#bandmodes" id="tomodes">So sánh hai lựa chọn ↓</a></p>` : ""}
       ${isLow ? `<p class="whyp"><b>Việc nên làm trước:</b> qua ${nBase} mốc nền tảng đang ở mức band 4–6 (nhóm đầu tiên trong bảng dưới), bắt đầu từ mốc thấp nhất. Vòng nâng cấp này chỉ gồm các mốc đó; các kỹ thuật band 9 để vòng sau, khi nền đã vững.</p>` : ""}
       ${aiBlock(C.ai)}
       ${featTable(a)}
       <details class="hist"><summary>Xem lại bài bạn đã nộp (${a.W} từ)</summary><p class="en pre">${esc(C.text)}</p></details>
       <div class="bar-actions"><button class="btn primary" id="go">${C.aiSteps ? "Bắt đầu nâng cấp cùng trợ lý AI · " + C.aiSteps.length + " bước →" : nTodo ? (isLow ? "Bắt đầu từ nền tảng · " : "Bắt đầu nâng cấp · ") + nTodo + " bước →" : "Xem tổng kết →"}</button><button class="btn" id="drop">Bỏ bài này, dán bài khác</button></div>
-      ${payPanel(C)}</div>`, coachCrumb(C));
+      ${payPanel(C, true)}</div>`, coachCrumb(C));
+    if ($("#tomodes")) $("#tomodes").onclick = e => { e.preventDefault(); const m = $("#bandmodes"); if (m) m.scrollIntoView({ behavior: "smooth", block: "start" }); };
     $("#go").onclick = () => { planSteps(C); vCoach(); };
     $("#drop").onclick = () => { S.coach = null; save(); vCoach(); };
     bindPay(C, () => coachDiag(C));
@@ -3909,7 +3936,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
     $("#fin").onclick = () => { S.coach = null; save(); vCoach(); };
     if ($("#back")) $("#back").onclick = () => { S.coach = null; save(); };
     fbMount($(".coach"), { tech: C.k0 || "COACH", topic: C.tk || C.m, src: "coach" });
-    if (AI_ON() && C.ai && C.ai2r !== C.round) { C.ai2r = C.round; aiCall({ mode: "diag", m: C.m, dtype: C.kind, q: C.q, text: C.text }).then(d => { if (S.coach !== C || !d || !d.ok) return; C.ai2 = { bands: d.bands, summary: d.summary }; save(); const w = $("#aiwait"); if (w && C.stage === "done") w.innerHTML = aiBlock(C.ai2); }); }
+    if (AI_ON() && C.ai && C.ai2r !== C.round) { C.ai2r = C.round; aiCall({ mode: "diag", want: "band", auto: runC(C).est, m: C.m, dtype: C.kind, q: C.q, text: C.text }).then(d => { if (S.coach !== C || !d || !d.ok) return; C.ai2 = { bands: d.bands, summary: d.summary, why: d.why || d.reasons }; save(); const w = $("#aiwait"); if (w && C.stage === "done") w.innerHTML = aiBlock(C.ai2); }); }
   }
 
   /* =================== GÓP Ý VÀ ĐÁNH GIÁ =================== */
