@@ -30,6 +30,7 @@ h2{margin:26px 0 10px;font-size:1.15rem}.pb{display:inline-block;width:70px;heig
 @media(max-width:700px){.fbgrid{grid-template-columns:1fr}}
 .essay{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:8px 0}.essay p{white-space:pre-wrap;font-family:Georgia,serif;font-size:1.02em;margin:6px 0 0}.meta{font-size:.82em;color:var(--mut)}
 @media(max-width:700px){.kpis{grid-template-columns:1fr 1fr}}
+details.cb{margin:18px 0}details.cb summary{cursor:pointer;font-weight:600;margin-bottom:10px}td.wide{max-width:640px;min-width:320px}#out button.ghost{margin:0 6px 8px 0}
 </style>
 </head>
 <body>
@@ -80,7 +81,7 @@ h2{margin:26px 0 10px;font-size:1.15rem}.pb{display:inline-block;width:70px;heig
     var cls = $("#cls").value, by = {};
     rows.forEach(function (r) {
       if (cls && r[2] !== cls) return;
-      if (r[3] === "contact") return;
+      if (r[3] === "contact" || r[3] === "rs" || r[3] === "consent") return;
       var id = String(r[1]).trim().toLowerCase() + "|" + r[2];
       var s = by[id] || (by[id] = { name: r[1], cls: r[2], sec: 0, okIds: {}, first: 0, firstOk: 0, techs: {}, wr: 0, words: 0, last: "", items: [], essays: [], phone: "", phoneTs: "" });
       if (r[0] > s.last) s.last = r[0];
@@ -117,6 +118,7 @@ h2{margin:26px 0 10px;font-size:1.15rem}.pb{display:inline-block;width:70px;heig
     }
     h += contacts();
     h += feedback();
+    h += research();
     /* chế độ trả phí: ai đang được bật, và chi phí AI thực tế so với phí công bố */
     var P = CFG.paid || {}, cost = +P.aiCostPerEssayVND || 0, mk = +P.markup || 2, rate = +P.usdToVnd || 26000, nEss = 0, micro = 0;
     rows.forEach(function (r) { if (r[3] === "ai") { nEss += +r[9] || 0; micro += +r[10] || 0; } });
@@ -133,6 +135,7 @@ h2{margin:26px 0 10px;font-size:1.15rem}.pb{display:inline-block;width:70px;heig
     Array.prototype.forEach.call(document.querySelectorAll("th[data-k]"), function (th) { th.onclick = function () { var k = th.getAttribute("data-k"); if (sortKey === k) sortDir = -sortDir; else { sortKey = k; sortDir = k === "name" || k === "cls" ? 1 : -1; } render(); }; });
     if ($("#csvfb")) $("#csvfb").onclick = csvFb;
     if ($("#csvct")) $("#csvct").onclick = csvCt;
+    rsBind();
     Array.prototype.forEach.call(document.querySelectorAll("tr[data-i] a"), function (a) { a.onclick = function (e) { e.stopPropagation(); }; });
     Array.prototype.forEach.call(document.querySelectorAll("tr[data-i]"), function (tr) { tr.onclick = function () { detail(list[+tr.getAttribute("data-i")]); }; });
   }
@@ -216,6 +219,117 @@ h2{margin:26px 0 10px;font-size:1.15rem}.pb{display:inline-block;width:70px;heig
     var out = [["Thời gian", "Họ tên", "Lớp", "Số sao", "Hài lòng", "Chưa hài lòng", "Gợi ý", "Lúc đánh giá", "Kỹ thuật", "Chủ đề"].map(q).join(",")];
     fbList.forEach(function (f) { out.push([f.ts, f.name, f.cls, f.star, lab(f.up), lab(f.down), f.c, SRC[f.src] || f.src, f.tech, f.topic].map(q).join(",")); });
     var a = document.createElement("a"); a.href = URL.createObjectURL(new Blob(["\ufeff" + out.join("\n")], { type: "text/csv;charset=utf-8" })); a.download = "band79-gop-y.csv"; document.body.appendChild(a); a.click(); a.remove();
+  }
+
+  /* ---------- dữ liệu nghiên cứu: chỉ của người học đã đồng ý tham gia, gắn mã ẩn danh ---------- */
+  var PF = { age: ["18–22", "23–30", "31–40", "Trên 40"], job: ["Sinh viên", "Người đi làm", "Giáo viên tiếng Anh", "Khác"], yrs: ["Dưới 5 năm", "5–10 năm", "Trên 10 năm"], cls: ["Tự học", "Lớp của giáo viên phụ trách trang", "Lớp ở nơi khác"], ai: ["Chưa bao giờ", "Vài lần mỗi tháng", "Vài lần mỗi tuần", "Gần như mỗi ngày"] };
+  var PF_TOOLS = ["ChatGPT", "Gemini", "Claude", "Grammarly", "Công cụ dịch", "Khác"];
+  var SKIPWHY = ["Chưa hiểu gợi ý", "Không đồng ý với gợi ý", "Câu của tôi đã ổn", "Chưa biết sửa thế nào", "Muốn làm nhanh", "Lý do khác"];
+  var CB = [
+    ["sess", "Mở trang", "w, h: kích thước màn hình · touch: 1 nếu là màn hình cảm ứng · days: số ngày kể từ khi đồng ý · hrs: tổng giờ đã học · acts: số bài đã làm · paid: 1 nếu đang có mã trả phí"],
+    ["view", "Chuyển trang", "r: trang vừa mở (ví dụ k/TR1, xb/&lt;mã đề&gt;/m là trang bài mẫu). Thời gian ở lại một trang = khoảng cách tới sự kiện kế tiếp"],
+    ["consent", "Đồng ý tham gia", "v: phiên bản lời mời · prior: số bài đã làm trước khi đồng ý"],
+    ["profile", "Hồ sơ người học", "age, job, yrs, cls, ai: chỉ số của lựa chọn (bảng người tham gia đã đổi sang chữ) · tools: công cụ đã dùng · taken: đã thi chưa · mon, w, ov: tháng thi, Writing, Overall gần nhất · goal: band Writing mong muốn · plan: tháng định thi · se1, se2 (tự tin), tr1 (tin nhận xét của máy), tr2 (làm theo máy), dep (phụ thuộc AI): thang 1–5"],
+    ["pulse", "Khảo sát định kỳ (14 ngày)", "n: lần thứ mấy · se1, se2, tr1, tr2 như hồ sơ · use: thấy trang giúp viết tốt hơn · eff: phải suy nghĩ nhiều · thang 1–5"],
+    ["exam", "Điểm thi tự báo", "mon: tháng thi · type: 0 Academic, 1 General · mode: 0 giấy, 1 máy · w, ov, l, r, s: điểm"],
+    ["item", "Bài luyện dạng game", "k: kỹ thuật · tp: chủ đề hoặc mã đề · y: dạng game · ok: 1 nếu đúng · n: lượt thứ mấy · s: số giây"],
+    ["write", "Nộp một bài viết", "id, k, tp, bank: bài nào · fo: kỹ thuật trọng tâm · w: số từ · s: số giây · ck/nck: số mục tự soát đã tick / tổng · n: lần nộp thứ mấy · band_*: ước lượng của máy · proc_*: nhịp viết · text: bài viết"],
+    ["snap", "Bản nháp giữa chừng (5 phút một lần, tối đa 6)", "key: ô đang viết · n: bản thứ mấy · s: giây kể từ lúc mở ô · w: số từ · text"],
+    ["model_open", "Mở bài mẫu hoặc bài đã nộp khi đang viết", "id · what: model / past · s: giây đã viết · w: số từ lúc mở"],
+    ["coach_start", "Bắt đầu phân tích một bài", "sid: mã phiên sửa · m: t1/t2 · scope: full/para · k, tp: nguồn bài · src: paste (dán vào), site (viết trên trang), solo · band_*: ước lượng ban đầu · text"],
+    ["coach_plan", "Danh sách bước sửa", "mode: rule (bộ tự động) / ai (trợ lý AI) · order: thứ tự các bước"],
+    ["coach_chk", "Bấm “Kiểm tra lại” ở một bước", "i: bước thứ mấy · id: đặc trưng · k: kỹ thuật · g: tiêu chí (TR, TA, CC, LR, GR) · base: 1 nếu là mốc nền tảng dưới band 7 · lvl0 → lvl1: mức trước và sau · ok: đạt · changed: có sửa · better: tốt hơn nhưng chưa đạt · nchk: lần kiểm tra thứ mấy · s: giây ở bước này · ex: đã mở ví dụ · sc: đã dùng khung gợi ý · chg_at, chg_del, chg_ins: chỗ đã sửa · proc_* · after: bài sau khi sửa"],
+    ["coach_next", "Rời một bước", "out: pass (đạt), partial (tạm chấp nhận), skip_tried (thử rồi bỏ), skip (bỏ qua không thử) · các trường khác như coach_chk"],
+    ["skip_why", "Lí do bỏ qua một gợi ý", "why: 0 Chưa hiểu gợi ý · 1 Không đồng ý · 2 Câu của tôi đã ổn · 3 Chưa biết sửa thế nào · 4 Muốn làm nhanh · 5 Lý do khác"],
+    ["coach_done", "Tổng kết một vòng sửa", "round · before_*, after_*: ước lượng trước và sau · skip, passed: các bước đã bỏ qua, đã đạt · ai: band do trợ lý AI ước lượng (nếu dùng) · text: bản cuối"],
+    ["coach_ai", "Dùng một lượt chấm của trợ lý AI", "bands: band AI ước lượng · nsteps: số bước AI đề xuất"],
+    ["lab_enter", "Mở một đề trong khu Phân tích đề và lên ý", "rid: mã lượt · m, ty: task và dạng bài · au: 1 đề mẫu, 0 đề riêng · step: bước đang ở"],
+    ["lab_commit", "Lựa chọn TRƯỚC khi trang hiện nhận xét", "step: quiz / own / pick / voc / gr · own: các ý tự viết, lang_l: vi, en, mix · pick, voc, gr: thứ đã chọn kèm xếp loại của trang (ý: v2 mạnh, v1 mỏng, v0 lạc đề, mine tự viết; từ và cấu trúc: best, ok, over, wrong) · offered: mọi lựa chọn trang đưa ra"],
+    ["lab_step", "Rời một bước (trạng thái cuối của bước đó)", "from → to · back: 1 nếu quay lại · bước 1: text (suy nghĩ ban đầu), lang_* · bước 3: own, pick · bước 4: voc · bước 5: gr · bước 6: sent (từng câu: text, uv/ug = từ và cấu trúc đã chọn mà câu thực sự dùng, proc)"],
+    ["lab_re", "Kiểm tra lại một câu ở bước nâng cấp", "id · n: lượt sửa · text · sb: band ước lượng của câu · issues: các chỗ trang đề xuất nâng · chg_*: chỗ đã sửa · proc_*"],
+    ["lab_open", "Mở gợi ý phát triển ý (hint) hoặc câu mẫu band 9 (b9)", "step · id: câu nào · tries: đã tự sửa mấy lượt trước khi mở"],
+    ["lab_fin", "Hoàn thành một đề", "clean: số câu không còn đề xuất · think, own: ngôn ngữ ở bước nghĩ và bước lên ý · sent: các câu cuối kèm sb, issues, tries"],
+    ["solo_start", "Bắt đầu bài viết tự lực", "id: mã đề · m · nth: lần thứ mấy"],
+    ["solo", "Nộp bài viết tự lực (không gợi ý, có tính giờ)", "id, m, ty · exam: 1 nếu là đề thi 2025–2026 · w: số từ · wall: giây từ lúc bắt đầu · over: 1 nếu quá giờ · band_* · proc_* · q: đề · text"],
+    ["solo_drop", "Hủy bài tự lực", "s, w, proc_*"]
+  ];
+  var CBX = "<b>proc_*</b> (nhịp viết trong một ô): open = giây ô được mở · lat = giây trước lần gõ đầu · dur = giây từ lần gõ đầu đến lần gõ cuối · nk = số lần nhập · ins, del = số ký tự thêm, xóa (gõ tiếng Việt bằng Telex làm del tăng) · pa, pch = số lần dán, số ký tự dán · jmp = lần văn bản tăng trên 40 ký tự mà không phải dán · p2, p5 = số quãng dừng từ 2 giây, từ 5 giây · pmx = quãng dừng dài nhất (giây) · typ = giây gõ liên tục · mid = lần sửa ở giữa bài, không phải cuối bài · aw = lần rời ô trên 5 phút · hid = lần chuyển sang tab hay ứng dụng khác · w0 = số từ lúc mở · cv = đường cong [giây, số từ] 30 giây một điểm.<br><b>band_*</b>: est = band chung máy ước lượng · n9/n = số đặc trưng đạt mức band 9 trên tổng số đo được · low = 1 nếu có dấu hiệu dưới band 7 · crit = band theo tiêu chí · lv = mức của từng đặc trưng. Đây là ước lượng của máy, không phải điểm giám khảo.";
+  var RX = null;
+  function rsParse() {
+    var st = {}, key = {}, nNo = 0, bad = 0, orphan = 0;
+    rows.forEach(function (r) {
+      if (r[3] !== "consent") return; var x = {}; try { x = JSON.parse(r[11]) || {}; } catch (e) { x = {}; }
+      if (r[6] === "no") { nNo++; return; } if (!x.pid) return; st[x.pid] = r[6];
+      if (r[6] === "yes" && !key[x.pid]) key[x.pid] = { pid: x.pid, name: String(r[1]), cls: String(r[2]), ts: r[0], v: x.v || "" };
+    });
+    /* một người có thể có hai mã nếu học trên hai thiết bị: gộp theo họ tên + lớp, lấy mã đầu tiên làm mã chính */
+    var canon = {}, byName = {}, alias = {};
+    Object.keys(key).sort(function (a, b) { return key[a].ts < key[b].ts ? -1 : 1; }).forEach(function (pid) { var id = key[pid].name.trim().toLowerCase() + "|" + key[pid].cls; if (!byName[id]) byName[id] = pid; canon[pid] = byName[id]; (alias[byName[id]] = alias[byName[id]] || []).push(pid); });
+    var out = {}; Object.keys(key).forEach(function (pid) { if (st[pid] === "wd") out[canon[pid]] = 1; });
+    var evs = [], seen = {};
+    rows.forEach(function (r) {
+      if (r[3] !== "rs") return; var b; try { b = JSON.parse(r[11]); } catch (e) { bad++; return; }
+      var raw = String(r[1]), pid = canon[raw]; if (!pid) { orphan++; return; } if (out[pid]) return;
+      var id = raw + "|" + b.sid + "|" + b.n; if (seen[id]) return; seen[id] = 1;
+      (b.ev || []).forEach(function (ev) { evs.push({ pid: pid, sid: b.sid, ev: ev }); });
+    });
+    evs.sort(function (a, b) { return a.pid < b.pid ? -1 : a.pid > b.pid ? 1 : (a.ev.t || 0) - (b.ev.t || 0); });
+    var P = {}, cnt = {};
+    Object.keys(alias).forEach(function (pid) { if (!out[pid]) P[pid] = { pid: pid, ts: key[pid].ts, v: key[pid].v, n: 0, first: 0, last: 0, days: {}, prof: null, npulse: 0, exams: [], solos: [] }; });
+    evs.forEach(function (x) { var p = P[x.pid], e = x.ev; cnt[e.e] = (cnt[e.e] || 0) + 1; if (!p) return; p.n++; if (!p.first || e.t < p.first) p.first = e.t; if (e.t > p.last) p.last = e.t; p.days[vn(e.t).slice(0, 10)] = 1;
+      if (e.e === "profile") p.prof = e; else if (e.e === "pulse") p.npulse++; else if (e.e === "exam") p.exams.push(e); else if (e.e === "solo") p.solos.push(e); });
+    RX = { key: key, canon: canon, byName: byName, alias: alias, out: out, st: st, evs: evs, P: P, cnt: cnt, nNo: nNo, bad: bad, orphan: orphan };
+  }
+  var vn = function (t) { return t ? new Date(+t + 7 * 3600e3).toISOString().replace("Z", "+07:00") : ""; };
+  var cell = function (v) { var s = v == null ? "" : typeof v === "object" ? JSON.stringify(v) : String(v); if (typeof v === "string" && /^[=+\-@]/.test(s)) s = "'" + s; return '"' + s.replace(/"/g, '""') + '"'; };
+  function dl(name, text, type) { var a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([(type ? "" : "﻿") + text], { type: type || "text/csv;charset=utf-8" })); a.download = name; document.body.appendChild(a); a.click(); a.remove(); }
+  function table(cols, recs) { return [cols.map(cell).join(",")].concat(recs.map(function (o) { return cols.map(function (c) { return cell(o[c]); }).join(","); })).join("\n"); }
+  function flat(ev) { var o = {}; Object.keys(ev).forEach(function (k) { var v = ev[k]; if (v == null || k === "e" || k === "t") return; if (typeof v !== "object") o[k] = v; else if (Array.isArray(v)) o[k] = JSON.stringify(v); else Object.keys(v).forEach(function (kk) { o[k + "_" + kk] = v[kk]; }); }); return o; }
+  function research() {
+    rsParse(); var X = RX, ps = Object.keys(X.P).map(function (k) { return X.P[k]; }), nOut = Object.keys(X.out).length;
+    var h = "<h2>Dữ liệu nghiên cứu</h2>";
+    if (!ps.length && !X.nNo && !nOut) return h + '<p class="msg">Chưa có người học nào trả lời lời mời tham gia nghiên cứu. Lời mời hiện ra sau khi người học làm xong bài đầu tiên.</p>' + codebook();
+    h += '<div class="kpis"><div><b>' + ps.length + "</b><span>người đồng ý tham gia</span></div><div><b>" + X.nNo + "</b><span>lượt không tham gia (không ghi tên)</span></div><div><b>" + nOut + "</b><span>người đã rút</span></div><div><b>" + X.evs.length + "</b><span>sự kiện đã ghi</span></div></div>";
+    h += '<p class="msg">Mọi file tải ở đây chỉ gồm người đã đồng ý và chưa rút, với mã ẩn danh thay cho họ tên. Bảng khóa nối mã với họ tên là file riêng: hãy cất ở nơi khác với dữ liệu phân tích và không gửi kèm khi chia sẻ dữ liệu.</p>';
+    h += '<p><button class="ghost" id="rsev">⬇ Sự kiện quá trình (.csv)</button> <button class="ghost" id="rsjson">⬇ Sự kiện quá trình (.json)</button> <button class="ghost" id="rspp">⬇ Người tham gia và hồ sơ (.csv)</button> <button class="ghost" id="rsact">⬇ Bài luyện và bài viết đã ẩn danh (.csv)</button> <button class="ghost" id="rskey">🔑 Bảng khóa mã ↔ họ tên (.csv)</button></p>';
+    if (nOut) h += '<p class="msg"><span class="low">' + nOut + " người đã rút.</span> Dữ liệu của họ đã được loại khỏi các file tải ở đây. Để xóa hẳn, mở Google Sheet và xóa các dòng có kind = rs mang mã của họ (xem cột “Trạng thái” trong bảng khóa).</p>";
+    if (X.bad || X.orphan) h += '<p class="msg">' + (X.bad ? X.bad + " dòng không đọc được (bị cắt khi lưu). " : "") + (X.orphan ? X.orphan + " dòng mang mã không có bản ghi đồng ý, đã bỏ qua." : "") + "</p>";
+    if (ps.length) {
+      h += '<div class="wrap"><table><thead><tr><th>Mã</th><th>Ngày đồng ý</th><th>Số sự kiện</th><th>Số ngày có học</th><th>Hồ sơ</th><th>Khảo sát định kỳ</th><th>Bài tự lực</th><th>Band tự lực (đầu → gần nhất)</th><th>Điểm thi đã báo</th><th>Lần cuối</th></tr></thead><tbody>';
+      ps.sort(function (a, b) { return b.last - a.last; }).forEach(function (p) { var s = p.solos, b = function (e) { return e.band ? "≈ " + e.band.est : "–"; };
+        h += '<tr style="cursor:default"><td class="n">' + esc(p.pid) + "</td><td>" + new Date(p.ts).toLocaleDateString("vi-VN") + "</td><td>" + p.n + "</td><td>" + Object.keys(p.days).length + "</td><td>" + (p.prof ? "✓" : "–") + "</td><td>" + p.npulse + "</td><td>" + s.length + "</td><td>" + (s.length ? b(s[0]) + (s.length > 1 ? " → " + b(s[s.length - 1]) : "") : "–") + "</td><td>" + (p.exams.length ? p.exams.map(function (e) { return esc(e.mon) + ": W " + e.w; }).join("; ") : "–") + "</td><td>" + (p.last ? new Date(p.last).toLocaleString("vi-VN") : "–") + "</td></tr>"; });
+      h += "</tbody></table></div>";
+      h += '<h2>Số sự kiện theo loại</h2><div class="wrap"><table><thead><tr><th>Sự kiện</th><th>Ý nghĩa</th><th>Số lượt</th></tr></thead><tbody>';
+      CB.forEach(function (c) { if (X.cnt[c[0]]) h += '<tr style="cursor:default"><td class="n">' + c[0] + "</td><td>" + c[1] + "</td><td>" + X.cnt[c[0]] + "</td></tr>"; });
+      h += "</tbody></table></div>";
+    }
+    return h + codebook();
+  }
+  function codebook() { return '<details class="cb"><summary>Bảng mã biến: mỗi sự kiện ghi gì</summary><div class="wrap"><table><thead><tr><th>Sự kiện</th><th>Khi nào</th><th>Các trường</th></tr></thead><tbody>' + CB.map(function (c) { return '<tr style="cursor:default"><td class="n">' + c[0] + '</td><td class="wrapc">' + c[1] + '</td><td class="wrapc wide">' + c[2] + "</td></tr>"; }).join("") + '</tbody></table></div><p class="msg">Mọi sự kiện đều có: pid (mã ẩn danh), time (giờ Việt Nam), t_ms (mốc thời gian dạng số), session (một lần mở trang), event. ' + CBX + "</p></details>"; }
+  function rsBind() {
+    var X = RX; if (!X || !$("#rsev")) return; var day = new Date().toISOString().slice(0, 10);
+    $("#rsev").onclick = function () {
+      var cols = ["pid", "time", "t_ms", "session", "event"], seen = {}, recs = X.evs.map(function (x) { var o = flat(x.ev); Object.keys(o).forEach(function (k) { if (!seen[k]) { seen[k] = 1; cols.push(k); } }); o.pid = x.pid; o.time = vn(x.ev.t); o.t_ms = x.ev.t; o.session = x.sid; o.event = x.ev.e; return o; });
+      dl("band79-nghien-cuu-su-kien-" + day + ".csv", table(cols, recs));
+    };
+    $("#rsjson").onclick = function () { dl("band79-nghien-cuu-su-kien-" + day + ".json", JSON.stringify({ exported: new Date().toISOString(), participants: Object.keys(X.P).length, events: X.evs.map(function (x) { var o = { pid: x.pid, session: x.sid, time: vn(x.ev.t) }; Object.keys(x.ev).forEach(function (k) { o[k] = x.ev[k]; }); return o; }) }), "application/json"); };
+    $("#rspp").onclick = function () {
+      var cols = ["pid", "consent_time", "consent_version", "events", "active_days", "first_event", "last_event", "age", "job", "years_english", "ielts_class", "ai_use", "tools", "taken_ielts", "last_test_month", "last_writing", "last_overall", "goal_writing", "planned_test", "se1", "se2", "tr1", "tr2", "dep", "n_pulse", "n_solo", "solo_first_est", "solo_last_est", "exams"];
+      var recs = Object.keys(X.P).map(function (k) { var p = X.P[k], f = p.prof || {}, lab = function (kk) { return f[kk] == null ? "" : PF[kk][f[kk]]; }, s = p.solos;
+        return { pid: p.pid, consent_time: p.ts, consent_version: p.v, events: p.n, active_days: Object.keys(p.days).length, first_event: vn(p.first), last_event: vn(p.last), age: lab("age"), job: lab("job"), years_english: lab("yrs"), ielts_class: lab("cls"), ai_use: lab("ai"), tools: (f.tools || []).map(function (i) { return PF_TOOLS[i]; }).join("; "), taken_ielts: f.taken == null ? "" : f.taken ? "Đã thi" : "Chưa thi", last_test_month: f.mon, last_writing: f.w, last_overall: f.ov, goal_writing: f.goal, planned_test: f.plan, se1: f.se1, se2: f.se2, tr1: f.tr1, tr2: f.tr2, dep: f.dep, n_pulse: p.npulse, n_solo: s.length, solo_first_est: s.length && s[0].band ? s[0].band.est : "", solo_last_est: s.length && s[s.length - 1].band ? s[s.length - 1].band.est : "", exams: p.exams.length ? p.exams.map(function (e) { return { mon: e.mon, type: e.type, mode: e.mode, w: e.w, ov: e.ov, l: e.l, r: e.r, s: e.s }; }) : "" }; });
+      dl("band79-nghien-cuu-nguoi-tham-gia-" + day + ".csv", table(cols, recs));
+    };
+    $("#rsact").onclick = function () {
+      var cols = ["pid", "time", "kind", "tech", "topic", "type", "ok", "try", "sec", "words", "text"], recs = [];
+      rows.forEach(function (r) { if (["item", "write", "coach", "rate"].indexOf(r[3]) < 0) return; var pid = X.byName[String(r[1]).trim().toLowerCase() + "|" + r[2]]; if (!pid || X.out[pid]) return;
+        recs.push({ pid: pid, time: vn(new Date(r[0]).getTime()), kind: r[3], tech: r[4], topic: r[5], type: r[6], ok: r[7], try: r[8], sec: r[9], words: r[10], text: r[11] == null ? "" : String(r[11]) }); });
+      dl("band79-nghien-cuu-bai-lam-" + day + ".csv", table(cols, recs));
+    };
+    $("#rskey").onclick = function () {
+      if (!confirm("File này nối mã ẩn danh với họ tên thật. Chỉ tải khi cần, cất riêng với dữ liệu phân tích, và không chia sẻ. Tải về?")) return;
+      var recs = Object.keys(X.alias).map(function (pid) { var k = X.key[pid]; return { pid: pid, other_codes: X.alias[pid].filter(function (a) { return a !== pid; }).join("; "), name: k.name, "class": k.cls, consent_time: k.ts, status: X.out[pid] ? "đã rút" : "đang tham gia" }; });
+      dl("band79-BANG-KHOA-" + day + ".csv", table(["pid", "other_codes", "name", "class", "consent_time", "status"], recs));
+    };
   }
 
   function detail(s) {

@@ -353,6 +353,18 @@ textarea.fbt{min-height:92px;margin-top:0;font-family:inherit;font-size:1em;line
 .labnav{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-top:22px;padding-top:14px;border-top:1px solid var(--line)}
 .labimg{max-width:100%;border-radius:10px;margin-top:10px;display:block}.labpdf{width:100%;height:420px;margin-top:10px;border:1px solid var(--line);border-radius:10px}
 @media(max-width:720px){.labsteps{grid-template-columns:1fr 1fr}.labqs,.labchips,.labgrid2{grid-template-columns:1fr}.labown{flex-direction:column;align-items:stretch}.labown .btn{justify-content:center}}
+
+/* nghiên cứu: lời mời tham gia, hồ sơ, khảo sát ngắn, bài viết tự lực */
+.login .card.rsc{max-width:680px;text-align:left}.rsc h1{text-align:left;font-size:1.45rem}.rsc .b79.big{font-size:1.5rem;padding:4px 14px}.rsc form{margin:14px 0 4px}
+.rsinfo{background:var(--bg);border-radius:var(--r);padding:6px 16px 10px;margin:12px 0;font-size:.94em}.rsinfo h4{margin:12px 0 2px;font-size:1em}.rsinfo ul{margin:.3em 0;padding-left:1.2em}.rsinfo li{margin:.3em 0}
+.rsgrid[hidden]{display:none}.rsgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;align-items:end}.rsfs{border:2px solid var(--line);border-radius:10px;padding:8px 12px;margin:0;display:grid;gap:6px}.rsfs legend{font-weight:600;font-size:.92em;padding:0 6px}.rsh{margin:8px 0 0}
+.lik{display:grid;gap:2px}.likr{display:grid;grid-template-columns:1fr repeat(5,36px);align-items:center;gap:2px;padding:7px 8px;border-radius:8px;font-size:.94em}.likr:nth-child(even){background:var(--bg)}.likr.likh{padding:0 8px;font-size:.8em;color:var(--mut)}.likr b{text-align:center;font-weight:600}
+.likr label{display:flex;justify-content:center;align-items:center;min-height:32px;cursor:pointer}.likr input{width:19px;height:19px;padding:0;margin:0;accent-color:var(--ink)}
+.rscard{display:flex;gap:14px;align-items:center;flex-wrap:wrap;background:#f1f1ff;border:1.5px solid #cfd0f7;border-radius:var(--r);padding:14px 18px;margin:16px 0}.rscard>div:first-child{flex:1;min-width:220px}.rscard p{margin:.2em 0 0}.rscard.col{display:block}.rscard.col .lik{margin:10px 0 0}.rscard .bar-actions{margin-top:10px}
+.rstoast{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);width:min(600px,calc(100vw - 24px));background:#fff;border:1.5px solid var(--ink);border-radius:var(--r);box-shadow:0 12px 36px rgba(27,30,60,.22);padding:12px 40px 12px 16px;z-index:9;font-size:.94em}
+.rstoast .x{position:absolute;top:6px;right:8px;border:0;background:none;font-size:1.4em;line-height:1;padding:4px 8px;color:var(--mut)}.rstoast .rsw{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.likr label i{display:none;font-style:normal;font-size:.8em;color:var(--mut)}
+@media(max-width:560px){.likr{display:block}.likr.likh{display:none}.likr>span{display:block;margin-bottom:6px}.likr label{display:inline-flex;flex-direction:column;gap:2px;width:19%}.likr label i{display:block}}
 </style>
 </head>
 <body>
@@ -2834,7 +2846,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
     { k: "why", n: "Band 7 → 9", h: "#/", subs: [["#/", "Bảy khác biệt"], ["#/bands", "Bạn đang ở band nào?"], ["#/stats", "Thống kê đề thi 2025–2026"]] },
     { k: "coach", n: "Thử với bài của bạn", h: "#/coach", subs: [] },
     { k: "prac", n: "Luyện tập", h: "#/by/tech", subs: [["#/by/tech", "Theo kỹ thuật"], ["#/by/topic", "Theo chủ đề và đề thi"], ["#/by/type", "Theo dạng bài"], ["#/lab", "Phân tích đề và lên ý"]] },
-    { k: "me", n: "Tiến độ", h: "#/me", subs: [["#/me", "Tiến độ của tôi"], ["#/plan", "Lộ trình giờ học"]] },
+    { k: "me", n: "Tiến độ", h: "#/me", subs: [["#/me", "Tiến độ của tôi"], ["#/plan", "Lộ trình giờ học"], ["#/solo", "Bài viết tự lực"], ["#/research", "Nghiên cứu"]] },
     { k: "contact", n: "Liên hệ", h: "#/contact", subs: [["#/contact", "Trao đổi, đăng ký học"], ["#/feedback", "Góp ý cho trang"], ["#/about", "Về trang này"]] }
   ];
   function navState() {
@@ -2843,7 +2855,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
     else if (r === "coach") { g = "coach"; sub = ""; }
     else if (r === "lab") { g = "prac"; sub = "#/lab"; }
     else if (["by", "m", "k", "t", "p", "w", "xb", "wb", "ty"].indexOf(r) >= 0) { g = "prac"; sub = (r === "by" && p[1] === "type") || r === "ty" || ((r === "xb" || r === "wb") && fromTy) ? "#/by/type" : (r === "by" && p[1] === "topic") || r === "t" || r === "xb" || r === "wb" || ((r === "p" || r === "w") && p[3] === "t") ? "#/by/topic" : "#/by/tech"; }
-    else if (r === "me" || r === "plan") { g = "me"; sub = "#/" + r; }
+    else if (["me", "plan", "solo", "research"].indexOf(r) >= 0) { g = "me"; sub = "#/" + r; }
     else if (["contact", "feedback", "about"].indexOf(r) >= 0) { g = "contact"; sub = "#/" + r; }
     return { g: g, sub: sub, r: r };
   }
@@ -2851,7 +2863,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
   const actsN = () => Object.keys(S.done).length + Object.keys(S.wr).reduce((a, k) => a + S.wr[k].length, 0);
   function nudgeHtml(ns) {
     if (!U || !S) return "";
-    if (ns.g === "contact" || ns.g === "coach" || ["p", "w", "xb", "wb", "lab"].indexOf(ns.r) >= 0) return "";
+    if (ns.g === "contact" || ns.g === "coach" || ["p", "w", "xb", "wb", "lab", "solo", "research"].indexOf(ns.r) >= 0) return "";
     const c = S.cta || {}, n = actsN(); if (n < 3 || c.sent || (c.skip && Date.now() - c.skip < 7 * 864e5)) return "";
     return `<aside class="nudge" id="nudge"><p><b>Bạn đã làm ${n} bài trên trang.</b> Trang đếm được các đặc trưng của bài viết, nhưng không chấm được chất lượng lập luận. Nếu bạn muốn có giáo viên đọc bài và chỉ ra chỗ cần sửa trước, hoặc muốn trao đổi về lộ trình học, hãy để lại thông tin.</p><div class="acts"><a class="btn primary" href="#/contact">Trao đổi với giáo viên →</a><button type="button" class="btn" id="nudge-x">Để sau</button></div></aside>`;
   }
@@ -2863,7 +2875,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
       ${grp.subs.length ? `<div class="subnav"><div role="navigation" aria-label="${grp.n}">${grp.subs.map(x => `<a href="${x[0]}"${x[0] === ns.sub ? ' class="on" aria-current="page"' : ""}>${x[1]}</a>`).join("")}</div></div>` : ""}
       <main>${crumbs ? `<div class="crumbs">${crumbs}</div>` : ""}${inner}${nudgeHtml(ns)}</main>
       <footer>${!U ? "Bạn đang xem trước; trang chỉ hỏi tên khi bạn bắt đầu làm bài." : CFG.endpoint ? "Kết quả được gửi về bảng theo dõi của giáo viên." : "Tiến độ đang lưu trên thiết bị này."} · <a href="#/feedback">Góp ý cho trang</a> · <a href="#/contact">Liên hệ, đăng ký học</a> · Câu band 9 trên trang do nhóm soạn viết theo các đặc điểm đã phân tích từ bài mẫu, không phải điểm của giám khảo.</footer>`;
-    if ($("#switch")) $("#switch").onclick = () => { if (confirm("Đổi người học? Tiến độ của " + U.name + " vẫn được giữ trên máy này.")) { save(); store.del("b79:user"); U = null; S = null; location.hash = "#/"; route(); } };
+    if ($("#switch")) $("#switch").onclick = () => { if (confirm("Đổi người học? Tiến độ của " + U.name + " vẫn được giữ trên máy này.")) { rsFlush(); save(); store.del("b79:user"); U = null; S = null; location.hash = "#/"; route(); } };
     if ($("#nudge-x")) $("#nudge-x").onclick = () => { S.cta = Object.assign(S.cta || {}, { skip: Date.now() }); save(); $("#nudge").remove(); };
     window.scrollTo(0, 0);
   }
@@ -2897,7 +2909,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
       <form id="lf">${phoneField()}<button class="btn primary" type="submit">Lưu và học tiếp</button></form>
       <p class="small"><a href="#/">← Về trang chính</a> · <a href="#" id="notme">Không phải ${esc(U.name)}? Đổi người học</a></p></div></div>`;
     const old = (store.get("b79:phones") || {})[slug(U.name)]; if (old) $("#lz").value = old; wirePhone();
-    $("#notme").onclick = e => { e.preventDefault(); save(); store.del("b79:user"); U = null; S = null; vLogin(); };
+    $("#notme").onclick = e => { e.preventDefault(); rsFlush(); save(); store.del("b79:user"); U = null; S = null; vLogin(); };
     $("#lf").onsubmit = e => { e.preventDefault(); const phone = readPhone(); if (phone === null) return; U.phone = phone; U.noZalo = !phone; store.set("b79:user", U); sendPhone(); route(); };
   }
 
@@ -3172,7 +3184,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
     const total = S ? totalSec() : 0, nT = D.techs.filter(t => t.g !== "FULL").length, nBank = (D.bank || []).length + (D.bank1 || []).length;
     shell(`<section class="hero"><div><p class="hi">${U ? "Chào " + esc(U.name.split(" ").pop()) + "," : "IELTS Writing Lab"}</p><h1>Từ band 7 lên band 9: từ vựng chính xác và tự nhiên hơn, ý sâu hơn, liên kết kín hơn và ít lỗi hơn.</h1>
       <p>Trang này chỉ ra bảy khác biệt có thể đếm được giữa hai band, cho bạn thử ngay trên bài của mình, rồi luyện từng khác biệt một.</p></div>
-      ${U ? `<div class="ringbox">${ring(total / (CFG.targetHours * 3600), fmtH(total), "/ " + CFG.targetHours + " giờ")}</div>` : `<div class="ringbox"><a class="btn primary" href="#/coach">Thử với bài của bạn →</a></div>`}</section>
+      ${U ? `<div class="ringbox">${ring(total / (CFG.targetHours * 3600), fmtH(total), "/ " + CFG.targetHours + " giờ")}</div>` : `<div class="ringbox"><a class="btn primary" href="#/coach">Thử với bài của bạn →</a></div>`}</section>${U ? rsCard() : ""}
       <ol class="steps4">
         <li style="--c:#e2553d"><button type="button" data-go="why79"><b><span class="sn">1</span>Hiểu</b><span class="small">Band 7 và band 9 khác nhau ở bảy chỗ nào: ví dụ đối chiếu và số đếm trên bài mẫu.</span></button></li>
         <li style="--c:#3b3fd8"><a href="#/coach"><b><span class="sn">2</span>Thử</b><span class="small">Dán một đoạn bạn đã viết. Trang ước lượng band hiện tại của bạn, kể cả khi chưa tới band 7, nêu lí do và dẫn bạn sửa.</span></a></li>
@@ -3185,7 +3197,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
     secs.forEach((x, i) => { const pv = secs[i - 1], nx = secs[i + 1], lab = y => tb.filter(b => b.dataset.go === y.id)[0].textContent;
       x.insertAdjacentHTML("beforeend", `<div class="g-nextrow">${pv ? `<button type="button" class="btn" data-go="${pv.id}">← ${esc(lab(pv))}</button>` : "<span></span>"}${nx ? `<button type="button" class="btn primary" data-go="${nx.id}">Tiếp: ${esc(lab(nx))} →</button>` : `<a class="btn primary" href="#/stats">Xem thống kê đề thi 2025–2026 →</a>`}</div>`); });
     $$("[data-go]").forEach(b => { b.onclick = () => { const id = b.dataset.go; if (/^g-\d$/.test(id)) show(id, true); else { const el = document.getElementById(id); if (el) el.scrollIntoView({ behavior: "smooth", block: "start" }); } }; });
-    show("g-0");
+    show("g-0"); rsCardBind(() => vHome());
     if (toArt) art.scrollIntoView();
   }
 
@@ -3403,6 +3415,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
       const ok = game.check(); const id = it.id; const d = S.done[id] || { n: 0, c: 0, f: null };
       d.n++; if (ok) d.c++; if (d.f === null) d.f = ok ? 1 : 0; d.ts = Date.now(); S.done[id] = d; save();
       send({ kind: "item", tech: t.k, topic: tk, type: it.y, ok: ok ? 1 : 0, try: d.n, sec: act ? act.sec : 0 });
+      rs("item", { k: t.k, tp: tk, y: it.y, ok: ok ? 1 : 0, n: d.n, s: act ? act.sec : 0 });
       if (act) act.sec = 0;
       $("#check").remove(); const mdl = model(it);
       $("#fb").innerHTML = `<div class="fb ${ok ? "ok" : "bad"}"><div class="fbh">${ok ? "✓ Chính xác" : "✗ Chưa đúng"}</div>
@@ -3490,6 +3503,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
       const ok = game.check(), d = S.done[key] || { n: 0, c: 0, f: null };
       d.n++; if (ok) d.c++; if (d.f === null) d.f = ok ? 1 : 0; d.ts = Date.now(); S.done[key] = d; save();
       send({ kind: "item", tech: "XB" + n, topic: id, type: it.y, ok: ok ? 1 : 0, try: d.n, sec: act ? act.sec : 0 });
+      rs("item", { k: "XB" + n, tp: id, y: it.y, ok: ok ? 1 : 0, n: d.n, s: act ? act.sec : 0 });
       if (act) act.sec = 0;
       $("#check").remove();
       $("#fb").innerHTML = `<div class="fb ${ok ? "ok" : "bad"}"><div class="fbh">${ok ? "✓ Chính xác" : "✗ Chưa đúng"}</div><p class="whyp">${esc(it.w)}</p>${levelHint(ok)}
@@ -3531,6 +3545,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
     const ta = $("#ta"), wc = $("#wc"), base = t.tpl ? words(t.tpl) : 0;
     const upd = () => { wc.textContent = Math.max(0, words(ta.value) - (ta.value.indexOf("LẬP TRƯỜNG") === 0 ? base : 0)) + " từ"; S.draft[id] = ta.value; };
     ta.oninput = upd; upd();
+    trk(ta, "w:" + id, true); rsDetails($(".studio"), dt => rs("model_open", { where: "write", id: id, what: /Bài đã nộp/.test($("summary", dt).textContent) ? "past" : "model", s: act ? act.sec : 0, w: words(ta.value) }));
     act = { k: t.k, sec: 0, onTick: s => { const p = $("#pace"); if (p) { p.textContent = s > t.min * 60 ? "Đã quá " + t.min + " phút gợi ý" : "Còn " + fmtMS(t.min * 60 - s); p.className = s > t.min * 60 ? "over" : ""; } } };
     $("#sub").onclick = () => {
       const text = ta.value.trim(), n = words(text) - (text.indexOf("LẬP TRƯỜNG") === 0 ? base : 0);
@@ -3538,6 +3553,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
       const ticked = $$("[data-ck]").filter(c => c.checked).length;
       const rec = { ts: Date.now(), sec: act ? act.sec : 0, words: n, text: text, ck: ticked };
       (S.wr[id] = S.wr[id] || []).push(rec); if (S.wr[id].length > 5) S.wr[id].shift(); delete S.draft[id]; save();
+      if (rsOn()) { const an = PROSE.indexOf(t.k) >= 0 ? D.analyse(text, { m: t.m, kind: t.m === "t1" ? tk : "", scope: t.g === "FULL" ? "full" : "", q: tp.q, k0: fo ? fo.k : t.k }) : null; rs("write", { id: id, k: t.k, tp: tk, bank: bk ? bk.id : "", fo: fo ? fo.k : "", w: n, s: rec.sec, ck: ticked, nck: cks.length, n: S.wr[id].length, band: rsBand(an), proc: trkTake("w:" + id), text: cut(text, 7000) }); }
       send({ kind: "write", tech: t.k, topic: tk, type: bk ? "write:" + bk.id : fo ? "write:" + fo.k : "write", ok: ticked, try: S.wr[id].length, sec: rec.sec, words: n, text: (PROSE.indexOf(t.k) >= 0 ? bandTag(null, D.analyse(text, { m: t.m, kind: t.m === "t1" ? tk : "", scope: t.g === "FULL" ? "full" : "", q: tp.q, k0: fo ? fo.k : t.k })) : "") + text });
       if (act) act.sec = 0;
       if (PROSE.indexOf(t.k) >= 0) { startCoach({ m: t.m, kind: t.m === "t1" ? tk : "", scope: t.g === "FULL" ? "full" : "", q: tp.q, k0: fo ? fo.k : t.k, tk: tk, text: text }); return; }
@@ -3647,7 +3663,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
       <h3>Khối lượng hiện có</h3><p>${nGame} bài luyện dạng game và ${nWrite} đề viết. Một lượt làm hết các bài game mất khoảng 4 đến 6 giờ; phần còn lại của khung giờ đến từ các đề viết và việc luyện lại.</p>
       <h3>Về nhãn “Band 7” và “Band 9”</h3><p>Các câu và bài mẫu band 9 trên trang do nhóm soạn viết, dựa trên những đặc điểm đo được khi phân tích bài mẫu của các tác giả có tên. Các câu band 7 cũng do nhóm soạn viết để minh họa lỗi điển hình. Nhãn band là ước lượng theo band descriptor công khai, không phải điểm do giám khảo IELTS chấm.</p>
       <h3>Phần “Nâng cấp bài viết” đo cái gì</h3><p>Trang đếm các đặc trưng có thể đếm được trên bài của bạn (từ nối đầu câu, từ tuyệt đối, cụm danh từ, số liệu trong overview…) và so với ngưỡng rút từ bài mẫu. Kết quả là “bài đang mang đặc trưng của band nào”, không phải điểm thi. Máy không chấm được chất lượng lập luận và không bắt hết lỗi ngữ pháp.</p><h3>Ước lượng cho bài chưa tới band 7</h3><p>Trước khi so bài với band 9, trang tìm các dấu hiệu của band 4, 5 và 6 theo bảng mô tả band điểm Writing công khai của IELTS (bản cập nhật tháng 5/2023): bài thiếu độ dài, không chia đoạn, ý chưa khai triển, không có overview hoặc số liệu (Task 1), từ nối máy móc, lỗi chính tả, vốn từ quá chung, lỗi ngữ pháp cơ bản dày, câu phức gần như vắng mặt. Khi có dấu hiệu, trang ước lượng band của từng tiêu chí và band chung, nêu lí do, và xếp các bước sửa nền tảng lên trước. Cách chọn dấu hiệu dựa thêm vào nghiên cứu trên bài thi thật (Banerjee, Franceschina và Smith 2007; Riazi và Knox 2013). Ngưỡng do nhóm soạn đặt và đã được thử trên các bài mẫu band 9 của trang để tránh báo nhầm; chúng chưa được kiểm chứng trên bài có điểm thi thật, nên con số chỉ là ước lượng. Xem chi tiết ở trang <a href="#/bands">Bạn đang ở band nào?</a></p>${PAID.enabled ? `<h3>Chế độ trả phí</h3><p>Chế độ miễn phí luôn bật. Nếu muốn trợ lý AI chấm riêng bài của mình, bạn điền form yêu cầu ngay trong mục Nâng cấp bài viết; phí là ${vnd(FEE)} mỗi bài. Khi dùng chế độ này, bài bạn dán được gửi tới dịch vụ AI (Claude của Anthropic) để đọc.</p>` : ""}<h3>Ngân hàng đề Task 2</h3><p>${(D.bank || []).length} đề viết cả bài, xếp theo chủ đề bằng từ khóa nên một số đề có thể nằm chưa đúng chủ đề. Đề thi 2025 và 2026 là đề do thí sinh nhớ lại, lấy từ các trang tổng hợp Onthiielts, TalkFirst, Langmaster và IELTS Fighter; IELTS không công bố đề thi, nên câu chữ và tháng thi chỉ mang tính tham khảo. Các đề còn lại lấy từ bộ bài mẫu theo chủ đề của giáo viên; trang chỉ đăng đề bài và tên nơi có bài mẫu (How to do IELTS, IELTS Vietop, IELTS Advantage, Thanh Nguyễn), không đăng lại bài mẫu.</p><h3>Đề thi Task 1 năm 2024</h3><p>${(D.bank1 || []).length} đề lấy từ bộ đề năm 2024 của giáo viên, chỉ gồm những đề đọc được đầy đủ số liệu. Hình và bảng do trang vẽ lại từ số liệu của đề, không phải hình gốc; trang không đăng bài mẫu của bộ đề đó.</p><h3>Dữ liệu Task 1</h3><p>Bảy bộ dữ liệu (Newport, Ashby, Northline Rail và các bảng số) được dựng riêng cho trang này, không phải số liệu thật.</p><h3>Số đếm trên bài mẫu và thống kê đề thi</h3><p>Số đếm trong bài “Band 7 khác band 9 ở đâu?” lấy từ 26 bài mẫu của các tác giả có tên (14 bài Task 2, 12 bài Task 1), không dùng bài do AI viết; phần lớn số đếm là xấp xỉ. Trang Thống kê đề thi 2025–2026 đếm trên 177 đề do thí sinh nhớ lại, lấy từ Prep, ZIM và Langmaster. Chủ đề “Ai trả tiền?” dựng trên các đề lặp lại trong giai đoạn đó, với câu chữ do nhóm soạn viết.</p>
-      <h3>Dữ liệu của bạn</h3><p>${CFG.endpoint ? "Tên, lớp, kết quả từng bài, thời gian làm, bài viết bạn nộp và đánh giá, góp ý bạn gửi được chuyển về bảng theo dõi của giáo viên. Nếu bạn điền form Liên hệ, số điện thoại, email hoặc Facebook bạn ghi cũng được gửi về đó và chỉ dùng để liên hệ lại với bạn." : "Trang chưa nối với bảng theo dõi của giáo viên. Tiến độ chỉ lưu trên thiết bị này; bạn có thể tải báo cáo ở mục Tiến độ của tôi."}</p></div>`, `<a href="#/">Trang chính</a> › Về trang này`);
+      <h3>Dữ liệu của bạn</h3><p>${CFG.endpoint ? "Tên, lớp, kết quả từng bài, thời gian làm, bài viết bạn nộp và đánh giá, góp ý bạn gửi được chuyển về bảng theo dõi của giáo viên. Nếu bạn điền form Liên hệ, số điện thoại, email hoặc Facebook bạn ghi cũng được gửi về đó và chỉ dùng để liên hệ lại với bạn. Nếu bạn đồng ý tham gia nghiên cứu (mục Tiến độ › Nghiên cứu), hoạt động học và nhịp viết của bạn còn được ghi lại kèm một mã ẩn danh để phục vụ nghiên cứu; bạn có thể rút bất cứ lúc nào." : "Trang chưa nối với bảng theo dõi của giáo viên. Tiến độ chỉ lưu trên thiết bị này; bạn có thể tải báo cáo ở mục Tiến độ của tôi."}</p></div>`, `<a href="#/">Trang chính</a> › Về trang này`);
   }
 
   /* =================== HUẤN LUYỆN VIÊN: chẩn đoán → từng bước → tổng kết =================== */
@@ -3686,6 +3702,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
   function startCoach(o) {
     const a = D.analyse(o.text, o);
     S.coach = { sid: Math.random().toString(36).slice(2, 12), m: o.m, kind: o.kind || "", scope: a.full ? "full" : "para", q: o.q || "", k0: o.k0 || "", tk: o.tk || "", text0: o.text, text: o.text, stage: "diag", i: 0, round: 1, sec: 0, skip: {}, order: [], before: snap(a) };
+    rs("coach_start", { sid: S.coach.sid, m: o.m, kind: o.kind || "", scope: S.coach.scope, k: o.k0 || "", tp: o.tk || "", src: o.src || (TRK.ci ? "paste" : "site"), q: cut(o.q, 600), band: rsBand(a), proc: trkTake("ci"), text: cut(o.text, 7000) });
     save(); if (location.hash === "#/coach") route(); else location.hash = "#/coach";
   }
   function planSteps(C) {
@@ -3693,7 +3710,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
     else { C.mode = "rule"; const all = runC(C).checks.filter(todo), bs = all.filter(c => c.base).sort((x, y) => x.lvl - y.lvl);
       /* bài còn dấu hiệu dưới band 7: vòng này chỉ sửa nền tảng, từ mức thấp nhất; các đặc trưng band 9 để vòng sau */
       const xs = bs.length ? bs : all.sort((x, y) => (y.k === C.k0 ? 1 : 0) - (x.k === C.k0 ? 1 : 0)); C.order = xs.map(c => c.id); }
-    C.i = 0; C.skip = {}; C.passed = {}; C.stage = C.order.length ? "step" : "done"; save();
+    C.i = 0; C.skip = {}; C.passed = {}; C.stage = C.order.length ? "step" : "done"; save(); rs("coach_plan", { sid: C.sid, round: C.round, mode: C.mode, order: C.mode === "ai" ? C.aiSteps.map(s => s.k) : C.order.slice() });
   }
   const coachCrumb = C => `<a href="#/">Trang chính</a> › Nâng cấp bài viết${C && C.k0 ? " › " + C.k0 : ""}`;
   const dots = C => `<div class="dots"><span class="dot ${C.stage === "diag" ? "cur" : "ok"}">Chẩn đoán</span>${C.order.map((id, i) => `<span class="dot ${C.stage === "done" || i < C.i ? (C.skip[id] ? "sk" : "ok") : i === C.i && C.stage === "step" ? "cur" : ""}">${i + 1}</span>`).join("")}<span class="dot ${C.stage === "done" ? "cur" : ""}">Tổng kết</span></div>`;
@@ -3714,7 +3731,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
       <label>Đề bài <span class="opt-l">(nên dán để ${AI_ON() ? "trợ lý AI xét bài có trả lời đúng đề không" : "bạn tiện đối chiếu"})</span><input id="cq" maxlength="600" placeholder="Some people think that …"></label>
       <label>Bài viết của bạn<textarea id="ct" spellcheck="false" placeholder="Dán hoặc viết bài tại đây. Xuống dòng giữa các đoạn."></textarea></label>
       <div class="bar-actions"><button class="btn primary" type="submit">Phân tích bài của tôi (miễn phí) →</button></div></form>${payPanel(null)}</div>`, coachCrumb());
-    bindPay(null, coachIntake);
+    bindPay(null, coachIntake); trk($("#ct"), "ci");
     $$("[name=m]").forEach(r => r.onchange = () => { $("#ckind").hidden = $("[name=m]:checked").value !== "t1"; });
     $("#cf").onsubmit = e => { e.preventDefault(); const text = $("#ct").value.trim(); if (words(text) < 30) { alert("Hãy dán ít nhất 30 từ để phân tích."); return; } const m = $("[name=m]:checked").value; startCoach({ m: m, kind: m === "t1" ? $("#ckind").value : "", q: $("#cq").value.trim(), text: text }); };
   }
@@ -3807,7 +3824,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
       use.disabled = true; $("#aiwait").innerHTML = '<p class="small">⏳ Trợ lý AI đang đọc bài của bạn, mất khoảng nửa phút…</p>';
       const d = await aiCall({ mode: "diag", m: C.m, dtype: C.kind, q: C.q, text: C.text });
       if (S.coach !== C) return;
-      if (d && d.ok) { C.ai = { bands: d.bands, summary: d.summary }; const st = (d.steps || []).filter(s => s && TECH[s.k] && s.how).slice(0, 7); if (st.length) C.aiSteps = st; save(); if (C.stage === "diag") rerender(); }
+      if (d && d.ok) { C.ai = { bands: d.bands, summary: d.summary }; rs("coach_ai", { sid: C.sid, bands: d.bands, nsteps: (d.steps || []).length }); const st = (d.steps || []).filter(s => s && TECH[s.k] && s.how).slice(0, 7); if (st.length) C.aiSteps = st; save(); if (C.stage === "diag") rerender(); }
       else { use.disabled = false; const w = $("#aiwait"); if (w) w.innerHTML = `<p class="small" style="color:var(--bad)">${d ? esc(AI_ERR[d.error] || "Trợ lý AI chưa trả lời được. Bài của bạn chưa bị trừ.") : "Không kết nối được. Bài của bạn chưa bị trừ."}</p>`; if (d && d.error === "no-credit") rerender(); }
     };
   }
@@ -3846,10 +3863,10 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
       ${st.scaffold ? `<div class="scaf"><h5>Khung gợi ý: điền bằng tiếng Anh rồi chèn vào bài</h5>${st.scaffold.map((s, i) => `<label>${esc(s.l)}<input data-sc="${i}" value="${esc(s.v || "")}" placeholder="${esc(s.ph || "")}"></label>`).join("")}<button class="btn sm" id="ins" type="button">＋ Chèn các câu này vào cuối bài</button></div>` : ""}
       <h5 class="sh">Sửa ngay trên bài của bạn</h5><textarea id="cta" spellcheck="false">${esc(C.text)}</textarea>
       <div class="bar-actions"><button class="btn primary" id="re">Kiểm tra lại bước này</button>${hasGame(t) ? `<a class="btn" href="#/k/${t.k}" target="_blank" rel="noopener">▶ Luyện ${t.k} (mở tab mới)</a>` : ""}<button class="btn" id="skip">Bỏ qua bước này</button></div><div id="cfb"></div></div>`, coachCrumb(C));
-    const ta = $("#cta"); let tm = null;
+    const ta = $("#cta"); let tm = null; rsStepOpen(C, ta);
     ta.oninput = () => { C.text = ta.value; clearTimeout(tm); tm = setTimeout(save, 800); };
     if ($("#ins")) $("#ins").onclick = () => { const add = $$("[data-sc]").map(i => i.value.trim()).filter(Boolean).map(s => /[.!?]$/.test(s) ? s : s + ".").join(" "); if (!add) return; ta.value = ta.value.replace(/\s+$/, "") + "\n\n" + add; C.text = ta.value; save(); ta.focus(); ta.scrollTop = ta.scrollHeight; };
-    const next = (skipped) => { if (skipped) C.skip[C.order[C.i]] = 1; else C.passed[C.order[C.i]] = 1; C.i++; C.stepText = null; save(); vCoach(); };
+    const next = (skipped) => { rsCoachNext(C, skipped, st, chk); if (skipped) C.skip[C.order[C.i]] = 1; else C.passed[C.order[C.i]] = 1; C.i++; C.stepText = null; save(); vCoach(); };
     $("#skip").onclick = () => next(true);
     $("#re").onclick = async () => {
       const fb = $("#cfb"), changed = C.text.trim() !== C.stepText.trim(); let ok = false, lvl = null, note = "";
@@ -3863,6 +3880,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
       } else { const c2 = runC(C).checks.find(c => c.id === chk.id); lvl = c2 ? c2.lvl : 9; ok = c2 ? !todo(c2) : true; note = c2 && !ok ? "Hiện tại: " + c2.measure + "." : ""; $("#mytext").innerHTML = marked(C.text, c2 ? c2.marks : []); }
       save();
       const better = !ok && C.mode !== "ai" && chk && (chk.base ? lvl > chk.lvl : lvl === 8);
+      rsCoachChk(C, st, chk, { ok: ok, lvl: lvl, changed: changed, better: better, note: note });
       fb.innerHTML = ok ? `<div class="fb ok"><div class="fbh">${chk && chk.base ? "✓ Bước này đã qua mốc band 7" : "✓ Bước này đã đạt đặc trưng band 9"}</div>${note ? `<p>${esc(note)}</p>` : ""}<div class="bar-actions"><button class="btn primary" id="nx">${C.i + 1 < C.order.length ? "Sang bước " + (C.i + 2) + " →" : "Xem tổng kết →"}</button></div></div>`
         : `<div class="fb bad"><div class="fbh">${better ? "Đã tốt hơn: đang ở mức band " + lvl : !changed ? "Bạn chưa sửa gì ở bước này" : chk && chk.base ? "Vẫn còn ở mức band " + lvl + ", sửa thêm một lượt nữa" : "Chưa đạt, sửa thêm một lượt nữa"}</div>${note ? `<p>${esc(note)}</p>` : ""}<p class="small">Xem lại các chỗ được tô màu ở trên (đã cập nhật theo bản mới) và làm tiếp theo danh sách “Cách sửa”.</p>${better ? '<div class="bar-actions"><button class="btn" id="nx">Tạm chấp nhận, sang bước sau →</button></div>' : ""}</div>`;
       if ($("#nx")) $("#nx").onclick = () => next(!ok);
@@ -3875,6 +3893,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
     if (!C.sent || C.sent !== C.round) {
       C.sent = C.round; const id = origin ? C.k0 + "/" + C.tk : "COACH/" + C.m;
       (S.wr[id] = S.wr[id] || []).push({ ts: Date.now(), sec: C.sec || 0, words: a.W, text: C.text, coach: a.n9 + "/" + a.n, est: a.est }); if (S.wr[id].length > 5) S.wr[id].shift(); save();
+      rs("coach_done", { sid: C.sid, round: C.round, k: C.k0 || "", tp: C.tk || "", s: C.sec || 0, mode: C.mode || "", before: rsBand(C.before), after: rsBand(a), skip: Object.keys(C.skip || {}), passed: Object.keys(C.passed || {}), ai: C.ai ? C.ai.bands : null, text: cut(C.text, 7000) });
       send({ kind: "coach", tech: C.k0 || "COACH", topic: C.tk || C.m, type: "r" + C.round, ok: a.n9, try: a.n, sec: C.sec || 0, words: a.W, text: bandTag(C.before, a) + C.text }); C.sec = 0;
     }
     shell(`<div class="play coach" style="--c:#12a37f">${dots(C)}<h1>Tổng kết${C.round > 1 ? " vòng " + C.round : ""}</h1>
@@ -4118,6 +4137,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
     if (!C.au && !labOpen()) return vLabOwn();
     const st = labS(), R = st.runs[C.rid] = st.runs[C.rid] || { step: 0, max: 0, think: "", quiz: {}, ask: {}, own: "", pick: [], voc: [], myv: "", gr: [], sent: {}, sec: 0 };
     act = { k: "LAB", sec: 0, onTick: () => { R.sec = (R.sec || 0) + 1; } };
+    rsLab(C, R, "enter", { step: R.step, fin: R.fin ? 1 : 0 });
     labDraw(C, R);
   }); }
 
@@ -4137,7 +4157,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
 
   function labDraw(C, R) {
     const A = C.au ? C.s.an : null, step = R.step, t1 = C.m === "t1", col = t1 ? "#0f9a8a" : "#3b3fd8";
-    const go = n => { R.step = n; R.max = Math.max(R.max || 0, n); save(); labDraw(C, R); };
+    const go = n => { rsLab(C, R, "go", { from: step, to: n }); R.step = n; R.max = Math.max(R.max || 0, n); save(); labDraw(C, R); };
     const redraw = keepY => { const y = window.scrollY; save(); labDraw(C, R); if (keepY) window.scrollTo(0, y); };
     const dots = `<div class="dots">${LABSTEPS.map((n, i) => `<button type="button" class="dot ${i === step ? "cur" : i <= (R.max || 0) ? "ok go" : ""}" ${i <= (R.max || 0) && i !== step ? `data-go="${i}"` : "disabled"} title="${n}">${i + 1}<span class="dn"> ${n}</span></button>`).join("")}${R.fin ? `<button type="button" class="dot ${step === 7 ? "cur" : "ok go"}" data-go="7">Tổng kết</button>` : ""}</div>`;
     let qh = esc(C.q); if (A && step >= 1 && R.qdone) A.kw.map(k => k[0]).sort((a, b) => b.length - a.length).forEach(k => { const e = esc(k); if (qh.indexOf(e) >= 0 && qh.indexOf("<mark>" + e) < 0) qh = qh.split(e).join("<mark>" + e + "</mark>"); });
@@ -4145,7 +4165,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
     const prompt = `<div class="labprompt"><span class="tag">Đề bài · ${esc(C.gen.name)}</span><p class="en">${qh}</p>${fileH}${C.ds ? chart(C.ds) : ""}</div>`;
     const nav = (ok, label, why) => `<div class="labnav">${step > 0 ? `<button type="button" class="btn" id="lprev">← Quay lại</button>` : `<a class="btn" href="${C.back}">← Chọn đề khác</a>`}<span class="small" id="lwhy">${ok ? "" : esc(why || "")}</span><button type="button" class="btn primary" id="lnext" ${ok ? "" : "disabled"}>${label || "Tiếp tục →"}</button></div>`;
     const wrap = (title, lead, body, navH) => { shell(`<div class="play lab" style="--c:${col}">${dots}<div class="phead"><span class="code">${step < 7 ? step + 1 + "/7" : "✓"}</span><div><h1>${title}</h1><p class="grp">${esc(labTy(C.m, C.ty))}${C.au ? " · đề mẫu" : " · đề riêng"}</p></div><span class="clock">⏱ <b id="clock">${fmtMS(act ? act.sec : 0)}</b></span></div>${prompt}${lead ? `<p class="lablead">${lead}</p>` : ""}${body}${navH}</div>`, labCrumb(esc(labTy(C.m, C.ty))));
-      $$("[data-go]").forEach(b => { b.onclick = () => go(+b.dataset.go); }); if ($("#lprev")) $("#lprev").onclick = () => go(step - 1); };
+      $$("[data-go]").forEach(b => { b.onclick = () => go(+b.dataset.go); }); if ($("#lprev")) $("#lprev").onclick = () => go(step - 1); rsLabBind(C, R, step); };
     const ideas = labIdeas(C, R), IV = t1 ? IV1 : IV2;
 
     /* ----- bước 1: suy nghĩ đầu tiên ----- */
@@ -4174,7 +4194,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
       $$(".labquiz input").forEach(x => { x.onchange = () => { R.quiz[+x.name.slice(2)] = +x.value; if (R.qdone) redraw(true); else save(); }; });
       $$("[data-ask]").forEach(x => { x.oninput = () => { R.ask[x.dataset.ask] = x.value; }; });
       if ($("#lchk")) $("#lchk").onclick = () => { const n = A ? A.quiz.filter((z, i) => R.quiz[i] != null).length : Object.keys(R.ask).filter(k => String(R.ask[k]).trim().length > 1).length;
-        if (A ? n < A.quiz.length : n < 2) { $("#lmsg").innerHTML = `<p class="ferr">${A ? "Hãy chọn câu trả lời cho cả hai câu hỏi." : "Hãy trả lời ít nhất hai câu hỏi."}</p>`; return; } R.qdone = 1; redraw(true); };
+        if (A ? n < A.quiz.length : n < 2) { $("#lmsg").innerHTML = `<p class="ferr">${A ? "Hãy chọn câu trả lời cho cả hai câu hỏi." : "Hãy trả lời ít nhất hai câu hỏi."}</p>`; return; } rsLab(C, R, "commit", { step: "quiz" }); R.qdone = 1; redraw(true); };
       $("#lnext").onclick = () => go(2); return;
     }
     /* ----- bước 3: lên ý ----- */
@@ -4194,10 +4214,10 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
               <p class="small">Bạn vẫn có thể đổi lựa chọn. Các ý sẽ dùng để viết: <b>${wr.length}</b>${wr.length > 3 ? " (tối đa 3)" : ""}.</p></div>`));
       wrap(t1 ? "Chọn đặc điểm để báo cáo" : "Lên ý", R.seen2 ? "" : (t1 ? "Trước khi xem gợi ý, hãy tự ghi ra những đặc điểm bạn thấy trong hình." : "Trước khi xem gợi ý, hãy tự ghi ra các ý của bạn. Ý chưa hay cũng ghi: ở bước này số lượng quan trọng hơn chất lượng."), body, nav(!!R.pdone && wr.length >= 1, "Sang bước từ vựng →", R.pdone ? "Hãy chọn ít nhất một ý dùng được." : "Hãy chốt lựa chọn ý trước."));
       if ($("#lown")) $("#lown").oninput = e => { R.own = e.target.value; };
-      if ($("#lsee")) $("#lsee").onclick = () => { if (!labOwnIdeas(R).length) { $("#lmsg").innerHTML = '<p class="ferr">Hãy tự ghi ít nhất một ý trước khi xem gợi ý.</p>'; return; } R.seen2 = 1; redraw(true); };
+      if ($("#lsee")) $("#lsee").onclick = () => { if (!labOwnIdeas(R).length) { $("#lmsg").innerHTML = '<p class="ferr">Hãy tự ghi ít nhất một ý trước khi xem gợi ý.</p>'; return; } rsLab(C, R, "commit", { step: "own" }); R.seen2 = 1; redraw(true); };
       if ($("#ledit")) $("#ledit").onclick = () => { R.seen2 = 0; R.pdone = 0; R.pick = R.pick.filter(id => id[0] !== "o"); redraw(true); $("#lown").focus(); };
       $$("[data-idea]").forEach(x => { x.onchange = () => { const id = x.dataset.idea; R.pick = R.pick.filter(y => y !== id); if (x.checked) R.pick.push(id); redraw(true); }; });
-      if ($("#lfix")) $("#lfix").onclick = () => { if (nPick < 2 || nPick > 3) { $("#lmsg").innerHTML = `<p class="ferr">${nPick > 3 ? "Bạn đang chọn " + nPick + " ý, nhiều hơn mức tối đa là 3. Hãy bỏ tick bớt, chỉ giữ lại 2 hoặc 3 ý." : "Bạn mới chọn " + nPick + " ý. Hãy chọn 2 hoặc 3 ý."}</p>`; return; } R.pdone = 1; redraw(true); };
+      if ($("#lfix")) $("#lfix").onclick = () => { if (nPick < 2 || nPick > 3) { $("#lmsg").innerHTML = `<p class="ferr">${nPick > 3 ? "Bạn đang chọn " + nPick + " ý, nhiều hơn mức tối đa là 3. Hãy bỏ tick bớt, chỉ giữ lại 2 hoặc 3 ý." : "Bạn mới chọn " + nPick + " ý. Hãy chọn 2 hoặc 3 ý."}</p>`; return; } rsLab(C, R, "commit", { step: "pick" }); R.pdone = 1; redraw(true); };
       $("#lnext").onclick = () => go(3); return;
     }
     const wr = labWrite(C, R), ilabel = id => { const i = wr.map(x => x.id).indexOf(id); return i >= 0 ? "ý " + (i + 1) : ""; };
@@ -4212,7 +4232,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
       wrap("Chọn từ vựng", "Dưới đây là các cụm có thể dùng cho đề này. Không phải cụm nào cũng nên dùng: có cụm chính xác, có cụm đúng nhưng chung, có cụm phô từ hoặc sai. Hãy chọn những cụm bạn cho là tối ưu cho các ý của mình, rồi xem nhận xét.", body, nav(!!R.vdone, "Sang bước ngữ pháp →", "Hãy xem nhận xét về lựa chọn từ vựng trước."));
       $$("[data-voc]").forEach(x => { x.onchange = () => { const w = vs[+x.dataset.voc].w; R.voc = R.voc.filter(y => y !== w); if (x.checked) R.voc.push(w); redraw(true); }; });
       $("#lmyv").oninput = e => { R.myv = e.target.value; };
-      if ($("#lvchk")) $("#lvchk").onclick = () => { if (R.voc.length < 3) { $("#lmsg").innerHTML = '<p class="ferr">Hãy chọn ít nhất 3 cụm.</p>'; return; } R.vdone = 1; redraw(true); };
+      if ($("#lvchk")) $("#lvchk").onclick = () => { if (R.voc.length < 3) { $("#lmsg").innerHTML = '<p class="ferr">Hãy chọn ít nhất 3 cụm.</p>'; return; } rsLab(C, R, "commit", { step: "voc" }); R.vdone = 1; redraw(true); };
       $("#lnext").onclick = () => go(4); return;
     }
     /* ----- bước 5: ngữ pháp ----- */
@@ -4226,7 +4246,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
       $$("[data-gr]").forEach(x => { x.onchange = () => { const k = x.dataset.gr; R.gr = R.gr.filter(y => y !== k);
         if (x.checked && R.gr.length >= 3) { x.checked = false; $("#lmsg").innerHTML = '<p class="ferr">Bạn đã chọn đủ 3 cấu trúc. Muốn chọn cấu trúc này, hãy bỏ tick một cấu trúc đang chọn trước.</p>'; return; }
         if (x.checked) R.gr.push(k); redraw(true); }; });
-      if ($("#lgchk")) $("#lgchk").onclick = () => { if (R.gr.length < 1 || R.gr.length > 3) { $("#lmsg").innerHTML = `<p class="ferr">${R.gr.length < 1 ? "Bạn chưa chọn cấu trúc nào. Hãy chọn từ 1 đến 3 cấu trúc." : "Bạn đang chọn " + R.gr.length + " cấu trúc, nhiều hơn mức tối đa là 3. Hãy bỏ tick bớt, chỉ giữ lại 1 đến 3 cấu trúc hợp nhất."}</p>`; return; } R.gdone = 1; redraw(true); };
+      if ($("#lgchk")) $("#lgchk").onclick = () => { if (R.gr.length < 1 || R.gr.length > 3) { $("#lmsg").innerHTML = `<p class="ferr">${R.gr.length < 1 ? "Bạn chưa chọn cấu trúc nào. Hãy chọn từ 1 đến 3 cấu trúc." : "Bạn đang chọn " + R.gr.length + " cấu trúc, nhiều hơn mức tối đa là 3. Hãy bỏ tick bớt, chỉ giữ lại 1 đến 3 cấu trúc hợp nhất."}</p>`; return; } rsLab(C, R, "commit", { step: "gr" }); R.gdone = 1; redraw(true); };
       $("#lnext").onclick = () => go(5); return;
     }
     const allV = labVocab(C), myV = String(R.myv || "").split(/[,;\n]+/).map(x => x.trim()).filter(x => x.length > 1).map(w => ({ w: w, f: "mine" }));
@@ -4268,13 +4288,13 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
       $$("[data-sent]").forEach(ta => { ta.oninput = () => { R.sent[ta.dataset.sent] = ta.value; ta.dataset.dirty = "1"; }; });
       $$("[data-re]").forEach(b => { b.onclick = () => { const id = b.dataset.re, x = wr.filter(y => y.id === id)[0], ta = $(`[data-sent="${id}"]`);
         if (LAB.wc(R.sent[id] || "") < 8) { $(`[data-dg="${id}"]`).innerHTML = '<div class="fb bad"><div class="fbh">Câu quá ngắn để kiểm tra.</div></div>'; return; }
-        if (ta.dataset.dirty) { R.tries = R.tries || {}; R.tries[id] = (R.tries[id] || 0) + 1; ta.dataset.dirty = ""; } save();
+        if (ta.dataset.dirty) { R.tries = R.tries || {}; R.tries[id] = (R.tries[id] || 0) + 1; ta.dataset.dirty = ""; } save(); rsLab(C, R, "re", { id: id });
         $(`[data-dg="${id}"]`).innerHTML = panel(x); $(`[data-use="${id}"]`).innerHTML = useLine(x, R.sent[id]); const c = $("#lcoach"); if (c) { const y = $(".xcheck"); y.outerHTML = xcheck(); bindCoach(); } }; });
       bindCoach();
       $("#lnext").onclick = () => {
         if (!wr.every(x => LAB.wc(R.sent[x.id] || "") >= 8)) { $("#lwhy").textContent = "Mỗi ý cần một câu hoàn chỉnh, ít nhất 8 từ."; return; }
         const clean = wr.filter(x => !dg(x).issues.length && sbOf(x).b >= 7).length, text = allText(), first = !R.fin;
-        R.fin = Date.now(); R.clean = clean; R.nsent = wr.length;
+        R.fin = Date.now(); R.clean = clean; R.nsent = wr.length; rsLab(C, R, "fin", { clean: clean, first: first ? 1 : 0 });
         if (first || R.sentText !== text) { R.sentText = text; const id = "LAB/" + C.rid;
           (S.wr[id] = S.wr[id] || []).push({ ts: Date.now(), sec: R.sec || 0, words: words(text), text: text }); if (S.wr[id].length > 5) S.wr[id].shift();
           send({ kind: "write", tech: "LAB", topic: C.rid + (C.au ? "" : " · " + C.q.slice(0, 80)), type: C.m + "/" + C.ty, ok: clean, try: wr.length, sec: R.sec || 0, words: words(text), text: "[Suy nghĩ ban đầu] " + R.think + "\n[Ý đã chọn] " + wr.map(x => x.vi).join(" | ") + "\n[Câu] " + text }); R.sec = 0; }
@@ -4301,13 +4321,343 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
     return vLab();
   }
 
+  /* =================== NGHIÊN CỨU: đồng ý tham gia · hồ sơ · nhật ký quá trình · bài viết tự lực ===================
+     Chỉ người học đã bấm “Đồng ý tham gia” mới có dữ liệu quá trình được ghi. Mỗi người có một mã ẩn danh (pid);
+     các dòng nghiên cứu (kind "rs") gửi về bảng theo dõi mang mã này thay cho họ tên. Dòng kind "consent" là bảng khóa pid ↔ họ tên.
+     Tắt toàn bộ phần này: thêm research: { enabled: false } vào config.js. */
+  const RS = Object.assign({ enabled: true, version: "1.0", soloDays: 28, pulseDays: 14, researcher: "", org: "", ethics: "" }, (window.B79_CONFIG || {}).research || {});
+  const rsS = () => (S.rs = S.rs || {});
+  const rsOn = () => !!(RS.enabled && CFG.endpoint && U && S && S.rs && S.rs.c === "yes" && S.rs.pid);
+  const cut = (s, n) => { s = String(s == null ? "" : s); n = n || 6000; return s.length > n ? s.slice(0, n) + "…[cắt]" : s; };
+  const DAY = 864e5;
+
+  /* ---------- hàng đợi sự kiện: gom lại rồi gửi thành từng dòng, mỗi dòng dưới 14.000 ký tự ---------- */
+  const RSID = Math.random().toString(36).slice(2, 8);
+  let RB = [], rsSeq = 0, rsTimer = null, rsHello = false;
+  function rs(e, d) {
+    if (!rsOn()) return;
+    if (!rsHello) { rsHello = true; rs("sess", { w: window.innerWidth, h: window.innerHeight, touch: "ontouchstart" in window ? 1 : 0, lang: navigator.language || "", tz: -new Date().getTimezoneOffset() / 60, days: Math.floor((Date.now() - (S.rs.ts || Date.now())) / DAY), hrs: Math.round(totalSec() / 360) / 10, acts: actsN(), paid: S.paid && S.paid.code ? 1 : 0 }); }
+    const ev = Object.assign({ e: e, t: Date.now() }, d || {});
+    Object.keys(ev).forEach(k => { if (ev[k] === undefined || ev[k] === null) delete ev[k]; });
+    if (JSON.stringify(ev).length > 15000) { ["text", "after", "own"].forEach(k => { if (typeof ev[k] === "string") ev[k] = cut(ev[k], 2500); }); delete ev.chg; ev.trunc = 1; }
+    RB.push(ev);
+    if (JSON.stringify(RB).length > 9000) rsFlush(); else if (!rsTimer) rsTimer = setTimeout(rsFlush, 30000);
+  }
+  function rsFlush() {
+    clearTimeout(rsTimer); rsTimer = null;
+    if (!RB.length) return;
+    if (!rsOn()) { RB = []; return; }
+    const out = []; let chunk = [], size = 0;
+    RB.forEach(ev => { const n = JSON.stringify(ev).length + 1; if (chunk.length && size + n > 14000) { out.push(chunk); chunk = []; size = 0; } chunk.push(ev); size += n; });
+    if (chunk.length) out.push(chunk); RB = [];
+    out.forEach(c => { send({ name: S.rs.pid, cls: "", dev: "", kind: "rs", tech: String(c[0].k || "").slice(0, 10), topic: "", type: String(c[0].e).slice(0, 10), ok: c.length, try: ++rsSeq, sec: 0, words: 0, text: JSON.stringify({ v: 1, sid: RSID, n: rsSeq, ev: c }) }); });
+  }
+  let HID = 0;
+  document.addEventListener("visibilitychange", () => { if (document.hidden) { HID++; rsFlush(); } });
+  window.addEventListener("pagehide", rsFlush);
+
+  /* ---------- tiếng Việt hay tiếng Anh: tỉ lệ từ có dấu tiếng Việt ---------- */
+  const VI_RE = /[ăâêôơưđàáảãạằắẳẵặầấẩẫậèéẻẽẹềếểễệìíỉĩịòóỏõọồốổỗộờớởỡợùúủũụừứửữựỳýỷỹỵ]/;
+  const VI_PLAIN = " khong nhung cua minh duoc nguoi nhieu cung trong mot nhu neu nen phai viet bai ";
+  const langOf = s => { const ws = low(String(s || "").normalize("NFC")).match(/[a-zà-ỹ]+/g) || []; if (!ws.length) return { l: "", vi: 0, n: 0 }; const v = ws.filter(w => VI_RE.test(w) || VI_PLAIN.indexOf(" " + w + " ") >= 0).length, sh = v / ws.length; return { l: sh >= 0.3 ? "vi" : sh <= 0.04 ? "en" : "mix", vi: Math.round(sh * 100) / 100, n: ws.length }; };
+
+  /* ---------- nhịp viết trong một ô: không ghi từng phím, chỉ ghi số đếm (lần gõ, xóa, dán, quãng dừng) và đường cong số từ ---------- */
+  const TRK = {};
+  function trk(el, key, snap) {
+    if (!el || !rsOn()) return;
+    let len = el.value.length;
+    const get = () => TRK[key] || (TRK[key] = { t0: Date.now(), f: 0, l: 0, nk: 0, ins: 0, del: 0, pa: 0, pch: 0, jmp: 0, p2: 0, p5: 0, pmx: 0, typ: 0, mid: 0, aw: 0, hid: HID, w0: words(el.value), cv: [], cvAt: 0, sn: 0, snAt: Date.now(), snTx: el.value });
+    get();
+    el.addEventListener("paste", e => { const T = get(); let n = 0; try { n = (e.clipboardData.getData("text") || "").length; } catch (x) { /* bỏ qua */ } T.pa++; T.pch += n; T.pst = Date.now(); });
+    el.addEventListener("input", () => {
+      const T = get(), t = Date.now(), v = el.value, d = v.length - len; len = v.length;
+      if (!T.f) T.f = t;
+      if (T.l) { const g = t - T.l; if (g > 300000) T.aw++; else if (g >= 2000) { T.p2++; if (g >= 5000) T.p5++; if (g > T.pmx) T.pmx = g; } else T.typ += g; }
+      T.l = t; T.nk++; if (d > 0) T.ins += d; else T.del -= d;
+      if (d > 40 && !(T.pst && t - T.pst < 500)) T.jmp++;
+      if (el.selectionStart != null && el.selectionStart < v.length - 3) T.mid++;
+      if (t - T.cvAt >= 30000 && T.cv.length < 120) { T.cvAt = t; T.cv.push([Math.round((t - T.t0) / 1000), words(v)]); }
+      if (snap && t - T.snAt >= 300000 && T.sn < 6 && v !== T.snTx) { T.snAt = t; T.sn++; T.snTx = v; rs("snap", { key: key, n: T.sn, s: Math.round((t - T.t0) / 1000), w: words(v), text: cut(v) }); }
+    });
+  }
+  function trkTake(key) {
+    const T = TRK[key]; if (!T) return null; delete TRK[key];
+    return { open: Math.round((Date.now() - T.t0) / 1000), lat: T.f ? Math.round((T.f - T.t0) / 1000) : -1, dur: T.f ? Math.round((T.l - T.f) / 1000) : 0, nk: T.nk, ins: T.ins, del: T.del, pa: T.pa, pch: T.pch, jmp: T.jmp, p2: T.p2, p5: T.p5, pmx: Math.round(T.pmx / 100) / 10, typ: Math.round(T.typ / 1000), mid: T.mid, aw: T.aw, hid: HID - T.hid, w0: T.w0, cv: T.cv };
+  }
+  /* chỗ khác nhau giữa hai bản: vị trí, đoạn bị thay, đoạn thay vào */
+  const chg = (a, b) => { if (a == null || b == null) return null; a = String(a); b = String(b); if (a === b) return null; const m = Math.min(a.length, b.length); let p = 0, s = 0; while (p < m && a[p] === b[p]) p++; while (s < m - p && a[a.length - 1 - s] === b[b.length - 1 - s]) s++; return { at: p, del: cut(a.slice(p, a.length - s), 3000), ins: cut(b.slice(p, b.length - s), 3000) }; };
+  /* tóm tắt một lần phân tích: band ước lượng, band theo tiêu chí, mức của từng đặc trưng */
+  const rsBand = a => { if (!a) return null; const o = { est: a.est, n9: a.n9, n: a.n }; if (a.W != null) o.W = a.W; if (a.band) { o.low = a.band.low ? 1 : 0; o.crit = {}; (a.band.order || []).forEach(g => { if (a.band.crit && a.band.crit[g]) o.crit[g] = a.band.crit[g].b; }); } if (a.checks) { o.lv = {}; a.checks.forEach(c => { o.lv[c.id] = c.lvl; }); } else if (a.lv) o.lv = a.lv; return o; };
+
+  /* ---------- mỗi lần đổi trang ---------- */
+  let soloIv = null;
+  function rsRoute() { clearInterval(soloIv); soloIv = null; delete TRK.ci; const t = $("#rstoast"); if (t) t.remove(); if (rsOn()) rs("view", { r: location.hash.replace(/^#\/?/, "").slice(0, 60) }); }
+
+  /* ---------- mở bài mẫu, mở ví dụ ---------- */
+  function rsDetails(root, fn) { $$("details", root).forEach(d => d.addEventListener("toggle", () => { if (d.open) fn(d); })); }
+
+  /* ---------- mục “Thử với bài của bạn” ---------- */
+  let rsStep = { key: "" };
+  function rsStepOpen(C, ta) {
+    const key = C.sid + ":" + C.round + ":" + C.i; if (rsStep.key !== key) rsStep = { key: key, t: Date.now(), n: 0, ex: 0, sc: 0, better: 0 };
+    trk(ta, "c:" + C.sid);
+    rsDetails($(".coach"), () => { rsStep.ex = 1; });
+    if ($("#ins")) $("#ins").addEventListener("click", () => { rsStep.sc = 1; });
+  }
+  function rsCoachChk(C, st, chk, r) {
+    if (!rsOn()) return; rsStep.n++; rsStep.better = r.better ? 1 : 0;
+    rs("coach_chk", { sid: C.sid, round: C.round, i: C.i, mode: C.mode, id: chk ? chk.id : "", k: st.k, g: TECH[st.k] ? TECH[st.k].g : "", base: st.base ? 1 : 0, lvl0: st.lvl, lvl1: r.lvl, ok: r.ok ? 1 : 0, changed: r.changed ? 1 : 0, better: r.better ? 1 : 0, nchk: rsStep.n, s: Math.round((Date.now() - rsStep.t) / 1000), ex: rsStep.ex, sc: rsStep.sc, chg: chg(C.stepText, C.text), proc: trkTake("c:" + C.sid), ai: C.mode === "ai" ? cut(r.note, 800) : null, after: cut(C.text) });
+  }
+  const SKIPWHY = ["Chưa hiểu gợi ý", "Không đồng ý với gợi ý", "Câu của tôi đã ổn", "Chưa biết sửa thế nào", "Muốn làm nhanh", "Lý do khác"];
+  function rsCoachNext(C, skipped, st, chk) {
+    if (!rsOn()) return;
+    const out = !skipped ? "pass" : rsStep.better ? "partial" : rsStep.n ? "skip_tried" : "skip", ctx = { sid: C.sid, round: C.round, i: C.i, id: chk ? chk.id : "", k: st.k };
+    rs("coach_next", Object.assign({ out: out, mode: C.mode, g: TECH[st.k] ? TECH[st.k].g : "", base: st.base ? 1 : 0, nchk: rsStep.n, s: Math.round((Date.now() - rsStep.t) / 1000), ex: rsStep.ex, chg: chg(C.stepText, C.text), proc: trkTake("c:" + C.sid) }, ctx));
+    if (out === "skip" || out === "skip_tried") setTimeout(() => rsAskSkip(ctx), 60);
+  }
+  /* hỏi nhanh lí do bỏ qua một gợi ý: không bắt buộc, tự ẩn sau 25 giây */
+  function rsAskSkip(ctx) {
+    if (!rsOn()) return; const old = $("#rstoast"); if (old) old.remove();
+    const d = document.createElement("div"); d.id = "rstoast"; d.className = "rstoast"; d.setAttribute("role", "status");
+    d.innerHTML = `<button type="button" class="x" aria-label="Đóng">×</button><b>Vì sao bạn bỏ qua bước vừa rồi?</b> <span class="small">Không bắt buộc. Câu trả lời giúp nhóm biết gợi ý nào chưa ổn.</span><div class="rsw">${SKIPWHY.map((w, i) => `<button type="button" class="btn sm" data-w="${i}">${w}</button>`).join("")}</div>`;
+    document.body.appendChild(d); const kill = () => d.remove(), tm = setTimeout(kill, 25000);
+    $(".x", d).onclick = kill;
+    $$("[data-w]", d).forEach(b => { b.onclick = () => { clearTimeout(tm); rs("skip_why", Object.assign({ why: +b.dataset.w }, ctx)); d.innerHTML = "<b>✓ Cảm ơn bạn.</b>"; setTimeout(kill, 1200); }; });
+  }
+
+  /* ---------- khu “Phân tích đề và lên ý” ---------- */
+  const RSP = {};
+  function rsLab(C, R, what, x) {
+    if (!rsOn()) return; x = x || {};
+    const K = "l:" + C.rid + ":", base = { rid: C.rid, m: C.m, ty: C.ty, au: C.au ? 1 : 0, bank: C.bank ? C.bank.id : "", s: R.sec || 0 };
+    const ideas = labIdeas(C, R), tag = id => { const i = ideas.filter(y => y.id === id)[0]; return i ? (i.mine ? "mine" : "v" + i.v) : "?"; };
+    const picks = () => R.pick.filter(id => ideas.some(y => y.id === id)).map(id => [id, tag(id)]);
+    const vocs = () => { const vs = labVocab(C); return R.voc.map(w => { const v = vs.filter(y => y.w === w)[0]; return [w, v ? v.f : "?"]; }); };
+    const grs = () => { const gs = labGram(C); return R.gr.map(k => { const g = gs.filter(y => y.k === k)[0]; return [k, g ? g.f : "?"]; }); };
+    const quiz = () => C.au ? { quiz: C.s.an.quiz.map((z, i) => [R.quiz[i] == null ? -1 : R.quiz[i], z.o[R.quiz[i]] && z.o[R.quiz[i]].ok ? 1 : 0]) } : { ask: Object.keys(R.ask).map(k => cut(R.ask[k], 300)) };
+    const sents = (pre, full) => labWrite(C, R).map(w => { const tx = String(R.sent[w.id] || ""), o = { id: w.id, tag: tag(w.id), idea: cut(w.vi, 300), text: cut(tx, 1500), w: words(tx), uv: R.voc.filter(v => LAB.usesVocab(tx, v)), ug: R.gr.filter(k => LAB.usesGram(tx, k)) };
+      if (pre) o.proc = trkTake(K + pre + w.id);
+      if (full) { const d = LAB.diag(tx, { m: C.m, role: w.role || "", kind: C.ty }); o.sb = D.sentBand(tx, C.m).b; o.issues = d.issues.map(i => i.k || i.t); o.tries = (R.tries || {})[w.id] || 0; }
+      return o; });
+    let d = null;
+    if (what === "go") {
+      const f = x.from;
+      if (f === 0) d = { text: cut(R.think, 3000), lang: langOf(R.think), proc: trkTake(K + "think") };
+      else if (f === 1) d = quiz();
+      else if (f === 2) d = { own: cut(R.own, 2000), lang: langOf(R.own), pick: picks(), proc: trkTake(K + "own") };
+      else if (f === 3) d = { voc: vocs(), myv: cut(R.myv, 300) };
+      else if (f === 4) d = { gr: grs() };
+      else if (f === 5) { d = { sent: sents("s5:") }; labWrite(C, R).forEach(w => { RSP[K + w.id] = String(R.sent[w.id] || ""); }); }
+      return rs("lab_step", Object.assign(base, { from: f, to: x.to, back: x.to < f ? 1 : 0 }, d || {}));
+    }
+    if (what === "commit") {
+      /* lựa chọn của người học TRƯỚC khi trang hiện nhận xét */
+      if (x.step === "quiz") d = quiz();
+      else if (x.step === "own") d = { own: cut(R.own, 2000), lang: langOf(R.own), n: labOwnIdeas(R).length };
+      else if (x.step === "pick") d = { pick: picks(), offered: ideas.map(i => [i.id, tag(i.id)]) };
+      else if (x.step === "voc") d = { voc: vocs(), offered: labVocab(C).map(v => [v.w, v.f]), myv: cut(R.myv, 300) };
+      else if (x.step === "gr") d = { gr: grs(), offered: labGram(C).map(g => [g.k, g.f]) };
+      return rs("lab_commit", Object.assign(base, { step: x.step }, d || {}));
+    }
+    if (what === "re") {
+      const w = labWrite(C, R).filter(y => y.id === x.id)[0]; if (!w) return;
+      const tx = String(R.sent[w.id] || ""), dg = LAB.diag(tx, { m: C.m, role: w.role || "", kind: C.ty });
+      d = { id: w.id, tag: tag(w.id), n: (R.tries || {})[w.id] || 0, text: cut(tx, 1500), sb: D.sentBand(tx, C.m).b, issues: dg.issues.map(i => i.k || i.t), good: dg.good.length, chg: chg(RSP[K + w.id], tx), proc: trkTake(K + "s6:" + w.id) }; RSP[K + w.id] = tx;
+      return rs("lab_re", Object.assign(base, d));
+    }
+    if (what === "fin") return rs("lab_fin", Object.assign(base, x, { think: langOf(R.think).l, own: langOf(R.own).l, sent: sents("", true) }));
+    rs("lab_" + what, Object.assign(base, x));
+  }
+  /* gắn bộ đếm nhịp viết vào các ô của bước hiện tại, và ghi lại lúc người học mở gợi ý hoặc câu mẫu */
+  function rsLabBind(C, R, step) {
+    if (!rsOn()) return; const K = "l:" + C.rid + ":";
+    trk($("#lt"), K + "think"); trk($("#lown"), K + "own");
+    $$("[data-sent]").forEach(ta => trk(ta, K + (step === 5 ? "s5:" : "s6:") + ta.dataset.sent));
+    rsDetails($(".lab"), dt => { const card = dt.closest(".labcard"), ta = card ? $("[data-sent]", card) : null, id = ta ? ta.dataset.sent : ""; rsLab(C, R, "open", { step: step, id: id, what: step === 6 ? "b9" : "hint", tries: id ? (R.tries || {})[id] || 0 : 0 }); });
+  }
+
+  /* ---------- lời mời tham gia ---------- */
+  const rsDue = () => { if (!RS.enabled || !CFG.endpoint || !U || !S) return false; const r = S.rs || {}; if (r.c || (r.asks || 0) >= 3 || actsN() < 1) return false; return !r.later || Date.now() - r.later > 7 * DAY; };
+  const RS_WHO = () => RS.researcher ? esc(RS.researcher) + (RS.org ? " (" + esc(RS.org) + ")" : "") + " cùng nhóm phát triển Writing Lab" : "Nhóm phát triển Writing Lab";
+  const RS_INFO = () => `<div class="rsinfo">
+      <h4>Nghiên cứu này tìm hiểu điều gì</h4><p>${RS_WHO()} muốn hiểu người học IELTS dùng các gợi ý tự động như thế nào khi viết, và cách dùng nào giúp bài viết tiến bộ. Kết quả có thể được công bố trong bài báo khoa học hoặc hội thảo.</p>
+      <h4>Nếu đồng ý, những gì được ghi lại</h4><ul>
+        <li><b>Hoạt động học trên trang</b>, kể cả những bài bạn đã làm trước đó: bài luyện, bài viết và các bản nháp, thời gian làm, các ý, từ và cấu trúc bạn chọn, việc bạn làm theo hay bỏ qua một gợi ý.</li>
+        <li><b>Nhịp viết</b>: số lần gõ, xóa, dán và các quãng dừng. Trang không ghi từng phím bạn bấm và không ghi gì bên ngoài trang này.</li>
+        <li><b>Hồ sơ ngắn và vài câu khảo sát</b> bạn tự điền, và <b>điểm thi</b> nếu bạn tự báo.</li></ul>
+      <h4>Danh tính của bạn</h4><p>Dữ liệu nghiên cứu được gắn với một mã ẩn danh, không gắn với họ tên hay số điện thoại. Bảng nối mã với họ tên được giữ riêng và không xuất hiện trong bất kỳ công bố nào. Đoạn trích bài viết, nếu được dẫn, cũng không kèm tên.</p>
+      <h4>Hoàn toàn tự nguyện</h4><p>Không tham gia, bạn vẫn dùng trang đầy đủ như trước; việc học, việc chấm bài và mọi dịch vụ khác không thay đổi. Bạn có thể rút bất cứ lúc nào ở mục <b>Tiến độ › Nghiên cứu</b>; khi đó dữ liệu của bạn được loại khỏi nghiên cứu.</p>
+      <p class="small">Dù bạn chọn thế nào, trang vẫn gửi kết quả học về bảng theo dõi của giáo viên như mô tả ở mục “Về trang này”. Khác biệt là: dữ liệu của người không tham gia sẽ không được dùng cho nghiên cứu, và nhịp viết của họ không được ghi.${RS.ethics ? " " + esc(RS.ethics) : ""} Có câu hỏi, hãy gửi qua <a href="#/contact">form Liên hệ</a>.</p></div>`;
+  function rsJoin() {
+    const r = rsS(); r.c = "yes"; r.v = RS.version; r.ts = Date.now(); r.pid = r.pid || "P" + Math.random().toString(36).slice(2, 10).toUpperCase(); save();
+    send({ kind: "consent", tech: "", topic: "", type: "yes", ok: 1, try: 0, sec: 0, words: 0, text: JSON.stringify({ pid: r.pid, v: r.v, t: r.ts }) });
+    rs("consent", { v: r.v, prior: actsN() });
+  }
+  function vConsent() {
+    app.innerHTML = `<div class="login"><div class="card rsc"><div class="b79 big"><b>7</b><i>→</i><b>9</b></div><h1>Mời bạn tham gia một nghiên cứu</h1>
+      <p>Bạn có đồng ý để hoạt động học của mình trên trang này được dùng, dưới dạng ẩn danh, cho nghiên cứu về việc học viết IELTS với công cụ tự động không? Mất khoảng 2 phút, và bạn không phải làm thêm việc gì ngoài việc học như bình thường.</p>
+      ${RS_INFO()}
+      <label class="nozalo"><input type="checkbox" id="rs18"><span>Tôi từ 18 tuổi trở lên, đã đọc thông tin ở trên và đồng ý tham gia.</span></label>
+      <p class="ferr" id="rserr" role="alert" hidden>Hãy tick vào ô xác nhận ở trên. Nếu bạn chưa đủ 18 tuổi, hãy chọn “Không tham gia”: bạn vẫn dùng trang như bình thường.</p>
+      <div class="bar-actions"><button class="btn primary" id="rsyes">Đồng ý tham gia</button><button class="btn" id="rsno">Không tham gia</button><button class="btn" id="rslater">Để sau</button></div></div></div>`;
+    window.scrollTo(0, 0);
+    const r = rsS(), done = () => { if (/^#\/?research/.test(location.hash)) vResearch(); else route(); };
+    $("#rsyes").onclick = () => { if (!$("#rs18").checked) { $("#rserr").hidden = false; return; } rsJoin(); vProfile(); };
+    /* người từ chối được ghi nhận không kèm tên: giáo viên chỉ thấy số lượt từ chối */
+    $("#rsno").onclick = () => { r.c = "no"; r.ts = Date.now(); save(); send({ name: "—", cls: "", dev: "", kind: "consent", tech: "", topic: "", type: "no", ok: 0, try: 0, sec: 0, words: 0, text: JSON.stringify({ v: RS.version }) }); done(); };
+    $("#rslater").onclick = () => { r.later = Date.now(); r.asks = (r.asks || 0) + 1; save(); done(); };
+  }
+
+  /* ---------- hồ sơ người học và khảo sát ngắn ---------- */
+  const PF = [
+    ["age", "Nhóm tuổi của bạn", ["18–22", "23–30", "31–40", "Trên 40"]],
+    ["job", "Hiện tại bạn là", ["Sinh viên", "Người đi làm", "Giáo viên tiếng Anh", "Khác"]],
+    ["yrs", "Bạn đã học tiếng Anh bao lâu?", ["Dưới 5 năm", "5–10 năm", "Trên 10 năm"]],
+    ["cls", "Bạn có đang học một lớp IELTS không?", ["Không, tôi tự học", "Có, lớp của giáo viên phụ trách trang này", "Có, lớp ở nơi khác"]],
+    ["ai", "Bạn dùng công cụ AI (ChatGPT, Gemini, Claude…) để luyện viết tiếng Anh thường xuyên thế nào?", ["Chưa bao giờ", "Vài lần mỗi tháng", "Vài lần mỗi tuần", "Gần như mỗi ngày"]]
+  ];
+  const PF_TOOLS = ["ChatGPT", "Gemini", "Claude", "Grammarly", "Công cụ dịch (Google Dịch, DeepL)", "Khác"];
+  const LIK = ["Hoàn toàn không đồng ý", "Không đồng ý", "Phân vân", "Đồng ý", "Hoàn toàn đồng ý"];
+  const LK_BASE = [["se1", "Tôi tự tin mình viết được một bài Task 2 rõ ý trong 40 phút."], ["se2", "Tôi biết bài viết của mình còn thiếu gì để lên band cao hơn."], ["tr1", "Tôi tin các nhận xét tự động của trang về bài viết của mình."], ["tr2", "Khi gợi ý của máy khác với suy nghĩ của tôi, tôi thường làm theo máy."], ["dep", "Không có công cụ AI hỗ trợ, tôi thấy khó viết hơn hẳn."]];
+  const LK_PULSE = LK_BASE.slice(0, 4).concat([["use", "Hai tuần qua, việc luyện trên trang giúp tôi viết tốt hơn."], ["eff", "Luyện trên trang buộc tôi phải suy nghĩ nhiều, không chỉ làm theo."]]);
+  const likert = items => `<div class="lik"><div class="likr likh"><span></span>${[1, 2, 3, 4, 5].map(i => `<b title="${LIK[i - 1]}">${i}</b>`).join("")}</div>${items.map(q => `<div class="likr" role="radiogroup" aria-label="${esc(q[1])}"><span>${esc(q[1])}</span>${[1, 2, 3, 4, 5].map(i => `<label title="${LIK[i - 1]}"><input type="radio" name="lk_${q[0]}" value="${i}" aria-label="${i}: ${LIK[i - 1]}"><i>${i}</i></label>`).join("")}</div>`).join("")}<p class="small">1 = Hoàn toàn không đồng ý · 3 = Phân vân · 5 = Hoàn toàn đồng ý</p></div>`;
+  const likRead = (items, root) => { const o = {}; items.forEach(q => { const c = $(`[name=lk_${q[0]}]:checked`, root); if (c) o[q[0]] = +c.value; }); return o; };
+  const bandOpts = (lo, sel) => { let h = '<option value="">Chọn…</option>'; for (let b = lo; b <= 9; b += 0.5) h += `<option value="${b}"${String(sel) === String(b) ? " selected" : ""}>${b.toFixed(1).replace(".", ",")}</option>`; return h; };
+  function vProfile() {
+    const r = rsS(), p = r.prof || {};
+    app.innerHTML = `<div class="login"><div class="card rsc"><h1>${r.prof ? "Cập nhật hồ sơ" : "Cảm ơn bạn. Còn một bước: hồ sơ ngắn"}</h1><p>Khoảng 1 phút. Các câu trả lời được lưu cùng mã ẩn danh của bạn, không kèm họ tên. Câu nào không muốn trả lời, bạn cứ để trống.</p>
+      <form id="pf2">
+        ${PF.map(f => `<label>${esc(f[1])}<select data-pf="${f[0]}"><option value="">Chọn…</option>${f[2].map((o, i) => `<option value="${i}"${p[f[0]] === i ? " selected" : ""}>${esc(o)}</option>`).join("")}</select></label>`).join("")}
+        <fieldset class="rsfs"><legend>Công cụ bạn đã dùng khi luyện viết <span class="opt-l">(chọn tất cả những gì đúng)</span></legend>${PF_TOOLS.map((t, i) => `<label class="nozalo"><input type="checkbox" data-tool="${i}"${(p.tools || []).indexOf(i) >= 0 ? " checked" : ""}><span>${esc(t)}</span></label>`).join("")}</fieldset>
+        <label>Bạn đã thi IELTS chưa?<select id="pftaken"><option value="">Chọn…</option><option value="0"${p.taken === 0 ? " selected" : ""}>Chưa thi</option><option value="1"${p.taken === 1 ? " selected" : ""}>Đã thi</option></select></label>
+        <div id="pfex" class="rsgrid" hidden><label>Tháng thi gần nhất<input type="month" id="pfmon" value="${esc(p.mon || "")}"></label><label>Điểm Writing<select id="pfw">${bandOpts(4, p.w)}</select></label><label>Điểm Overall<select id="pfov">${bandOpts(4, p.ov)}</select></label></div>
+        <div class="rsgrid"><label>Band Writing bạn muốn đạt<select id="pfgoal">${bandOpts(6, p.goal)}</select></label><label>Tháng bạn định thi <span class="opt-l">(nếu đã có)</span><input type="month" id="pfplan" value="${esc(p.plan || "")}"></label></div>
+        <h4 class="rsh">Bạn đồng ý đến mức nào với các câu sau?</h4>${likert(LK_BASE)}
+        <div class="bar-actions"><button class="btn primary" type="submit">Lưu hồ sơ</button><button class="btn" type="button" id="pflater">Điền sau</button></div></form></div></div>`;
+    window.scrollTo(0, 0);
+    const tk = $("#pftaken"), sh = () => { $("#pfex").hidden = tk.value !== "1"; }; tk.onchange = sh; sh();
+    LK_BASE.forEach(q => { if (p[q[0]]) { const x = $(`[name=lk_${q[0]}][value="${p[q[0]]}"]`); if (x) x.checked = true; } });
+    const done = () => { if (/^#\/?research/.test(location.hash)) vResearch(); else route(); };
+    $("#pflater").onclick = () => { r.profLater = Date.now(); save(); done(); };
+    $("#pf2").onsubmit = e => {
+      e.preventDefault(); const o = {};
+      $$("[data-pf]").forEach(s => { if (s.value !== "") o[s.dataset.pf] = +s.value; });
+      o.tools = $$("[data-tool]").filter(c => c.checked).map(c => +c.dataset.tool);
+      if (tk.value !== "") o.taken = +tk.value;
+      if (o.taken === 1) { if ($("#pfmon").value) o.mon = $("#pfmon").value; if ($("#pfw").value) o.w = +$("#pfw").value; if ($("#pfov").value) o.ov = +$("#pfov").value; }
+      if ($("#pfgoal").value) o.goal = +$("#pfgoal").value; if ($("#pfplan").value) o.plan = $("#pfplan").value;
+      Object.assign(o, likRead(LK_BASE, $("#pf2")));
+      r.prof = o; r.profTs = Date.now(); r.pulse = r.pulse || Date.now(); save(); rs("profile", o); rsFlush(); done();
+    };
+  }
+
+  /* ---------- thẻ việc cần làm của người tham gia (trang chính và trang Nghiên cứu): mỗi lần chỉ hiện một thẻ ---------- */
+  const soloDue = r => { const xs = r.solo || [], last = xs.length ? xs[xs.length - 1].ts : 0; return Date.now() - last > RS.soloDays * DAY; };
+  const examDue = r => { const p = r.prof || {}; if (!p.plan) return false; const end = new Date(p.plan + "-01"); end.setMonth(end.getMonth() + 1); return Date.now() > end.getTime() && !(r.exams || []).some(x => x.mon >= p.plan) && !(r.examSkip && Date.now() - r.examSkip < 30 * DAY); };
+  function rsCard() {
+    if (!rsOn()) return ""; const r = S.rs;
+    if (!r.prof && !(r.profLater && Date.now() - r.profLater < 3 * DAY)) return `<aside class="rscard"><div><b>Hồ sơ nghiên cứu của bạn còn trống.</b><p class="small">Khoảng 1 phút: vài câu về việc học và mục tiêu của bạn.</p></div><button class="btn primary" id="rsprof">Điền hồ sơ →</button></aside>`;
+    if (r.cur) return `<aside class="rscard"><div><b>Bạn đang viết dở một bài tự lực.</b><p class="small">Đồng hồ vẫn tính từ lúc bạn bắt đầu.</p></div><a class="btn primary" href="#/solo">Viết tiếp →</a></aside>`;
+    if (soloDue(r)) return `<aside class="rscard"><div><b>${(r.solo || []).length ? "Đã đến kỳ viết bài tự lực." : "Bài viết đầu vào: xem bạn đang ở đâu."}</b><p class="small">Một bài hoàn chỉnh, có tính giờ, không gợi ý. Nộp xong, trang ước lượng band và so với các lần trước của bạn.</p></div><a class="btn primary" href="#/solo">Bắt đầu →</a></aside>`;
+    if (examDue(r)) return `<aside class="rscard"><div><b>Bạn đã thi chưa?</b><p class="small">Nếu đã có kết quả, hãy báo điểm để nhóm đối chiếu với ước lượng của trang.</p></div><a class="btn primary" href="#/research">Báo điểm thi →</a><button class="btn" id="rsexskip">Chưa thi</button></aside>`;
+    if (r.prof && Date.now() - (r.pulse || 0) > RS.pulseDays * DAY) return `<aside class="rscard col" id="rspulse"><div><b>Khảo sát 30 giây.</b> <span class="small">Bạn đồng ý đến mức nào với các câu sau?</span></div>${likert(LK_PULSE)}<div class="bar-actions"><button class="btn primary" id="rspsend">Gửi</button><button class="btn" id="rspskip">Để sau</button></div></aside>`;
+    return "";
+  }
+  function rsCardBind(redraw) {
+    const r = S && S.rs; if (!r) return;
+    if ($("#rsprof")) $("#rsprof").onclick = vProfile;
+    if ($("#rsexskip")) $("#rsexskip").onclick = () => { r.examSkip = Date.now(); save(); redraw(); };
+    if ($("#rspskip")) $("#rspskip").onclick = () => { r.pulse = Date.now() - (RS.pulseDays - 3) * DAY; save(); $("#rspulse").remove(); };
+    if ($("#rspsend")) $("#rspsend").onclick = () => { const o = likRead(LK_PULSE, $("#rspulse")); if (Object.keys(o).length < LK_PULSE.length) { alert("Hãy chọn một mức cho mỗi câu, hoặc bấm “Để sau”."); return; } r.pulse = Date.now(); r.npulse = (r.npulse || 0) + 1; save(); rs("pulse", Object.assign({ n: r.npulse }, o)); rsFlush(); $("#rspulse").innerHTML = "<b>✓ Cảm ơn bạn.</b>"; };
+  }
+
+  /* ---------- trang Nghiên cứu: trạng thái, hồ sơ, báo điểm thi, rút khỏi nghiên cứu ---------- */
+  function vResearch() {
+    const r = rsS(), on = r.c === "yes", crumbs = `<a href="#/">Trang chính</a> › Nghiên cứu`;
+    if (!RS.enabled || !CFG.endpoint) return shell(`<h1 class="pt">Nghiên cứu</h1><p>Hiện trang không thu dữ liệu cho nghiên cứu.</p>`, crumbs);
+    const ex = (r.exams || []).map(x => `<li>${esc(x.mon)} · ${x.type === 1 ? "General" : "Academic"} · Writing ${x.w != null ? String(x.w).replace(".", ",") : "–"} · Overall ${x.ov != null ? String(x.ov).replace(".", ",") : "–"}</li>`).join("");
+    shell(`<h1 class="pt">Nghiên cứu <small>${on ? "Bạn đang tham gia" : r.c === "wd" ? "Bạn đã rút" : "Bạn chưa tham gia"}</small></h1>
+      ${on ? `<p class="banknote">Bạn đang tham gia với mã ẩn danh <b>${esc(r.pid)}</b>, từ ngày ${new Date(r.ts).toLocaleDateString("vi-VN")}. Cảm ơn bạn.</p>${rsCard()}
+        <div class="bar-actions"><button class="btn" id="rsedit">${r.prof ? "Cập nhật hồ sơ" : "Điền hồ sơ"}</button><a class="btn" href="#/solo">Bài viết tự lực</a></div>
+        <h3 class="gh" style="--c:#3b3fd8">Báo điểm thi IELTS</h3><p class="small">Nếu bạn vừa thi, hãy ghi kết quả. Nhóm dùng điểm thật để kiểm tra xem ước lượng của trang gần hay xa điểm thi.</p>
+        ${ex ? `<ul class="fix">${ex}</ul>` : ""}
+        <form id="exf" class="rsgrid"><label>Tháng thi<input type="month" id="exmon" required></label><label>Loại bài thi<select id="extype"><option value="0">Academic</option><option value="1">General Training</option></select></label><label>Hình thức<select id="exmode"><option value="0">Trên giấy</option><option value="1">Trên máy tính</option></select></label>
+          <label>Writing<select id="exw" required>${bandOpts(4)}</select></label><label>Overall<select id="exov" required>${bandOpts(4)}</select></label><label>Listening <span class="opt-l">(không bắt buộc)</span><select id="exl">${bandOpts(4)}</select></label><label>Reading <span class="opt-l">(không bắt buộc)</span><select id="exr">${bandOpts(4)}</select></label><label>Speaking <span class="opt-l">(không bắt buộc)</span><select id="exs">${bandOpts(4)}</select></label>
+          <div class="bar-actions" style="grid-column:1/-1;margin-top:0"><button class="btn primary" type="submit">Gửi điểm thi</button></div></form>` : ""}
+      <details class="hist"${on ? "" : " open"}><summary>Thông tin về nghiên cứu</summary>${RS_INFO()}</details>
+      <div class="bar-actions">${on ? `<button class="btn" id="rswd">Rút khỏi nghiên cứu</button>` : `<button class="btn primary" id="rsjoin">${r.c === "wd" ? "Tham gia lại" : "Xem lời mời và tham gia"}</button>`}</div>`, crumbs);
+    rsCardBind(vResearch);
+    if ($("#rsedit")) $("#rsedit").onclick = vProfile;
+    if ($("#rsjoin")) $("#rsjoin").onclick = () => { delete r.c; save(); vConsent(); };
+    if ($("#rswd")) $("#rswd").onclick = () => {
+      if (!confirm("Rút khỏi nghiên cứu? Dữ liệu của bạn sẽ được loại khỏi nghiên cứu. Bạn vẫn dùng trang như bình thường.")) return;
+      RB = []; clearTimeout(rsTimer); rsTimer = null; Object.keys(TRK).forEach(k => delete TRK[k]);
+      send({ kind: "consent", tech: "", topic: "", type: "wd", ok: 0, try: 0, sec: 0, words: 0, text: JSON.stringify({ pid: r.pid, t: Date.now() }) });
+      r.c = "wd"; r.wd = Date.now(); save(); vResearch();
+    };
+    if ($("#exf")) $("#exf").onsubmit = e => {
+      e.preventDefault(); const num = id => $(id).value === "" ? null : +$(id).value, o = { mon: $("#exmon").value, type: +$("#extype").value, mode: +$("#exmode").value, w: num("#exw"), ov: num("#exov"), l: num("#exl"), r: num("#exr"), s: num("#exs") };
+      (r.exams = r.exams || []).push(o); save(); rs("exam", o); rsFlush(); vResearch();
+    };
+  }
+
+  /* ---------- bài viết tự lực: một bài hoàn chỉnh, có tính giờ, không gợi ý. Ai cũng dùng được; chỉ người tham gia mới được ghi quá trình. ---------- */
+  const SOLO_MIN = { t1: 20, t2: 40 };
+  function soloPick(m) {
+    const r = rsS(), used = {}; (r.solo || []).forEach(x => { used[x.id] = 1; }); Object.keys(S.wr).forEach(k => { used[k.split("/")[1]] = 1; });
+    const all = (m === "t1" ? (D.bank1 || []).filter(b => b.ds) : (D.bank || [])).filter(b => b.q);
+    let xs = all.filter(b => !used[b.id] && b.d && b.d.length); if (!xs.length) xs = all.filter(b => !used[b.id]); if (!xs.length) xs = all;
+    return xs[Math.floor(Math.random() * xs.length)];
+  }
+  function vSolo() {
+    const r = rsS(), cur = r.cur, b = cur ? BANK[cur.id] : null, crumbs = `<a href="#/">Trang chính</a> › Bài viết tự lực`;
+    const hist = (r.solo || []).slice().reverse();
+    const histH = hist.length ? `<h3 class="gh" style="--c:#12a37f">Các lần trước của bạn</h3><div class="tablewrap"><table class="dt"><tr><th>Ngày</th><th>Task</th><th>Số từ</th><th>Thời gian</th><th>Band ước lượng</th></tr>${hist.map(x => `<tr><td>${new Date(x.ts).toLocaleDateString("vi-VN")}</td><td>${x.m === "t1" ? "Task 1" : "Task 2"}</td><td>${x.w}</td><td>${fmtMS(x.sec)}</td><td>≈ ${fmtB(x.est)}</td></tr>`).join("")}</table></div><p class="small">Band là ước lượng của bộ phân tích tự động, không phải điểm thi. Hãy nhìn xu hướng qua nhiều lần, đừng nhìn một lần riêng lẻ.</p>` : "";
+    if (!cur || !b) {
+      shell(`<h1 class="pt">✍️ Bài viết tự lực <small>Có tính giờ, không gợi ý</small></h1>
+        <p>Các bài luyện trên trang đều có gợi ý đi kèm. Bài này thì không: bạn viết một bài hoàn chỉnh trong điều kiện gần với phòng thi, để xem những gì đã luyện có đi vào bài viết của chính bạn hay chưa. Nên làm khoảng ${RS.soloDays} ngày một lần.</p>
+        <ul class="fix"><li>Trang chọn ngẫu nhiên một đề bạn chưa làm, ưu tiên đề thi 2025–2026.</li><li>Trong lúc viết không có bài mẫu, không có gợi ý. Hãy tự viết, không dùng từ điển, công cụ dịch hay công cụ AI.</li><li>Nộp xong, trang ước lượng band của bài và bạn có thể sửa từng bước nếu muốn.</li></ul>
+        <div class="bar-actions"><button class="btn primary" data-solo="t2">Bắt đầu Task 2 · ${SOLO_MIN.t2} phút</button><button class="btn" data-solo="t1">Bắt đầu Task 1 · ${SOLO_MIN.t1} phút</button></div>${histH}`, crumbs);
+      $$("[data-solo]").forEach(x => { x.onclick = () => { const m = x.dataset.solo, p = soloPick(m); if (!p) return; r.cur = { id: p.id, m: m, t0: Date.now() }; delete S.draft.SOLO; save(); rs("solo_start", { id: p.id, m: m, nth: (r.solo || []).length + 1 }); vSolo(); }; });
+      return;
+    }
+    const m = cur.m, lim = SOLO_MIN[m] * 60, minW = m === "t1" ? 150 : 250;
+    shell(`<div class="play studio" style="--c:#12a37f"><div class="phead"><span class="code">✍</span><div><h1>Bài viết tự lực · ${m === "t1" ? "Task 1" : "Task 2"}</h1><p class="grp">${SOLO_MIN[m]} phút · ít nhất ${minW} từ · không gợi ý</p></div><span class="clock">⏱ <b id="sclock">–</b></span></div>
+      <div class="prompt"><span class="tag">Đề bài</span><p class="en">${esc(b.q)}</p></div>${m === "t1" ? chart(b.ds) : ""}
+      <textarea id="ta" spellcheck="false" placeholder="Viết bài của bạn bằng tiếng Anh tại đây…">${esc(S.draft.SOLO || "")}</textarea>
+      <div class="wmeta"><span id="wc">0 từ</span><span id="pace"></span></div>
+      <div class="bar-actions"><button class="btn primary" id="sub">Nộp bài</button><button class="btn" id="sdrop">Hủy bài này</button></div></div>`, crumbs);
+    const ta = $("#ta"), upd = () => { $("#wc").textContent = words(ta.value) + " từ"; S.draft.SOLO = ta.value; };
+    ta.addEventListener("input", upd); upd(); trk(ta, "solo:" + b.id, true);
+    act = { k: "SOLO", sec: 0 };
+    const tick = () => { const left = lim - Math.round((Date.now() - cur.t0) / 1000), c = $("#sclock"), p = $("#pace"); if (!c) return; c.textContent = left >= 0 ? fmtMS(left) : "+" + fmtMS(-left); if (p) { p.textContent = left >= 0 ? "" : "Đã hết " + SOLO_MIN[m] + " phút. Hãy hoàn thành câu đang viết rồi nộp."; p.className = left >= 0 ? "" : "over"; } };
+    tick(); soloIv = setInterval(tick, 1000);
+    $("#sdrop").onclick = () => { if (!confirm("Hủy bài đang viết? Phần đã viết sẽ bị xóa.")) return; rs("solo_drop", { id: b.id, m: m, s: Math.round((Date.now() - cur.t0) / 1000), w: words(ta.value), proc: trkTake("solo:" + b.id) }); delete r.cur; delete S.draft.SOLO; save(); route(); };
+    $("#sub").onclick = () => {
+      const text = ta.value.trim(), n = words(text); if (n < 50) { alert("Bài còn quá ngắn. Hãy viết ít nhất 50 từ rồi nộp."); return; }
+      if (n < minW && !confirm("Bài mới có " + n + " từ, ít hơn mức tối thiểu " + minW + " từ của đề thi. Vẫn nộp?")) return;
+      const o = { m: m, kind: m === "t1" ? b.tp : "", scope: "full", q: b.q, k0: FULLK(m), tk: b.tp }, a = D.analyse(text, o), wall = Math.round((Date.now() - cur.t0) / 1000), id = "SOLO/" + b.id;
+      (S.wr[id] = S.wr[id] || []).push({ ts: Date.now(), sec: wall, words: n, text: text, est: a.est });
+      (r.solo = r.solo || []).push({ ts: Date.now(), id: b.id, m: m, est: a.est, w: n, sec: wall }); delete r.cur; delete S.draft.SOLO; save();
+      send({ kind: "write", tech: "SOLO", topic: b.id, type: "solo:" + m, ok: 0, try: r.solo.length, sec: wall, words: n, text: bandTag(null, a) + text });
+      rs("solo", { id: b.id, m: m, ty: m === "t1" ? b.tp : b.ty, exam: b.d && b.d.length ? 1 : 0, nth: r.solo.length, w: n, wall: wall, s: act ? act.sec : 0, over: wall > lim ? 1 : 0, band: rsBand(a), proc: trkTake("solo:" + b.id), q: cut(b.q, 600), text: cut(text, 7000) }); rsFlush();
+      clearInterval(soloIv); act = null;
+      shell(`<div class="play coach" style="--c:#12a37f"><h1>Đã nộp · ${n} từ · ${fmtMS(wall)}</h1>${estLine(a)}${featTable(a)}
+        <div class="bar-actions"><button class="btn primary" id="sup">Sửa bài này từng bước →</button><button class="btn" id="shist">Xem các lần trước</button><a class="btn" href="#/">Về trang chính</a></div></div>`, crumbs);
+      $("#sup").onclick = () => startCoach(Object.assign({ text: text, src: "solo" }, o));
+      $("#shist").onclick = vSolo;
+    };
+  }
+
   /* ---------- điều hướng ---------- */
   function route() {
-    if (game && game.stop) game.stop(); game = null; act = null; if (S) save();
+    if (game && game.stop) game.stop(); game = null; act = null; if (S) save(); rsRoute();
     const p = location.hash.replace(/^#\/?/, "").split("/");
     /* Khách chưa nhập tên đọc được bài trang chính và trang thống kê; mọi trang khác hỏi tên trước rồi mở đúng trang đó. */
     if (!U && ["", "why", "stats", "bands"].indexOf(p[0] || "") < 0) return vLogin();
     if (U && !U.phone && !U.noZalo && ["", "why", "stats", "bands"].indexOf(p[0] || "") < 0) return vPhone();
+    /* lời mời tham gia nghiên cứu: chỉ hiện ở các trang danh mục, sau khi người học đã làm ít nhất một bài; không chen vào lúc đang làm bài */
+    if (rsDue() && (["by", "m", "k", "t", "ty", "me", "plan"].indexOf(p[0]) >= 0 || (p[0] === "lab" && !p[1]))) return vConsent();
     switch (p[0]) {
       case "m": return vModule(p[1]);
       case "k": return vTech(p[1]);
@@ -4322,6 +4672,8 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
       case "lab": return vLabRoute(p);
       case "plan": return vPlan();
       case "me": return vMe();
+      case "solo": return vSolo();
+      case "research": return vResearch();
       case "about": return vAbout();
       case "feedback": return vFeedback();
       case "contact": return vContact();
@@ -4332,7 +4684,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
     }
   }
   window.addEventListener("hashchange", route);
-  window.__b79 = { G: G, model: model, ITEM: ITEM, TECH: TECH, state: () => S, BANK: BANK, xbItems: xbItems, chart: chart };
+  window.__b79 = { rsBuf: () => RB, rsFlush: rsFlush, queue: () => Q, G: G, model: model, ITEM: ITEM, TECH: TECH, state: () => S, BANK: BANK, xbItems: xbItems, chart: chart };
   route(); flush();
 })();
 
