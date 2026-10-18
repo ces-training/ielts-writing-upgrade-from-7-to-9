@@ -3894,10 +3894,16 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
   }
   async function aiCall(payload) {
     if (!AI_ON()) return null;
-    const d = await srv(Object.assign({ kind: "coach", code: S.paid.code, sid: (S.coach || {}).sid || "" }, payload));
+    const body = Object.assign({ kind: "coach", code: S.paid.code, sid: (S.coach || {}).sid || "" }, payload);
+    let d = await srv(body);
+    /* lỗi tạm thời của dịch vụ AI (quá tải, mạng chập chờn): tự thử lại một lần; bài lỗi đã được máy chủ hoàn lại */
+    if (!d || (d.error && AI_TMP.test(d.error))) { await new Promise(r => setTimeout(r, 4000)); d = await srv(body); }
     if (d && d.left != null) { S.paid.left = d.left; save(); }
     return d;
   }
+  const AI_TMP = /^(api-(408|429|500|502|503|504|529))$/;
+  /* thông báo cho học sinh; lỗi chưa có tên thì hiện kèm mã để giáo viên biết nguyên nhân */
+  const aiErrMsg = d => !d ? "Không kết nối được. Bài của bạn chưa bị trừ." : AI_ERR[d.error] || ((AI_TMP.test(d.error || "") ? "Trợ lý AI đang quá tải, bạn thử lại sau vài phút." : "Trợ lý AI đang gặp lỗi phía máy chủ.") + " Bài của bạn chưa bị trừ." + (d.error ? " Bạn chụp màn hình này gửi giáo viên để được xử lý (mã lỗi: " + d.error + ")." : ""));
   const AI_ERR = { "no-code": "Mã kích hoạt không còn hiệu lực.", "no-credit": "Bạn đã dùng hết số bài đã trả phí. Hãy gửi yêu cầu mua thêm.", "essay-cap": "Bài này đã dùng hết số lượt hỏi trợ lý AI.", "no-session": "Phiên chấm đã hết hạn. Hãy chấm lại từ bước chẩn đoán.", limit: "Trợ lý AI đã hết lượt trong hôm nay. Hãy thử lại vào ngày mai.", "no-key": "Giáo viên chưa bật trợ lý AI." };
   function startCoach(o) {
     const a = D.analyse(o.text, o);
@@ -4051,7 +4057,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
       const d = await aiCall({ mode: "diag", want: "band", auto: runC(C).est, m: C.m, dtype: C.kind, q: C.q, text: C.text });
       if (S.coach !== C) return;
       if (d && d.ok) { C.ai = { bands: d.bands, summary: d.summary, why: d.why || d.reasons }; rs("coach_ai", { sid: C.sid, bands: d.bands, nsteps: (d.steps || []).length }); const st = (d.steps || []).filter(s => s && TECH[s.k] && s.how).slice(0, 7); if (st.length) C.aiSteps = st; save(); if (C.stage === "diag") rerender(); }
-      else { use.disabled = false; const w = $("#aiwait"); if (w) w.innerHTML = `<p class="small" style="color:var(--bad)">${d ? esc(AI_ERR[d.error] || "Trợ lý AI chưa trả lời được. Bài của bạn chưa bị trừ.") : "Không kết nối được. Bài của bạn chưa bị trừ."}</p>`; if (d && d.error === "no-credit") rerender(); }
+      else { use.disabled = false; const w = $("#aiwait"); if (w) w.innerHTML = `<p class="small" style="color:var(--bad)">${esc(aiErrMsg(d))}</p>`; if (d && d.error === "no-credit") rerender(); }
     };
   }
 
@@ -4104,7 +4110,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
         fb.innerHTML = '<p class="small">⏳ Trợ lý AI đang đọc bản sửa…</p>'; $("#re").disabled = true;
         const s = C.aiSteps[C.order[C.i]], d = await aiCall({ mode: "step", m: C.m, k: s.k, why: s.why, how: s.how, before: C.stepText, after: C.text });
         if (S.coach !== C || !$("#re")) return; $("#re").disabled = false;
-        if (d && d.ok) { ok = !!d.pass; note = d.comment || ""; } else { ok = true; note = (d && AI_ERR[d.error] ? AI_ERR[d.error] + " " : "") + "Trợ lý AI chưa xét được bản sửa này, nên bước được ghi nhận là đã sửa."; }
+        if (d && d.ok) { ok = !!d.pass; note = d.comment || ""; } else { ok = true; note = (d && d.error ? (AI_ERR[d.error] || "Trợ lý AI gặp lỗi (mã " + d.error + ").") + " " : "") + "Trợ lý AI chưa xét được bản sửa này, nên bước được ghi nhận là đã sửa."; }
       } else { const c2 = runC(C).checks.find(c => c.id === chk.id); lvl = c2 ? c2.lvl : 9; ok = c2 ? !todo(c2) : true; note = c2 && !ok ? "Hiện tại: " + c2.measure + "." : ""; $("#mytext").innerHTML = marked(C.text, c2 ? c2.marks : []); }
       save();
       const better = !ok && C.mode !== "ai" && chk && (chk.base ? lvl > chk.lvl : lvl === 8);
