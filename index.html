@@ -3881,6 +3881,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
   const bandTag = (b, a) => { const one = x => "≈ band " + fmtB(x.est) + (x.band && x.band.low ? " (" + x.band.order.map(g => CRS[g] + " " + (x.band.crit[g].low ? x.band.crit[g].b : "–")).join(", ") + ")" : ""); return "[Ước lượng tự động: " + (b ? "trước khi sửa " + one(b) + " → sau khi sửa " : "") + one(a) + "]\n"; };
   const runC = C => D.analyse(C.text, { m: C.m, kind: C.kind, scope: C.scope, k0: C.k0, q: C.q });
   const AI_ON = () => !!(PAID.enabled && CFG.endpoint && S && S.paid && S.paid.code);
+  const aiLeft = () => AI_ON() ? (+S.paid.left || 0) : 0;
   function marked(text, marks) {
     const ms = (marks || []).slice().sort((a, b) => a[0] - b[0]); let h = "", p = 0;
     ms.forEach(m => { if (m[0] < p) return; h += esc(text.slice(p, m[0])) + "<mark>" + esc(text.slice(m[0], m[1])) + "</mark>"; p = m[1]; });
@@ -3907,7 +3908,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
   const AI_ERR = { "no-code": "Mã kích hoạt không còn hiệu lực.", "no-credit": "Bạn đã dùng hết số bài đã trả phí. Hãy gửi yêu cầu mua thêm.", "essay-cap": "Bài này đã dùng hết số lượt hỏi trợ lý AI.", "no-session": "Phiên chấm đã hết hạn. Hãy chấm lại từ bước chẩn đoán.", limit: "Trợ lý AI đã hết lượt trong hôm nay. Hãy thử lại vào ngày mai.", "no-key": "Giáo viên chưa bật trợ lý AI." };
   function startCoach(o) {
     const a = D.analyse(o.text, o);
-    S.coach = { sid: Math.random().toString(36).slice(2, 12), m: o.m, kind: o.kind || "", scope: a.full ? "full" : "para", q: o.q || "", k0: o.k0 || "", tk: o.tk || "", text0: o.text, text: o.text, stage: "diag", i: 0, round: 1, sec: 0, skip: {}, order: [], before: snap(a) };
+    S.coach = { sid: Math.random().toString(36).slice(2, 12), m: o.m, kind: o.kind || "", scope: a.full ? "full" : "para", q: o.q || "", k0: o.k0 || "", tk: o.tk || "", text0: o.text, text: o.text, stage: "diag", i: 0, round: 1, sec: 0, skip: {}, order: [], before: snap(a), autoAI: !!o.ai };
     rs("coach_start", { sid: S.coach.sid, m: o.m, kind: o.kind || "", scope: S.coach.scope, k: o.k0 || "", tp: o.tk || "", src: o.src || (TRK.ci ? "paste" : "site"), q: cut(o.q, 600), band: rsBand(a), proc: trkTake("ci"), text: cut(o.text, 7000) });
     save(); if (location.hash === "#/coach") route(); else location.hash = "#/coach";
   }
@@ -3937,10 +3938,11 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
       <select id="ckind" hidden><option value="">Dạng đề…</option>${D.topics.t1.map(t => `<option value="${t.k}">${esc(t.n)}</option>`).join("")}</select></div>
       <label>Đề bài <span class="opt-l">(nên dán để ${AI_ON() ? "trợ lý AI xét bài có trả lời đúng đề không" : "bạn tiện đối chiếu"})</span><input id="cq" maxlength="600" placeholder="Some people think that …"></label>
       <label>Bài viết của bạn<textarea id="ct" spellcheck="false" placeholder="Dán hoặc viết bài tại đây. Xuống dòng giữa các đoạn."></textarea></label>
-      <div class="bar-actions"><button class="btn primary" type="submit">Phân tích bài của tôi (miễn phí) →</button></div></form>${payPanel(null)}</div>`, coachCrumb());
-    bindPay(null, coachIntake); trk($("#ct"), "ci");
+      <div class="bar-actions">${aiLeft() > 0 ? `<button class="btn primary" type="submit" data-ai="1">Chấm bằng trợ lý AI · dùng 1 bài (còn ${aiLeft()}) →</button><button class="btn" type="submit" data-ai="0">Chỉ phân tích miễn phí</button>` : '<button class="btn primary" type="submit" data-ai="0">Phân tích bài của tôi (miễn phí) →</button>'}</div>${aiLeft() > 0 ? '<p class="small">Bấm chấm bằng trợ lý AI là trang chấm luôn, không cần bấm thêm. Nếu AI lỗi, bài không bị trừ.</p>' : ""}</form>${payPanel(null)}</div>`, coachCrumb());
+    /* kích hoạt mã ngay tại đây: vẽ lại trang nhưng giữ nguyên bài đang dán */
+    bindPay(null, () => { const v = { m: $("[name=m]:checked").value, k: $("#ckind").value, q: $("#cq").value, t: $("#ct").value }; coachIntake(); const r = $(`[name=m][value=${v.m}]`); if (r) r.checked = true; $("#ckind").value = v.k; $("#ckind").hidden = v.m !== "t1"; $("#cq").value = v.q; $("#ct").value = v.t; }); trk($("#ct"), "ci");
     $$("[name=m]").forEach(r => r.onchange = () => { $("#ckind").hidden = $("[name=m]:checked").value !== "t1"; });
-    $("#cf").onsubmit = e => { e.preventDefault(); const text = $("#ct").value.trim(); if (words(text) < 30) { alert("Hãy dán ít nhất 30 từ để phân tích."); return; } const m = $("[name=m]:checked").value; startCoach({ m: m, kind: m === "t1" ? $("#ckind").value : "", q: $("#cq").value.trim(), text: text }); };
+    $("#cf").onsubmit = e => { e.preventDefault(); const text = $("#ct").value.trim(); if (words(text) < 30) { alert("Hãy dán ít nhất 30 từ để phân tích."); return; } const m = $("[name=m]:checked").value; const sb = e.submitter || document.activeElement; startCoach({ m: m, kind: m === "t1" ? $("#ckind").value : "", q: $("#cq").value.trim(), text: text, ai: !!(sb && sb.dataset && sb.dataset.ai === "1" && aiLeft() > 0) }); };
   }
 
   function featTable(a, before) {
@@ -3972,7 +3974,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
     if (!S) st = `<a class="btn primary" href="#/coach">Nhập tên để yêu cầu bản trả phí · ${vnd(FEE)} / bài</a>`;
     else if (C && C.ai) st = `<p class="payon">✓ Bài này đang được trợ lý AI chấm.${S.paid ? " Bạn còn " + left + " bài." : ""}</p>`;
     else if (AI_ON() && C) st = `<button class="btn primary" id="useai" ${left > 0 ? "" : "disabled"}>${band ? "Phân tích band bài này bằng trợ lý AI" : "Chấm bài này bằng trợ lý AI"} · dùng 1 bài (còn ${left})</button>${left > 0 ? "" : `<button class="btn" id="askpay">Yêu cầu mua thêm · ${vnd(FEE)} / bài</button>`}<div id="aiwait"></div>`;
-    else if (AI_ON()) st = `<p class="payon">✓ Đã bật trả phí · còn ${left} bài. Dán bài rồi chọn chấm bằng trợ lý AI ở bước chẩn đoán.</p>${band ? '<div class="bar-actions"><a class="btn primary" href="#/coach">Dán bài để trợ lý AI phân tích →</a></div>' : ""}`;
+    else if (AI_ON()) st = `<p class="payon">✓ Đã bật trả phí · còn ${left} bài. Dán bài rồi bấm “Chấm bằng trợ lý AI”, trang chấm luôn.</p>${band ? '<div class="bar-actions"><a class="btn primary" href="#/coach">Dán bài để trợ lý AI phân tích →</a></div>' : ""}`;
     else st = `<button class="btn primary" id="askpay">Yêu cầu bật chấm trả phí · ${vnd(FEE)} / bài</button><button class="btn" id="havecode">Tôi đã có mã kích hoạt</button>`;
     if (band) return `<h3 class="modes-h" id="bandmodes">Hai cách phân tích band hiện tại của bạn</h3><div class="modes"><div class="mode free"><span class="tag">Miễn phí</span><h4>Bộ ước lượng tự động</h4>
       <p class="lead">Biết ngay mình đang ở khoảng band nào, không tốn phí.</p>
@@ -4053,11 +4055,11 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
       };
     };
     if (use) use.onclick = async () => {
-      use.disabled = true; $("#aiwait").innerHTML = '<p class="small">⏳ Trợ lý AI đang đọc bài của bạn, mất khoảng nửa phút…</p>';
+      use.disabled = true; const wait = '<p class="small">⏳ Trợ lý AI đang đọc bài của bạn, mất khoảng nửa phút. Kết quả sẽ hiện ngay tại đây…</p>'; $("#aiwait").innerHTML = wait; if ($("#aitop")) $("#aitop").innerHTML = `<div class="aibox">${wait}</div>`;
       const d = await aiCall({ mode: "diag", want: "band", auto: runC(C).est, m: C.m, dtype: C.kind, q: C.q, text: C.text });
       if (S.coach !== C) return;
       if (d && d.ok) { C.ai = { bands: d.bands, summary: d.summary, why: d.why || d.reasons }; rs("coach_ai", { sid: C.sid, bands: d.bands, nsteps: (d.steps || []).length }); const st = (d.steps || []).filter(s => s && TECH[s.k] && s.how).slice(0, 7); if (st.length) C.aiSteps = st; save(); if (C.stage === "diag") rerender(); }
-      else { use.disabled = false; const w = $("#aiwait"); if (w) w.innerHTML = `<p class="small" style="color:var(--bad)">${esc(aiErrMsg(d))}</p>`; if (d && d.error === "no-credit") rerender(); }
+      else { use.disabled = false; const w = $("#aiwait"); const em = `<p class="small" style="color:var(--bad)">${esc(aiErrMsg(d))}</p>`; if (w) w.innerHTML = em; if ($("#aitop")) $("#aitop").innerHTML = `<div class="aibox">${em}<p class="small">Bạn có thể bấm chấm lại bằng nút trợ lý AI ở cuối trang.</p></div>`; if (d && d.error === "no-credit") rerender(); }
     };
   }
 
@@ -4066,7 +4068,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
     shell(`<div class="play coach" style="--c:#1b1e3c">${dots(C)}<h1>Bài của bạn đang ở khoảng band nào</h1><p class="small" style="margin:6px 0 0"><span class="tag">Bản miễn phí</span> Ước lượng tự động theo các dấu hiệu máy đếm được</p>${estLine(a)}
       ${PAID.enabled && !C.ai ? `<p class="banknote"><span class="tag t9">Bản trả phí</span> Trợ lý AI đọc hiểu nội dung bài rồi ước lượng band từng tiêu chí, kể cả phần máy không chấm được (bài có trả lời đúng đề không, ý có đủ sâu không) · ${vnd(FEE)} / bài. <a href="#bandmodes" id="tomodes">So sánh hai lựa chọn ↓</a></p>` : ""}
       ${isLow ? `<p class="whyp"><b>Việc nên làm trước:</b> qua ${nBase} mốc nền tảng đang ở mức band 4–6 (nhóm đầu tiên trong bảng dưới), bắt đầu từ mốc thấp nhất. Vòng nâng cấp này chỉ gồm các mốc đó; các kỹ thuật band 9 để vòng sau, khi nền đã vững.</p>` : ""}
-      ${aiBlock(C.ai)}
+      ${aiBlock(C.ai)}${C.ai ? "" : '<div id="aitop"></div>'}
       ${featTable(a)}
       <details class="hist"><summary>Xem lại bài bạn đã nộp (${a.W} từ)</summary><p class="en pre">${esc(C.text)}</p></details>
       <div class="bar-actions"><button class="btn primary" id="go">${C.aiSteps ? "Bắt đầu nâng cấp cùng trợ lý AI · " + C.aiSteps.length + " bước →" : nTodo ? (isLow ? "Bắt đầu từ nền tảng · " : "Bắt đầu nâng cấp · ") + nTodo + " bước →" : "Xem tổng kết →"}</button><button class="btn" id="drop">Bỏ bài này, dán bài khác</button></div>
@@ -4075,6 +4077,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
     $("#go").onclick = () => { planSteps(C); vCoach(); };
     $("#drop").onclick = () => { S.coach = null; save(); vCoach(); };
     bindPay(C, () => coachDiag(C));
+    if (C.autoAI) { C.autoAI = false; save(); const u = $("#useai"); if (u && !u.disabled) u.click(); }
   }
 
   function coachStep(C) {
