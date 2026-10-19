@@ -174,7 +174,7 @@ textarea{min-height:230px;resize:vertical;font-family:"Source Serif 4",Georgia,s
 .exd{margin-top:12px}.exd summary{cursor:pointer;font-weight:600;color:var(--acc)}
 .scaf{background:#f3fbf8;border:1px dashed #a9e2d0;border-radius:var(--r);padding:12px 14px;margin-top:14px;display:grid;gap:8px}
 .coach textarea{min-height:260px}.coach textarea#cq{min-height:72px}
-.cimg{border:2px dashed #cfd3fb;background:#f6f7ff;border-radius:var(--r);padding:12px 14px;display:grid;gap:8px}.cimg .hint{margin:0}.cimg input[type=file]{font-size:.9em}.cimg .pv{display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap}.cimg .pv img{max-width:min(100%,420px);max-height:300px;border-radius:10px;border:1px solid var(--line);background:#fff}.cimgd{display:flex;gap:12px;align-items:center;margin:10px 0}.cimgd img{max-height:90px;max-width:160px;border-radius:8px;border:1px solid var(--line);background:#fff}
+.cimg{border:2px dashed #cfd3fb;background:#f6f7ff;border-radius:var(--r);padding:12px 14px;display:grid;gap:8px}.cimg .hint{margin:0}.cimg input[type=file]{font-size:.9em}.cimg .pv{display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap}.cimg .pv img{max-width:min(100%,420px);max-height:300px;border-radius:10px;border:1px solid var(--line);background:#fff}.rvh{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap;margin:26px 0 8px;padding-top:14px;border-top:3px solid var(--line)}.rvh h2{margin:0;font-size:1.15rem}.rvcard{border:1px solid var(--line);border-radius:var(--r);padding:14px 16px;margin:10px 0;background:#fff}.rvcard .phead{margin-bottom:8px}.tev{background:#fffaf0;border:2px dashed #e7c46a;border-radius:var(--r);padding:12px 14px;margin:12px 0 4px;display:grid;gap:8px}.tev .rt{display:flex;gap:14px;flex-wrap:wrap}.tev .rt label{display:inline-flex;gap:6px;align-items:center;width:auto;font-weight:500;margin:0}.rvimg{max-width:100%;max-height:380px;width:auto;border-radius:10px;border:1px solid var(--line);margin-top:10px;display:block;background:#fff}.tev textarea{min-height:70px}.tev .saved{color:#0b7a5e;font-weight:600}.rvlist td{vertical-align:top}.rvlist .nm{font-weight:700}.rvnew{background:#fff4d6}.cimgd{display:flex;gap:12px;align-items:center;margin:10px 0}.cimgd img{max-height:90px;max-width:160px;border-radius:8px;border:1px solid var(--line);background:#fff}
 .ba{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:center}.ba .arrow{font-size:1.6rem;font-weight:800;color:var(--mut)}.ba .est{margin:4px 0}
 .aibox{border:2px solid #cfd3fb;background:#f6f7ff;border-radius:var(--r);padding:12px 14px;margin:12px 0}.aib{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}
 .aib span{background:#fff;border:1px solid #cfd3fb;border-radius:10px;padding:5px 12px;font-size:.78em;text-align:center}.aib b{display:block;font-size:1.5em}.aib .ov{background:var(--ink);color:#fff;border-color:var(--ink)}
@@ -3032,7 +3032,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
   function navState() {
     const p = location.hash.replace(/^#\/?/, "").split("/"), r = p[0] || ""; let g = "why", sub = "#/";
     if (r === "stats" || r === "bands") sub = "#/" + r;
-    else if (r === "coach") { g = "coach"; sub = ""; }
+    else if (r === "coach" || r === "review") { g = "coach"; sub = ""; }
     else if (r === "lab") { g = "prac"; sub = "#/lab"; }
     else if (["by", "m", "k", "t", "p", "w", "xb", "wb", "ty"].indexOf(r) >= 0) { g = "prac"; sub = (r === "by" && p[1] === "type") || r === "ty" || ((r === "xb" || r === "wb") && fromTy) ? "#/by/type" : (r === "by" && p[1] === "topic") || r === "t" || r === "xb" || r === "wb" || ((r === "p" || r === "w") && p[3] === "t") ? "#/by/topic" : "#/by/tech"; }
     else if (["me", "plan", "solo", "research"].indexOf(r) >= 0) { g = "me"; sub = "#/" + r; }
@@ -3892,7 +3892,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
   /* gọi máy chủ của giáo viên; trả về câu trả lời (kể cả khi bị từ chối) hoặc null nếu không kết nối được */
   async function srv(payload) {
     if (!CFG.endpoint) return null;
-    try { const r = await fetch(CFG.endpoint, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(Object.assign({ name: U.name, cls: U.cls || "", dev: dev }, payload)) }); return await r.json(); } catch (e) { return null; }
+    try { const r = await fetch(CFG.endpoint, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(Object.assign({ name: U ? U.name : "", cls: U && U.cls || "", dev: dev }, payload)) }); return await r.json(); } catch (e) { return null; }
   }
   async function aiCall(payload) {
     if (!AI_ON()) return null;
@@ -4111,23 +4111,32 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
     if (C.autoAI) { C.autoAI = false; save(); const u = $("#useai"); if (u && !u.disabled) u.click(); }
   }
 
+  /* một bước do trợ lý AI đề xuất, đổi sang dạng chung của bước sửa */
+  function aiSt(s, text) { const at = s.where ? text.indexOf(s.where) : -1; return { k: s.k, title: TECH[s.k] ? TECH[s.k].n : s.k, lvl: null, finding: s.why, marks: at >= 0 ? [[at, at + s.where.length]] : [], fix: String(s.how || "").split(/\n+/).filter(Boolean), demo: s.demo, quote: at < 0 ? s.where : "" }; }
+  /* thân một bước sửa: dùng chung cho học sinh (coachStep) và trang giáo viên xem lại (vReview), để hai bên thấy giống nhau */
+  function stepBody(st, text, ex, live) {
+    return `<div class="from-to">${st.lvl ? badge(st.lvl) : '<span class="lv l7">Hiện tại</span>'}<span>→</span>${badge(st.base ? "ok" : 9)}${st.measure ? `<span class="small">Hiện tại: ${esc(st.measure)}</span>` : ""}</div>
+      <p class="finding">${esc(st.finding)}</p>
+      <h5 class="sh">Trong bài của bạn</h5><div class="mytext en pre"${live ? ' id="mytext"' : ""}>${marked(text, st.marks)}</div>${st.quote ? `<p class="small">Câu cần xem: “${esc(st.quote)}”</p>` : ""}
+      <h5 class="sh">Cách sửa, lần lượt</h5><ol class="fix">${st.fix.map(f => `<li>${esc(f)}</li>`).join("")}</ol>
+      ${st.sugg && st.sugg.length ? `<div class="sugg">${st.sugg.slice(0, 10).map(s => `<span>${esc(s)}</span>`).join("")}</div>` : ""}
+      ${st.demo ? `<div class="b9"><span class="tag t9">Ví dụ trên chính câu của bạn</span><p class="en">${esc(st.demo)}</p><p class="small">Đây chỉ là một câu làm mẫu. Phần còn lại bạn tự sửa.</p></div>` : ex ? `<details class="exd"><summary>Xem một ví dụ band 7 → band 9 của kỹ thuật này</summary>${ex.b ? `<div class="b7"><span class="tag t7">Band 7</span><p class="en">${esc(ex.b)}</p></div>` : ""}<div class="b9"><span class="tag t9">Band 9</span><p class="en">${esc(ex.n)}</p></div></details>` : ""}`;
+  }
+  /* khung phản hồi của một lượt kiểm tra bản sửa (chế độ trợ lý AI), đúng như học sinh thấy */
+  const aiChkBox = (ok, note) => ok ? `<div class="fb ok"><div class="fbh">✓ Bước này đã đạt đặc trưng band 9</div>${note ? `<p>${esc(note)}</p>` : ""}</div>`
+    : `<div class="fb bad"><div class="fbh">Chưa đạt, sửa thêm một lượt nữa</div>${note ? `<p>${esc(note)}</p>` : ""}<p class="small">Xem lại các chỗ được tô màu ở trên (đã cập nhật theo bản mới) và làm tiếp theo danh sách “Cách sửa”.</p></div>`;
   function coachStep(C) {
     const a = runC(C); let st, chk = null;
     /* tự bỏ qua bước đã đạt nhờ các bước trước */
     while (C.mode === "rule" && C.i < C.order.length) { chk = a.checks.find(c => c.id === C.order[C.i]); if (chk && todo(chk)) break; if (chk) C.passed[chk.id] = 1; C.i++; }
     if (C.i >= C.order.length) { C.stage = "done"; save(); return coachDone(C); }
-    if (C.mode === "ai") { const s = C.aiSteps[C.order[C.i]], at = s.where ? C.text.indexOf(s.where) : -1; st = { k: s.k, title: TECH[s.k].n, lvl: null, finding: s.why, marks: at >= 0 ? [[at, at + s.where.length]] : [], fix: String(s.how).split(/\n+/).filter(Boolean), demo: s.demo, quote: at < 0 ? s.where : "" }; }
+    if (C.mode === "ai") st = aiSt(C.aiSteps[C.order[C.i]], C.text);
     else st = { k: chk.k, title: chk.name, lvl: chk.lvl, base: !!chk.base, finding: chk.msg, measure: chk.measure, marks: chk.marks, fix: chk.fix, sugg: chk.sugg, scaffold: chk.scaffold };
     const t = TECH[st.k], ex = st.base ? null : exampleFor(st.k); if (act) act.k = st.k;
     if (C.stepText == null || C.stepAt !== C.i) { C.stepText = C.text; C.stepAt = C.i; }
     shell(`<div class="play coach" style="--c:${color(t)}">${dots(C)}
       <div class="phead"><span class="code">${t.k}</span><div><h1>Bước ${C.i + 1}/${C.order.length} · ${esc(st.title)}</h1><p class="grp">${st.base ? "Nền tảng (mốc band 7) · kỹ thuật liên quan: " : "Kỹ thuật: "}${esc(t.n)} · ${esc(D.groups[t.g].n)}${C.round > 1 ? " · vòng " + C.round : ""}</p></div><span class="clock">⏱ <b id="clock">0:00</b></span></div>
-      <div class="from-to">${st.lvl ? badge(st.lvl) : '<span class="lv l7">Hiện tại</span>'}<span>→</span>${badge(st.base ? "ok" : 9)}${st.measure ? `<span class="small">Hiện tại: ${esc(st.measure)}</span>` : ""}</div>
-      <p class="finding">${esc(st.finding)}</p>
-      <h5 class="sh">Trong bài của bạn</h5><div class="mytext en pre" id="mytext">${marked(C.text, st.marks)}</div>${st.quote ? `<p class="small">Câu cần xem: “${esc(st.quote)}”</p>` : ""}
-      <h5 class="sh">Cách sửa, lần lượt</h5><ol class="fix">${st.fix.map(f => `<li>${esc(f)}</li>`).join("")}</ol>
-      ${st.sugg && st.sugg.length ? `<div class="sugg">${st.sugg.slice(0, 10).map(s => `<span>${esc(s)}</span>`).join("")}</div>` : ""}
-      ${st.demo ? `<div class="b9"><span class="tag t9">Ví dụ trên chính câu của bạn</span><p class="en">${esc(st.demo)}</p><p class="small">Đây chỉ là một câu làm mẫu. Phần còn lại bạn tự sửa.</p></div>` : ex ? `<details class="exd"><summary>Xem một ví dụ band 7 → band 9 của kỹ thuật này</summary>${ex.b ? `<div class="b7"><span class="tag t7">Band 7</span><p class="en">${esc(ex.b)}</p></div>` : ""}<div class="b9"><span class="tag t9">Band 9</span><p class="en">${esc(ex.n)}</p></div></details>` : ""}
+      ${stepBody(st, C.text, ex, true)}
       ${st.scaffold ? `<div class="scaf"><h5>Khung gợi ý: điền bằng tiếng Anh rồi chèn vào bài</h5>${st.scaffold.map((s, i) => `<label>${esc(s.l)}<input data-sc="${i}" value="${esc(s.v || "")}" placeholder="${esc(s.ph || "")}"></label>`).join("")}<button class="btn sm" id="ins" type="button">＋ Chèn các câu này vào cuối bài</button></div>` : ""}
       <h5 class="sh">Sửa ngay trên bài của bạn</h5><textarea id="cta" spellcheck="false">${esc(C.text)}</textarea>
       <div class="bar-actions"><button class="btn primary" id="re">Kiểm tra lại bước này</button>${hasGame(t) ? `<a class="btn" href="#/k/${t.k}" target="_blank" rel="noopener">▶ Luyện ${t.k} (mở tab mới)</a>` : ""}<button class="btn" id="skip">Bỏ qua bước này</button></div><div id="cfb"></div></div>`, coachCrumb(C));
@@ -4149,7 +4158,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
       save();
       const better = !ok && C.mode !== "ai" && chk && (chk.base ? lvl > chk.lvl : lvl === 8);
       rsCoachChk(C, st, chk, { ok: ok, lvl: lvl, changed: changed, better: better, note: note });
-      fb.innerHTML = ok ? `<div class="fb ok"><div class="fbh">${chk && chk.base ? "✓ Bước này đã qua mốc band 7" : "✓ Bước này đã đạt đặc trưng band 9"}</div>${note ? `<p>${esc(note)}</p>` : ""}<div class="bar-actions"><button class="btn primary" id="nx">${C.i + 1 < C.order.length ? "Sang bước " + (C.i + 2) + " →" : "Xem tổng kết →"}</button></div></div>`
+      fb.innerHTML = C.mode === "ai" && changed ? aiChkBox(ok, note).replace(/<\/div>$/, ok ? `<div class="bar-actions"><button class="btn primary" id="nx">${C.i + 1 < C.order.length ? "Sang bước " + (C.i + 2) + " →" : "Xem tổng kết →"}</button></div></div>` : "</div>") : ok ? `<div class="fb ok"><div class="fbh">${chk && chk.base ? "✓ Bước này đã qua mốc band 7" : "✓ Bước này đã đạt đặc trưng band 9"}</div>${note ? `<p>${esc(note)}</p>` : ""}<div class="bar-actions"><button class="btn primary" id="nx">${C.i + 1 < C.order.length ? "Sang bước " + (C.i + 2) + " →" : "Xem tổng kết →"}</button></div></div>`
         : `<div class="fb bad"><div class="fbh">${better ? "Đã tốt hơn: đang ở mức band " + lvl : !changed ? "Bạn chưa sửa gì ở bước này" : chk && chk.base ? "Vẫn còn ở mức band " + lvl + ", sửa thêm một lượt nữa" : "Chưa đạt, sửa thêm một lượt nữa"}</div>${note ? `<p>${esc(note)}</p>` : ""}<p class="small">Xem lại các chỗ được tô màu ở trên (đã cập nhật theo bản mới) và làm tiếp theo danh sách “Cách sửa”.</p>${better ? '<div class="bar-actions"><button class="btn" id="nx">Tạm chấp nhận, sang bước sau →</button></div>' : ""}</div>`;
       if ($("#nx")) $("#nx").onclick = () => next(!ok);
       fb.scrollIntoView({ behavior: "smooth", block: "nearest" });
@@ -4918,10 +4927,84 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
   }
 
   /* ---------- điều hướng ---------- */
+  /* ---------- giáo viên xem lại phản hồi của trợ lý AI (cần mã giáo viên) ---------- */
+  const TKEY = "b79:tkey";
+  const RATE = [["ok", "Chính xác, dùng được"], ["fix", "Đúng một phần, cần chỉnh"], ["bad", "Sai hoặc gây hiểu nhầm"]];
+  const pj = x => { try { return JSON.parse(x || "{}"); } catch (e) { return {}; } };
+  const vnTime = t => { const d = new Date(t); return isNaN(d) ? String(t) : d.toLocaleString("vi-VN", { hour: "2-digit", minute: "2-digit", day: "2-digit", month: "2-digit", year: "numeric" }); };
+  async function vReview(sid) {
+    const crumbs = `<a href="#/review">Phản hồi của trợ lý AI</a>${sid ? " › Một bài" : ""}`;
+    const key = store.get(TKEY);
+    if (!key) {
+      shell(`<div class="play coach" style="--c:#1b1e3c"><h1>Xem lại phản hồi của trợ lý AI</h1><p class="small">Trang dành cho giáo viên. Nhập mã giáo viên (TEACHER_KEY trong Code.gs) một lần; trình duyệt này sẽ nhớ mã.</p>
+        <form id="tkf" class="payform"><label>Mã giáo viên<input id="tk" type="password" autocomplete="current-password" required></label><div class="bar-actions"><button class="btn primary">Mở</button></div></form></div>`, crumbs);
+      $("#tkf").onsubmit = e => { e.preventDefault(); store.set(TKEY, $("#tk").value.trim()); vReview(sid); };
+      return;
+    }
+    shell(`<div class="play coach" style="--c:#1b1e3c"><p class="small">⏳ Đang tải phản hồi…</p></div>`, crumbs);
+    const d = await srv({ kind: "review", key: key, sid: sid || "" });
+    if (!d || !d.ok) {
+      const bad = d && d.error === "key";
+      shell(`<div class="play coach" style="--c:#1b1e3c"><h1>Chưa mở được</h1><p>${bad ? "Mã giáo viên chưa đúng." : "Không kết nối được máy chủ, hoặc Code.gs chưa có phần lưu phản hồi AI (dán đoạn mã mới rồi Deploy bản mới)."}</p><div class="bar-actions"><button class="btn primary" id="rtry">Thử lại</button>${bad ? '<button class="btn" id="rkey">Nhập lại mã</button>' : ""}</div></div>`, crumbs);
+      $("#rtry").onclick = () => vReview(sid); if ($("#rkey")) $("#rkey").onclick = () => { store.del(TKEY); vReview(sid); };
+      return;
+    }
+    if (!sid) return reviewList(d.essays || [], crumbs);
+    reviewOne(sid, d, key, crumbs);
+  }
+  function reviewList(es, crumbs) {
+    const seen = +(store.get("b79:rvseen") || 0); store.set("b79:rvseen", Date.now());
+    shell(`<div class="play coach" style="--c:#1b1e3c"><h1>Phản hồi của trợ lý AI đã gửi cho học sinh</h1>
+      <p class="small">Mỗi dòng là một bài học sinh nhờ trợ lý AI chấm, mới nhất ở trên. Dòng tô vàng là bài có phản hồi mới từ lần chị mở trang trước. Bấm “Xem” để thấy đúng những gì học sinh đã nhận và đánh giá từng phản hồi.</p>
+      ${es.length ? `<div class="tablewrap"><table class="dt wide rvlist"><tr><th>Lần cuối</th><th>Học sinh</th><th>Bài</th><th>Band AI</th><th>Phản hồi</th><th>Chị đã đánh giá</th><th></th></tr>
+      ${es.map(e => `<tr class="${new Date(e.last) > seen ? "rvnew" : ""}"><td class="small">${esc(vnTime(e.last))}</td><td class="nm">${esc(e.name)}</td><td class="small">${e.m === "t1" ? "Task 1" : "Task 2"}${e.q ? "<br>" + esc(String(e.q).slice(0, 90)) + (String(e.q).length > 90 ? "…" : "") : ""}</td><td>${e.band != null && e.band !== "" ? "<b>" + esc(e.band) + "</b>" : "–"}</td><td>${e.n} <span class="small">(${e.steps} lượt kiểm tra bản sửa)</span></td><td>${e.rated}/${e.n}</td><td><a class="btn sm" href="#/review/${encodeURIComponent(e.sid)}">Xem</a></td></tr>`).join("")}</table></div>` : '<p>Chưa có phản hồi nào được lưu. Phản hồi chỉ được lưu từ khi Code.gs có phần mới.</p>'}
+      <div class="bar-actions"><button class="btn" id="rkey">Quên mã giáo viên trên máy này</button></div></div>`, crumbs);
+    $("#rkey").onclick = () => { store.del(TKEY); vReview(""); };
+  }
+  function reviewOne(sid, d, key, crumbs) {
+    const rows = (d.rows || []).slice().sort((a, b) => new Date(a.time) - new Date(b.time));
+    if (!rows.length) { shell(`<div class="play coach" style="--c:#1b1e3c"><h1>Không tìm thấy bài này</h1><div class="bar-actions"><a class="btn" href="#/review">← Danh sách</a></div></div>`, crumbs); return; }
+    const first = rows.find(r => r.mode === "diag") || rows[0], fin = pj(first.input), name = first.name;
+    let nd = 0, lastSteps = [];
+    const tev = r => `<form class="tev" data-row="${r.row}"><b>Chị đánh giá phản hồi này</b><div class="rt">${RATE.map(x => `<label><input type="radio" name="rt${r.row}" value="${x[0]}"${r.rating === x[0] ? " checked" : ""}> ${x[1]}</label>`).join("")}</div>
+      <label class="small">Ghi chú (AI sai ở đâu, lẽ ra nên nói gì…)<textarea name="note" maxlength="3000">${esc(r.note || "")}</textarea></label><div class="bar-actions"><button class="btn sm primary">Lưu đánh giá</button><span class="small saved"></span></div></form>`;
+    const part = rows.map(r => {
+      const inp = pj(r.input), out = pj(r.output), when = `<span class="small">${esc(vnTime(r.time))}</span>`;
+      if (r.mode === "diag") {
+        nd++;
+        if (nd === 1) {
+          const st = (out.steps || []).filter(s => s && TECH[s.k] && s.how).slice(0, 7); lastSteps = st;
+          return `<div class="rvh"><h2>Chẩn đoán của trợ lý AI</h2>${when}<span class="tag t9">trừ 1 bài</span></div>
+            <p class="small">Học sinh thấy khung này ở trang “Bài của bạn đang ở khoảng band nào”, ngay dưới ước lượng tự động.</p>${aiBlock({ bands: out.bands, summary: out.summary, why: out.why || out.reasons })}
+            ${st.length ? `<p class="small">Sau đó học sinh được dẫn qua ${st.length} bước sửa dưới đây, mỗi bước một trang:</p>${st.map((s, i) => { const t = TECH[s.k]; return `<div class="rvcard" style="--c:${color(t)}"><div class="phead"><span class="code">${t.k}</span><div><h3 style="margin:0">Bước ${i + 1}/${st.length} · ${esc(t.n)}</h3><p class="grp">Kỹ thuật: ${esc(t.n)} · ${esc(D.groups[t.g].n)}</p></div></div>${stepBody(aiSt(s, inp.text || ""), inp.text || "", null, false)}</div>`; }).join("")}` : '<p class="small">Trợ lý AI không đề xuất bước sửa nào, nên học sinh sửa theo bộ phân tích tự động.</p>'}
+            ${tev(r)}`;
+        }
+        return `<div class="rvh"><h2>Ước lượng lại sau khi sửa</h2>${when}</div><p class="small">Học sinh thấy khung này ở trang Tổng kết.</p>${aiBlock({ bands: out.bands, summary: out.summary, why: out.why || out.reasons })}
+          <details class="hist"><summary>Bản bài lúc ước lượng lại</summary><p class="en pre">${esc(inp.text || "")}</p></details>${tev(r)}`;
+      }
+      const t = TECH[r.k || inp.k], idx = lastSteps.findIndex(s => s.k === (r.k || inp.k));
+      return `<div class="rvh"><h2>Kiểm tra bản sửa${t ? " · " + esc(t.k) + " " + esc(t.n) : ""}</h2>${when}${idx >= 0 ? `<span class="small">bước ${idx + 1}</span>` : ""}</div>
+        ${inp.why ? `<p class="small"><b>Yêu cầu của bước:</b> ${esc(inp.why)}</p>` : ""}
+        <details class="hist"><summary>Bản trước và bản sau khi học sinh sửa</summary><h5 class="sh">Trước</h5><p class="en pre mytext">${esc(inp.before || "")}</p><h5 class="sh">Sau</h5><p class="en pre mytext">${esc(inp.after || "")}</p></details>
+        ${aiChkBox(!!out.pass, out.comment || "")}${tev(r)}`;
+    }).join("");
+    shell(`<div class="play coach" style="--c:#1b1e3c"><h1>${esc(name)} · ${fin.m === "t1" ? "Task 1" : "Task 2"}</h1>
+      <p class="small">${rows.length} phản hồi của trợ lý AI, từ ${esc(vnTime(rows[0].time))} đến ${esc(vnTime(rows[rows.length - 1].time))}. Các khung dưới đây hiển thị giống trang của học sinh.</p>
+      ${fin.q ? `<div class="prompt"><span class="tag">Đề bài học sinh dán</span><p class="en pre">${esc(fin.q)}</p></div>` : ""}${d.image ? `<img class="rvimg" src="${d.image}" alt="Hình của đề học sinh đưa vào">` : ""}
+      ${fin.text ? `<details class="hist"><summary>Bài học sinh nộp lúc đầu (${words(fin.text)} từ)</summary><p class="en pre">${esc(fin.text)}</p></details>` : ""}
+      ${part}<div class="bar-actions"><a class="btn" href="#/review">← Danh sách bài</a></div></div>`, crumbs);
+    $$(".tev").forEach(f => f.onsubmit = async e => {
+      e.preventDefault(); const sv = f.querySelector(".saved"), rt = f.querySelector("input[type=radio]:checked"); sv.textContent = "⏳ Đang lưu…";
+      const r = await srv({ kind: "review", key: key, sid: sid, set: { row: +f.dataset.row, rating: rt ? rt.value : "", note: f.note.value.trim() } });
+      sv.textContent = r && r.ok ? "✓ Đã lưu" : "Chưa lưu được, thử lại";
+    });
+  }
+
   function route() {
     if (game && game.stop) game.stop(); game = null; act = null; if (S) save(); rsRoute();
     const p = location.hash.replace(/^#\/?/, "").split("/");
     /* Khách chưa nhập tên đọc được bài trang chính và trang thống kê; mọi trang khác hỏi tên trước rồi mở đúng trang đó. */
+    if (p[0] === "review") return vReview(p[1]);
     if (!U && ["", "why", "stats", "bands"].indexOf(p[0] || "") < 0) return vLogin();
     if (U && !U.phone && !U.noZalo && ["", "why", "stats", "bands"].indexOf(p[0] || "") < 0) return vPhone();
     /* lời mời tham gia nghiên cứu: chỉ hiện ở các trang danh mục, sau khi người học đã làm ít nhất một bài; không chen vào lúc đang làm bài */
