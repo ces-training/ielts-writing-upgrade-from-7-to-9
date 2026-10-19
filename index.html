@@ -173,7 +173,8 @@ textarea{min-height:230px;resize:vertical;font-family:"Source Serif 4",Georgia,s
 .sugg{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}.sugg span{background:#eef0ff;border:1px solid #cfd3fb;border-radius:9px;padding:4px 10px;font-size:.86em}
 .exd{margin-top:12px}.exd summary{cursor:pointer;font-weight:600;color:var(--acc)}
 .scaf{background:#f3fbf8;border:1px dashed #a9e2d0;border-radius:var(--r);padding:12px 14px;margin-top:14px;display:grid;gap:8px}
-.coach textarea{min-height:260px}
+.coach textarea{min-height:260px}.coach textarea#cq{min-height:72px}
+.cimg{border:2px dashed #cfd3fb;background:#f6f7ff;border-radius:var(--r);padding:12px 14px;display:grid;gap:8px}.cimg .hint{margin:0}.cimg input[type=file]{font-size:.9em}.cimg .pv{display:flex;gap:12px;align-items:flex-start;flex-wrap:wrap}.cimg .pv img{max-width:min(100%,420px);max-height:300px;border-radius:10px;border:1px solid var(--line);background:#fff}.cimgd{display:flex;gap:12px;align-items:center;margin:10px 0}.cimgd img{max-height:90px;max-width:160px;border-radius:8px;border:1px solid var(--line);background:#fff}
 .ba{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:center}.ba .arrow{font-size:1.6rem;font-weight:800;color:var(--mut)}.ba .est{margin:4px 0}
 .aibox{border:2px solid #cfd3fb;background:#f6f7ff;border-radius:var(--r);padding:12px 14px;margin:12px 0}.aib{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}
 .aib span{background:#fff;border:1px solid #cfd3fb;border-radius:10px;padding:5px 12px;font-size:.78em;text-align:center}.aib b{display:block;font-size:1.5em}.aib .ov{background:var(--ink);color:#fff;border-color:var(--ink)}
@@ -3906,9 +3907,28 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
   /* thông báo cho học sinh; lỗi chưa có tên thì hiện kèm mã để giáo viên biết nguyên nhân */
   const aiErrMsg = d => !d ? "Không kết nối được. Bài của bạn chưa bị trừ." : AI_ERR[d.error] || ((AI_TMP.test(d.error || "") ? "Trợ lý AI đang quá tải, bạn thử lại sau vài phút." : "Trợ lý AI đang gặp lỗi phía máy chủ.") + " Bài của bạn chưa bị trừ." + (d.error ? " Bạn chụp màn hình này gửi giáo viên để được xử lý (mã lỗi: " + d.error + (d.detail ? " · " + String(d.detail).slice(0, 160) : "") + ")." : ""));
   const AI_ERR = { "no-code": "Mã kích hoạt không còn hiệu lực.", "no-credit": "Bạn đã dùng hết số bài đã trả phí. Hãy gửi yêu cầu mua thêm.", "essay-cap": "Bài này đã dùng hết số lượt hỏi trợ lý AI.", "no-session": "Phiên chấm đã hết hạn. Hãy chấm lại từ bước chẩn đoán.", limit: "Trợ lý AI đã hết lượt trong hôm nay. Hãy thử lại vào ngày mai.", "no-key": "Giáo viên chưa bật trợ lý AI.", "too-long": "Bài quá dài nên trợ lý AI chưa trả lời hết. Bài của bạn chưa bị trừ; bạn thử chấm một phần ngắn hơn hoặc báo giáo viên." };
+  /* ảnh biểu đồ/bảng/bản đồ của đề Task 1: thu nhỏ trên máy học sinh, chỉ giữ trong tab đang mở (không ghi vào tiến độ),
+     và chỉ gửi kèm khi học sinh bấm chấm bằng trợ lý AI */
+  let CIMG = null; try { CIMG = JSON.parse(sessionStorage.getItem("b79cimg") || "null"); } catch (e) {}
+  const keepCimg = () => { try { if (CIMG) sessionStorage.setItem("b79cimg", JSON.stringify(CIMG)); else sessionStorage.removeItem("b79cimg"); } catch (e) {} };
+  const coachImg = C => CIMG && C && C.m === "t1" && CIMG.sid === C.sid ? CIMG.url : "";
+  function shrinkImg(f) {
+    return new Promise((ok, no) => {
+      if (!f || !/^image\//.test(f.type)) return no("type");
+      const r = new FileReader(); r.onerror = () => no("read");
+      r.onload = () => { const im = new Image(); im.onerror = () => no("img"); im.onload = () => {
+        const k = Math.min(1, 1568 / Math.max(im.width, im.height)), w = Math.round(im.width * k), h = Math.round(im.height * k);
+        const cv = document.createElement("canvas"); cv.width = w; cv.height = h; const x = cv.getContext("2d"); x.fillStyle = "#fff"; x.fillRect(0, 0, w, h); x.drawImage(im, 0, 0, w, h);
+        let url = cv.toDataURL("image/jpeg", 0.85); if (url.length > 1400000) url = cv.toDataURL("image/jpeg", 0.6);
+        ok({ url: url, name: f.name || "anh-de.jpg" }); }; im.src = r.result; };
+      r.readAsDataURL(f);
+    });
+  }
   function startCoach(o) {
     const a = D.analyse(o.text, o);
-    S.coach = { sid: Math.random().toString(36).slice(2, 12), m: o.m, kind: o.kind || "", scope: a.full ? "full" : "para", q: o.q || "", k0: o.k0 || "", tk: o.tk || "", text0: o.text, text: o.text, stage: "diag", i: 0, round: 1, sec: 0, skip: {}, order: [], before: snap(a), autoAI: !!o.ai };
+    const sid = Math.random().toString(36).slice(2, 12);
+    if (o.img && o.m === "t1") { CIMG = { sid: sid, url: o.img.url, name: o.img.name }; keepCimg(); }
+    S.coach = { sid: sid, img: !!(o.img && o.m === "t1"), m: o.m, kind: o.kind || "", scope: a.full ? "full" : "para", q: o.q || "", k0: o.k0 || "", tk: o.tk || "", text0: o.text, text: o.text, stage: "diag", i: 0, round: 1, sec: 0, skip: {}, order: [], before: snap(a), autoAI: !!o.ai };
     rs("coach_start", { sid: S.coach.sid, m: o.m, kind: o.kind || "", scope: S.coach.scope, k: o.k0 || "", tp: o.tk || "", src: o.src || (TRK.ci ? "paste" : "site"), q: cut(o.q, 600), band: rsBand(a), proc: trkTake("ci"), text: cut(o.text, 7000) });
     save(); if (location.hash === "#/coach") route(); else location.hash = "#/coach";
   }
@@ -3936,13 +3956,24 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
     shell(`<div class="play coach" style="--c:#1b1e3c"><div class="phead"><span class="code">7→9</span><div><h1>Nâng cấp bài viết của bạn</h1><p class="grp">Dán một đoạn hoặc cả bài. Trang ước lượng bài đang ở khoảng band nào (từ band 4 đến band 9, kể cả khi bạn chưa tới band 7), nêu lí do theo bảng mô tả band, rồi dẫn bạn sửa từng bước.</p></div></div>
       <form id="cf"><div class="seg"><label><input type="radio" name="m" value="t2" checked> Task 2</label><label><input type="radio" name="m" value="t1"> Task 1</label>
       <select id="ckind" hidden><option value="">Dạng đề…</option>${D.topics.t1.map(t => `<option value="${t.k}">${esc(t.n)}</option>`).join("")}</select></div>
-      <label>Đề bài <span class="opt-l">(nên dán để ${AI_ON() ? "trợ lý AI xét bài có trả lời đúng đề không" : "bạn tiện đối chiếu"})</span><input id="cq" maxlength="600" placeholder="Some people think that …"></label>
+      <label>Đề bài <span class="opt-l">(nên dán để ${AI_ON() ? "trợ lý AI xét bài có trả lời đúng đề không" : "bạn tiện đối chiếu"})</span><textarea id="cq" maxlength="1200" spellcheck="false" placeholder="Some people think that …"></textarea></label>
+      <div class="cimg" id="cimgbox" hidden><label>Hình của đề Task 1 <span class="opt-l">(biểu đồ, bảng, bản đồ hoặc quy trình; ảnh chụp hay ảnh màn hình đều được)</span><input id="cfile" type="file" accept="image/*"></label>
+        <p class="small hint">Có thể chụp màn hình hình của đề rồi bấm <b>Ctrl+V</b> (trên Mac là Cmd+V) vào ô đề bài. ${AI_ON() ? "Trợ lý AI xem hình này để đối chiếu số liệu, xu hướng và overview trong bài của bạn với đề." : "Khi chấm trả phí, trợ lý AI xem hình này để đối chiếu số liệu trong bài với đề."} Ảnh chỉ gửi đi khi bạn bấm chấm bằng trợ lý AI.</p>
+        <p class="ferr" id="cerr" role="alert" hidden></p><div class="pv" id="cpv"></div></div>
       <label>Bài viết của bạn<textarea id="ct" spellcheck="false" placeholder="Dán hoặc viết bài tại đây. Xuống dòng giữa các đoạn."></textarea></label>
       <div class="bar-actions">${aiLeft() > 0 ? `<button class="btn primary" type="submit" data-ai="1">Chấm bằng trợ lý AI · dùng 1 bài (còn ${aiLeft()}) →</button><button class="btn" type="submit" data-ai="0">Chỉ phân tích miễn phí</button>` : '<button class="btn primary" type="submit" data-ai="0">Phân tích bài của tôi (miễn phí) →</button>'}</div>${aiLeft() > 0 ? '<p class="small">Bấm chấm bằng trợ lý AI là trang chấm luôn, không cần bấm thêm. Nếu AI lỗi, bài không bị trừ.</p>' : ""}</form>${payPanel(null)}</div>`, coachCrumb());
     /* kích hoạt mã ngay tại đây: vẽ lại trang nhưng giữ nguyên bài đang dán */
-    bindPay(null, () => { const v = { m: $("[name=m]:checked").value, k: $("#ckind").value, q: $("#cq").value, t: $("#ct").value }; coachIntake(); const r = $(`[name=m][value=${v.m}]`); if (r) r.checked = true; $("#ckind").value = v.k; $("#ckind").hidden = v.m !== "t1"; $("#cq").value = v.q; $("#ct").value = v.t; }); trk($("#ct"), "ci");
-    $$("[name=m]").forEach(r => r.onchange = () => { $("#ckind").hidden = $("[name=m]:checked").value !== "t1"; });
-    $("#cf").onsubmit = e => { e.preventDefault(); const text = $("#ct").value.trim(); if (words(text) < 30) { alert("Hãy dán ít nhất 30 từ để phân tích."); return; } const m = $("[name=m]:checked").value; const sb = e.submitter || document.activeElement; startCoach({ m: m, kind: m === "t1" ? $("#ckind").value : "", q: $("#cq").value.trim(), text: text, ai: !!(sb && sb.dataset && sb.dataset.ai === "1" && aiLeft() > 0) }); };
+    let pic = CIMG && !CIMG.sid ? CIMG : null;
+    const showPic = () => { $("#cpv").innerHTML = pic ? `<img src="${pic.url}" alt="Hình của đề bạn vừa đưa vào"><div><p class="small">✓ Đã nhận hình: ${esc(pic.name)}</p><button class="btn" type="button" id="cdel">Bỏ hình này</button></div>` : ""; const d = $("#cdel"); if (d) d.onclick = () => { pic = null; CIMG = null; keepCimg(); $("#cfile").value = ""; showPic(); }; };
+    const takePic = f => { const er = $("#cerr"); er.hidden = true; shrinkImg(f).then(x => { pic = x; CIMG = { sid: "", url: x.url, name: x.name }; keepCimg(); showPic(); }).catch(() => { er.textContent = "Trang chưa đọc được file này. Hãy dùng ảnh PNG hoặc JPG; nếu đề ở dạng PDF, bạn chụp màn hình phần hình rồi đưa ảnh vào."; er.hidden = false; }); };
+    const setM = () => { const t1 = $("[name=m]:checked").value === "t1"; $("#ckind").hidden = !t1; $("#cimgbox").hidden = !t1; $("#cq").placeholder = t1 ? "The chart below shows … Summarise the information by selecting and reporting the main features, and make comparisons where relevant." : "Some people think that …"; };
+    bindPay(null, () => { const v = { m: $("[name=m]:checked").value, k: $("#ckind").value, q: $("#cq").value, t: $("#ct").value }; coachIntake(); const r = $(`[name=m][value=${v.m}]`); if (r) r.checked = true; $("#ckind").value = v.k; $("#cq").value = v.q; $("#ct").value = v.t; setTimeout(() => { const t1 = v.m === "t1"; $("#ckind").hidden = !t1; $("#cimgbox").hidden = !t1; }); }); trk($("#ct"), "ci");
+    $$("[name=m]").forEach(r => r.onchange = setM); setM(); showPic();
+    $("#cfile").onchange = e => { if (e.target.files[0]) takePic(e.target.files[0]); };
+    $("#cf").addEventListener("paste", e => { const it = [...((e.clipboardData || {}).items || [])].find(x => x.kind === "file" && /^image\//.test(x.type)); if (!it) return; e.preventDefault(); const r = $("[name=m][value=t1]"); if (!r.checked) { r.checked = true; setM(); } takePic(it.getAsFile()); });
+    $("#cf").onsubmit = e => { e.preventDefault(); const text = $("#ct").value.trim(); if (words(text) < 30) { alert("Hãy dán ít nhất 30 từ để phân tích."); return; } const m = $("[name=m]:checked").value; const sb = e.submitter || document.activeElement; const ai = !!(sb && sb.dataset && sb.dataset.ai === "1" && aiLeft() > 0);
+      if (ai && m === "t1" && !pic && !confirm("Bạn chưa đưa hình của đề (biểu đồ, bảng, bản đồ…). Không có hình, trợ lý AI không kiểm tra được số liệu trong bài có đúng với đề không.\n\nBấm OK để vẫn chấm, hoặc Cancel để quay lại thêm hình.")) return;
+      startCoach({ m: m, kind: m === "t1" ? $("#ckind").value : "", q: $("#cq").value.trim(), text: text, img: m === "t1" ? pic : null, ai: ai }); };
   }
 
   function featTable(a, before) {
@@ -4056,7 +4087,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
     };
     if (use) use.onclick = async () => {
       use.disabled = true; const wait = '<p class="small">⏳ Trợ lý AI đang đọc bài của bạn, mất khoảng nửa phút. Kết quả sẽ hiện ngay tại đây…</p>'; $("#aiwait").innerHTML = wait; if ($("#aitop")) $("#aitop").innerHTML = `<div class="aibox">${wait}</div>`;
-      const d = await aiCall({ mode: "diag", want: "band", auto: runC(C).est, m: C.m, dtype: C.kind, q: C.q, text: C.text });
+      const d = await aiCall({ mode: "diag", want: "band", auto: runC(C).est, m: C.m, dtype: C.kind, q: C.q, img: coachImg(C), text: C.text });
       if (S.coach !== C) return;
       if (d && d.ok) { C.ai = { bands: d.bands, summary: d.summary, why: d.why || d.reasons }; rs("coach_ai", { sid: C.sid, bands: d.bands, nsteps: (d.steps || []).length }); const st = (d.steps || []).filter(s => s && TECH[s.k] && s.how).slice(0, 7); if (st.length) C.aiSteps = st; save(); if (C.stage === "diag") rerender(); }
       else { use.disabled = false; const w = $("#aiwait"); const em = `<p class="small" style="color:var(--bad)">${esc(aiErrMsg(d))}</p>`; if (w) w.innerHTML = em; if ($("#aitop")) $("#aitop").innerHTML = `<div class="aibox">${em}<p class="small">Bạn có thể bấm chấm lại bằng nút trợ lý AI ở cuối trang.</p></div>`; if (d && d.error === "no-credit") rerender(); }
@@ -4065,7 +4096,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
 
   function coachDiag(C) {
     const a = runC(C), isLow = a.band && a.band.low, nBase = a.checks.filter(c => c.base && todo(c)).length, nTodo = isLow ? nBase : a.checks.filter(todo).length;
-    shell(`<div class="play coach" style="--c:#1b1e3c">${dots(C)}<h1>Bài của bạn đang ở khoảng band nào</h1><p class="small" style="margin:6px 0 0"><span class="tag">Bản miễn phí</span> Ước lượng tự động theo các dấu hiệu máy đếm được</p>${estLine(a)}
+    shell(`<div class="play coach" style="--c:#1b1e3c">${dots(C)}<h1>Bài của bạn đang ở khoảng band nào</h1>${C.m === "t1" && C.img ? (coachImg(C) ? `<div class="cimgd"><img src="${coachImg(C)}" alt="Hình của đề"><span class="small">Hình của đề đã đính kèm${PAID.enabled ? "; trợ lý AI sẽ đối chiếu số liệu trong bài với hình này" : ""}.</span></div>` : '<p class="small">Hình của đề không còn trong tab này (trang chỉ giữ hình trong lúc tab đang mở). Muốn trợ lý AI đối chiếu số liệu, hãy bắt đầu lại với bài này và đưa hình vào.</p>') : ""}<p class="small" style="margin:6px 0 0"><span class="tag">Bản miễn phí</span> Ước lượng tự động theo các dấu hiệu máy đếm được</p>${estLine(a)}
       ${PAID.enabled && !C.ai ? `<p class="banknote"><span class="tag t9">Bản trả phí</span> Trợ lý AI đọc hiểu nội dung bài rồi ước lượng band từng tiêu chí, kể cả phần máy không chấm được (bài có trả lời đúng đề không, ý có đủ sâu không) · ${vnd(FEE)} / bài. <a href="#bandmodes" id="tomodes">So sánh hai lựa chọn ↓</a></p>` : ""}
       ${isLow ? `<p class="whyp"><b>Việc nên làm trước:</b> qua ${nBase} mốc nền tảng đang ở mức band 4–6 (nhóm đầu tiên trong bảng dưới), bắt đầu từ mốc thấp nhất. Vòng nâng cấp này chỉ gồm các mốc đó; các kỹ thuật band 9 để vòng sau, khi nền đã vững.</p>` : ""}
       ${aiBlock(C.ai)}${C.ai ? "" : '<div id="aitop"></div>'}
@@ -4146,7 +4177,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
     $("#fin").onclick = () => { S.coach = null; save(); vCoach(); };
     if ($("#back")) $("#back").onclick = () => { S.coach = null; save(); };
     fbMount($(".coach"), { tech: C.k0 || "COACH", topic: C.tk || C.m, src: "coach" });
-    if (AI_ON() && C.ai && C.ai2r !== C.round) { C.ai2r = C.round; aiCall({ mode: "diag", want: "band", auto: runC(C).est, m: C.m, dtype: C.kind, q: C.q, text: C.text }).then(d => { if (S.coach !== C || !d || !d.ok) return; C.ai2 = { bands: d.bands, summary: d.summary, why: d.why || d.reasons }; save(); const w = $("#aiwait"); if (w && C.stage === "done") w.innerHTML = aiBlock(C.ai2); }); }
+    if (AI_ON() && C.ai && C.ai2r !== C.round) { C.ai2r = C.round; aiCall({ mode: "diag", want: "band", auto: runC(C).est, m: C.m, dtype: C.kind, q: C.q, img: coachImg(C), text: C.text }).then(d => { if (S.coach !== C || !d || !d.ok) return; C.ai2 = { bands: d.bands, summary: d.summary, why: d.why || d.reasons }; save(); const w = $("#aiwait"); if (w && C.stage === "done") w.innerHTML = aiBlock(C.ai2); }); }
   }
 
   /* =================== GÓP Ý VÀ ĐÁNH GIÁ =================== */
