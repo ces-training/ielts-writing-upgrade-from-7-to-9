@@ -4004,8 +4004,8 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
     const left = S && S.paid ? S.paid.left : 0; let st;
     if (!S) st = `<a class="btn primary" href="#/coach">Nhập tên để yêu cầu bản trả phí · ${vnd(FEE)} / bài</a>`;
     else if (C && C.ai) st = `<p class="payon">✓ Bài này đang được trợ lý AI chấm.${S.paid ? " Bạn còn " + left + " bài." : ""}</p>`;
-    else if (AI_ON() && C) st = `<button class="btn primary" id="useai" ${left > 0 ? "" : "disabled"}>${band ? "Phân tích band bài này bằng trợ lý AI" : "Chấm bài này bằng trợ lý AI"} · dùng 1 bài (còn ${left})</button>${left > 0 ? "" : `<button class="btn" id="askpay">Yêu cầu mua thêm · ${vnd(FEE)} / bài</button>`}<div id="aiwait"></div>`;
-    else if (AI_ON()) st = `<p class="payon">✓ Đã bật trả phí · còn ${left} bài. Dán bài rồi bấm “Chấm bằng trợ lý AI”, trang chấm luôn.</p>${band ? '<div class="bar-actions"><a class="btn primary" href="#/coach">Dán bài để trợ lý AI phân tích →</a></div>' : ""}`;
+    else if (AI_ON() && C) st = `<button class="btn primary" id="useai" ${left > 0 ? "" : "disabled"}>${band ? "Phân tích band bài này bằng trợ lý AI" : "Chấm bài này bằng trợ lý AI"} · dùng 1 bài (còn ${left})</button>${left > 0 ? "" : `<button class="btn" id="askpay">Yêu cầu mua thêm · ${vnd(FEE)} / bài</button><button class="btn" id="havecode">Đã được cộng thêm bài / có mã mới</button>`}<div id="aiwait"></div>`;
+    else if (AI_ON()) st = left > 0 ? `<p class="payon">✓ Đã bật trả phí · còn ${left} bài. Dán bài rồi bấm “Chấm bằng trợ lý AI”, trang chấm luôn.</p>${band ? '<div class="bar-actions"><a class="btn primary" href="#/coach">Dán bài để trợ lý AI phân tích →</a></div>' : ""}` : `<p class="payon">Bạn đã dùng hết số bài trả phí (mã ${esc(S.paid.code)}).</p><button class="btn primary" id="askpay">Yêu cầu mua thêm · ${vnd(FEE)} / bài</button><button class="btn" id="havecode">Đã được cộng thêm bài / có mã mới</button>`;
     else st = `<button class="btn primary" id="askpay">Yêu cầu bật chấm trả phí · ${vnd(FEE)} / bài</button><button class="btn" id="havecode">Tôi đã có mã kích hoạt</button>`;
     if (band) return `<h3 class="modes-h" id="bandmodes">Hai cách phân tích band hiện tại của bạn</h3><div class="modes"><div class="mode free"><span class="tag">Miễn phí</span><h4>Bộ ước lượng tự động</h4>
       <p class="lead">Biết ngay mình đang ở khoảng band nào, không tốn phí.</p>
@@ -4052,9 +4052,22 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
       <p class="fee"><b>${vnd(FEE)}</b> / bài</p>
       <div class="bar-actions">${st}</div><div id="paybox"></div></div></div>`;
   }
+  /* Số bài còn lại được lưu trên máy học sinh. Khi giáo viên cộng thêm bài trong Google Sheet (tab paid),
+     trang hỏi lại máy chủ để cập nhật, vì lúc còn 0 bài học sinh không bấm chấm được nên trang không tự biết. */
+  let paidAt = 0;
+  async function paidRefresh(force) {
+    if (!AI_ON() || (!force && Date.now() - paidAt < 30000)) return false;
+    paidAt = Date.now();
+    const code = S.paid.code, d = await srv({ kind: "coach", mode: "check", code: code });
+    if (!S || !S.paid || S.paid.code !== code || !d || !d.ok || d.left == null || +d.left === +S.paid.left) return false;
+    const up = +d.left > (+S.paid.left || 0); S.paid.left = d.left; save();
+    if (up) syncToast("Giáo viên đã cộng thêm bài: bạn còn " + d.left + " bài chấm bằng trợ lý AI.");
+    return true;
+  }
   function bindPay(C, rerender) {
     const box = $("#paybox"); if (!box) return;
     const ask = $("#askpay"), have = $("#havecode"), use = $("#useai");
+    if (AI_ON() && aiLeft() <= 0) paidRefresh().then(ch => { if (ch && $("#paybox") === box) rerender(); });
     if (ask) ask.onclick = () => {
       box.innerHTML = `<form class="payform" id="pf"><h5>Yêu cầu bật chấm trả phí</h5>
         <label>Số bài muốn chấm<select id="pn">${PAID.packs.map(n => `<option value="${n}">${n} bài · ${vnd(n * FEE)}</option>`).join("")}</select></label>
@@ -4075,7 +4088,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
       };
     };
     if (have) have.onclick = () => {
-      box.innerHTML = `<form class="payform" id="cdf"><label>Mã kích hoạt giáo viên đã gửi<input id="cd" maxlength="24" placeholder="W79-XXXXXXXX" autocomplete="off"></label><div class="bar-actions"><button class="btn primary" type="submit">Kích hoạt</button></div><div id="pmsg"></div></form>`;
+      box.innerHTML = `<form class="payform" id="cdf"><label>Mã kích hoạt giáo viên đã gửi<input id="cd" maxlength="24" placeholder="W79-XXXXXXXX" autocomplete="off" value="${S && S.paid && S.paid.code ? esc(S.paid.code) : ""}"></label>${S && S.paid && S.paid.code ? '<p class="small">Nếu giáo viên cộng thêm bài vào mã cũ, bấm “Kích hoạt” để cập nhật. Nếu giáo viên gửi mã mới, xóa mã cũ rồi dán mã mới.</p>' : ""}<div class="bar-actions"><button class="btn primary" type="submit">Kích hoạt</button></div><div id="pmsg"></div></form>`;
       $("#cdf").onsubmit = async e => {
         e.preventDefault(); const code = $("#cd").value.trim().toUpperCase(); if (!code) return;
         if (!CFG.endpoint) { $("#pmsg").innerHTML = '<p class="small">Trang chưa nối với máy chủ của giáo viên nên chưa kích hoạt được mã.</p>'; return; }
