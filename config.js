@@ -15,7 +15,10 @@ window.B79_CONFIG = {
     markup: 2,                        // phí học sinh trả = gấp 2 lần chi phí AI
     usdToVnd: 26000,                  // tỉ giá dùng để quy đổi chi phí thực tế ở trang giáo viên
     packs: [5, 10, 20],               // các gói số bài học sinh có thể chọn
-    payNote: ""                       // ví dụ: thông tin chuyển khoản; để trống thì giáo viên trả lời qua email
+    payNote: "",                      // ví dụ: thông tin chuyển khoản; để trống thì giáo viên trả lời qua email
+    /* Lượt trợ lý AI trong 1 bài đã trả (ngoài lần chấm đầu). Chỉ để hiện chữ cho học sinh:
+       giới hạn thật do Code.gs quyết định (STEPS_PER_ESSAY, REEST_PER_ESSAY), nên sửa ở đây thì sửa cả ở đó. */
+    perEssay: { steps: 10, re: 1 }
   },
 
   /* Khung giờ mục tiêu cho chặng band 7 lên band 9, và số tuần của khóa. */

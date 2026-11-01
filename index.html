@@ -2599,7 +2599,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
   "use strict";
   const D = window.B79;
   const CFG = Object.assign({ endpoint: "", targetHours: 200, weeks: 20, classes: [] }, window.B79_CONFIG || {});
-  const PAID = CFG.paid = Object.assign({ enabled: true, aiCostPerEssayVND: 2000, markup: 2, usdToVnd: 26000, packs: [5, 10, 20], payNote: "" }, (window.B79_CONFIG || {}).paid || {});
+  const PAID = CFG.paid = Object.assign({ enabled: true, aiCostPerEssayVND: 2000, markup: 2, usdToVnd: 26000, packs: [5, 10, 20], payNote: "", perEssay: { steps: 10, re: 1 } }, (window.B79_CONFIG || {}).paid || {});
   const FEE = Math.round(PAID.aiCostPerEssayVND * PAID.markup), vnd = n => Number(n).toLocaleString("vi-VN") + " đ";
 
   /* ---------- tiện ích ---------- */
@@ -3901,12 +3901,49 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
     /* lỗi tạm thời của dịch vụ AI (quá tải, mạng chập chờn): tự thử lại một lần; bài lỗi đã được máy chủ hoàn lại */
     if (!d || (d.error && AI_TMP.test(d.error))) { await new Promise(r => setTimeout(r, 4000)); d = await srv(body); }
     if (d && d.left != null) { S.paid.left = d.left; save(); }
+    if (d && d.al && S.coach && (S.coach.sid || "") === body.sid) { S.coach.al = d.al; save(); }
     return d;
   }
   const AI_TMP = /^(api-(408|429|500|502|503|504|529))$/;
   /* thông báo cho học sinh; lỗi chưa có tên thì hiện kèm mã để giáo viên biết nguyên nhân */
   const aiErrMsg = d => !d ? "Không kết nối được. Bài của bạn chưa bị trừ." : AI_ERR[d.error] || ((AI_TMP.test(d.error || "") ? "Trợ lý AI đang quá tải, bạn thử lại sau vài phút." : "Trợ lý AI đang gặp lỗi phía máy chủ.") + " Bài của bạn chưa bị trừ." + (d.error ? " Bạn chụp màn hình này gửi giáo viên để được xử lý (mã lỗi: " + d.error + (d.detail ? " · " + String(d.detail).slice(0, 160) : "") + ")." : ""));
-  const AI_ERR = { "no-code": "Mã kích hoạt không còn hiệu lực.", "no-credit": "Bạn đã dùng hết số bài đã trả phí. Hãy gửi yêu cầu mua thêm.", "essay-cap": "Bài này đã dùng hết số lượt hỏi trợ lý AI.", "no-session": "Phiên chấm đã hết hạn. Hãy chấm lại từ bước chẩn đoán.", limit: "Trợ lý AI đã hết lượt trong hôm nay. Hãy thử lại vào ngày mai.", "no-key": "Giáo viên chưa bật trợ lý AI.", "too-long": "Bài quá dài nên trợ lý AI chưa trả lời hết. Bài của bạn chưa bị trừ; bạn thử chấm một phần ngắn hơn hoặc báo giáo viên." };
+  const AI_ERR = { "no-code": "Mã kích hoạt không còn hiệu lực.", "no-credit": "Bạn đã dùng hết số bài đã trả phí. Hãy gửi yêu cầu mua thêm.", "essay-cap": "Bài này đã dùng hết số lượt hỏi trợ lý AI.", "no-session": "Phiên chấm đã hết hạn. Hãy chấm lại từ bước chẩn đoán.", limit: "Trợ lý AI đã hết lượt trong hôm nay. Hãy thử lại vào ngày mai.", "no-key": "Giáo viên chưa bật trợ lý AI.", "too-long": "Bài quá dài nên trợ lý AI chưa trả lời hết. Bài của bạn chưa bị trừ; bạn thử chấm một phần ngắn hơn hoặc báo giáo viên.", "bad-json": "Trợ lý AI trả lời sai định dạng. Lượt này đã được hoàn lại; bạn bấm thử lại.", "need-more": "Bài này đã dùng hết lượt trợ lý AI của 1 bài." };
+  /* lượt trợ lý AI còn lại của bài đang làm (máy chủ trả về sau mỗi lượt) */
+  const alLine = C => C && C.al && AI_ON() ? `<p class="small aial" id="aial">Trợ lý AI cho bài này: còn <b>${C.al.st}</b> lượt nhận xét bản sửa · <b>${C.al.re}</b> lần ước lượng lại band. Hết lượt, trang sẽ hỏi bạn trước khi trừ thêm bài.</p>` : "";
+  const MORE_WHY = { steps: "Bài này đã dùng hết lượt trợ lý AI nhận xét bản sửa.", re: "Bài này đã dùng lần trợ lý AI ước lượng lại band.", cost: "Bài này đã dùng hết phần trợ lý AI của 1 bài." };
+  /* hết lượt của bài: hỏi học sinh trước. Đồng ý thì trừ thêm 1 bài, mở lượt mới cho chính bài này rồi làm lại việc vừa định làm (retry);
+     không đồng ý thì chuyển sang bộ chấm miễn phí (onNo). Không bao giờ trừ bài khi học sinh chưa bấm đồng ý. */
+  function askMore(host, C, d, retry, onNo) {
+    if (!host) return;
+    const n = PAID.perEssay || {}, left = d && d.left != null ? +d.left : aiLeft(), why = MORE_WHY[d && d.why] || MORE_WHY.cost;
+    rs("coach_more", { sid: C.sid, why: d && d.why || "", left: left, ch: "ask" });
+    const no = '<button class="btn" id="mno" type="button">Dùng bộ chấm miễn phí</button>';
+    if (left <= 0) {
+      host.innerHTML = `<div class="fb bad"><div class="fbh">${why}</div><p>Bạn đã dùng hết số bài trả phí. Muốn trợ lý AI xem tiếp bài này, hãy mua thêm bài; hoặc sửa tiếp với bộ chấm miễn phí.</p><div class="bar-actions"><button class="btn primary" id="askpay" type="button">Yêu cầu mua thêm · ${vnd(FEE)} / bài</button><button class="btn" id="havecode" type="button">Đã được cộng thêm bài</button>${no}</div><div id="paybox"></div></div>`;
+      bindPay(C, () => askMore(host, C, Object.assign({}, d, { left: aiLeft() }), retry, onNo));
+    } else {
+      host.innerHTML = `<div class="fb bad"><div class="fbh">${why}</div><p>Tiếp tục với trợ lý AI sẽ <b>trừ thêm 1 bài</b> (bạn còn ${left} bài) và mở thêm ${n.steps || 10} lượt nhận xét bản sửa, ${n.re || 1} lần ước lượng lại band cho chính bài này.</p><div class="bar-actions"><button class="btn primary" id="myes" type="button">Tiếp tục, trừ 1 bài</button>${no}</div><div id="mmsg"></div></div>`;
+      $("#myes").onclick = async () => {
+        $("#myes").disabled = true; $("#mmsg").innerHTML = '<p class="small">⏳ Đang mở thêm lượt…</p>';
+        const r = await aiCall({ mode: "extend" }); if (S.coach !== C) return;
+        if (r && r.ok) { rs("coach_more", { sid: C.sid, why: d && d.why || "", left: r.left, ch: "yes" }); retry(); }
+        else { if ($("#myes")) $("#myes").disabled = false; if ($("#mmsg")) $("#mmsg").innerHTML = `<p class="small" style="color:var(--bad)">${esc(r && r.error === "no-credit" ? AI_ERR["no-credit"] : aiErrMsg(r))}</p>`; }
+      };
+    }
+    $("#mno").onclick = () => { rs("coach_more", { sid: C.sid, why: d && d.why || "", left: left, ch: "no" }); onNo(); };
+    host.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }
+  /* trợ lý AI ước lượng lại band của bản đã sửa (bản gọn, 1 lần trong mỗi phần lượt) */
+  function reAI(C) {
+    const w0 = $("#aiwait"); if (w0) w0.innerHTML = '<p class="small">⏳ Trợ lý AI đang ước lượng lại band của bản đã sửa…</p>';
+    aiCall({ mode: "diag", want: "band", prev: (C.ai2 || C.ai || {}).bands || null, auto: runC(C).est, m: C.m, dtype: C.kind, q: C.q, img: coachImg(C), text: C.text }).then(d => {
+      if (S.coach !== C) return; const w = $("#aiwait"), here = w && C.stage === "done";
+      if (d && d.ok) { C.ai2 = { bands: d.bands, summary: d.summary, why: d.why || d.reasons }; save(); if (here) w.innerHTML = aiBlock(C.ai2) + alLine(C); return; }
+      if (!here) return;
+      if (d && d.error === "need-more") askMore(w, C, d, () => reAI(C), () => { w.innerHTML = '<p class="small">Bạn đang xem band của bộ chấm miễn phí ở bảng dưới.</p>'; });
+      else w.innerHTML = `<p class="small" style="color:var(--bad)">${esc(aiErrMsg(d))}</p>`;
+    });
+  }
   /* ảnh biểu đồ/bảng/bản đồ của đề Task 1: thu nhỏ trên máy học sinh, chỉ giữ trong tab đang mở (không ghi vào tiến độ),
      và chỉ gửi kèm khi học sinh bấm chấm bằng trợ lý AI */
   let CIMG = null; try { CIMG = JSON.parse(sessionStorage.getItem("b79cimg") || "null"); } catch (e) {}
@@ -4026,7 +4063,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
         <li>Có thể chỉ ra lỗi ngữ pháp và kết hợp từ nằm ngoài danh sách của bộ tự động.</li>
         <li>Sau khi bạn sửa, đọc lại và ước lượng lại band.</li>
       </ul>
-      <p class="limit">Band là ước lượng của AI theo band descriptor công khai, không phải điểm của giám khảo. Bạn chỉ bị trừ bài khi tự bấm chấm; nếu AI lỗi, bài đó được hoàn lại.</p>
+      <p class="limit">Band là ước lượng của AI theo band descriptor công khai, không phải điểm của giám khảo. Mỗi bài gồm 1 lần chấm, ${(PAID.perEssay || {}).steps || 10} lượt nhận xét bản sửa và ${(PAID.perEssay || {}).re || 1} lần ước lượng lại band; muốn hỏi thêm, trang hỏi bạn trước rồi mới trừ thêm 1 bài. Bạn chỉ bị trừ bài khi tự bấm; nếu AI lỗi, lượt đó được hoàn lại.</p>
       <p class="fee"><b>${vnd(FEE)}</b> / bài</p>
       <div class="bar-actions">${st}</div><div id="paybox"></div></div></div>`;
     return `<h3 class="modes-h">Chọn cách nhận phản hồi cho bài viết</h3><div class="modes"><div class="mode free"><span class="tag">Miễn phí</span><h4>Bộ phân tích tự động</h4>
@@ -4048,7 +4085,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
         <li>Đọc lại bản sửa ở từng bước và nói rõ còn thiếu gì.</li>
         <li>Có thể chỉ ra lỗi ngữ pháp và kết hợp từ nằm ngoài danh sách của bộ tự động.</li>
       </ul>
-      <p class="limit">Band là ước lượng của AI theo band descriptor công khai, không phải điểm của giám khảo. Bạn chỉ bị trừ bài khi tự bấm chấm; nếu AI lỗi, bài đó được hoàn lại.</p>
+      <p class="limit">Band là ước lượng của AI theo band descriptor công khai, không phải điểm của giám khảo. Mỗi bài gồm 1 lần chấm, ${(PAID.perEssay || {}).steps || 10} lượt nhận xét bản sửa và ${(PAID.perEssay || {}).re || 1} lần ước lượng lại band; muốn hỏi thêm, trang hỏi bạn trước rồi mới trừ thêm 1 bài. Bạn chỉ bị trừ bài khi tự bấm; nếu AI lỗi, lượt đó được hoàn lại.</p>
       <p class="fee"><b>${vnd(FEE)}</b> / bài</p>
       <div class="bar-actions">${st}</div><div id="paybox"></div></div></div>`;
   }
@@ -4112,7 +4149,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
     shell(`<div class="play coach" style="--c:#1b1e3c">${dots(C)}<h1>Bài của bạn đang ở khoảng band nào</h1>${C.m === "t1" && C.img ? (coachImg(C) ? `<div class="cimgd"><img src="${coachImg(C)}" alt="Hình của đề"><span class="small">Hình của đề đã đính kèm${PAID.enabled ? "; trợ lý AI sẽ đối chiếu số liệu trong bài với hình này" : ""}.</span></div>` : '<p class="small">Hình của đề không còn trong tab này (trang chỉ giữ hình trong lúc tab đang mở). Muốn trợ lý AI đối chiếu số liệu, hãy bắt đầu lại với bài này và đưa hình vào.</p>') : ""}<p class="small" style="margin:6px 0 0"><span class="tag">Bản miễn phí</span> Ước lượng tự động theo các dấu hiệu máy đếm được</p>${estLine(a)}
       ${PAID.enabled && !C.ai ? `<p class="banknote"><span class="tag t9">Bản trả phí</span> Trợ lý AI đọc hiểu nội dung bài rồi ước lượng band từng tiêu chí, kể cả phần máy không chấm được (bài có trả lời đúng đề không, ý có đủ sâu không) · ${vnd(FEE)} / bài. <a href="#bandmodes" id="tomodes">So sánh hai lựa chọn ↓</a></p>` : ""}
       ${isLow ? `<p class="whyp"><b>Việc nên làm trước:</b> qua ${nBase} mốc nền tảng đang ở mức band 4–6 (nhóm đầu tiên trong bảng dưới), bắt đầu từ mốc thấp nhất. Vòng nâng cấp này chỉ gồm các mốc đó; các kỹ thuật band 9 để vòng sau, khi nền đã vững.</p>` : ""}
-      ${aiBlock(C.ai)}${C.ai ? "" : '<div id="aitop"></div>'}
+      ${aiBlock(C.ai)}${C.ai ? alLine(C) : '<div id="aitop"></div>'}
       ${featTable(a)}
       <details class="hist"><summary>Xem lại bài bạn đã nộp (${a.W} từ)</summary><p class="en pre">${esc(C.text)}</p></details>
       <div class="bar-actions"><button class="btn primary" id="go">${C.aiSteps ? "Bắt đầu nâng cấp cùng trợ lý AI · " + C.aiSteps.length + " bước →" : nTodo ? (isLow ? "Bắt đầu từ nền tảng · " : "Bắt đầu nâng cấp · ") + nTodo + " bước →" : "Xem tổng kết →"}</button><button class="btn" id="drop">Bỏ bài này, dán bài khác</button></div>
@@ -4148,7 +4185,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
     const t = TECH[st.k], ex = st.base ? null : exampleFor(st.k); if (act) act.k = st.k;
     if (C.stepText == null || C.stepAt !== C.i) { C.stepText = C.text; C.stepAt = C.i; }
     shell(`<div class="play coach" style="--c:${color(t)}">${dots(C)}
-      <div class="phead"><span class="code">${t.k}</span><div><h1>Bước ${C.i + 1}/${C.order.length} · ${esc(st.title)}</h1><p class="grp">${st.base ? "Nền tảng (mốc band 7) · kỹ thuật liên quan: " : "Kỹ thuật: "}${esc(t.n)} · ${esc(D.groups[t.g].n)}${C.round > 1 ? " · vòng " + C.round : ""}</p></div><span class="clock">⏱ <b id="clock">0:00</b></span></div>
+      <div class="phead"><span class="code">${t.k}</span><div><h1>Bước ${C.i + 1}/${C.order.length} · ${esc(st.title)}</h1><p class="grp">${st.base ? "Nền tảng (mốc band 7) · kỹ thuật liên quan: " : "Kỹ thuật: "}${esc(t.n)} · ${esc(D.groups[t.g].n)}${C.round > 1 ? " · vòng " + C.round : ""}</p></div><span class="clock">⏱ <b id="clock">0:00</b></span></div>${C.mode === "ai" ? alLine(C) : ""}
       ${stepBody(st, C.text, ex, true)}
       ${st.scaffold ? `<div class="scaf"><h5>Khung gợi ý: điền bằng tiếng Anh rồi chèn vào bài</h5>${st.scaffold.map((s, i) => `<label>${esc(s.l)}<input data-sc="${i}" value="${esc(s.v || "")}" placeholder="${esc(s.ph || "")}"></label>`).join("")}<button class="btn sm" id="ins" type="button">＋ Chèn các câu này vào cuối bài</button></div>` : ""}
       <h5 class="sh">Sửa ngay trên bài của bạn</h5><textarea id="cta" spellcheck="false">${esc(C.text)}</textarea>
@@ -4166,6 +4203,8 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
         fb.innerHTML = '<p class="small">⏳ Trợ lý AI đang đọc bản sửa…</p>'; $("#re").disabled = true;
         const s = C.aiSteps[C.order[C.i]], d = await aiCall({ mode: "step", m: C.m, k: s.k, why: s.why, how: s.how, before: C.stepText, after: C.text });
         if (S.coach !== C || !$("#re")) return; $("#re").disabled = false;
+        if ($("#aial")) $("#aial").outerHTML = alLine(C);
+        if (d && d.error === "need-more") { askMore(fb, C, d, () => { if ($("#re")) $("#re").click(); }, () => { C.aiSteps = null; planSteps(C); vCoach(); }); return; }
         if (d && d.ok) { ok = !!d.pass; note = d.comment || ""; } else { ok = true; note = (d && d.error ? (AI_ERR[d.error] || "Trợ lý AI gặp lỗi (mã " + d.error + ").") + " " : "") + "Trợ lý AI chưa xét được bản sửa này, nên bước được ghi nhận là đã sửa."; }
       } else { const c2 = runC(C).checks.find(c => c.id === chk.id); lvl = c2 ? c2.lvl : 9; ok = c2 ? !todo(c2) : true; note = c2 && !ok ? "Hiện tại: " + c2.measure + "." : ""; $("#mytext").innerHTML = marked(C.text, c2 ? c2.marks : []); }
       save();
@@ -4189,7 +4228,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
     shell(`<div class="play coach" style="--c:#12a37f">${dots(C)}<h1>Tổng kết${C.round > 1 ? " vòng " + C.round : ""}</h1>
       <div class="ba"><div><span class="small">Trước khi sửa</span>${estLine({ est: C.before.est, n9: C.before.n9, n: C.before.n, band: C.before.band }, true)}</div><div class="arrow">→</div><div><span class="small">Sau khi sửa</span>${estLine(a, true)}</div></div>
       ${isLow ? `<p class="whyp"><b>Bài vẫn còn ${a.band.why.length} dấu hiệu dưới band 7</b> (${a.band.why.slice(0, 4).map(y => CRS[y.g] + " band " + y.lvl + ": " + esc(y.name.charAt(0).toLowerCase() + y.name.slice(1))).join("; ")}). Ở chặng này, việc đáng làm nhất là viết đủ dài, đủ ý và bớt lỗi cơ bản; các kỹ thuật band 9 phát huy tác dụng khi nền đã vững. <a href="#/bands">Xem thang band 4 đến 7</a> · <a href="#/contact">Trao đổi với giáo viên</a></p>` : ""}
-      ${aiBlock(C.ai2)}<div id="aiwait"></div>
+      ${C.ai2 ? aiBlock(C.ai2) + alLine(C) : ""}<div id="aiwait"></div>
       ${featTable(a, C.before)}
       <h5 class="sh">Bản hiện tại của bạn (${a.W} từ)</h5><p class="en pre mytext">${esc(C.text)}</p>
       ${ref ? `<details class="exd"><summary>${esc(ref.label)}</summary><div class="b9"><p class="en pre">${esc(ref.text)}</p></div></details>` : ""}
@@ -4199,7 +4238,7 @@ B79.bank = [{"id":"b1","tp":"media","ty":"posneg","q":"Advertising is becoming m
     $("#fin").onclick = () => { S.coach = null; save(); vCoach(); };
     if ($("#back")) $("#back").onclick = () => { S.coach = null; save(); };
     fbMount($(".coach"), { tech: C.k0 || "COACH", topic: C.tk || C.m, src: "coach" });
-    if (AI_ON() && C.ai && C.ai2r !== C.round) { C.ai2r = C.round; aiCall({ mode: "diag", want: "band", auto: runC(C).est, m: C.m, dtype: C.kind, q: C.q, img: coachImg(C), text: C.text }).then(d => { if (S.coach !== C || !d || !d.ok) return; C.ai2 = { bands: d.bands, summary: d.summary, why: d.why || d.reasons }; save(); const w = $("#aiwait"); if (w && C.stage === "done") w.innerHTML = aiBlock(C.ai2); }); }
+    if (AI_ON() && C.ai && C.ai2r !== C.round) { C.ai2r = C.round; save(); reAI(C); }
   }
 
   /* =================== GÓP Ý VÀ ĐÁNH GIÁ =================== */
